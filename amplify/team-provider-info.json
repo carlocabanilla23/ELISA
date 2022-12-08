@@ -1,0 +1,29 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-elisa-dev-134321-authRole",
+      "UnauthRoleArn": "arn:aws:iam::176699608757:role/amplify-elisa-dev-134321-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::176699608757:role/amplify-elisa-dev-134321-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-elisa-dev-134321-deployment",
+      "UnauthRoleName": "amplify-elisa-dev-134321-unauthRole",
+      "StackName": "amplify-elisa-dev-134321",
+      "StackId": "arn:aws:cloudformation:us-west-2:176699608757:stack/amplify-elisa-dev-134321/566df620-7741-11ed-b815-02b529e814c9",
+      "AmplifyAppId": "d19800vwtw6msu"
+    },
+    "categories": {
+      "function": {
+        "userlambda": {
+          "deploymentBucketName": "amplify-elisa-dev-134321-deployment",
+          "s3Key": "amplify-builds/userlambda-47487563584d58565332-build.zip"
+        }
+      },
+      "storage": {
+        "userdb": {}
+      },
+      "api": {
+        "userapi": {}
+      }
+    }
+  }
+}

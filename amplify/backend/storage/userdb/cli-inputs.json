@@ -1,0 +1,10 @@
+{
+  "resourceName": "userdb",
+  "tableName": "userdb",
+  "partitionKey": {
+    "fieldName": "email",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

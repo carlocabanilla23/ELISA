@@ -1,23 +1,38 @@
-import logo from './logo.svg';
+import Login from './component/Login';
+import Home from './component/Home';
+import React, { useEffect } from 'react';
+import { Amplify, API } from 'aws-amplify';
+import awsExport from './aws-exports';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import { createBrowserRounter, RouterProvider, Routes, Link, Route } from 'react-router-dom';
+
+
+Amplify.configure(awsExport);
 
 function App() {
+
+  // API.post("userpool", "/users/", {
+  //   body: {
+  //     userid: "new item useridaaa",
+  //     password: "new item password",
+  //     username: "new item username",
+  //     name: "new item name",
+  //     type : "new attribute"
+  //   }
+  // });
+
+  // useEffect( () => {
+  //     API.get("userpool","/users/ads").then( res => console.log(res));
+  // },[]);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+    <Routes>
+      <Route path='/' element= {<Login />} />
+      <Route path='/Home' element= {<Home />} />
+    </Routes>
     </div>
   );
 }

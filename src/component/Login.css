@@ -1,0 +1,70 @@
+.Login-Form{
+    width: 25%;
+    margin-left: 37.5%;
+    margin-right: 37.5%;
+    padding: 5em;
+}
+.Login-Form h1{
+    text-align: center;
+    margin-bottom: 1.5em;
+    
+}
+
+.form-control{
+    border: none;
+    outline: 0;
+    padding: 0.5em;
+    padding-left: 1em;
+    border-radius: 15px;
+    font-size: 1em;
+    font-style: italic;
+}
+
+#row-3{
+    vertical-align: middle;
+}
+.btn.btn-secondary{
+    background: #7A2036;
+    border-radius: 30px;
+    padding: 0.5em;
+    padding-left: 1em;
+    border-radius: 15px;
+    font-size: 1em;
+}
+.form-check-input{
+    height: 0.8em;
+    width: 0.8em;
+}
+
+.form-check-input:checked {
+    background-color: #7A2036;
+}
+.col{
+    padding: 0;
+    margin-bottom: 0.1em;
+    padding-right: 0.8em;
+}
+.col-sm-1{
+    padding-top: 0.1em;
+    padding-left: 1em;
+}
+.col.col-form-label{
+    text-align: left;
+    margin-left: 0.3em;
+    font-size: 0.7em;
+}
+#forgot-pass{
+    float: right;
+    text-decoration: underline;
+    padding-top: 0.5em;
+}
+
+.img-fluid.img-thumbnail{
+    background: none;
+    border: none;
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-bottom: 2em;
+    margin-top: 2em;
+}
