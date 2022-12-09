@@ -7,6 +7,7 @@ function Home() {
     <div className="Home">
             <div className="main">
               <h1>ELISA</h1>
+              <Sidebar />
             </ div>
     </div>
   );
