@@ -9,6 +9,10 @@ function Home() {
               <h1>ELISA</h1>
               <Sidebar />
             </ div>
+
+            <div className="header">
+              <Header />
+            </div>
     </div>
   );
 }
