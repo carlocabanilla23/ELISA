@@ -1,0 +1,11 @@
+.CreateUserForm {
+    position: static;
+        top: 5em;
+        left: 20%;
+    width: 50%;
+    margin-top: 10em;
+    margin-left: 15%;
+    padding-left: 5em;
+    padding-right: 5em;
+    background-color: antiquewhite;
+}
