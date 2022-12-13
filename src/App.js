@@ -6,7 +6,7 @@ import awsExport from './aws-exports';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { createBrowserRounter, RouterProvider, Routes, Link, Route } from 'react-router-dom';
-
+import Users from './component/Users';
 
 Amplify.configure(awsExport);
 
@@ -29,10 +29,18 @@ function App() {
 
   return (
     <div>
-    <Routes>
+    {/* Master Route */}
+
+    {/* <Routes>
       <Route path='/' element= {<Login />} />
       <Route path='/Home' element= {<Home />} />
-    </Routes>
+    </Routes> */}
+
+    {/* For Testing */}
+    {/* Comment The Routes on Top in order to run this. Change the component below for the test that you want to run */}
+
+        <Users/> 
+   
     </div>
   );
 }
