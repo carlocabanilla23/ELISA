@@ -2,14 +2,30 @@
     background-color: #F0F0EB;
     width: 85%;
     margin-left: 15%;
-    height: 94vh;
+    height: 88vh;
+}
+.UserHeader{
+    background-color: #ffffff;
+    color: #3E2B2E;
+    width: 85%;
+    margin-left: 15%;
+    height: 6vh;
+    padding-top: 0.5em;
+    padding-bottom: 1em;
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.25);
 }
 .UserRowTitle{
-    padding-top: 2em;
-    padding-bottom: 2em;
-    margin-top: 6vh;
+    color: #3E2B2E;
+    font-weight: bold;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
     text-align: center;
     background-color: #F0F0EB;
     margin-bottom: 3px;
-    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+#AddUser{
+    background-color: #3E2B2E;
+    color: #ffffff;
 }

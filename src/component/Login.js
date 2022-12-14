@@ -1,10 +1,10 @@
 import './Login.css';
-import { Navigate,useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as ReactDOM from 'react-dom';
 import React, { useEffect }  from 'react';
 import { API } from 'aws-amplify';
-import logo from './elisa_logo.png';
-import elisa from './elisa.png';
+import logo from './icons/elisa_logo.png';
+import elisa from './icons/elisa.png';
 
 function Login() {
     const [username,setUsername] = React.useState('');
@@ -15,8 +15,7 @@ function Login() {
     e.preventDefault();
     console.log(username);
     API.get("userapi","/email/object/"+username).then( res => {
-        if (res.password === password) {
-                    
+        if (res.password === password) {     
                     navigate('/Home');
                 }  
         });

@@ -27,9 +27,10 @@ const ListUsers = (props) => {
                                                                         <i className="fa fa-ellipsis-h"></i>
                                                                 </button>
                                                                 <ul class="dropdown-menu">
-                                                                        <li><a className="dropdown-item" >Action</a></li>
-                                                                        <li><a className="dropdown-item" >Another action</a></li>
-                                                                        <li><a className="dropdown-item" >Something else here</a></li>
+                                                                        <li><a className="dropdown-item" >View Information</a></li>
+                                                                        <li><a className="dropdown-item" >View History</a></li>
+                                                                        <li><a className="dropdown-item" >Change Role</a></li>
+                                                                        <li><a className="dropdown-item" >Change Status</a></li>
                                                                 </ul>
                                                         </div>
                                                 </div>
