@@ -10,8 +10,7 @@ import { Router,Link,Route } from 'react-router-dom';
 
 function Sidebar() {
   return (
-    <div className="sidenav">
-      
+    <div className="sidenav">      
         <div className='banner'>
           <Link to="/Home">
             <img src={logo} className="logo1" alt="Elisa Logo" />
@@ -49,7 +48,7 @@ function Sidebar() {
               <Link to="/Users">Users</Link>
             </li>
           </ul>
-          </div>
+          </div> 
       
     </div>
   );
