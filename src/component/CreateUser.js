@@ -3,6 +3,7 @@ import "./CreateUser.css";
 import React from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import { useNavigate } from "react-router-dom";
 function CreateUser() {
    
     const [firstName,setFirstName] = React.useState('');
@@ -11,21 +12,9 @@ function CreateUser() {
     const [schoolID,setSchoolID] = React.useState('');
     const [email,setEmail] = React.useState('');
     const [phone,setPhone] = React.useState('');
-
-    API.post("userapi","/email/", {
-        body : {
-        firstname : firstName,
-        lastname : lastName,
-        role : role,
-        schoolID : schoolID,
-        email : "1111",
-        phone : phone,
-        password : "password"
-        }
-    });
+    const navigate = useNavigate();
     const AddUser = (e) => {
         e.preventDefault();
-        console.log("asdsada");
         API.post("userapi","/email/", {
             body : {
             firstname : firstName,
@@ -37,6 +26,7 @@ function CreateUser() {
             password : "password"
             }
         });
+        navigate('/Users');
     }
 
     return (

@@ -1,21 +1,23 @@
 import React from "react";
 import './ListUsers.css';
+import { API } from 'aws-amplify';
 
+const ListUsers = ( {user,updateList} ) => {
 
-const ListUsers = (props) => {
-
-        const { firstname, lastname, email, schoolID, phone, role,status } = props.user; 
+        // const { firstname, lastname, email, schoolID, phone, role,status } = user; 
+      
         return (
+             
         <div className="UserRowItems">
                 <div className="container">
                         <div className="row ">
-                                <div className="col"> {schoolID} </div>
-                                <div className="col"> {firstname} </div>
-                                <div className="col"> {lastname} </div>
-                                <div className="col"> {role} </div>
-                                <div className="col"> {email} </div>
-                                <div className="col"> {phone} </div>
-                                <div className="col"> Active {status} </div>
+                                <div className="col"> {user.schoolID} </div>
+                                <div className="col"> {user.firstname} </div>
+                                <div className="col"> {user.lastname} </div>
+                                <div className="col"> {user.role} </div>
+                                <div className="col"> {user.email} </div>
+                                <div className="col"> {user.phone} </div>
+                                <div className="col"> Active {user.status} </div>
                                 <div className="col actions"> 
                                         <div className="row"> 
                                                 <div className="col actions-column">
@@ -40,7 +42,7 @@ const ListUsers = (props) => {
                                                         </button>
                                                 </div>
                                                 <div className="col actions-column">
-                                                        <button className="btn">
+                                                        <button className="btn" onClick={ () => updateList(user.email)}>
                                                                 <i className="fa fa-trash"></i>
                                                         </button>
                                                 </div>

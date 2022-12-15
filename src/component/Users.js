@@ -7,16 +7,26 @@ import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 
 function Users () {
-    const [users, setUsers] = React.useState([]);
+    const [users, setUsers] = useState([]);
     const navigate = useNavigate();
     const AddUser = e => {
         e.preventDefault();
         navigate('/CreateUser');
     }
+
     useEffect( () => {
       API.get("userapi","/email").then( res => 
         setUsers([...users,...res]));
         },[]);
+
+    const updateList = (email) => {
+        API.del("userapi","/email/object/"+email);
+        const updatedList = users.filter(user => user.email !== email);
+        setUsers(updatedList);
+    } 
+    const deleteUser = (e) => {
+        // API.del("userapi","/email/object/"+email);
+    };   
    
     return (
     <div className="Users">
@@ -66,7 +76,9 @@ function Users () {
                     </div>
                 </div>
             </div>
-                    {users.map( (userRes,index) => <ListUsers user={userRes} key={index}/>)}
+          
+                {users.map( (userRes,index) => <ListUsers user={userRes} key={index} updateList={updateList} />)}
+                   
         </div>
     </div>    
     
