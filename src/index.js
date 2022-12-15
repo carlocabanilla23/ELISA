@@ -14,7 +14,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
    
-    <CreateUser />
+    <Users />
     </BrowserRouter>
   </React.StrictMode>
 );
