@@ -17,18 +17,6 @@ function CreateUser() {
 
     const [users, setUsers] = React.useState([]);
 
-    // API.post("userapi","/email/", {
-    //     body : {
-    //     firstname : firstName,
-    //     lastname : lastName,
-    //     role : role,
-    //     schoolID : schoolID,
-    //     email : "1111",
-    //     phone : phone,
-    //     password : "password"
-    //     }
-    // });
-
     const AddUser = (e) => {
         e.preventDefault();
         const userList = API.get("userapi", "/email/")
