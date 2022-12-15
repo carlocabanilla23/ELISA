@@ -9,3 +9,11 @@
     padding-right: 5em;
     background-color: antiquewhite;
 }
+
+.errorMessage {
+    font-size: 12px;
+    padding: 3px;
+    color: red;
+    display: block;
+}
+

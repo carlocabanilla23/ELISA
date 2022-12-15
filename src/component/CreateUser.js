@@ -1,6 +1,10 @@
-import { API } from "aws-amplify";
+import { Amplify, API } from "aws-amplify";
 import "./CreateUser.css";
 import React from "react";
+import { useEffect } from "react";
+import awsExport from '../aws-exports';
+
+Amplify.configure(awsExport);
 
 function CreateUser() {
    
@@ -11,20 +15,35 @@ function CreateUser() {
     const [email,setEmail] = React.useState('');
     const [phone,setPhone] = React.useState('');
 
-    API.post("userapi","/email/", {
-        body : {
-        firstname : firstName,
-        lastname : lastName,
-        role : role,
-        schoolID : schoolID,
-        email : "1111",
-        phone : phone,
-        password : "password"
-        }
-    });
+    const [users, setUsers] = React.useState([]);
+
+    // API.post("userapi","/email/", {
+    //     body : {
+    //     firstname : firstName,
+    //     lastname : lastName,
+    //     role : role,
+    //     schoolID : schoolID,
+    //     email : "1111",
+    //     phone : phone,
+    //     password : "password"
+    //     }
+    // });
+
     const AddUser = (e) => {
         e.preventDefault();
-        console.log("asdsada");
+        const userList = API.get("userapi", "/email/")
+            .then(res => {
+                setUsers([userList,...res]);
+            });
+        for(var i = 0; i < users.length; i++){
+            if(users[i].email == email && users[i].schoolID == schoolID){
+                throw new Error(alert("Email and schoolID are already exist"));
+            }else if (users[i].email == email){
+                throw new Error(alert("Email are already exist"));
+            }else if(users[i].schoolID == schoolID){
+                throw new Error(alert("schoolID are already exist"));
+            }
+        }
         API.post("userapi","/email/", {
             body : {
             firstname : firstName,
@@ -52,7 +71,9 @@ function CreateUser() {
                             className = "form-control"
                             value = {firstName}
                             onChange = {(e) => setFirstName(e.target.value)}
-                            id="inputFirstName" />
+                            id="inputFirstName"
+                            required={true} />
+                    <span className="errorMessage">{firstName?"":"FirstName is required"}</span>
                     </div>
                 </div>
                 {/* Last Name */}
@@ -66,7 +87,9 @@ function CreateUser() {
                             className="form-control"
                             value = {lastName}
                             onChange = {(e) => setLastName(e.target.value)}
-                            id="inputLastName" />
+                            id="inputLastName"
+                            required={true} />
+                            <span className="errorMessage">{lastName?"":"LastName is required"}</span>
                     </div>
                 </div>
                 {/* Role */}
@@ -104,6 +127,7 @@ function CreateUser() {
                                     </a>
                                 </li>
                             </ul>
+                            <span className="errorMessage">{role==="Role"?"Choose a role":""}</span>
                             </div>
                         </div>
                 </div>
@@ -115,7 +139,10 @@ function CreateUser() {
                         className = "form-control"
                         value = {schoolID}
                         onChange = {(e) => setSchoolID(e.target.value)}
-                        id="schoolID" />
+                        id="schoolID"
+                        required = {true}
+                        pattern = '^([0-9]{8})$' />
+                        <span className="errorMessage">{schoolID?"schoolID must be unique":"schoolID is required"}</span>
                     </div>
                 </div>
                 {/* Email */}
@@ -125,8 +152,11 @@ function CreateUser() {
                         <input type = "text"
                         className = "form-control"
                         value = {email}
-                        onChange = {(e) => { console.log(e.target.value);setEmail(e.target.value)}}
-                        id = "inputEmail" />
+                        onChange = {(e) => setEmail(e.target.value)}
+                        id = "inputEmail"
+                        required = {true}
+                        pattern = '^([a-z0-9]{1,})@spu\.edu$' />
+                        <span className="errorMessage">{email?"Email must end with @spu.edu and unique":"Email is required"}</span>
                     </div>
                 </div>      
                 {/* Phone */}
@@ -137,17 +167,19 @@ function CreateUser() {
                         className = "form-control" 
                         value = {phone}
                         onChange = {(e) => setPhone(e.target.value)}
-                        id = "inputPhone" />
+                        id = "inputPhone" 
+                        required = {true}
+                        pattern = '^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$' />
+                        <span className="errorMessage">{phone?"Valid phone format: (111) 111-1111":"Phone is required"}</span>
                     </div>
                 </div>
                 {/* Submit Button */}
                 <div className="mb-3 row">
                     <div className="col-sm-10">
-                    <button type="submit" class="btn btn-primary mb-3">Create</button>
+                    <button type="submit" className="btn btn-primary mb-3">Create</button>
                     </div>
                 </div>
             </form>
-            
         </div>
         
     );

@@ -11,13 +11,13 @@ function Users () {
             setUsers([...users,...res]);
         })
     });
-   
-   
-    console.log(users);
+
+
+   console.log(users);
     return (
     <div>
         <ul>
-            <li>adsada</li>
+            <li>{users.lastname}</li>
            {
             users.map(res => {
                 console.log(res);
