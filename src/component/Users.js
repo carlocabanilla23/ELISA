@@ -7,6 +7,7 @@ import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 
 function Users () {
+    const [query, setQuery] = useState('');
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
     const AddUser = e => {
@@ -24,9 +25,13 @@ function Users () {
         const updatedList = users.filter(user => user.email !== email);
         setUsers(updatedList);
     } 
-    const deleteUser = (e) => {
-        // API.del("userapi","/email/object/"+email);
-    };   
+    const searchUser = (e) => {
+        console.log(query);
+        API.get("userapi","/email/"+query).then( res => 
+            setUsers([res])
+            // console.log(res)
+    )
+};   
    
     return (
     <div className="Users">
@@ -40,7 +45,10 @@ function Users () {
                 </div>
 
                 <div className="col-sm-5 searchbar">
-                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Search User"/>
+                    <input type="email" class="form-control" onChange={ (e)=> setQuery("object/"+e.target.value)} id="exampleFormControlInput1" placeholder="Search User"/>
+                </div>
+                <div className="col searchbarBtn">
+                    <button type="email" class="btn primary" onClick={searchUser} id="exampleFormControlInput1" placeholder="Search User">Search</button>
                 </div>
 
                 <div className="col text-end adduser">
