@@ -29,16 +29,13 @@ function Users () {
         setUnfilteredUsers(updatedList);
     } 
     const searchUser = (e) => {
-       
-        console.log(e);
-
         if (e.length > 0) {
-            const searcedhUser = unfilteredUsers.filter( (user) => user.email.toLowerCase().includes(e) || 
-                                                        user.firstname.toLowerCase().includes(e) || 
-                                                        user.lastname.toLowerCase().includes(e) || 
-                                                        user.schoolID.includes(e));
+            const searcedhUser = unfilteredUsers.filter((user) => user.email.toLowerCase().includes(e) || 
+                                                            user.firstname.toLowerCase().includes(e) || 
+                                                            user.lastname.toLowerCase().includes(e) || 
+                                                            user.schoolID.includes(e));
             setUsers(searcedhUser);
-        }else {
+        }else{
             setUsers(unfilteredUsers);
         }
        
@@ -58,9 +55,6 @@ function Users () {
                 <div className="col-sm-5 searchbar">
                     <input type="email" class="form-control" onChange={ (e)=> { setQuery(e.target.value);searchUser(e.target.value)} } id="exampleFormControlInput1" placeholder="Search User"/>
                 </div>
-                {/* <div className="col searchbarBtn">
-                    <button type="email" class="btn primary" onClick={searchUser} id="exampleFormControlInput1" placeholder="Search User">Search</button>
-                </div> */}
 
                 <div className="col text-end adduser">
                     <button type="submit" class="btn" id="AddUser" onClick={AddUser}>Add User</button>

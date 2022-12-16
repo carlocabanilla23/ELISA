@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { createBrowserRounter, RouterProvider, Routes, Link, Route } from 'react-router-dom';
 import Users from './component/Users';
 import CreateUser from './component/CreateUser';
+import EditUser from './component/EditUser';
 
 Amplify.configure(awsExport);
 
@@ -22,6 +23,7 @@ function App() {
       <Route path='/Home' element= {<Home />} />
       <Route path='/Users' element= {<Users />} />
       <Route path='/CreateUser' element= {<CreateUser />} />
+      <Route path='/EditUser' element= {<EditUser />} />
     </Routes>
 
     {/* For Testing */}

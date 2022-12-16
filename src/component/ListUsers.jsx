@@ -1,11 +1,18 @@
 import React from "react";
 import './ListUsers.css';
-import { API } from 'aws-amplify';
+import { useNavigate } from "react-router-dom";
 
 const ListUsers = ( {user,updateList} ) => {
+        const navigate = useNavigate();
+        const EditUser = (e) => {
+                console.log(e);
+                navigate('/EditUser',{
+                        state: {
+                                email : e
+                        }
+                });
 
-        // const { firstname, lastname, email, schoolID, phone, role,status } = user; 
-      
+        }
         return (
              
         <div className="UserRowItems">
@@ -37,7 +44,7 @@ const ListUsers = ( {user,updateList} ) => {
                                                         </div>
                                                 </div>
                                                 <div className="col actions-column">
-                                                        <button className="btn">
+                                                        <button className="btn" onClick={ () => EditUser(user.email)}>
                                                                 <i className="fa fa-pencil"></i>
                                                         </button>
                                                 </div>
@@ -46,12 +53,7 @@ const ListUsers = ( {user,updateList} ) => {
                                                                 <i className="fa fa-trash"></i>
                                                         </button>
                                                 </div>
-                                        </div>
-                                        
-
-                               
-                                
-                                
+                                        </div> 
                                 </div>
                         </div>
                  </div>
