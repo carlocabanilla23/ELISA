@@ -1,14 +1,14 @@
 import './Home.css';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import { Routes, Route } from 'react-router-dom';
+import Users from './Users';
 
 function Home() {
   return (
     <div className="Home">
-            <div className="main">
-              <h1>ELISA</h1>
               <Sidebar />
-            </ div>
+              <Header />
     </div>
   );
 }
