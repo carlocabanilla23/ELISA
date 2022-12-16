@@ -33,7 +33,10 @@ function Users () {
         console.log(e);
 
         if (e.length > 0) {
-            const searcedhUser = unfilteredUsers.filter( (user) => user.email.toLowerCase().includes(e));
+            const searcedhUser = unfilteredUsers.filter( (user) => user.email.toLowerCase().includes(e) || 
+                                                        user.firstname.toLowerCase().includes(e) || 
+                                                        user.lastname.toLowerCase().includes(e) || 
+                                                        user.schoolID.includes(e));
             setUsers(searcedhUser);
         }else {
             setUsers(unfilteredUsers);
