@@ -43,3 +43,9 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+
+.vscode/settings.json
+amplify/README.md
+amplify/backend/types/amplify-dependent-resources-ref.d.ts
+amplify/team-provider-info.json
+package-lock.json

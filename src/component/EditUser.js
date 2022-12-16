@@ -1,24 +1,39 @@
 import { Amplify, API } from "aws-amplify";
-import "./CreateUser.css";
+import "./EditUser.css";
 import React from "react";
+import { useEffect } from "react";
 import awsExport from '../aws-exports';
+import Header from "./Header";
+import Sidebar from "./Sidebar";
+import { useLocation } from "react-router-dom";
 
 Amplify.configure(awsExport);
 
-function CreateUser() {
-
+function EditUser(e) {
+    const location = useLocation();
+    let emailParam = location.state.email;
     const [firstName,setFirstName] = React.useState('');
     const [lastName,setLastName] = React.useState('');
     const [role,setRole] = React.useState('Role');
     const [schoolID,setSchoolID] = React.useState('');
     const [email,setEmail] = React.useState('');
     const [phone,setPhone] = React.useState('');
-
     const [users, setUsers] = React.useState([]);
+    useEffect( () => {
+        API.get("userapi","/email/object/"+emailParam).then( res => {
+              setFirstName(res.firstname);
+              setLastName(res.lastname);
+              setEmail(res.email);
+              setRole(res.role);
+              setPhone(res.phone);
+              setSchoolID(res.schoolID);
+          })},[]);
+
+
+   
 
     const AddUser = (e) => {
         e.preventDefault();
-        // validate if school ID and email are already exist
         const userList = API.get("userapi", "/email/")
             .then(res => {
                 setUsers([userList,...res]);
@@ -32,7 +47,6 @@ function CreateUser() {
                 throw new Error(alert("schoolID are already exist"));
             }
         }
-        // Add new user to the database
         API.post("userapi","/email/", {
             body : {
             firstname : firstName,
@@ -46,8 +60,10 @@ function CreateUser() {
         });
     }
 
-    return (
-        <div className="CreateUserForm">
+    return (<>
+                <Sidebar />
+                <Header />
+                <div className="EditUserForm">
             <form onSubmit={AddUser}>
                 {/* First Name */}
                 <div className = "mb-3 row">
@@ -67,7 +83,7 @@ function CreateUser() {
                 </div>
                 {/* Last Name */}
                 <div className="mb-3 row">
-                    <label  for="inputLastName"
+                    <label  for="inputLastName" 
                             className="col-sm-2 col-form-label">
                             Last Name
                     </label>
@@ -78,7 +94,7 @@ function CreateUser() {
                             onChange = {(e) => setLastName(e.target.value)}
                             id="inputLastName"
                             required={true} />
-                    <span className="errorMessage">{lastName?"":"LastName is required"}</span>
+                            <span className="errorMessage">{lastName?"":"LastName is required"}</span>
                     </div>
                 </div>
                 {/* Role */}
@@ -89,11 +105,11 @@ function CreateUser() {
                     </label>
                     <div className="col-sm-10">
                         <div className="dropdown">
-                            <button
+                            <button 
                                 className="btn btn-secondary dropdown-toggle"
-                                type="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                                type="button" 
+                                data-bs-toggle="dropdown" 
+                                aria-expanded="false">  
                                 {role}
                             </button>
                             <ul className="dropdown-menu">
@@ -124,14 +140,14 @@ function CreateUser() {
                 <div className="mb-3 row">
                     <label for = "inputSchoolID" className = "col-sm-2 col-form-label">School ID</label>
                     <div className = "col-sm-10">
-                        <input type = "text"
+                        <input type = "text" 
                         className = "form-control"
                         value = {schoolID}
                         onChange = {(e) => setSchoolID(e.target.value)}
                         id="schoolID"
-                        required={true}
-                        pattern='^([0-9]{8})$' />
-                    <span className="errorMessage">{schoolID?"schoolID must be unique":"schoolID is required"}</span>
+                        required = {true}
+                        pattern = '^([0-9]{8})$' />
+                        <span className="errorMessage">{schoolID?"schoolID must be unique":"schoolID is required"}</span>
                     </div>
                 </div>
                 {/* Email */}
@@ -143,23 +159,23 @@ function CreateUser() {
                         value = {email}
                         onChange = {(e) => setEmail(e.target.value)}
                         id = "inputEmail"
-                        required={true}
-                        pattern='^([a-z0-9]{1,})@spu\.edu$' />
-                    <span className="errorMessage">{email?"Email must end with @spu.edu and unique":"Email is required"}</span>
+                        required = {true}
+                        pattern = '^([a-z0-9]{1,})@spu\.edu$' />
+                        <span className="errorMessage">{email?"Email must end with @spu.edu and unique":"Email is required"}</span>
                     </div>
                 </div>      
                 {/* Phone */}
                 <div className = "mb-3 row">
-                    <label for= "inputPhone" className = "col-sm-2 col-form-label">Phone</label>
+                    <label for = "inputPhone" className = "col-sm-2 col-form-label">Phone</label>
                     <div className = "col-sm-10">
                         <input type = "text" 
                         className = "form-control" 
                         value = {phone}
                         onChange = {(e) => setPhone(e.target.value)}
                         id = "inputPhone" 
-                        required={true}
-                        pattern='^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$' />
-                    <span className="errorMessage">{phone?"Valid phone format: (111) 111-1111":"Phone is required"}</span>
+                        required = {true}
+                        pattern = '^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$' />
+                        <span className="errorMessage">{phone?"Valid phone format: (111) 111-1111":"Phone is required"}</span>
                     </div>
                 </div>
                 {/* Submit Button */}
@@ -170,8 +186,10 @@ function CreateUser() {
                 </div>
             </form>
         </div>
+            </>
+        
         
     );
 }
 
-export default CreateUser;
+export default EditUser;
