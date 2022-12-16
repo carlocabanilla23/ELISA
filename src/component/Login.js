@@ -15,6 +15,7 @@ function Login() {
     e.preventDefault();
     console.log(username);
     API.get("userapi","/email/object/"+username).then( res => {
+
         if (res.password === password) {     
                     navigate('/Home');
         }else{
@@ -23,8 +24,10 @@ function Login() {
             );
             const element = <p className='text-danger'>Incorect Email or Password</p>;
               err.render(element);
+
         }  
         });
+
   };
 
   return (
