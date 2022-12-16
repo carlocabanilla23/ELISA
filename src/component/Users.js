@@ -1,5 +1,5 @@
 import ListUsers from "./ListUsers";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,setState } from 'react';
 import { API } from 'aws-amplify';
 import "./Users.css";
 import Sidebar from "./Sidebar";
@@ -9,29 +9,37 @@ import { useNavigate } from "react-router-dom";
 function Users () {
     const [query, setQuery] = useState('');
     const [users, setUsers] = useState([]);
+    const [unfilteredUsers, setUnfilteredUsers] = useState([]);
     const navigate = useNavigate();
+
     const AddUser = e => {
         e.preventDefault();
         navigate('/CreateUser');
     }
 
     useEffect( () => {
-      API.get("userapi","/email").then( res => 
-        setUsers([...users,...res]));
-        },[]);
+      API.get("userapi","/email").then( res => {
+            setUsers([...users,...res]);
+            setUnfilteredUsers([...users,...res]);
+        })},[]);
 
     const updateList = (email) => {
-        API.del("userapi","/email/object/"+email);
         const updatedList = users.filter(user => user.email !== email);
         setUsers(updatedList);
+        setUnfilteredUsers(updatedList);
     } 
     const searchUser = (e) => {
-        console.log(query);
-        API.get("userapi","/email/"+query).then( res => 
-            setUsers([res])
-            // console.log(res)
-    )
-};   
+       
+        console.log(e);
+
+        if (e.length > 0) {
+            const searcedhUser = unfilteredUsers.filter( (user) => user.email.toLowerCase().includes(e));
+            setUsers(searcedhUser);
+        }else {
+            setUsers(unfilteredUsers);
+        }
+       
+    }  
    
     return (
     <div className="Users">
@@ -45,11 +53,11 @@ function Users () {
                 </div>
 
                 <div className="col-sm-5 searchbar">
-                    <input type="email" class="form-control" onChange={ (e)=> setQuery("object/"+e.target.value)} id="exampleFormControlInput1" placeholder="Search User"/>
+                    <input type="email" class="form-control" onChange={ (e)=> { setQuery(e.target.value);searchUser(e.target.value)} } id="exampleFormControlInput1" placeholder="Search User"/>
                 </div>
-                <div className="col searchbarBtn">
+                {/* <div className="col searchbarBtn">
                     <button type="email" class="btn primary" onClick={searchUser} id="exampleFormControlInput1" placeholder="Search User">Search</button>
-                </div>
+                </div> */}
 
                 <div className="col text-end adduser">
                     <button type="submit" class="btn" id="AddUser" onClick={AddUser}>Add User</button>
