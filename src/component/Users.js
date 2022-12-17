@@ -24,6 +24,7 @@ function Users () {
         })},[]);
 
     const updateList = (email) => {
+        API.del("userapi","/email/object/"+email);
         const updatedList = users.filter(user => user.email !== email);
         setUsers(updatedList);
         setUnfilteredUsers(updatedList);
