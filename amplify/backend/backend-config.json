@@ -1,4 +1,5 @@
 {
+  "hosting": {},
   "storage": {
     "userdb": {
       "service": "DynamoDB",
