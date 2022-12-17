@@ -8,6 +8,11 @@ import Sidebar from './component/Sidebar';
 import CreateUser from './component/CreateUser';
 import Header from './component/Header';
 import Users from './component/Users';
+import { Amplify } from 'aws-amplify';
+import awsExports from './aws-exports';
+
+Amplify.configure(awsExports);
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
