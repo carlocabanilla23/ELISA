@@ -1,6 +1,6 @@
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
-import * as ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom/client';
 import React  from 'react';
 import { API } from 'aws-amplify';
 import logo from './icons/elisa_logo.png';
@@ -14,8 +14,8 @@ function Login() {
     const onSubmit = e => {
     e.preventDefault();
     console.log(username);
-    API.get("userapi","/email/object/"+username).then( res => {
 
+    API.get("userapi","/email/object/"+username).then( res => {
         if (res.password === password) {     
                     navigate('/Home');
         }else{
@@ -32,7 +32,6 @@ function Login() {
 
   return (
     <div className="Login">
-       
         <div className="Login-Form">
         <div className='banner'>
         <img src={logo} className="img-fluid img-thumbnail" alt="Elisa Logo" />
@@ -45,7 +44,7 @@ function Login() {
                 <input className="form-control" onChange={ (e)=> setUsername(e.target.value)} id="exampleFormControlInput1" placeholder="name@example.com" />
             </div>
             <div className="mb-3 row">
-                <input type="password" className="form-control" onChange={ (e)=> setPassword(e.target.value)} placeholder="Password" id="inputPassword" />
+                <input type="password" className="form-control" onChange={ (e)=> setPassword(e.target.value)} placeholder="Password" autoComplete="password" id="inputPassword" />
             </div>
             <div className="mb-3 row" id="row-3">
             

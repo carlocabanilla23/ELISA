@@ -8,14 +8,14 @@ function Header() {
         <div className = "headerprofile">
           <img src={avatar} className="avatar" alt="User Avatar" />
           <div className="col auto dropdown">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div className="dropdown">
+                        <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Anthony
                         </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Notification</a></li>
-                            <li><a class="dropdown-item" href="#">Setting</a></li>
-                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        <ul className="dropdown-menu">
+                            <li><a className="dropdown-item" href="#">Notification</a></li>
+                            <li><a className="dropdown-item" href="#">Setting</a></li>
+                            <li><a className="dropdown-item" href="#">Logout</a></li>
                         </ul>
                     </div>
                 </div>                

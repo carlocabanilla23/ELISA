@@ -28,14 +28,14 @@ const ListUsers = ( {user,updateList} ) => {
                                 <div className="col actions"> 
                                         <div className="row"> 
                                                 <div className="col actions-column">
-                                                        <div class="dropdown p-0 m-0 sm">
+                                                        <div className="dropdown p-0 m-0 sm">
                                                                 <button className="user-dropdown btn"
                                                                         type="button"
                                                                         data-bs-toggle="dropdown"
                                                                         aria-expanded="false">
                                                                         <i className="fa fa-ellipsis-h"></i>
                                                                 </button>
-                                                                <ul class="dropdown-menu">
+                                                                <ul className="dropdown-menu">
                                                                         <li><a className="dropdown-item" >View Information</a></li>
                                                                         <li><a className="dropdown-item" >View History</a></li>
                                                                         <li><a className="dropdown-item" >Change Role</a></li>
