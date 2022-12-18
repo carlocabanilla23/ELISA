@@ -9,6 +9,8 @@ import { Routes, Route } from 'react-router-dom';
 import Users from './component/Users';
 import CreateUser from './component/CreateUser';
 import EditUser from './component/EditUser';
+import Inventory from './component/Inventory';
+
 
 Amplify.configure(awsExport);
 
@@ -21,9 +23,12 @@ function App() {
     <Routes>
       <Route path='/' element= {<Login />} />
       <Route path='/Home' element= {<Home />} />
+      <Route path='/Inventory' element= {<Inventory />} />
+      <Route path='/Users' element= {<Users />} />
+      <Route path='/EditUser' element= {<EditUser />} /> 
       <Route path='/Users' element= {<Users />} />
       <Route path='/CreateUser' element= {<CreateUser />} />
-      <Route path='/EditUser' element= {<EditUser />} />
+     
     </Routes>
 
     {/* For Testing */}

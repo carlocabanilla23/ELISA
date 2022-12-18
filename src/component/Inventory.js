@@ -1,65 +1,64 @@
-import ListUsers from "./ListUsers";
+import CreateTestEquipment from "./test/CreateTestEquipment";
+import Item from "./Item";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import "./Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
-import CreateTestUser from "./test/CreateTestUser";
 
-function Users () {
-    // CreateTestUser(10);
-    const [users, setUsers] = useState([]);
+function Inventory () {
+    CreateTestEquipment(20);
+    const [items, setItems] = useState([]);
     const [unfilteredUsers, setUnfilteredUsers] = useState([]);
     const navigate = useNavigate();
 
-    const AddUser = e => {
-        e.preventDefault();
-        navigate('/CreateUser');
-    }
+    // const AddUser = e => {
+    //     e.preventDefault();
+    //     navigate('/CreateUser');
+    // }
 
     useEffect( () => {
-      API.get("userapi","/email").then( res => {
-            setUsers([...users,...res]);
-            setUnfilteredUsers([...users,...res]);
+      API.get("inventory","/items/").then( itemRes => {
+            setItems([...items,...itemRes]);
+            setUnfilteredUsers([...items,...itemRes]);
         })},[]);
 
-    const updateList = (email) => {
-        API.del("userapi","/email/object/"+email);
-        const updatedList = users.filter(user => user.email !== email);
-        setUsers(updatedList);
+    const updateList = (serialno) => {
+        API.del("inventory","/items/object/"+serialno);
+        const updatedList = items.filter(item => item.serialno !== serialno);
+        setItems(updatedList);
         setUnfilteredUsers(updatedList);
     } 
-    const searchUser = (e) => {
-        if (e.length > 0) {
-            const searcedhUser = unfilteredUsers.filter((user) => user.email.toLowerCase().includes(e) || 
-                                                            user.firstname.toLowerCase().includes(e) || 
-                                                            user.lastname.toLowerCase().includes(e) || 
-                                                            user.schoolID.includes(e));
-            setUsers(searcedhUser);
-        }else{
-            setUsers(unfilteredUsers);
-        }
+    // const searchUser = (e) => {
+    //     if (e.length > 0) {
+    //         const searcedhUser = unfilteredUsers.filter((user) => user.email.toLowerCase().includes(e) || 
+    //                                                         user.firstname.toLowerCase().includes(e) || 
+    //                                                         user.lastname.toLowerCase().includes(e) || 
+    //                                                         user.schoolID.includes(e));
+    //         setUsers(searcedhUser);
+    //     }else{
+    //         setUsers(unfilteredUsers);
+    //     }
        
-    }  
-   
+    // }  
     return (
-    <div className="Users">
+        <div className="Users">
         <Sidebar />
         <Header />
         <div className="UserHeader">
 
             <div className="row">
                 <div className="col fs-4 ms-5 fw-bold"> 
-                    <i className="fa fa-users" aria-hidden="true"> Users</i>
+                    <i className="fa fa-users" aria-hidden="true"> Inventory</i>
                 </div>
 
                 <div className="col-sm-5 searchbar">
-                    <input type="email" className="form-control" onChange={ (e)=> { searchUser(e.target.value)} } id="exampleFormControlInput1" placeholder="Search User"/>
+                    <input type="email" className="form-control" id="exampleFormControlInput1" placeholder="Search User"/>
                 </div>
 
                 <div className="col text-end adduser">
-                    <button type="submit" className="btn" id="AddUser" onClick={AddUser}>Add User</button>
+                    <button type="submit" className="btn" id="AddUser">Add User</button>
                 </div>
 
                 <div className="col auto dropdown">
@@ -92,12 +91,11 @@ function Users () {
                 </div>
             </div>
           
-                {users.map( (userRes,index) => <ListUsers user={userRes} key={index} updateList={updateList} />)}
+                {items.map( (itemRes,index) => <Item item={itemRes} key={index} updateList={updateList}/>)}
                    
         </div>
     </div>    
-    
     )
 }
 
-export default Users;
+export default Inventory;

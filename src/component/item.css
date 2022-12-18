@@ -1,0 +1,29 @@
+.UserRowItems{
+    padding-top: 1em;
+    padding-bottom: 1em;
+    background-color: #F0F0F0;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+    margin-bottom: 5px;
+    text-align: center;
+    color: 000000;
+}
+.container{
+    margin-left: 5em;
+    margin-right: auto;
+}
+.col{
+    margin-right: 1em;
+    margin: auto;
+}
+.user-dropdown{
+    --bs-btn-hover-bg: #red;
+}
+.actions{
+    width: 10%;
+}
+.actions.row{
+    flex-wrap: nowrap;
+}
+.actions-column{
+    padding: 0 !important;
+}
