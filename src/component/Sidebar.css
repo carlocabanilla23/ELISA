@@ -1,3 +1,4 @@
+/* @media screen and (max-width: 800px) { */
 .sidenav{
     width: 15%;
     height: 100vh;
@@ -7,15 +8,17 @@
    
     background: #FFFFFF;
     box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.25);
+
 }
 
 .sidebar {
+    
     height: 6vh;
     display: flex;
     flex-direction: row;
-    justify-content:  space-around;
+    justify-content:  flex-start;
     align-items: center;
-    gap: 0;
+    gap: 1rem;
     width: 100%;
     border: none;
     border-bottom: 1px solid #6d6d6b6e;
@@ -26,11 +29,13 @@
     width: 25%;
     min-width: 30px;
     margin-right: -20px;
-
 }
 .logo2{
     width: 35%;
     min-width: 70px;
+}
+.logo1, .logo2 {
+    width: 50%;
 }
 
 .menu ul {
@@ -57,9 +62,12 @@
     transition: color ease 0.3s;
 }
 
-.menu ul li a:hover {
+.menu ul li:hover a {
     color: #7A2036;
     font-weight: 700;
+}
+.menu ul li:hover .icon {
+    color: #7A2036;
 }
 
 .icon {
@@ -87,3 +95,8 @@
     
 }
 
+.inventory-dropdown ul li a {
+    color: #6D6D6B;
+    text-decoration: none;
+    transition: color ease 0.3s;
+}
