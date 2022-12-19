@@ -5,11 +5,11 @@ function CreateTestUser (e) {
     for ( let i = 0 ; i < e; i++) {
         API.post("userapi","/email/", {
             body : {
-            firstname : "user"+i,
-            lastname : "lastname"+i,
-            role : "Student",
+            firstname : "clone"+i,
+            lastname : "proto"+i,
+            role : "Professor",
             schoolID : "00000000"+i,
-            email : "user"+i+"@spu.edu",
+            email : "clone"+i+"@spu.edu",
             phone : "00000000",
             password : "password"+1
             }

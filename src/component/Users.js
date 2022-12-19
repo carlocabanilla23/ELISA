@@ -7,14 +7,14 @@ import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import UserList from "./UserList";
 import CreateTestUser from "./test/CreateTestUser";
-import Pagination from "../Pagination";
+import Pagination from "./Pagination";
 
 function Users () {
-    // CreateTestUser(10);
+    // CreateTestUser(50);
     const [users, setUsers] = useState([]);
     const [unfilteredUsers, setUnfilteredUsers] = useState([]);
-    const [currentPage,setCurrentPage] = useState([1]);
-    const [usersPerPage, setUsersPerPage] = useState(3);
+    const [currentPage,setCurrentPage] = useState(1);
+    const [usersPerPage, setUsersPerPage] = useState(9);
 
     const navigate = useNavigate();
 
@@ -27,7 +27,9 @@ function Users () {
       API.get("userapi","/email").then( res => {
             setUsers([...users,...res]);
             setUnfilteredUsers([...users,...res]);
-        })},[]);
+        })
+        
+    },[]);
 
     const updateList = (email) => {
         API.del("userapi","/email/object/"+email);
@@ -54,7 +56,20 @@ function Users () {
     const idxFirstUser = idxLastUser - usersPerPage;
     const currentList = users.slice(idxFirstUser,idxLastUser);
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const paginate = (pageNumber) => {
+        if (pageNumber !== 0 && pageNumber !==  Math.ceil(users.length / usersPerPage) + 1 ) {
+
+           var obj = document.getElementById(currentPage);
+            obj.style.backgroundColor = "#F0F0EB";
+            obj.style.color = "#3E2B2E";
+
+            setCurrentPage(pageNumber);
+
+            obj = document.getElementById(pageNumber);
+            obj.style.backgroundColor = "#3E2B2E";
+            obj.style.color = "#ffffff";
+        }
+    };
 
     return (
     <div className="Users">
@@ -105,7 +120,12 @@ function Users () {
                 </div>
             </div>
                 <UserList users={currentList} updateList={updateList}/>
-                <Pagination usersPerPage={usersPerPage} totalUsers={users.length} paginate={paginate}/> 
+                <Pagination
+                    usersPerPage={usersPerPage} 
+                    totalUsers={users.length} 
+                    paginate={paginate}
+                    currentPageLocation = {currentPage}
+                    /> 
         </div>
         {/* <div className="right-sidemenu">
             aa

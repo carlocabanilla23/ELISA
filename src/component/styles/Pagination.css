@@ -6,3 +6,7 @@
 .list-pagination nav {
     width: 85%;
 }
+.obj1 > .page-link{
+    background-color: #3E2B2E;
+    color: #ffffff;
+}

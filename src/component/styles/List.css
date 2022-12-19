@@ -1,3 +1,17 @@
 .list-group{
     list-style-type: none;
 }
+
+.page-link{
+    background-color: #F0F0EB;
+    color: #3E2B2E;
+    border: none;
+}
+.page-link:hover{
+    background-color: #5E4345;
+    color: #ffffff;
+}
+.page-link:nth-child(2) a{
+    background-color: #3E2B2E;
+    color: #ffffff;
+}
