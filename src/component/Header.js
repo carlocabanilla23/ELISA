@@ -17,11 +17,11 @@ function Header() {
         <div className="headerprofile">
           <img src={avatar} className="avatar" alt="User Avatar" />
           <div className="dropdown">
-            <button className="dropdown-toggle" onClick={toggleDropdownMenu}>Anthony</button>
+            <button className="btn dropdown-toggle" data-bs-toggle = "dropdown" onClick={toggleDropdownMenu}>Anthony</button>
             <ul className="dropdown-menu" ref={dropdownMenu}>
               <li><Link to="">Notification</Link></li>
               <li><Link to="">Setting</Link></li>
-              <li><Link to="/Login">Logout</Link></li>
+              <li><Link to="/">Logout</Link></li>
             </ul>
           </div>
         </div>

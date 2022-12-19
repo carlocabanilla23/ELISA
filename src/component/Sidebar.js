@@ -27,7 +27,7 @@ function Sidebar() {
               <Link to="/Home">Dashboard</Link>
             </li>
             <li className="menu-list">
-            <img src={iInventory} className="icon" alt="inventory icon" />
+              <img src={iInventory} className="icon" alt="inventory icon" />
               <Link to="/Inventory">Inventory</Link>
             </li>
             
