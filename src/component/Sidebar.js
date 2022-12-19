@@ -28,14 +28,14 @@ function Sidebar() {
             </li>
             <li className="menu-list">
             <img src={iInventory} className="icon" alt="inventory icon" />
-              <Link to="/Inventory">inventory</Link>
+              <Link to="/Inventory">Inventory</Link>
             </li>
             
             <div className="inventory-dropdown">
               <ul>
                 <li><Link to="/Inventory">All Items</Link></li>
-                <li><Link to="">Storage Location</Link></li>
-                <li><Link to="">Room Location</Link></li>
+                <li><Link to="/StorageLocation">Storage Location</Link></li>
+                <li><Link to="/RoomLocation">Room Location</Link></li>
                 
               </ul>
             </div>

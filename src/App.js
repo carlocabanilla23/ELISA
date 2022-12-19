@@ -10,6 +10,8 @@ import Users from './component/Users';
 import CreateUser from './component/CreateUser';
 import EditUser from './component/EditUser';
 import Inventory from './component/Inventory';
+import RoomLocation from './component/RoomLocation';
+import StorageLocation from './component/StorageLocation';
 
 
 Amplify.configure(awsExport);
@@ -24,6 +26,8 @@ function App() {
       <Route path='/' element= {<Login />} />
       <Route path='/Home' element= {<Home />} />
       <Route path='/Inventory' element= {<Inventory />} />
+      <Route path='/RoomLocation' element= {<RoomLocation />} />
+      <Route path='/StorageLocation' element= {<StorageLocation />} />
       <Route path='/Users' element= {<Users />} />
       <Route path='/EditUser' element= {<EditUser />} /> 
       <Route path='/Users' element= {<Users />} />
