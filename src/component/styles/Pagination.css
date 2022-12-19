@@ -1,0 +1,8 @@
+.list-pagination{
+    width: 100%;
+    position: fixed;
+        bottom: 3vh;
+}
+.list-pagination nav {
+    width: 85%;
+}

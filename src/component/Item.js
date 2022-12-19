@@ -1,5 +1,5 @@
 import React from "react";
-import './ListUsers.css';
+import './styles/User.css';
 import { useNavigate } from "react-router-dom";
 
 const Item = ( {item,updateList} ) => {

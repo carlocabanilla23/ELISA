@@ -2,7 +2,7 @@
 .sidenav{
     width: 15%;
     height: 100vh;
-        position: absolute;
+        position: fixed;
         left: 0%;
         right: 0%;
    
@@ -12,7 +12,6 @@
 }
 
 .sidebar {
-    
     height: 6vh;
     display: flex;
     flex-direction: row;
@@ -21,7 +20,7 @@
     gap: 0;
     width: 100%;
     border: none;
-    border-bottom: 1px solid #6d6d6b6e;
+    border-bottom: 1px solid #6d6b6e;
    padding: 1rem;
 }
 

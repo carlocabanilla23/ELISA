@@ -1,5 +1,5 @@
 import { Amplify, API } from "aws-amplify";
-import "./CreateUser.css";
+import "./styles/CreateUser.css";
 import React from "react";
 import awsExport from '../aws-exports';
 import Sidebar from './Sidebar';

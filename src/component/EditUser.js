@@ -1,5 +1,5 @@
 import { Amplify, API } from "aws-amplify";
-import "./EditUser.css";
+import "./styles/EditUser.css";
 import React from "react";
 import { useEffect } from "react";
 import awsExport from '../aws-exports';

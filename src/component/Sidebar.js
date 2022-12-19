@@ -1,4 +1,4 @@
-import './Sidebar.css';
+import './styles/Sidebar.css';
 import logo from './icons/elisa_logo.png';
 import elisa from './icons/elisa.png';
 import iDashboard from "./icons/dashboard.png";

@@ -4,7 +4,7 @@
     background: #5E4345;
     box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.25);
     margin: 0 !important;
-    position: absolute;
+    position: fixed;
         top: 0;
         left: 15%;
 }
@@ -15,7 +15,7 @@
     justify-content: flex-end;
     align-items: center;
     height: 100%;
-    padding: 0 1rem;
+    /* padding: 0 1rem; */
 }
 .headerprofile{
     background-color: #A18B8B ;

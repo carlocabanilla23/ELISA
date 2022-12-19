@@ -2,7 +2,7 @@ import CreateTestEquipment from "./test/CreateTestEquipment";
 import Item from "./Item";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
-import "./Users.css";
+import "./styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +19,6 @@ function RoomLocation () {
     // }
 
     useEffect( () => {
-        // const items = await API.get('myCloudApi', '/items', );
         API.get("inventory","/items/").then( itemRes => {
             sortItems(itemRes);
         })},[]);

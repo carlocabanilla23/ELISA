@@ -1,5 +1,5 @@
 import React from 'react';
-import './Header.css';
+import './styles/Header.css';
 import avatar from './icons/avatar_test.png';
 import { Router,Link,Route } from 'react-router-dom';
 

@@ -1,16 +1,21 @@
-import ListUsers from "./ListUsers";
+import UserCard from "./UserCard";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
-import "./Users.css";
+import "./styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
+import UserList from "./UserList";
 import CreateTestUser from "./test/CreateTestUser";
+import Pagination from "../Pagination";
 
 function Users () {
     // CreateTestUser(10);
     const [users, setUsers] = useState([]);
     const [unfilteredUsers, setUnfilteredUsers] = useState([]);
+    const [currentPage,setCurrentPage] = useState([1]);
+    const [usersPerPage, setUsersPerPage] = useState(3);
+
     const navigate = useNavigate();
 
     const AddUser = e => {
@@ -29,7 +34,8 @@ function Users () {
         const updatedList = users.filter(user => user.email !== email);
         setUsers(updatedList);
         setUnfilteredUsers(updatedList);
-    } 
+    }
+
     const searchUser = (e) => {
         if (e.length > 0) {
             const searcedhUser = unfilteredUsers.filter((user) => user.email.toLowerCase().includes(e) || 
@@ -41,8 +47,15 @@ function Users () {
             setUsers(unfilteredUsers);
         }
        
-    }  
-   
+    }
+    
+    
+    const idxLastUser = currentPage * usersPerPage;
+    const idxFirstUser = idxLastUser - usersPerPage;
+    const currentList = users.slice(idxFirstUser,idxLastUser);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     return (
     <div className="Users">
         <Sidebar />
@@ -91,10 +104,13 @@ function Users () {
                     </div>
                 </div>
             </div>
-          
-                {users.map( (userRes,index) => <ListUsers user={userRes} key={index} updateList={updateList} />)}
-                   
+                <UserList users={currentList} updateList={updateList}/>
+                <Pagination usersPerPage={usersPerPage} totalUsers={users.length} paginate={paginate}/> 
         </div>
+        {/* <div className="right-sidemenu">
+            aa
+
+        </div> */}
     </div>    
     
     )

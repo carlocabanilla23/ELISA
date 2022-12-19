@@ -1,15 +1,20 @@
 .UserPane{
     background-color: #F0F0EB;
     width: 85%;
-    margin-left: 15%;
-    height: 88vh;
+    height: 100vh;
+    position: fixed;
+        top: 12vh;
+        left: 15%;
 }
 .UserHeader{
     background-color: #ffffff;
     color: #3E2B2E;
-    width: 85%;
-    margin-left: 15%;
     height: 6vh;
+    width: 85%;
+    position: fixed;
+        top: 6vh;
+        left: 15%;
+    /* margin-left: 15%; */
     padding-top: 0.5em;
     padding-bottom: 1em;
     box-shadow: 1px 1px rgba(0, 0, 0, 0.25);
@@ -28,4 +33,14 @@
 #AddUser{
     background-color: #3E2B2E;
     color: #ffffff;
+}
+
+
+.right-sidemenu{
+    width: 20%;
+    height: 100vh;
+    position: fixed;
+        right: 0;
+        top: 0;
+    background-color: #ffffff;
 }

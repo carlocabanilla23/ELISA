@@ -1,8 +1,8 @@
 import React from "react";
-import './ListUsers.css';
+import './styles/User.css';
 import { useNavigate } from "react-router-dom";
 
-const ListUsers = ( {user,updateList} ) => {
+const User = ( {user,updateList} ) => {
         const navigate = useNavigate();
         const EditUser = (e) => {
                 console.log(e);
@@ -63,4 +63,4 @@ const ListUsers = ( {user,updateList} ) => {
 
 }
 
-export default ListUsers;
+export default User;

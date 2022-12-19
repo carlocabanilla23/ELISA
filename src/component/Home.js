@@ -1,4 +1,4 @@
-import './Home.css';
+import './styles/Home.css';
 import Sidebar from './Sidebar';
 import Header from './Header';
 

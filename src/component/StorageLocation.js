@@ -2,7 +2,7 @@ import CreateTestEquipment from "./test/CreateTestEquipment";
 import Item from "./Item";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
-import "./Users.css";
+import "./styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
