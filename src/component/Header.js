@@ -1,26 +1,31 @@
-import './Header.css';
+import React from 'react';
+import './styles/Header.css';
 import avatar from './icons/avatar_test.png';
+import { Router,Link,Route } from 'react-router-dom';
+
 
 function Header() {
+  const dropdownMenu = React.useRef(null);
+
+  function toggleDropdownMenu() {
+    dropdownMenu.current.style.display = dropdownMenu.current.style.display === 'block' ? 'none' : 'block';
+  }
+
   return (
     <div className="navbar">
-      <div className = "header">
-        <div className = "headerprofile">
+      <div className="header">
+        <div className="headerprofile">
           <img src={avatar} className="avatar" alt="User Avatar" />
-          <div className="col auto dropdown">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Anthony
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Notification</a></li>
-                            <li><a class="dropdown-item" href="#">Setting</a></li>
-                            <li><a class="dropdown-item" href="#">Logout</a></li>
-                        </ul>
-                    </div>
-                </div>                
+          <div className="dropdown">
+            <button className="btn dropdown-toggle" data-bs-toggle = "dropdown" onClick={toggleDropdownMenu}>Anthony</button>
+            <ul className="dropdown-menu" ref={dropdownMenu}>
+              <li><Link to="">Notification</Link></li>
+              <li><Link to="">Setting</Link></li>
+              <li><Link to="/">Logout</Link></li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
     </div>
   );
 }

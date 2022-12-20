@@ -1,24 +1,26 @@
+
 .sidenav{
     width: 15%;
     height: 100vh;
-        position: absolute;
+        position: fixed;
         left: 0%;
         right: 0%;
    
     background: #FFFFFF;
     box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.25);
+
 }
 
-.banner {
+.sidebar {
     height: 6vh;
     display: flex;
     flex-direction: row;
-    justify-content:  space-around;
+    justify-content:  flex-start;
     align-items: center;
     gap: 0;
     width: 100%;
     border: none;
-    border-bottom: 1px solid #6d6d6b6e;
+    border-bottom: 1px solid #6d6b6e;
    padding: 1rem;
 }
 
@@ -26,25 +28,26 @@
     width: 25%;
     min-width: 30px;
     margin-right: -20px;
-
 }
 .logo2{
     width: 35%;
     min-width: 70px;
+}
+.logo1, .logo2 {
+    width: 50%;
 }
 
 .menu ul {
     padding: 2rem 1.5rem;
 
 }
-
 .menu ul li {
+    list-style: none;
     font-family: 'Inter', sans-serif;
     font-size: 1.2rem;
     font-weight: 500;
-    list-style: none;
-
 }
+
 
 .menu-list {
     padding: 1rem 0 1rem 2.5rem;
@@ -57,7 +60,7 @@
     transition: color ease 0.3s;
 }
 
-.menu ul li a:hover {
+.menu ul li:hover a {
     color: #7A2036;
     font-weight: 700;
 }
@@ -65,6 +68,12 @@
 .icon {
     padding-right: 1rem;
 }
+
+.menu-list:hover .icon{
+    filter: brightness(0) saturate(100%) invert(17%) sepia(20%) saturate(5569%) hue-rotate(318deg) brightness(92%) contrast(94%);
+
+}
+
 
 .inventory-dropdown {
     display: none;
@@ -86,4 +95,12 @@
     padding-left: 4rem;
     
 }
-
+/*media query responsive sidebar*/
+@media (min-width: 601px) and (max-width: 1024px) {
+    .menu ul li {
+        font-size: 1rem;
+    }
+    .sidenav {
+        width: 10%;
+    }
+}

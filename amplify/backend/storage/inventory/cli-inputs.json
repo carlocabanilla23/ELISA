@@ -1,0 +1,10 @@
+{
+  "resourceName": "inventory",
+  "tableName": "inventory",
+  "partitionKey": {
+    "fieldName": "serialno",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

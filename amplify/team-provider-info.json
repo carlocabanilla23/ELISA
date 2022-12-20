@@ -1,28 +1,42 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-elisa-dev-134321-authRole",
-      "UnauthRoleArn": "arn:aws:iam::176699608757:role/amplify-elisa-dev-134321-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::176699608757:role/amplify-elisa-dev-134321-authRole",
+      "AuthRoleName": "amplify-elisa-dev-180144-authRole",
+      "UnauthRoleArn": "arn:aws:iam::176699608757:role/amplify-elisa-dev-180144-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::176699608757:role/amplify-elisa-dev-180144-authRole",
       "Region": "us-west-2",
-      "DeploymentBucketName": "amplify-elisa-dev-134321-deployment",
-      "UnauthRoleName": "amplify-elisa-dev-134321-unauthRole",
-      "StackName": "amplify-elisa-dev-134321",
-      "StackId": "arn:aws:cloudformation:us-west-2:176699608757:stack/amplify-elisa-dev-134321/566df620-7741-11ed-b815-02b529e814c9",
-      "AmplifyAppId": "d19800vwtw6msu"
+      "DeploymentBucketName": "amplify-elisa-dev-180144-deployment",
+      "UnauthRoleName": "amplify-elisa-dev-180144-unauthRole",
+      "StackName": "amplify-elisa-dev-180144",
+      "StackId": "arn:aws:cloudformation:us-west-2:176699608757:stack/amplify-elisa-dev-180144/c2363f70-7dae-11ed-8445-02e7bf1e7e4b",
+      "AmplifyAppId": "djno0p84ctg6u"
     },
     "categories": {
       "function": {
         "userlambda": {
-          "deploymentBucketName": "amplify-elisa-dev-134321-deployment",
-          "s3Key": "amplify-builds/userlambda-47487563584d58565332-build.zip"
+          "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
+          "s3Key": "amplify-builds/userlambda-75613153417847424c70-build.zip"
+        },
+        "equipmentapi": {
+          "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
+          "s3Key": "amplify-builds/equipmentapi-35476973644979436230-build.zip"
+        },
+        "inventorylambda": {},
+        "inventoryfunctions": {},
+        "inventory": {
+          "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
+          "s3Key": "amplify-builds/inventory-6b435a497a4750712b47-build.zip"
         }
       },
       "storage": {
-        "userdb": {}
+        "userdb": {},
+        "inventorydb": {},
+        "inventory": {}
       },
       "api": {
-        "userapi": {}
+        "userapi": {},
+        "inventoryapi": {},
+        "inventory": {}
       }
     }
   }

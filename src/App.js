@@ -1,29 +1,38 @@
 import Login from './component/Login';
 import Home from './component/Home';
-import React, { useEffect } from 'react';
-import { Amplify, API } from 'aws-amplify';
+import React from 'react';
+import { Amplify,  } from 'aws-amplify';
 import awsExport from './aws-exports';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import { createBrowserRounter, RouterProvider, Routes, Link, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Users from './component/Users';
 import CreateUser from './component/CreateUser';
 import EditUser from './component/EditUser';
+import Inventory from './component/Inventory';
+import RoomLocation from './component/RoomLocation';
+import StorageLocation from './component/StorageLocation';
+
 
 Amplify.configure(awsExport);
 
 function App() {
 
   return (
-    <div>
+    <div >
     {/* Master Route */}
 
     <Routes>
       <Route path='/' element= {<Login />} />
       <Route path='/Home' element= {<Home />} />
+      <Route path='/Inventory' element= {<Inventory />} />
+      <Route path='/RoomLocation' element= {<RoomLocation />} />
+      <Route path='/StorageLocation' element= {<StorageLocation />} />
+      <Route path='/Users' element= {<Users />} />
+      <Route path='/EditUser' element= {<EditUser />} /> 
       <Route path='/Users' element= {<Users />} />
       <Route path='/CreateUser' element= {<CreateUser />} />
-      <Route path='/EditUser' element= {<EditUser />} />
+     
     </Routes>
 
     {/* For Testing */}

@@ -16,13 +16,13 @@
     "s3Key": {
       "Type": "String"
     },
-    "storageuserdbName": {
+    "storageinventoryName": {
       "Type": "String",
-      "Default": "storageuserdbName"
+      "Default": "storageinventoryName"
     },
-    "storageuserdbArn": {
+    "storageinventoryArn": {
       "Type": "String",
-      "Default": "storageuserdbArn"
+      "Default": "storageinventoryArn"
     }
   },
   "Conditions": {
@@ -55,12 +55,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "userlambda",
+            "inventory",
             {
               "Fn::Join": [
                 "",
                 [
-                  "userlambda",
+                  "inventory",
                   "-",
                   {
                     "Ref": "env"
@@ -97,12 +97,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "elisaLambdaRolebfed9fe1",
+            "elisaLambdaRolec46ef0b7",
             {
               "Fn::Join": [
                 "",
                 [
-                  "elisaLambdaRolebfed9fe1",
+                  "elisaLambdaRolec46ef0b7",
                   "-",
                   {
                     "Ref": "env"
@@ -182,14 +182,14 @@
               ],
               "Resource": [
                 {
-                  "Ref": "storageuserdbArn"
+                  "Ref": "storageinventoryArn"
                 },
                 {
                   "Fn::Join": [
                     "/",
                     [
                       {
-                        "Ref": "storageuserdbArn"
+                        "Ref": "storageinventoryArn"
                       },
                       "index/*"
                     ]
