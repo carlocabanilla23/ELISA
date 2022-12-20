@@ -45,20 +45,21 @@
     background-color: white;
 }
 
-.back-arrow{
+.prevPageBtn{
     position: absolute;
     height: 30px;
     width: 34.07px;
-    left: 2%;
+    left: 1.5%;
     top: 16%;
+    cursor: pointer;
 }
 
 .prevPage{
     position: absolute;
     width: 65px;
     height: 24px;
-    top: 22%;
-    left: 6%;
+    top: 6%;
+    left: 5%;
     Font: Inter;
     Size: 20px;
 }
