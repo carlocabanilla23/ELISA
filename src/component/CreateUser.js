@@ -84,16 +84,21 @@ function CreateUser() {
         navigate('/Users');
     }
 
+    
+    const cancelEdit = () => {
+        navigate('/Users');
+    }    
+
     return (
         <>
             <Sidebar />
             <Header />
             {/* Previous Page Navigation Bar */}
-            <div className="PrevNavbar">
-                <div className="fs-4 ms-5 fw-bold">
-                    <i className="prevPageBtn fa fa-arrow-left ms-2" area-hidden="true" onClick={() => navigate('/Users')}/>
-                    <label className="prevPage">User</label>
-                </div>
+            <div className="UserHeader">
+                    <div className="fs-4 ms-5 fw-bold">
+                        <button onClick={cancelEdit} className="PageHeaderBtn"><i class="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
+                        <label>Create User</label> 
+                    </div>
             </div>
             <div className="CreateUserForm">
                 <form onSubmit={AddUser}>
@@ -211,12 +216,10 @@ function CreateUser() {
                         </div>
                     </div>
                     {/* Submit Button */}
-                    <div className="mb-3 row">
-                        <div className="col-sm-10">
-                        <button type="submit" className="btn btn-primary mb-3" onClick={() => navigate('/Users')}>Cancel</button>
-                        <button type="submit" className="btn btn-primary mb-3">Create</button>
+                    <div className="form-buttons">
+                        <button type="button" onClick={cancelEdit} className="btn btn-primary">Cancel</button>
+                        <button type="submit" className="btn btn-primary">Create</button> 
                         <span className="errorMessage">{errorMessage}</span>
-                        </div>
                     </div>
                 </form>
             </div>
