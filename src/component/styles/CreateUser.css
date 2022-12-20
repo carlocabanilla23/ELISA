@@ -32,3 +32,33 @@
     display: block;
 }
 
+.btn{
+    margin-right: 15px;
+}
+
+.PrevNavbar{
+    width: 85%;
+    height: 6vh;
+    position: absolute;
+    top: 6vh;
+    left: 15%;
+    background-color: white;
+}
+
+.back-arrow{
+    position: absolute;
+    height: 30px;
+    width: 34.07px;
+    left: 2%;
+    top: 16%;
+}
+
+.prevPage{
+    position: absolute;
+    width: 65px;
+    height: 24px;
+    top: 22%;
+    left: 6%;
+    Font: Inter;
+    Size: 20px;
+}

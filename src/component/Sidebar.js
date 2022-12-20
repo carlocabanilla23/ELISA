@@ -1,4 +1,4 @@
-import './Sidebar.css';
+import './styles/Sidebar.css';
 import logo from './icons/elisa_logo.png';
 import elisa from './icons/elisa.png';
 import iDashboard from "./icons/dashboard.png";
@@ -10,7 +10,7 @@ import { Router,Link,Route } from 'react-router-dom';
 
 function Sidebar() {
   return (
-    <div className="sidenav">      
+    <div className="sidenav">    
         <div className='sidebar'>
           <Link to="/Home">
             <img src={logo} className="logo1" alt="Elisa Logo" />
@@ -27,15 +27,15 @@ function Sidebar() {
               <Link to="/Home">Dashboard</Link>
             </li>
             <li className="menu-list">
-            <img src={iInventory} className="icon" alt="inventory icon" />
-              <Link to="">inventory</Link>
+              <img src={iInventory} className="icon" alt="inventory icon" />
+              <Link to="/Inventory">Inventory</Link>
             </li>
             
             <div className="inventory-dropdown">
               <ul>
-                <li><Link to="">All Items</Link></li>
-                <li><Link to="">Storage Location</Link></li>
-                <li><Link to="">Room Location</Link></li>
+                <li><Link to="/Inventory">All Items</Link></li>
+                <li><Link to="/StorageLocation">Storage Location</Link></li>
+                <li><Link to="/RoomLocation">Room Location</Link></li>
                 
               </ul>
             </div>
