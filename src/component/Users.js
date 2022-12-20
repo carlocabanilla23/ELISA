@@ -122,8 +122,8 @@ function Users () {
             </div>
                 <UserList users={currentList} updateList={updateList}/>
                 <Pagination
-                    usersPerPage={usersPerPage} 
-                    totalUsers={users.length} 
+                    PerPage={usersPerPage} 
+                    total={users.length} 
                     paginate={paginate}
                     currentPageLocation = {currentPage}
                     /> 

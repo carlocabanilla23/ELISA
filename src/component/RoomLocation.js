@@ -1,16 +1,21 @@
 import CreateTestEquipment from "./test/CreateTestEquipment";
-import Item from "./Item";
+import ItemCard from "./ItemCard";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import "./styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
+import ItemList from "./ItemList";
+import Pagination from "./Pagination";
 
 function RoomLocation () {
     // CreateTestEquipment(20);
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
+    const [currentPage,setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);
+
     const navigate = useNavigate();
 
     // const AddUser = e => {
@@ -46,7 +51,27 @@ function RoomLocation () {
             setItems(unfilteredItems);
         }
        
-    }  
+    }
+    
+    const idxLastItem = currentPage * itemsPerPage;
+    const idxFirstItem = idxLastItem - itemsPerPage;
+    const currentList = items.slice(idxFirstItem,idxLastItem);
+
+    const paginate = (pageNumber) => {
+        if (pageNumber !== 0 && pageNumber !==  Math.ceil(items.length / itemsPerPage) + 1 ) {
+
+           var obj = document.getElementById(currentPage);
+            obj.style.backgroundColor = "#F0F0EB";
+            obj.style.color = "#3E2B2E";
+
+            setCurrentPage(pageNumber);
+
+            obj = document.getElementById(pageNumber);
+            obj.style.backgroundColor = "#3E2B2E";
+            obj.style.color = "#ffffff";
+        }
+    };
+
     return (
         <div className="Users">
         <Sidebar />
@@ -81,25 +106,13 @@ function RoomLocation () {
         </div>
 
         <div className="UserPane">
-            <div className="UserRowTitle">
-                <div className="container">
-                    <div className="row">
-                            <div className="col"> Serial No </div>
-                            <div className="col"> Name </div>
-                            <div className="col"> Type </div>
-                            <div className="col"> Model </div>
-                            <div className="col"> Location </div>
-                            <div className="col"> Room No </div>
-                            <div className="col"> Status </div>
-                            <div className="col"> Actions</div>        
-                    </div>
-                </div>
-            </div>
-                
-                {items.map( (itemRes,index) => 
-                    <Item item={itemRes} key={index} updateList={updateList}/>
-                )}
-                   
+            <ItemList items={currentList} updateList={updateList}/>
+            <Pagination
+                    PerPage={itemsPerPage} 
+                    total={items.length} 
+                    paginate={paginate}
+                    currentPageLocation = {currentPage}
+                    />
         </div>
     </div>    
     )

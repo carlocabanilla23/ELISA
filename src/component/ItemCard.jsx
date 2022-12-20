@@ -2,7 +2,7 @@ import React from "react";
 import './styles/User.css';
 import { useNavigate } from "react-router-dom";
 
-const Item = ( {item,updateList} ) => {
+const ItemCard = ( {item,updateList} ) => {
         const navigate = useNavigate();
         const EditUser = (e) => {
                 console.log(e);
@@ -63,4 +63,4 @@ const Item = ( {item,updateList} ) => {
 
 }
 
-export default Item;
+export default ItemCard;
