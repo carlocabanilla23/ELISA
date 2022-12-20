@@ -54,11 +54,11 @@ function Inventory () {
                 </div>
 
                 <div className="col-sm-5 searchbar">
-                    <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search User"/>
+                    <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>
                 </div>
 
                 <div className="col text-end adduser">
-                    <button type="submit" className="btn" id="AddUser">Add User</button>
+                    <button type="submit" className="btn" id="AddUser">Add Item</button>
                 </div>
 
                 <div className="col auto dropdown">

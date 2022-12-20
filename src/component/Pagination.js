@@ -4,12 +4,10 @@ import './styles/Pagination.css';
 const Pagination = ({ usersPerPage, totalUsers, paginate,currentPageLocation}) => {
     const pageNumbers = [];
 
-    // console.log(currentPageLocation);
     for (let i = 1; i <= Math.ceil(totalUsers / usersPerPage) ; i++) {
         pageNumbers.push(i);
     }
 
-    
     return (
         <div className="list-pagination">
             <nav>

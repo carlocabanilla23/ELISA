@@ -7,7 +7,7 @@ const UserList = ({users,updateList}) => {
     return (
         <ul className="list-group">
             { users.map( (user,index) => (
-                <li key={user.id}>
+                <li key={index}>
                     <UserCard user={user} key={index} updateList={updateList} />
                 </li>
             ))}

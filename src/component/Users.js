@@ -14,7 +14,7 @@ function Users () {
     const [users, setUsers] = useState([]);
     const [unfilteredUsers, setUnfilteredUsers] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [usersPerPage, setUsersPerPage] = useState(9);
+    const [usersPerPage] = useState(8);
 
     const navigate = useNavigate();
 
@@ -92,7 +92,8 @@ function Users () {
 
                 <div className="col auto dropdown">
                     <div className="dropdown">
-                        <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button className="btn dropdown-toggle"
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Export
                         </button>
                         <ul className="dropdown-menu">

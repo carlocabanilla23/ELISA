@@ -19,7 +19,7 @@ Amplify.configure(awsExport);
 function App() {
 
   return (
-    <div>
+    <div >
     {/* Master Route */}
 
     <Routes>
