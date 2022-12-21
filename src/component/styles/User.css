@@ -1,16 +1,16 @@
 .UserRowItems{
-    padding-top: 1em;
-    padding-bottom: 1em;
+    /* padding-top: 1em;
+    padding-bottom: 1em; */
     background-color: #F0F0F0;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
     margin-bottom: 5px;
     text-align: center;
     color: 000000;
 }
-.container{
+/* .container{
     margin-left: 5em;
     margin-right: auto;
-}
+} */
 .col{
     margin-right: 1em;
     margin: auto;
@@ -28,10 +28,11 @@
     padding: 0 !important;
 }
 
-@media screen 
-  and (min-device-width: 1200px) 
-  and (max-device-width: 1600px) 
-  and (-webkit-min-device-pixel-ratio: 1) {
+@media only screen 
+  and (min-device-width: 900px) 
+  and (max-device-width: 1440px) 
+  and (-webkit-min-device-pixel-ratio: 1)
+{
     .UserRowItems{
         padding-top: 0;
         padding-bottom: 0;
@@ -39,5 +40,18 @@
         box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
         text-align: center;
         color: 000000;
+    }
+
+    .UserRowItems > .container {
+        margin: 0;
+    }
+
+    .UserRowItems > .btn {
+        margin: 0;
+    }
+
+    .UserHeader > .searchbar{
+        padding-left: 20%;
+        padding-right: 20%;
     }
 }

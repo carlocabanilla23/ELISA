@@ -1,4 +1,3 @@
-
 .sidenav{
     width: 15%;
     height: 100vh;
@@ -7,7 +6,7 @@
         right: 0%;
    
     background: #FFFFFF;
-    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, 2px);
 
 }
 
@@ -40,7 +39,7 @@
 .menu ul {
     padding: 2rem 1.5rem;
 
-}
+} 
 .menu ul li {
     list-style: none;
     font-family: 'Inter', sans-serif;
@@ -54,11 +53,11 @@
     cursor: pointer;
 }
 
-.menu ul li a {
+ .menu ul li a {
     color: #6D6D6B;
     text-decoration: none;
     transition: color ease 0.3s;
-}
+} 
 
 .menu ul li:hover a {
     color: #7A2036;
@@ -95,12 +94,49 @@
     padding-left: 4rem;
     
 }
+
 /*media query responsive sidebar*/
-@media (min-width: 601px) and (max-width: 1024px) {
+/* @media (min-width: 601px) and (max-width: 1024px) {
     .menu ul li {
         font-size: 1rem;
     }
     .sidenav {
         width: 10%;
+    }
+} */
+
+@media screen
+  and (min-device-width: 900px) 
+  and (max-device-width:1440px) 
+  and (-webkit-min-device-pixel-ratio: 1)
+{
+    .menu ul {
+        list-style-type: none;
+        font-family: 'Inter', sans-serif;
+        font-size: 1.2rem;
+        font-weight: 500;
+    } 
+    .menu ul li {
+        padding: 0.3em;
+        margin-left: 0;
+        margin-top: 0.5em;
+        margin-right: 0;
+        list-style: none;
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        font-weight: 500;
+    } 
+
+    .menu-list a {
+        color: #6D6D6B;
+        text-decoration: none;
+        transition: color ease 0.3s;
+
+    }
+
+    .inventory-dropdown ul li {
+        font-size: 0.9rem;
+        padding-left: 1.5rem;
+        
     }
 }
