@@ -14,7 +14,8 @@ function StorageLocation () {
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(10);
+    const [itemsPerPage,setItemsPerPage] = useState(10);
+
 
     const navigate = useNavigate();
 
@@ -27,7 +28,13 @@ function StorageLocation () {
         // const items = await API.get('myCloudApi', '/items', );
         API.get("inventory","/items/").then( itemRes => {
             sortItems(itemRes);
-        })},[]);
+        })
+        
+        if (window.matchMedia("(max-width: 1400px)") && window.matchMedia("(min-width: 900px)") ) setItemsPerPage(15)
+    
+    },[]);
+
+
 
     const updateList = (serialno) => {
         API.del("inventory","/items/object/"+serialno);

@@ -14,7 +14,7 @@ function Users () {
     const [users, setUsers] = useState([]);
     const [unfilteredUsers, setUnfilteredUsers] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [usersPerPage] = useState(8);
+    const [usersPerPage,setItemsPerPage] = useState(10);
 
     const navigate = useNavigate();
 
@@ -24,11 +24,11 @@ function Users () {
     }
 
     useEffect( () => {
-      API.get("userapi","/email").then( res => {
+        API.get("userapi","/email").then( res => {
             setUsers([...users,...res]);
             setUnfilteredUsers([...users,...res]);
         })
-        
+        if (window.matchMedia("(max-width: 1400px)") && window.matchMedia("(min-width: 900px)") ) setItemsPerPage(15)
     },[]);
 
     const updateList = (email) => {
