@@ -16,12 +16,7 @@ function Users () {
     const [currentPage,setCurrentPage] = useState(1);
     const [usersPerPage,setItemsPerPage] = useState(10);
 
-    const navigate = useNavigate();
-
-    const AddUser = e => {
-        e.preventDefault();
-        navigate('/CreateUser');
-    }
+   
 
     useEffect( () => {
         API.get("userapi","/email").then( res => {
@@ -30,6 +25,13 @@ function Users () {
         })
         if (window.matchMedia("(max-width: 1400px)") && window.matchMedia("(min-width: 900px)") ) setItemsPerPage(15)
     },[]);
+
+    const navigate = useNavigate();
+
+    const AddUser = e => {
+        e.preventDefault();
+        navigate('/CreateUser');
+    }
 
     const updateList = (email) => {
         API.del("userapi","/email/object/"+email);
