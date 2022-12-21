@@ -1,16 +1,14 @@
 .UserRowItems{
-    /* padding-top: 1em;
-    padding-bottom: 1em; */
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 3em;
+    padding-right: 3em;
     background-color: #F0F0F0;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
     margin-bottom: 5px;
     text-align: center;
     color: 000000;
 }
-/* .container{
-    margin-left: 5em;
-    margin-right: auto;
-} */
 .col{
     margin-right: 1em;
     margin: auto;
@@ -28,9 +26,11 @@
     padding: 0 !important;
 }
 
+/* Macbook 13 */
+
 @media only screen 
-  and (min-device-width: 900px) 
-  and (max-device-width: 1440px) 
+  and (min-device-width: 1440px) 
+  and (max-device-width: 1660px) 
   and (-webkit-min-device-pixel-ratio: 1)
 {
     .UserRowItems{
@@ -55,3 +55,28 @@
         padding-right: 20%;
     }
 }
+
+
+/* Wide Monitors */
+
+
+@media only screen 
+  and (min-device-width: 1920px) 
+  and (max-device-width: 2600px) 
+  and (-webkit-min-device-pixel-ratio: 1)
+{
+    .UserRowItems{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+      .UserRowItems > .container {
+        margin: 0;
+    }
+
+    .UserRowItems > .btn {
+        margin: 0;
+    }
+
+}
+

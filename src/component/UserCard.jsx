@@ -16,7 +16,7 @@ const User = ( {user,updateList} ) => {
         return (
              
         <div className="UserRowItems">
-                <div className="container">
+                <div className="container-fluid">
                         <div className="row ">
                                 <div className="col"> {user.schoolID} </div>
                                 <div className="col"> {user.firstname} </div>

@@ -7,7 +7,7 @@ const ItemList = ({items,updateList}) => {
     return (
         <>
             <div className="UserRowTitle">
-                <div className="container">
+                <div className="container-fluid">
                     <div className="row">
                             <div className="col"> Serial No </div>
                             <div className="col"> Name </div>

@@ -1,4 +1,3 @@
-import UserCard from "./UserCard";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import "./styles/Users.css";
@@ -6,7 +5,6 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import UserList from "./UserList";
-import CreateTestUser from "./test/CreateTestUser";
 import Pagination from "./Pagination";
 
 function Users () {
@@ -14,7 +12,7 @@ function Users () {
     const [users, setUsers] = useState([]);
     const [unfilteredUsers, setUnfilteredUsers] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [usersPerPage,setItemsPerPage] = useState(10);
+    const [usersPerPage] = useState(15);
 
    
 
@@ -23,7 +21,7 @@ function Users () {
             setUsers([...users,...res]);
             setUnfilteredUsers([...users,...res]);
         })
-        if (window.matchMedia("(max-width: 1400px)") && window.matchMedia("(min-width: 900px)") ) setItemsPerPage(15)
+
     },[]);
 
     const navigate = useNavigate();
@@ -99,8 +97,8 @@ function Users () {
                             Export
                         </button>
                         <ul className="dropdown-menu">
-                            <li><a className="dropdown-item" href="#">CSV</a></li>
-                            <li><a className="dropdown-item" href="#">PDF</a></li>
+                            <li><a className="dropdown-item" >CSV</a></li>
+                            <li><a className="dropdown-item" >PDF</a></li>
                         </ul>
                     </div>
                 </div>
@@ -109,7 +107,7 @@ function Users () {
 
         <div className="UserPane">
             <div className="UserRowTitle">
-                <div className="container">
+                <div className="container-fluid">
                     <div className="row">
                             <div className="col"> School ID </div>
                             <div className="col"> First Name </div>
