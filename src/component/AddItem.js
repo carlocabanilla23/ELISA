@@ -11,7 +11,7 @@ Amplify.configure(awsExport);
 function AddItem() {
     const [name,setName] = React.useState('');
     const [serialNumber,setSerialNumber] = React.useState('');
-    const [manufacturer,setManufacturer] = React.useState('');
+    const [type,setType] = React.useState('');
     const [model,setModel] = React.useState('');
     const [location,setLocation] = React.useState('Location');
     const [roomNumber,setRoom] = React.useState('');
@@ -38,7 +38,7 @@ function AddItem() {
     const AddItem = (e) => {
         e.preventDefault();
 
-        const itemList = API.get("itemapi","/items")
+        const itemList = API.get("inventory","/items")
         .then(res => {
             setItem([itemList,...res]);
         });
@@ -53,17 +53,18 @@ function AddItem() {
         // if (status === 'Status') {
         //     throw new Error(setError('3'));
         // }
+        
 
-
-        API.post("itemapi","/items", {
+        API.post("inventory","/items/", {
             body : {
-            name : name,
-            serialNumber : serialNumber,
-            manufacturer : manufacturer,
-            model : model,
-            location : location,
-            roomNumber : roomNumber,
-            status : status,
+                name : name,
+                serialno : serialNumber,
+                type : type,
+                model : model,
+                location : location,
+                roomno : roomNumber,
+                status : status,
+               
             }
         });
         alert("Your item has been added successfully!");
@@ -99,9 +100,9 @@ function AddItem() {
                         value={serialNumber} onChange = {(e) => {setSerialNumber(e.target.value); }} required = {true} />
                     </div>
                     <div className="form-input">
-                        <label className="input-label" for="manufacturer" >Manufacturer</label>
-                        <input type="text" className="text-input" id="manufacturer"
-                        value={manufacturer} onChange = {(e) => {setManufacturer(e.target.value)}} required = {true}/>
+                        <label className="input-label" for="manufacturer" >Type</label>
+                        <input type="text" className="text-input" id="type"
+                        value={type} onChange = {(e) => {setType(e.target.value)}} required = {true}/>
                     </div>
                     <div className="form-input">
                         <label className="input-label" for="model" >Model</label>
