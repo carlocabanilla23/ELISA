@@ -84,7 +84,6 @@ function Inventory () {
                 </div>
 
                 <div className="col text-end adduser">
-                    {/* <button type="submit" className="btn" id="AddUser">Add Item</button> */}
                     <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button>
 
                 </div>
