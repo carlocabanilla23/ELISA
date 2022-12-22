@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/reservations": {
+      "name": "/reservations",
+      "lambdaFunction": "reservation",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

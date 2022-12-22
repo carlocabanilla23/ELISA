@@ -1,0 +1,10 @@
+{
+  "resourceName": "reservations",
+  "tableName": "reservations",
+  "partitionKey": {
+    "fieldName": "reservationno",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

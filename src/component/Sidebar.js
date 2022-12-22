@@ -41,7 +41,7 @@ function Sidebar() {
             </div>
             <li className="menu-list">
             <img src={iReservations} className="icon" alt="reservation icon" />
-              <Link to="">Reservation</Link>
+              <Link to="/Reservations">Reservation</Link>
             </li>
             <li className="menu-list">
             <img src={iUsers} className="icon" alt="users icon" />
