@@ -35,26 +35,25 @@ function AddItem() {
 
 
     const AddItem = (e) => {
-        // e.preventDefault();
+        e.preventDefault();
 
-        // API.post("inventory","/items/", {
-        //     body : {
-        //         name : name,
-        //         serialno : serialNumber,
-        //         type : type,
-        //         model : model,
-        //         location : location,
-        //         roomno : roomNumber,
-        //         status : status,
+        API.post("inventory","/items/", {
+            body : {
+                name : name,
+                serialno : serialNumber,
+                type : type,
+                model : model,
+                location : location,
+                roomno : roomNumber,
+                status : status,
                
-        //     }
-        // });
-        // alert("");
+            }
+        });
         ShowAlert();
     }
         
     const CancelEdit = () => {
-        ShowAlert();
+        navigate("/Inventory");
     }
 
     const ShowAlert = () => {
@@ -73,7 +72,7 @@ function AddItem() {
 
             <Sidebar />
             <Header />
-            
+
             {/* Previous Page Navigation Bar */}
             <div className="ItemHeader">
                     <div className="fs-4 ms-5 fw-bold">
