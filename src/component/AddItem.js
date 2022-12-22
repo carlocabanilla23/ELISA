@@ -21,10 +21,7 @@ function AddItem() {
     // const [error, setError] = React.useState('');
     // const [errorMessage, setErrorMessage] = React.useState('');
 
-
-
     const navigate = useNavigate();
-
 
     // React.useEffect(() => {
     //     if(error === '1'){
@@ -35,6 +32,8 @@ function AddItem() {
     //         setErrorMessage('Please choose a Status');
     //     }
     // },[error])
+
+
     const AddItem = (e) => {
         e.preventDefault();
 
@@ -42,18 +41,6 @@ function AddItem() {
         .then(res => {
             setItem([itemList,...res]);
         });
-        // for (var i = 0; i < item.length; i++) {
-        //     if (item[i].serialNumber === serialNumber) {
-        //         throw new Error(setError('1'));
-        //     }
-        // }
-        // if (location === 'Location') {
-        //     throw new Error(setError('2'));
-        // }
-        // if (status === 'Status') {
-        //     throw new Error(setError('3'));
-        // }
-        
 
         API.post("inventory","/items/", {
             body : {
@@ -71,9 +58,11 @@ function AddItem() {
         navigate("/Inventory");
     }
         
-    const cancelEdit = () => {
+    const CancelEdit = () => {
         navigate("/Inventory");
     }
+
+
     return (
         <>
             <Sidebar />
@@ -81,7 +70,7 @@ function AddItem() {
             {/* Previous Page Navigation Bar */}
             <div className="ItemHeader">
                     <div className="fs-4 ms-5 fw-bold">
-                        <button onClick={cancelEdit} className="PageHeaderBtn"><i class="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
+                        <button onClick={CancelEdit} className="PageHeaderBtn"><i class="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
                         <label>Add Item</label> 
                     </div>
             </div>
@@ -94,21 +83,25 @@ function AddItem() {
                         <input type="text" className="text-input" id="name" 
                         value={name} onChange = {(e) => {setName(e.target.value); }} required={true} />
                     </div>
+                    {/* Serial Number */}
                     <div className="form-input">
                         <label className="input-label" for="serialNumber" >Serial #</label>
                         <input type="text" className="text-input" id="serialNumber"  
                         value={serialNumber} onChange = {(e) => {setSerialNumber(e.target.value); }} required = {true} />
                     </div>
+                    {/* Type */}
                     <div className="form-input">
                         <label className="input-label" for="manufacturer" >Type</label>
                         <input type="text" className="text-input" id="type"
                         value={type} onChange = {(e) => {setType(e.target.value)}} required = {true}/>
                     </div>
+                    {/* Model */}
                     <div className="form-input">
                         <label className="input-label" for="model" >Model</label>
                         <input type="text" className="text-input" id="model" 
                         value={model} onChange = {(e) => {setModel(e.target.value)}} required = {true}/>
                     </div>
+                    {/* Location */}
                     <div className="form-input">
                         <label className="input-label" for="location" >Location</label>
                         <div className="col-sm-10">
@@ -130,11 +123,13 @@ function AddItem() {
                             </div>
                         </div>
                     </div>
+                    {/* Room Number */}
                     <div className="form-input">
                         <label className="input-label" for="roomNumber" >Room/Storage #</label>
                         <input type="text" className="text-input" id="roomNumber" 
                         value={roomNumber} onChange = {(e) => {setRoom(e.target.value)}} required = {true} />
                     </div>
+                    {/* Status */}
                     <div className="form-input">
                         <label className="input-label" for="status" >Status</label>
                         <div className="col-sm-10">
@@ -149,6 +144,9 @@ function AddItem() {
                                     <li><a className="dropdown-item" onClick={(e)=> setStatus ("Old")} > Old
                                         </a>
                                     </li>
+                                    <li><a className="dropdown-item" onClick={(e)=> setStatus ("Used")} > Used
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>                    
@@ -158,7 +156,7 @@ function AddItem() {
                         <input type="text" className="nameInput" id="name"  />
                     </div> */}
                     <div className="button-wrapper">
-                        <button className="button" type = "button" onClick={cancelEdit} >Cancel</button>
+                        <button className="button" type = "button" onClick={CancelEdit} >Cancel</button>
                         <button className="button" type = "submit" >Save item</button>
                         {/* <span className="errormessage">{errorMessage}</span> */}
                     </div>
