@@ -1,9 +1,12 @@
 import ReservationCard from "./ReservationCard";
 import React from "react";
 import './styles/List.css';
-
+import { useNavigate } from "react-router-dom";
 const ReservationList = ({reservations,updateList}) => {
-
+    const navigate = useNavigate();
+    const gotoReservation = () => {
+        navigate("/Reservation");
+    }
     return (
         <>
              <div className="UserRowTitle">
@@ -22,7 +25,7 @@ const ReservationList = ({reservations,updateList}) => {
 
             <ul className="list-group">
                 { reservations.map( (reservation,index) => (
-                    <li key={index}>
+                    <li key={index} onClick={gotoReservation}>
                         <ReservationCard reservation={reservation} key={index} updateList={updateList} />
                     </li>
                 ))}

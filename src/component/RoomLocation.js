@@ -6,7 +6,7 @@ import "./styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
-import ItemList from "./ItemList";
+import RoomList from "./RoomList";
 import Pagination from "./Pagination";
 
 function RoomLocation () {
@@ -24,7 +24,7 @@ function RoomLocation () {
     // }
 
     useEffect( () => {
-        API.get("inventory","/items/").then( itemRes => {
+        API.get("inventory","/items").then( itemRes => {
             sortItems(itemRes);
         })
         if (window.matchMedia("(max-width: 1400px)") && window.matchMedia("(min-width: 900px)") ) setItemsPerPage(15)
@@ -33,14 +33,18 @@ function RoomLocation () {
     const updateList = (serialno) => {
         API.del("inventory","/items/object/"+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
+
+        
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     }
 
     const sortItems = (items) => {
         const updatedList = items.filter(item => item.location === "room");
-        setItems(updatedList);
-        setUnfilteredItems(updatedList);
+
+        const updatedRoomList =  [...new Map(updatedList.map((room) => [room.roomno, room])).values()];
+        setItems(updatedRoomList);
+        setUnfilteredItems(updatedRoomList);
     } 
     const searchItem = (e) => {
         if (e.length > 0) {
@@ -108,7 +112,7 @@ function RoomLocation () {
         </div>
 
         <div className="UserPane">
-            <ItemList items={currentList} updateList={updateList}/>
+            <RoomList items={currentList} updateList={updateList}/>
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 

@@ -13,6 +13,7 @@ import Inventory from './component/Inventory';
 import RoomLocation from './component/RoomLocation';
 import StorageLocation from './component/StorageLocation';
 import Reservations from './component/Reservations';
+import Reservation from './component/Reservation';
 
 
 Amplify.configure(awsExport);
@@ -29,8 +30,10 @@ function App() {
       <Route path='/Inventory' element= {<Inventory />} />
       <Route path='/RoomLocation' element= {<RoomLocation />} />
       <Route path='/StorageLocation' element= {<StorageLocation />} />
-      <Route path='/Users' element= {<Users />} />
+  
       <Route path='/Reservations' element= {<Reservations />} />
+      <Route path='/Reservation' element= {<Reservation />} />
+
       <Route path='/EditUser' element= {<EditUser />} /> 
       <Route path='/Users' element= {<Users />} />
       <Route path='/CreateUser' element= {<CreateUser />} />
