@@ -38,6 +38,23 @@ function Users () {
         setUnfilteredUsers(updatedList);
     }
 
+    const updateStatus = (email, status) => {
+        // make an API call to update the user's status in the database
+        API.put("userapi", "/email/object/" + email, {
+          body: { status }
+        }).then(() => {
+          // update the status of the user 
+          const updatedUsers = users.map(user => {
+            if (user.email === email) {
+              return { ...user, status };
+            }
+            return user;
+          });
+          setUsers(updatedUsers);
+          setUnfilteredUsers(updatedUsers);
+        });
+      };
+      
     const searchUser = (e) => {
         if (e.length > 0) {
             const searcedhUser = unfilteredUsers.filter((user) => user.email.toLowerCase().includes(e) || 
