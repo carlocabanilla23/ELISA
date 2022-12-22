@@ -19,10 +19,10 @@ function StorageLocation () {
 
     const navigate = useNavigate();
 
-    // const AddUser = e => {
-    //     e.preventDefault();
-    //     navigate('/CreateUser');
-    // }
+    const AddItem = e => {
+        e.preventDefault();
+        navigate('/AddItem');
+    }
 
     useEffect( () => {
         // const items = await API.get('myCloudApi', '/items', );
@@ -97,7 +97,7 @@ function StorageLocation () {
                 </div>
 
                 <div className="col text-end adduser">
-                    <button type="submit" className="btn" id="AddUser">Add Item</button>
+                    <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button>
                 </div>
 
                 <div className="col auto dropdown">

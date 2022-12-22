@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Routes, Route } from 'react-router-dom';
 import Users from './component/Users';
 import CreateUser from './component/CreateUser';
+import AddItem from './component/AddItem';
 import EditUser from './component/EditUser';
 import Inventory from './component/Inventory';
 import RoomLocation from './component/RoomLocation';
@@ -37,6 +38,7 @@ function App() {
       <Route path='/EditUser' element= {<EditUser />} /> 
       <Route path='/Users' element= {<Users />} />
       <Route path='/CreateUser' element= {<CreateUser />} />
+      <Route path='/AddItem' element= {<AddItem />} />
      
     </Routes>
 
