@@ -35,38 +35,45 @@ function AddItem() {
 
 
     const AddItem = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
 
-        const itemList = API.get("inventory","/items")
-        .then(res => {
-            setItem([itemList,...res]);
-        });
-
-        API.post("inventory","/items/", {
-            body : {
-                name : name,
-                serialno : serialNumber,
-                type : type,
-                model : model,
-                location : location,
-                roomno : roomNumber,
-                status : status,
+        // API.post("inventory","/items/", {
+        //     body : {
+        //         name : name,
+        //         serialno : serialNumber,
+        //         type : type,
+        //         model : model,
+        //         location : location,
+        //         roomno : roomNumber,
+        //         status : status,
                
-            }
-        });
-        alert("Your item has been added successfully!");
-        navigate("/Inventory");
+        //     }
+        // });
+        // alert("");
+        ShowAlert();
     }
         
     const CancelEdit = () => {
-        navigate("/Inventory");
+        ShowAlert();
     }
 
+    const ShowAlert = () => {
+        var alert = document.getElementById("alert");
+        alert.style.display = "block";
+        setTimeout( () =>{
+             navigate("/Inventory");
+        },1500);
+    }
 
     return (
         <>
+            <div class="alert alert-success" id="alert" role="alert">
+                Your item has been added successfully!
+            </div>
+
             <Sidebar />
             <Header />
+            
             {/* Previous Page Navigation Bar */}
             <div className="ItemHeader">
                     <div className="fs-4 ms-5 fw-bold">
@@ -160,6 +167,7 @@ function AddItem() {
                         <button className="button" type = "submit" >Save item</button>
                         {/* <span className="errormessage">{errorMessage}</span> */}
                     </div>
+                  
                 </form>
             </div>
         </>

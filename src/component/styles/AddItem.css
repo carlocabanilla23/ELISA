@@ -86,3 +86,7 @@
     background-color: #5E4345;
     color: #fff;
 }
+
+#alert {
+    display: none;
+}
