@@ -17,10 +17,10 @@ function Inventory () {
 
     const navigate = useNavigate();
 
-    // const AddUser = e => {
-    //     e.preventDefault();
-    //     navigate('/CreateUser');
-    // }
+    const AddItem = e => {
+        e.preventDefault();
+        navigate('/AddItem');
+    }
 
     useEffect( () => {
         API.get("inventory","/items").then( itemRes => {
@@ -84,7 +84,9 @@ function Inventory () {
                 </div>
 
                 <div className="col text-end adduser">
-                    <button type="submit" className="btn" id="AddUser">Add Item</button>
+                    {/* <button type="submit" className="btn" id="AddUser">Add Item</button> */}
+                    <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button>
+
                 </div>
 
                 <div className="col auto dropdown">
