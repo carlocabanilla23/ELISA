@@ -1,0 +1,37 @@
+.PageHeaderBtn{
+    width: 2em;
+    position: fixed;
+    top: 45px;
+    left: 200px;
+    background-color: #ffffff;
+}
+.HeaderBtnLabel{
+    position: fixed;
+    top: 40px;
+    left: 250px;
+}
+
+.UserHeader{
+    width: 85%;
+    height: 6vh;
+    position: fixed;
+    left: 15%;
+    top: 6vh;
+    z-index: 1000;
+}
+
+.UserInformation{
+    background-color: #F0F0EB;
+    width: 85%;
+    height: 100vh;
+    position: relative;
+        top: 6vh;
+        left: 15%;
+    padding-top: 5em;
+    padding-left: 5%;
+    padding-right: 50%;
+}
+
+.Attribute{
+    text-align: right;
+}

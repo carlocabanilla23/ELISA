@@ -10,3 +10,12 @@
     background-color: #3E2B2E;
     color: #ffffff;
 }
+
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+    .list-pagination{
+        width: 100%;
+        position: fixed;
+            bottom: 0.1vh;
+    }
+}

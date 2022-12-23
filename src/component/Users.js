@@ -1,4 +1,3 @@
-import UserCard from "./UserCard";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import "./styles/Users.css";
@@ -6,7 +5,6 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import UserList from "./UserList";
-import CreateTestUser from "./test/CreateTestUser";
 import Pagination from "./Pagination";
 
 function Users () {
@@ -14,7 +12,17 @@ function Users () {
     const [users, setUsers] = useState([]);
     const [unfilteredUsers, setUnfilteredUsers] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [usersPerPage] = useState(8);
+    const [usersPerPage] = useState(15);
+
+   
+
+    useEffect( () => {
+        API.get("userapi","/email").then( res => {
+            setUsers([...users,...res]);
+            setUnfilteredUsers([...users,...res]);
+        })
+
+    },[]);
 
     const navigate = useNavigate();
 
@@ -23,14 +31,6 @@ function Users () {
         navigate('/CreateUser');
     }
 
-    useEffect( () => {
-      API.get("userapi","/email").then( res => {
-            setUsers([...users,...res]);
-            setUnfilteredUsers([...users,...res]);
-        })
-        
-    },[]);
-
     const updateList = (email) => {
         API.del("userapi","/email/object/"+email);
         const updatedList = users.filter(user => user.email !== email);
@@ -38,6 +38,23 @@ function Users () {
         setUnfilteredUsers(updatedList);
     }
 
+    const updateStatus = (email, status) => {
+        // make an API call to update the user's status in the database
+        API.put("userapi", "/email/object/" + email, {
+          body: { status }
+        }).then(() => {
+          // update the status of the user 
+          const updatedUsers = users.map(user => {
+            if (user.email === email) {
+              return { ...user, status };
+            }
+            return user;
+          });
+          setUsers(updatedUsers);
+          setUnfilteredUsers(updatedUsers);
+        });
+      };
+      
     const searchUser = (e) => {
         if (e.length > 0) {
             const searcedhUser = unfilteredUsers.filter((user) => user.email.toLowerCase().includes(e) || 
@@ -97,8 +114,8 @@ function Users () {
                             Export
                         </button>
                         <ul className="dropdown-menu">
-                            <li><a className="dropdown-item" href="#">CSV</a></li>
-                            <li><a className="dropdown-item" href="#">PDF</a></li>
+                            <li><a className="dropdown-item" >CSV</a></li>
+                            <li><a className="dropdown-item" >PDF</a></li>
                         </ul>
                     </div>
                 </div>
@@ -107,7 +124,7 @@ function Users () {
 
         <div className="UserPane">
             <div className="UserRowTitle">
-                <div className="container">
+                <div className="container-fluid">
                     <div className="row">
                             <div className="col"> School ID </div>
                             <div className="col"> First Name </div>
@@ -122,8 +139,8 @@ function Users () {
             </div>
                 <UserList users={currentList} updateList={updateList}/>
                 <Pagination
-                    usersPerPage={usersPerPage} 
-                    totalUsers={users.length} 
+                    PerPage={usersPerPage} 
+                    total={users.length} 
                     paginate={paginate}
                     currentPageLocation = {currentPage}
                     /> 

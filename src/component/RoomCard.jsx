@@ -2,7 +2,7 @@ import React from "react";
 import './styles/User.css';
 import { useNavigate } from "react-router-dom";
 
-const Item = ( {item,updateList} ) => {
+const RoomCard = ( {item,updateList} ) => {
         const navigate = useNavigate();
         const EditUser = (e) => {
                 console.log(e);
@@ -14,17 +14,15 @@ const Item = ( {item,updateList} ) => {
 
         }
         return (
+
+
              
         <div className="UserRowItems">
-                <div className="container">
+                <div className="container-fluid">
                         <div className="row ">
-                                <div className="col"> {item.serialno} </div>
-                                <div className="col"> {item.name} </div>
-                                <div className="col"> {item.type} </div>
-                                <div className="col"> {item.model} </div>
-                                <div className="col"> {item.location} </div>
                                 <div className="col"> {item.roomno} </div>
-                                <div className="col"> {item.status} </div>
+                                <div className="col"> Otto Miller </div>
+                                <div className="col"> 10 </div>
                                 <div className="col actions"> 
                                         <div className="row"> 
                                                 <div className="col actions-column">
@@ -63,4 +61,4 @@ const Item = ( {item,updateList} ) => {
 
 }
 
-export default Item;
+export default RoomCard;

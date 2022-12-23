@@ -4,8 +4,7 @@ import React from "react";
 import awsExport from '../aws-exports';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import BackArrow from './icons/back_arrow.png';
-import { Navigate, useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom'; 
 
 Amplify.configure(awsExport);
 
@@ -18,26 +17,57 @@ function CreateUser() {
     const [email,setEmail] = React.useState('');
     const [phone,setPhone] = React.useState('');
 
+    /* 
+        These useState is for checking the uniqueness of the input information
+        Error represents error type, and useEffect will display corresponding error message based on the error type
+    */
     const [users, setUsers] = React.useState([]);
+    const [error, setError] = React.useState('');
+    const [errorMessage, setErrorMessage] = React.useState('');
 
     const navigate = useNavigate();
 
+    //Convert the error to errorMessage and display them to the users
+    React.useEffect(() => {
+        if(error === '1'){
+            setErrorMessage('Email and schoolID are already exist');
+        }else if(error === '2'){
+            setErrorMessage('Email is already exist');
+        }else if(error === '3'){
+            setErrorMessage('schoolID is already exist');
+        }else if(error === '4'){
+            setErrorMessage('Please choose a role');
+        }
+    }, [error])
+
     const AddUser = (e) => {
         e.preventDefault();
-        // validate if school ID and email are already exist
+        /* validate:
+            if school ID and email are already exist, the useEffect will catch the type of error and display it to the user
+            
+            For the pattern error of schoolID, email, and phone, 
+            I use the onInvalid and onInput to customize the default error message of incorrect pattern.
+
+            The back arrow is implemented using fa fa-back-arrow as you mentioned, and all button will direct
+            back to the Users page if you click it (for create button if successfully pass all validations).
+        */
         const userList = API.get("userapi", "/email/")
-            .then(res => {
-                setUsers([userList,...res]);
-            });
+        .then(res => {
+            setUsers([userList,...res]);
+        });
         for(var i = 0; i < users.length; i++){
-            if(users[i].email == email && users[i].schoolID == schoolID){
-                throw new Error(alert("Email and schoolID are already exist"));
-            }else if (users[i].email == email){
-                throw new Error(alert("Email are already exist"));
-            }else if(users[i].schoolID == schoolID){
-                throw new Error(alert("schoolID are already exist"));
+            if(users[i].email === email && users[i].schoolID === schoolID){
+                throw new Error(setError('1'));
+            }else if (users[i].email === email){
+                throw new Error(setError('2'));
+            }else if(users[i].schoolID === schoolID){
+                throw new Error(setError('3'));
             }
         }
+        if(role === 'Role'){
+            throw new Error(setError('4'));
+        }
+
         // Add new user to the database
         API.post("userapi","/email/", {
             body : {
@@ -54,16 +84,21 @@ function CreateUser() {
         navigate('/Users');
     }
 
+    
+    const cancelEdit = () => {
+        navigate('/Users');
+    }    
+
     return (
-        <div className="CreateUserWindow">
+        <>
             <Sidebar />
             <Header />
             {/* Previous Page Navigation Bar */}
-            <div className="PrevNavbar">
-                <a href="/Users">
-                    <img src={BackArrow} className="back-arrow" alt="back arrow" />
-                </a>
-                <label className="prevPage">User</label>
+            <div className="UserHeader">
+                    <div className="fs-4 ms-5 fw-bold">
+                        <button onClick={cancelEdit} className="PageHeaderBtn"><i class="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
+                        <label>Create User</label> 
+                    </div>
             </div>
             <div className="CreateUserForm">
                 <form onSubmit={AddUser}>
@@ -77,10 +112,9 @@ function CreateUser() {
                         <input  type = "text"
                                 className = "form-control"
                                 value = {firstName}
-                                onChange = {(e) => setFirstName(e.target.value)}
+                                onChange = {(e) => {setFirstName(e.target.value); setErrorMessage('')}}
                                 id="inputFirstName"
                                 required={true} />
-                        {/* <span className="errorMessage">{firstName?"":"FirstName is required"}</span> */}
                         </div>
                     </div>
                     {/* Last Name */}
@@ -93,10 +127,9 @@ function CreateUser() {
                         <input  type="text"
                                 className="form-control"
                                 value = {lastName}
-                                onChange = {(e) => setLastName(e.target.value)}
+                                onChange = {(e) => {setLastName(e.target.value); setErrorMessage('')}}
                                 id="inputLastName"
                                 required={true} />
-                        {/* <span className="errorMessage">{lastName?"":"LastName is required"}</span> */}
                         </div>
                     </div>
                     {/* Role */}
@@ -134,7 +167,6 @@ function CreateUser() {
                                         </a>
                                     </li>
                                 </ul>
-                                {/* <span className="errorMessage">{role==="Role"?"Choose a role":""}</span> */}
                                 </div>
                             </div>
                     </div>
@@ -145,11 +177,12 @@ function CreateUser() {
                             <input type = "text"
                             className = "form-control"
                             value = {schoolID}
-                            onChange = {(e) => setSchoolID(e.target.value)}
+                            onChange = {(e) => {setSchoolID(e.target.value); setErrorMessage('')}}
                             id="schoolID"
                             required={true}
-                            pattern='^([0-9]{8})$' />
-                        <span className="errorMessage">{schoolID?"schoolID must be unique":""}</span>
+                            pattern='^([0-9]{9})$'
+                            onInvalid={e => e.target.setCustomValidity('schoolID must be 9 digits and unique')} 
+                            onInput={e => e.target.setCustomValidity('')} />
                         </div>
                     </div>
                     {/* Email */}
@@ -159,11 +192,12 @@ function CreateUser() {
                             <input type = "text"
                             className = "form-control"
                             value = {email}
-                            onChange = {(e) => setEmail(e.target.value)}
+                            onChange = {(e) => {setEmail(e.target.value); setErrorMessage('')}}
                             id = "inputEmail"
                             required={true}
-                            pattern='^([a-z0-9]{1,})@spu\.edu$' />
-                        <span className="errorMessage">{email?"Email must end with @spu.edu and unique":""}</span>
+                            pattern='^([a-z0-9]{1,})@spu\.edu$' 
+                            onInvalid={(event) => {event.target.setCustomValidity('Email must end with @spu.edu and unique')}}
+                            onInput={e => e.target.setCustomValidity('')} />
                         </div>
                     </div>      
                     {/* Phone */}
@@ -173,23 +207,23 @@ function CreateUser() {
                             <input type = "text" 
                             className = "form-control" 
                             value = {phone}
-                            onChange = {(e) => setPhone(e.target.value)}
+                            onChange = {(e) => {setPhone(e.target.value); setErrorMessage('')}}
                             id = "inputPhone" 
                             required={true}
-                            pattern='^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$' />
-                        <span className="errorMessage">{phone?"Valid phone format: (111) 111-1111":""}</span>
+                            pattern='^([0-9]{10})$' 
+                            onInvalid={(event) => {event.target.setCustomValidity('Phone number must have 10 digits: #########')}}
+                            onInput={e => e.target.setCustomValidity('')} />
                         </div>
                     </div>
                     {/* Submit Button */}
-                    <div className="mb-3 row">
-                        <div className="col-sm-10">
-                        <button type="submit" className="btn btn-primary mb-3" onClick={() => navigate('/Users')}>Cancel</button>
-                        <button type="submit" className="btn btn-primary mb-3">Create</button>
-                        </div>
+                    <div className="form-buttons">
+                        <button type="button" onClick={cancelEdit} className="btn btn-primary">Cancel</button>
+                        <button type="submit" className="btn btn-primary">Create</button> 
+                        <span className="errorMessage">{errorMessage}</span>
                     </div>
                 </form>
             </div>
-        </div>
+        </>
         
     );
 }

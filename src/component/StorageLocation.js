@@ -1,28 +1,40 @@
 import CreateTestEquipment from "./test/CreateTestEquipment";
-import Item from "./Item";
+import ItemCard from "./ItemCard";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import "./styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
+import Pagination from "./Pagination";
+import ItemList from "./ItemList";
 
 function StorageLocation () {
     // CreateTestEquipment(20);
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
+    const [currentPage,setCurrentPage] = useState(1);
+    const [itemsPerPage,setItemsPerPage] = useState(10);
+
+
     const navigate = useNavigate();
 
-    // const AddUser = e => {
-    //     e.preventDefault();
-    //     navigate('/CreateUser');
-    // }
+    const AddItem = e => {
+        e.preventDefault();
+        navigate('/AddItem');
+    }
 
     useEffect( () => {
         // const items = await API.get('myCloudApi', '/items', );
         API.get("inventory","/items/").then( itemRes => {
             sortItems(itemRes);
-        })},[]);
+        })
+        
+        if (window.matchMedia("(max-width: 1400px)") && window.matchMedia("(min-width: 900px)") ) setItemsPerPage(15)
+    
+    },[]);
+
+
 
     const updateList = (serialno) => {
         API.del("inventory","/items/object/"+serialno);
@@ -48,7 +60,27 @@ function StorageLocation () {
             setItems(unfilteredItems);
         }
        
-    }  
+    }
+    
+    const idxLastItem = currentPage * itemsPerPage;
+    const idxFirstItem = idxLastItem - itemsPerPage;
+    const currentList = items.slice(idxFirstItem,idxLastItem);
+
+    const paginate = (pageNumber) => {
+        if (pageNumber !== 0 && pageNumber !==  Math.ceil(items.length / itemsPerPage) + 1 ) {
+
+           var obj = document.getElementById(currentPage);
+            obj.style.backgroundColor = "#F0F0EB";
+            obj.style.color = "#3E2B2E";
+
+            setCurrentPage(pageNumber);
+
+            obj = document.getElementById(pageNumber);
+            obj.style.backgroundColor = "#3E2B2E";
+            obj.style.color = "#ffffff";
+        }
+    };
+
     return (
         <div className="Users">
         <Sidebar />
@@ -65,7 +97,7 @@ function StorageLocation () {
                 </div>
 
                 <div className="col text-end adduser">
-                    <button type="submit" className="btn" id="AddUser">Add Item</button>
+                    <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button>
                 </div>
 
                 <div className="col auto dropdown">
@@ -83,22 +115,13 @@ function StorageLocation () {
         </div>
 
         <div className="UserPane">
-            <div className="UserRowTitle">
-                <div className="container">
-                    <div className="row">
-                            <div className="col"> Serial No </div>
-                            <div className="col"> Name </div>
-                            <div className="col"> Type </div>
-                            <div className="col"> Model </div>
-                            <div className="col"> Location </div>
-                            <div className="col"> Room No </div>
-                            <div className="col"> Status </div>
-                            <div className="col"> Actions</div>        
-                    </div>
-                </div>
-            </div>
-                {items.map( (itemRes,index) => <Item item={itemRes} key={index} updateList={updateList}/>)}
-                   
+            <ItemList items={currentList} updateList={updateList}/>
+            <Pagination
+                    PerPage={itemsPerPage} 
+                    total={items.length} 
+                    paginate={paginate}
+                    currentPageLocation = {currentPage}
+                    />     
         </div>
     </div>    
     )

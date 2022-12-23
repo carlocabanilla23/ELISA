@@ -8,10 +8,14 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Routes, Route } from 'react-router-dom';
 import Users from './component/Users';
 import CreateUser from './component/CreateUser';
+import AddItem from './component/AddItem';
 import EditUser from './component/EditUser';
 import Inventory from './component/Inventory';
 import RoomLocation from './component/RoomLocation';
 import StorageLocation from './component/StorageLocation';
+import Reservations from './component/Reservations';
+import Reservation from './component/Reservation';
+import UserInformation from './component/UserInformation';
 
 
 Amplify.configure(awsExport);
@@ -28,10 +32,15 @@ function App() {
       <Route path='/Inventory' element= {<Inventory />} />
       <Route path='/RoomLocation' element= {<RoomLocation />} />
       <Route path='/StorageLocation' element= {<StorageLocation />} />
-      <Route path='/Users' element= {<Users />} />
+  
+      <Route path='/Reservations' element= {<Reservations />} />
+      <Route path='/Reservation' element= {<Reservation />} />
+
       <Route path='/EditUser' element= {<EditUser />} /> 
       <Route path='/Users' element= {<Users />} />
       <Route path='/CreateUser' element= {<CreateUser />} />
+      <Route path='/AddItem' element= {<AddItem />} />
+      <Route path='/UserInformation' element= {<UserInformation />} />
      
     </Routes>
 

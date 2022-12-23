@@ -8,6 +8,10 @@
     "inventory": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
+    },
+    "reservations": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
     }
   },
   "function": {
@@ -48,6 +52,25 @@
           }
         }
       ]
+    },
+    "reservation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "reservations",
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "attributeEnvMap": {
+            "Name": "TABLE_NAME",
+            "Arn": "TABLE_ARN"
+          }
+        }
+      ]
     }
   },
   "api": {
@@ -72,6 +95,20 @@
         {
           "category": "function",
           "resourceName": "inventory",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
+    },
+    "reservationapi": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "reservation",
           "attributes": [
             "Name",
             "Arn"
