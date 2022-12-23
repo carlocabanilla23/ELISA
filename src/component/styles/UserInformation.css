@@ -32,7 +32,6 @@
     padding-right: 50%;
 }
 
-.Information{
-    background-color: rgba(128, 128, 128, 0.267);
-    border: 1px solid black;
+.Attribute{
+    text-align: right;
 }

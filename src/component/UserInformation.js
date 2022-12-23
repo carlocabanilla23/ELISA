@@ -55,54 +55,56 @@ function UserInformation(e) {
             {/* Information Area */}
             <div className="UserInformation">
                 {/* Picture */}
-                <div className = "mb-3 row">
-                    <label  className = "col-sm-4 col-form-label">Photo:</label>
-                    <div className = "Information col-sm-8 col-form-label">photo</div>
-                </div>
-                {/* First Name */}
-                <div className = "mb-3 row">
-                    <label  className = "col-sm-4 col-form-label">First Name:</label>
-                    <div className = "Information col-sm-8 col-form-label">{firstName}</div>
-                </div>
-                {/* Last Name */}
-                <div className="mb-3 row">
-                    <label  className = "col-sm-4 col-form-label">Last Name:</label>
-                    <div className = "Information col-sm-8 col-form-label">{lastName}</div>
-                </div>
-                {/* Role */}
-                <div className="mb-3 row">
-                    <label  className = "col-sm-4 col-form-label">Role:</label>
-                    <div className = "Information col-sm-8 col-form-label">{role}</div>
-                </div>
-                {/* School ID */}
-                <div className="mb-3 row">
-                    <label  className = "col-sm-4 col-form-label">School ID:</label>
-                    <div className = "Information col-sm-8 col-form-label">{schoolID}</div>
-                </div>
-                {/* Email */}
-                <div className="mb-3 row">
-                    <label  className = "col-sm-4 col-form-label">Email:</label>
-                    <div className = "Information col-sm-8 col-form-label">{email}</div>
-                </div>      
-                {/* Phone */}
-                <div className = "mb-3 row">
-                    <label  className = "col-sm-4 col-form-label">Phone:</label>
-                    <div className = "Information col-sm-8 col-form-label">{phone}</div>
-                </div>
-                {/* Password */}
-                <div className = "mb-3 row">
-                    <label  className = "col-sm-4 col-form-label">Password:</label>
-                    <div className = "Information col-sm-8 col-form-label">{password}</div>
+                <div className="PersonalInformation">
+                    <div className = "mb-3 row justify-content-between">
+                        <label  className = "Attribute col-sm-4">Photo:</label>
+                        <div className = "Information col-sm-8">photo</div>
+                    </div>
+                    {/* First Name */}
+                    <div className = "mb-3 row">
+                        <label  className = "Attribute col-sm-4">First Name:</label>
+                        <div className = "Information col-sm-8">{firstName}</div>
+                    </div>
+                    {/* Last Name */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Last Name:</label>
+                        <div className = "Information col-sm-8">{lastName}</div>
+                    </div>
+                    {/* Role */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Role:</label>
+                        <div className = "Information col-sm-8">{role}</div>
+                    </div>
+                    {/* School ID */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">School ID:</label>
+                        <div className = "Information col-sm-8">{schoolID}</div>
+                    </div>
+                    {/* Email */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Email:</label>
+                        <div className = "Information col-sm-8">{email}</div>
+                    </div>      
+                    {/* Phone */}
+                    <div className = "mb-3 row">
+                        <label  className = "Attribute col-sm-4">Phone:</label>
+                        <div className = "Information col-sm-8">{phone}</div>
+                    </div>
+                    {/* Password */}
+                    <div className = "mb-3 row">
+                        <label  className = "Attribute col-sm-4">Password:</label>
+                        <div className = "Information col-sm-8">{password}</div>
+                    </div>
                 </div>
                 {/* Date Created */}
                 <div className = "mb-3 row">
-                    <label  className = "col-sm-4 col-form-label">Date Created:</label>
-                    <div className = "Information col-sm-8 col-form-label">2022-12-21 8:00PM</div>
+                    <label  className = "Attribute col-sm-4">Date Created:</label>
+                    <div className = "Information col-sm-8">2022-12-21 8:00PM</div>
                 </div>
                 {/* Last Updated */}
                 <div className = "mb-3 row">
-                    <label  className = "col-sm-4 col-form-label">Last Update:</label>
-                    <div className = "Information col-sm-8 col-form-label">2022-12-21 8:00PM</div>
+                    <label  className = "Attribute col-sm-4">Last Updated:</label>
+                    <div className = "Information col-sm-8">2022-12-21 8:00PM</div>
                 </div>
             </div>
         </div>
