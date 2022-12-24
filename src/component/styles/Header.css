@@ -85,7 +85,7 @@
 }
 
 /* Macbook 13 */
-@media only screen 
+/* @media only screen 
   and (min-device-width: 1440px) 
   and (max-device-width: 1660px) 
   and (-webkit-min-device-pixel-ratio: 1)
@@ -94,4 +94,4 @@
     width: 80%;
     left: 10%;
     }
-}
+} */

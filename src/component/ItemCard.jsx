@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 
 const ItemCard = ( {item,updateList} ) => {
         const navigate = useNavigate();
-        const EditUser = (e) => {
+        const EditItem = (e) => {
                 console.log(e);
-                // navigate('/EditUser',{
-                //         state: {
-                //                 serialno : e
-                //         }
-                // });
+                navigate('/EditItem',{
+                        state: {
+                                serialno : e
+                        }
+                });
 
         }
         return (
@@ -44,7 +44,7 @@ const ItemCard = ( {item,updateList} ) => {
                                                         </div>
                                                 </div>
                                                 <div className="col actions-column">
-                                                        <button className="btn" onClick={ () => EditUser(item.serialno)}>
+                                                        <button className="btn" onClick={ () => EditItem(item.serialno)}>
                                                                 <i className="fa fa-pencil"></i>
                                                         </button>
                                                 </div>

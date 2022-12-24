@@ -9,6 +9,7 @@ import { Routes, Route } from 'react-router-dom';
 import Users from './component/Users';
 import CreateUser from './component/CreateUser';
 import AddItem from './component/AddItem';
+import EditItem from './component/EditItem';
 import EditUser from './component/EditUser';
 import Inventory from './component/Inventory';
 import RoomLocation from './component/RoomLocation';
@@ -47,6 +48,8 @@ function App() {
       <Route path='/EditUser' element= {<EditUser />} /> 
       <Route path='/Users' element= {<Users />} />
       <Route path='/CreateUser' element= {<CreateUser />} />
+      
+      <Route path="/EditItem" element={<EditItem />} />
       <Route path='/AddItem' element= {<AddItem />} />
       <Route path='/UserInformation' element= {<UserInformation />} />
      
