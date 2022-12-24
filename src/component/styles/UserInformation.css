@@ -1,24 +1,4 @@
-.PageHeaderBtn{
-    width: 2em;
-    position: fixed;
-    top: 45px;
-    left: 200px;
-    background-color: #ffffff;
-}
-.HeaderBtnLabel{
-    position: fixed;
-    top: 40px;
-    left: 250px;
-}
 
-.UserHeader{
-    width: 85%;
-    height: 6vh;
-    position: fixed;
-    left: 15%;
-    top: 6vh;
-    z-index: 1000;
-}
 
 .UserInformation{
     background-color: #F0F0EB;
@@ -35,3 +15,21 @@
 .Attribute{
     text-align: right;
 }
+
+.form-buttons{
+    text-align: right;
+}
+
+.form-buttons > button {
+    background-color: #5E4345;
+    border: none;
+    font-size: 1em;
+}
+
+.form-buttons > button:hover{
+    background-color: #7A2036;
+}
+
+.form-buttons > button::after{
+    background-color: #7A2036;
+}   
