@@ -22,7 +22,7 @@ function EditItem(e) {
     const [status,setStatus] = React.useState('Status');
     const [items, setItem] = React.useState([]);
     useEffect( () => {
-        API.get("inventory","/serialno/"+SerialNumberParam).then(res => {
+        API.get("inventory","/serialno/object"+SerialNumberParam).then(res => {
             setName(res.name);
             setSerialNumber(res.serialNumber);
             setType(res.type);

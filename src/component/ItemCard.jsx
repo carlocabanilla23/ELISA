@@ -11,7 +11,14 @@ const ItemCard = ( {item,updateList} ) => {
                                 serialno : e
                         }
                 });
-
+        }
+        const ItemInformation = (e) => {
+                console.log(e);
+                navigate('/ItemInformation', {
+                        state: {
+                                email: e
+                        }
+                });
         }
         return (
              
@@ -36,7 +43,7 @@ const ItemCard = ( {item,updateList} ) => {
                                                                         <i className="fa fa-ellipsis-h"></i>
                                                                 </button>
                                                                 <ul className="dropdown-menu">
-                                                                        <li><a className="dropdown-item" >View Information</a></li>
+                                                                        <li><a className="dropdown-item" onClick={() => ItemInformation(item.serialno)}>View Information</a></li>
                                                                         <li><a className="dropdown-item" >View History</a></li>
                                                                         <li><a className="dropdown-item" >Change Role</a></li>
                                                                         <li><a className="dropdown-item" >Change Status</a></li>
