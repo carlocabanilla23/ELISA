@@ -35,7 +35,7 @@ function UserInformation(e) {
               setPassword(res.password);
           })},[]);
 
-    const leaveView = () => {
+    const cancelEdit = () => {
         navigate('/Users');
     }
 
@@ -46,11 +46,11 @@ function UserInformation(e) {
                 <Sidebar />
                 <Header />
                 <div className="UserHeader">
-                        <div className="fs-4 ms-5 fw-bold">
-                            <button onClick={leaveView} className="PageHeaderBtn"><i class="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
-                            <label className="HeaderBtnLabel">User Information</label> 
-                        </div>
-                </div>
+                    <div className="fs-4 ms-5 fw-bold">
+                        <button onClick={cancelEdit} className="PageHeaderBtn"><i class="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
+                        <label>Edit User</label> 
+                    </div>
+            </div>
             </div>
             {/* Information Area */}
             <div className="UserInformation">
