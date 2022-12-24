@@ -9,7 +9,7 @@ import ItemList from "./ItemList";
 import Pagination from "./Pagination";
 
 function Inventory () {
-    // CreateTestEquipment(20);
+    // CreateTestEquipment(100);
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
@@ -24,6 +24,7 @@ function Inventory () {
 
     useEffect( () => {
         API.get("inventory","/items").then( itemRes => {
+            console.log(itemRes);
             setItems([...items,...itemRes]);
             setUnfilteredItems([...items,...itemRes]);
         })

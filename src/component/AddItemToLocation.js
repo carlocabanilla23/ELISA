@@ -1,20 +1,20 @@
-import CreateTestEquipment from "./test/CreateTestEquipment";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import "./styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation, Link } from "react-router-dom";
+import AddItemToLocationList from './AddItemToLocationList';
 import Pagination from "./Pagination";
-import RoomList from "./RoomList";
 
-function StorageLocation () {
-    // CreateTestEquipment(20);
+function AddItemToLocation () {
+    const location = useLocation();
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
     const [itemsPerPage,setItemsPerPage] = useState(10);
-
+    const locationParam = location.state.location;
+    const roomnoParam = location.state.roomno;
     const navigate = useNavigate();
 
     const AddItem = e => {
@@ -23,42 +23,37 @@ function StorageLocation () {
     }
 
     useEffect( () => {
-        // const items = await API.get('myCloudApi', '/items', );
-        API.get("inventory","/items/").then( itemRes => {
+        API.get("inventory","/items").then( itemRes => {
             sortItems(itemRes);
         })
     },[]);
 
-
-
+    const sortItems = (items) => {
+        const updatedList = items.filter(item => item.location !== locationParam && item.roomno !== roomnoParam);
+        setItems(updatedList);
+        setUnfilteredItems(updatedList);
+    }
+    
     const updateList = (serialno) => {
-        API.del("inventory","/items/object/"+serialno);
+        // API.del("inventory","/items/object/"+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
         setItems(updatedList);
         setUnfilteredItems(updatedList);
-       
-    }
-
-    const sortItems = (items) => {
-        const updatedList = items.filter(item => item.location === "Storage");
-
-        const updatedRoomList =  [...new Map(updatedList.map((room) => [room.roomno, room])).values()];
-        setItems(updatedRoomList);
-        setUnfilteredItems(updatedRoomList);
     } 
+
     const searchItem = (e) => {
         if (e.length > 0) {
             const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
-                                                                    items.name.toLowerCase().includes(e) || 
-                                                                    items.model.toLowerCase().includes(e) || 
-                                                                    items.type.includes(e));
+                                                            items.name.toLowerCase().includes(e) || 
+                                                            items.model.toLowerCase().includes(e) || 
+                                                            items.type.includes(e));
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);
         }
        
-    }
-    
+    }  
+
     const idxLastItem = currentPage * itemsPerPage;
     const idxFirstItem = idxLastItem - itemsPerPage;
     const currentList = items.slice(idxFirstItem,idxLastItem);
@@ -78,6 +73,22 @@ function StorageLocation () {
         }
     };
 
+    const returnToViewItemLocation = () => {
+        let path = "/";
+        if (locationParam === "Storage") {
+             path = "/StorageLocationItem";
+        } 
+        else if (locationParam === "Room") {
+             path = "/RoomLocationItem";
+        }
+
+        navigate(path,{
+                state: {
+                        roomno : roomnoParam
+                }
+        });
+    }
+
     return (
         <div className="Users">
         <Sidebar />
@@ -85,22 +96,21 @@ function StorageLocation () {
         <div className="UserHeader">
 
             <div className="row">
-                <div className="col fs-4 ms-5 fw-bold"> 
-                    <i className="fa fa-users" aria-hidden="true"> Storage Location</i>
+                <div className="col fs-4 ms-5 fw-bold" onClick={ (e) => returnToViewItemLocation() }>          
+                        <i className="fa fa-arrow-left " aria-hidden="true"> 
+                        <span className="ms-1">Add Item To Location </span>  
+                        <span>{roomnoParam}</span>  
+                        </i>
+
                 </div>
 
                 <div className="col-sm-5 searchbar">
                     <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>
                 </div>
 
-                <div className="col text-end ">
-                    {/* <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button> */}
-                </div>
-                <div className="col text-end ">
-                    {/* <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button> */}
-                </div>
-                <div className="col text-end ">
-                    {/* <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button> */}
+                <div className="col text-end adduser">
+                    <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button>
+
                 </div>
 
                 <div className="col auto dropdown">
@@ -118,16 +128,20 @@ function StorageLocation () {
         </div>
 
         <div className="UserPane">
-            <RoomList items={currentList} updateList={updateList}/>
+            
+            <AddItemToLocationList items={currentList} updateList={updateList}/>
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 
                     paginate={paginate}
                     currentPageLocation = {currentPage}
-                    />     
+                    /> 
+          
+                {/* {items.map( (itemRes,index) => <Item item={itemRes} key={index} updateList={updateList}/>)} */}
+                   
         </div>
     </div>    
     )
 }
 
-export default StorageLocation;
+export default AddItemToLocation;

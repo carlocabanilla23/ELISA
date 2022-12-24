@@ -9,7 +9,7 @@ import { useLocation,useNavigate } from "react-router-dom";
 
 Amplify.configure(awsExport);
 
-function EditUser(e) {
+function EditUser() {
     const location = useLocation();
     const navigate = useNavigate();
     let emailParam = location.state.email;
@@ -20,6 +20,7 @@ function EditUser(e) {
     const [email,setEmail] = React.useState('');
     const [phone,setPhone] = React.useState('');
     const [users, setUsers] = React.useState([]);
+
     useEffect( () => {
         API.get("userapi","/email/object/"+emailParam).then( res => {
               setFirstName(res.firstname);
