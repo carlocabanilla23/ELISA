@@ -16,7 +16,7 @@ const ItemCard = ( {item,updateList} ) => {
                 console.log(e);
                 navigate('/ItemInformation', {
                         state: {
-                                email: e
+                                serialno: e
                         }
                 });
         }

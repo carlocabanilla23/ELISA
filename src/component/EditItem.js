@@ -12,7 +12,7 @@ Amplify.configure(awsExport);
 function EditItem() {
     const loc = useLocation();
     const navigate = useNavigate();
-    let itemParam = loc.state.items;
+    let serialParam = loc.state.serialno;
     const [name,setName] = React.useState('');
     const [serialNumber,setSerialNumber] = React.useState('');
     const [type,setType] = React.useState('');
@@ -20,15 +20,16 @@ function EditItem() {
     const [location,setLocation] = React.useState('Location');
     const [roomNumber,setRoom] = React.useState('');
     const [status,setStatus] = React.useState('Status');
-    const [items, setItem] = React.useState([]);
+    const [item, setItem] = React.useState([]);
+
     useEffect( () => {
-        API.get("inventory","/items/object/"+itemParam).then(res => {
+        API.get("inventory","/items/object/"+serialParam).then(res => {
             setName(res.name);
-            setSerialNumber(res.serialNumber);
+            setSerialNumber(res.serialno);
             setType(res.type);
             setModel(res.model);
             setLocation(res.location);
-            setRoom(res.roomNumber);
+            setRoom(res.roomno);
             setStatus(res.status);
         })},[])
 
@@ -45,7 +46,7 @@ function EditItem() {
             .then(res => {
                 setItem([itemList,...res]);
             });
-        API.post("inventory","/items/", {
+        API.put("inventory","/items/", {
             body : {
                 name : name,
                 serialno : serialNumber,
