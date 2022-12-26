@@ -9,10 +9,10 @@ import { useLocation,useNavigate } from "react-router-dom";
 
 Amplify.configure(awsExport);
 
-function UserInformation(e) {
+function ItemInformation() {
     const loc = useLocation();
     const navigate = useNavigate();
-    let SerialNumberParam = loc.state.serialno;
+    let itemParam = loc.state.items;
     const [name,setName] = React.useState('');
     const [serialNumber,setSerialNumber] = React.useState('');
     const [type,setType] = React.useState('');
@@ -20,11 +20,11 @@ function UserInformation(e) {
     const [location,setLocation] = React.useState('Location');
     const [roomNumber,setRoom] = React.useState('');
     const [status,setStatus] = React.useState('Status');
-    const [items, setItem] = React.useState([]);
+    const [item, setItem] = React.useState([]);
     const [createDate, setCreateDate] = React.useState('');
     const [lastUpdate, setLastUpdate] = React.useState('');
     useEffect( () => {
-        API.get("inventory","/serialno/object"+SerialNumberParam).then(res => {
+        API.get("inventory","/items/object/"+itemParam).then(res => {
             setName(res.name);
             setSerialNumber(res.serialNumber);
             setType(res.type);
@@ -100,4 +100,4 @@ function UserInformation(e) {
     );
 }
 
-export default UserInformation;
+export default ItemInformation;

@@ -9,10 +9,10 @@ import "./styles/EditItem.css"
 
 Amplify.configure(awsExport);
 
-function EditItem(e) {
+function EditItem() {
     const loc = useLocation();
     const navigate = useNavigate();
-    let SerialNumberParam = loc.state.serialno;
+    let itemParam = loc.state.items;
     const [name,setName] = React.useState('');
     const [serialNumber,setSerialNumber] = React.useState('');
     const [type,setType] = React.useState('');
@@ -22,7 +22,7 @@ function EditItem(e) {
     const [status,setStatus] = React.useState('Status');
     const [items, setItem] = React.useState([]);
     useEffect( () => {
-        API.get("inventory","/serialno/object"+SerialNumberParam).then(res => {
+        API.get("inventory","/items/object/"+itemParam).then(res => {
             setName(res.name);
             setSerialNumber(res.serialNumber);
             setType(res.type);
@@ -41,11 +41,11 @@ function EditItem(e) {
 
     const EditItem = (e) => {
         e.preventDefault();
-        const itemList = API.get("inventory","/serialno/")
+        const itemList = API.get("inventory","/items/")
             .then(res => {
                 setItem([itemList,...res]);
             });
-        API.post("inventory","/serialno/", {
+        API.post("inventory","/items/", {
             body : {
                 name : name,
                 serialno : serialNumber,
