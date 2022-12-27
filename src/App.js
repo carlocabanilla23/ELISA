@@ -21,6 +21,7 @@ import RoomLocationItem from './component/RoomLocationItem';
 import AddItemToLocation from './component/AddItemToLocation';
 import StorageLocationItem from './component/StorageLocationItem';
 import ItemInformation from './component/ItemInformation';
+import Setting from './component/Setting';
 
 Amplify.configure(awsExport);
 
@@ -54,6 +55,8 @@ function App() {
       <Route path="/EditItem" element={<EditItem />} />
       <Route path='/AddItem' element= {<AddItem />} />
       <Route path='/UserInformation' element= {<UserInformation />} />
+
+      <Route path='/Setting' element= {<Setting />} />
      
     </Routes>
 

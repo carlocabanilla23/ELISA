@@ -1,7 +1,9 @@
 .PageHeaderBtn{
-    width: 4em;
     display: inline;
     border: none;
+
+    width: 1.75em;
+
     background-color: #ffffff;
 }
 
