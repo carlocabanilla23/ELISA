@@ -32,10 +32,13 @@ function ItemInformation() {
             setLocation(res.location);
             setRoom(res.roomno);
             setStatus(res.status);
+            // setCreateDate(res.createdate);
+            // setLastUpdate(res.lastupdate);
           })},[]);
 
     const cancelEdit = () => {
         navigate('/Inventory');
+
     }
 
     return (
@@ -87,7 +90,7 @@ function ItemInformation() {
                     </div>
                 {/* Date Created */}
                 <div className = "mb-3 row">
-                    <label  className = "Attribute col-sm-4">Date Created:</label>
+                    <label  className = "Attribute col-sm-4">Create Date:</label>
                     <div className = "Information col-sm-8">2022-12-21 8:00PM</div>
                 </div>
                 {/* Last Updated */}

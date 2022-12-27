@@ -7,29 +7,27 @@
     position: relative;
         top: 6vh;
         left: 15%;
-    padding-top: 5em;
-    padding-left: 5%;
-    padding-right: 50%;
+    padding: 5em 5% 50%;
+    padding-left: 20vw;
+
 }
 
 .Attribute{
-    text-align: right;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: #3E2B2E;
+    /* display: flex;
+    flex-direction: row; */
+    /* justify-content: space-between;
+    align-items: flex-start; */
+
+
+
+}
+.Information {
+    font-family: 'Inter', serif;
+    font-size: 1.1em;
 }
 
-.form-buttons{
-    text-align: right;
-}
-
-.form-buttons > button {
-    background-color: #5E4345;
-    border: none;
-    font-size: 1em;
-}
-
-.form-buttons > button:hover{
-    background-color: #7A2036;
-}
-
-.form-buttons > button::after{
-    background-color: #7A2036;
-}   
