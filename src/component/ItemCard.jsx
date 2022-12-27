@@ -4,14 +4,21 @@ import { useNavigate } from "react-router-dom";
 
 const ItemCard = ( {item,updateList} ) => {
         const navigate = useNavigate();
-        const EditUser = (e) => {
+        const EditItem = (e) => {
                 console.log(e);
-                // navigate('/EditUser',{
-                //         state: {
-                //                 serialno : e
-                //         }
-                // });
-
+                navigate('/EditItem',{
+                        state: {
+                                serialno : e
+                        }
+                });
+        }
+        const ItemInformation = (e) => {
+                console.log(e);
+                navigate('/ItemInformation', {
+                        state: {
+                                serialno: e
+                        }
+                });
         }
         return (
              
@@ -36,7 +43,7 @@ const ItemCard = ( {item,updateList} ) => {
                                                                         <i className="fa fa-ellipsis-h"></i>
                                                                 </button>
                                                                 <ul className="dropdown-menu">
-                                                                        <li><a className="dropdown-item" >View Information</a></li>
+                                                                        <li><a className="dropdown-item" onClick={() => ItemInformation(item.serialno)}>View Information</a></li>
                                                                         <li><a className="dropdown-item" >View History</a></li>
                                                                         <li><a className="dropdown-item" >Change Role</a></li>
                                                                         <li><a className="dropdown-item" >Change Status</a></li>
@@ -44,7 +51,7 @@ const ItemCard = ( {item,updateList} ) => {
                                                         </div>
                                                 </div>
                                                 <div className="col actions-column">
-                                                        <button className="btn" onClick={ () => EditUser(item.serialno)}>
+                                                        <button className="btn" onClick={ () => EditItem(item.serialno)}>
                                                                 <i className="fa fa-pencil"></i>
                                                         </button>
                                                 </div>

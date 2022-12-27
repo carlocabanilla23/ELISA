@@ -5,13 +5,13 @@ function CreateTestEquipment (e) {
     for ( let i = 0 ; i < e; i++) {
         API.post("inventory","/items", {
             body : {
-            serialno : "sn0001"+i,
-            name : "device"+i,
+            serialno : "sn1101"+i,
+            name : "delldevice"+i,
             type : "tester",
-            model : "model"+i,
+            model : "Dell"+i,
             status : "new",
-            location : "room",
-            roomno : "ECS201"
+            location : "Room",
+            roomno : "ECS301"
             }
         });
     }

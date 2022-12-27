@@ -4,47 +4,47 @@ import { API } from 'aws-amplify';
 import "./styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import Pagination from "./Pagination";
-import RoomList from "./RoomList";
+import ItemList from "./ItemList";
 
-function StorageLocation () {
-    // CreateTestEquipment(20);
+function StorageLocationItem () {
+    const location = useLocation();
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [itemsPerPage,setItemsPerPage] = useState(10);
+    const [itemsPerPage,setItemsPerPage] = useState(15);
+    let roomnoParam = location.state.roomno;
 
     const navigate = useNavigate();
 
-    const AddItem = e => {
-        e.preventDefault();
-        navigate('/AddItem');
+    const AddItem = (locationParam,roomParam) => {
+        navigate('/AddItemToLocation',{
+            state: {
+                    roomno : roomParam,
+                    location : locationParam
+            }
+        });
     }
 
     useEffect( () => {
-        // const items = await API.get('myCloudApi', '/items', );
         API.get("inventory","/items/").then( itemRes => {
             sortItems(itemRes);
         })
+    
     },[]);
-
-
 
     const updateList = (serialno) => {
         API.del("inventory","/items/object/"+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
         setItems(updatedList);
         setUnfilteredItems(updatedList);
-       
     }
 
     const sortItems = (items) => {
-        const updatedList = items.filter(item => item.location === "Storage");
-
-        const updatedRoomList =  [...new Map(updatedList.map((room) => [room.roomno, room])).values()];
-        setItems(updatedRoomList);
-        setUnfilteredItems(updatedRoomList);
+        const updatedList = items.filter(item => item.roomno === roomnoParam);
+        setItems(updatedList);
+        setUnfilteredItems(updatedList);
     } 
     const searchItem = (e) => {
         if (e.length > 0) {
@@ -85,22 +85,21 @@ function StorageLocation () {
         <div className="UserHeader">
 
             <div className="row">
-                <div className="col fs-4 ms-5 fw-bold"> 
-                    <i className="fa fa-users" aria-hidden="true"> Storage Location</i>
+                <div className="col fs-4 ms-5 fw-bold">
+                    <Link to="/StorageLocation" className="text-dark">
+                        <i className="fa fa-arrow-left " aria-hidden="true"> 
+                        <span className="ms-1">Storage Location - </span>  
+                        <span>{roomnoParam}</span>  
+                        </i>
+                    </Link>         
                 </div>
 
                 <div className="col-sm-5 searchbar">
                     <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>
                 </div>
 
-                <div className="col text-end ">
-                    {/* <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button> */}
-                </div>
-                <div className="col text-end ">
-                    {/* <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button> */}
-                </div>
-                <div className="col text-end ">
-                    {/* <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button> */}
+                <div className="col text-end adduser">
+                    <button type="submit" className="btn" id="AddUser" onClick={ (e) => AddItem("Storage",roomnoParam)}>Add Item</button>
                 </div>
 
                 <div className="col auto dropdown">
@@ -118,7 +117,7 @@ function StorageLocation () {
         </div>
 
         <div className="UserPane">
-            <RoomList items={currentList} updateList={updateList}/>
+            <ItemList items={currentList} updateList={updateList}/>
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 
@@ -130,4 +129,4 @@ function StorageLocation () {
     )
 }
 
-export default StorageLocation;
+export default StorageLocationItem;

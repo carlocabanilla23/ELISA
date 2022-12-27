@@ -1,23 +1,21 @@
-.PageHeaderBtn{
-    display: inline;
-    border: none;
 
-    width: 1.75em;
 
-    background-color: #ffffff;
-}
-
-.EditUserForm{
+.ItemInformation{
     background-color: #F0F0EB;
     width: 85%;
     height: 100vh;
-    position: fixed;
-        top: 12vh;
+    position: relative;
+        top: 6vh;
         left: 15%;
     padding-top: 5em;
     padding-left: 5%;
     padding-right: 50%;
 }
+
+.Attribute{
+    text-align: right;
+}
+
 .form-buttons{
     text-align: right;
 }
@@ -34,4 +32,4 @@
 
 .form-buttons > button::after{
     background-color: #7A2036;
-}
+}   

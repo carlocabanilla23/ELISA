@@ -33,8 +33,7 @@ function RoomLocation () {
     const updateList = (serialno) => {
         API.del("inventory","/items/object/"+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
-
-        
+     
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     }
@@ -45,6 +44,7 @@ function RoomLocation () {
         const updatedRoomList =  [...new Map(updatedList.map((room) => [room.roomno, room])).values()];
         setItems(updatedRoomList);
         setUnfilteredItems(updatedRoomList);
+
     } 
     const searchItem = (e) => {
         if (e.length > 0) {
@@ -93,8 +93,15 @@ function RoomLocation () {
                     <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>
                 </div>
 
-                <div className="col text-end adduser">
-                    <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button>
+                <div className="col text-end ">
+                    {/* <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button> */}
+                </div>
+
+                <div className="col text-end ">
+                    {/* <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button> */}
+                </div>
+                <div className="col text-end ">
+                    {/* <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button> */}
                 </div>
 
                 <div className="col auto dropdown">
