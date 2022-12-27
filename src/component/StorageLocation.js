@@ -5,8 +5,8 @@ import "./styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
-import Pagination from "./Pagination";
 import RoomList from "./RoomList";
+import Pagination from "./Pagination";
 
 function StorageLocation () {
     // CreateTestEquipment(20);
@@ -23,20 +23,17 @@ function StorageLocation () {
     }
 
     useEffect( () => {
-        // const items = await API.get('myCloudApi', '/items', );
         API.get("inventory","/items/").then( itemRes => {
             sortItems(itemRes);
         })
     },[]);
 
-
-
     const updateList = (serialno) => {
         API.del("inventory","/items/object/"+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
+
         setItems(updatedList);
         setUnfilteredItems(updatedList);
-       
     }
 
     const sortItems = (items) => {

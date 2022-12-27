@@ -13,7 +13,7 @@ function StorageLocationItem () {
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [itemsPerPage,setItemsPerPage] = useState(15);
+    const [itemsPerPage,setItemsPerPage] = useState(10);
     let roomnoParam = location.state.roomno;
 
     const navigate = useNavigate();

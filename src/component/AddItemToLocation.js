@@ -29,7 +29,7 @@ function AddItemToLocation () {
     },[]);
 
     const sortItems = (items) => {
-        const updatedList = items.filter(item => item.location !== locationParam && item.roomno !== roomnoParam);
+        const updatedList = items.filter(item => item.roomno !== roomnoParam);
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     }

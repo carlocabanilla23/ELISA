@@ -1,5 +1,4 @@
 import CreateTestEquipment from "./test/CreateTestEquipment";
-import ItemCard from "./ItemCard";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import "./styles/Users.css";
@@ -24,10 +23,9 @@ function RoomLocation () {
     }
 
     useEffect( () => {
-        API.get("inventory","/items").then( itemRes => {
+        API.get("inventory","/items/").then( itemRes => {
             sortItems(itemRes);
         })
-        if (window.matchMedia("(max-width: 1400px)") && window.matchMedia("(min-width: 900px)") ) setItemsPerPage(15)
     },[]);
 
     const updateList = (serialno) => {
@@ -39,12 +37,11 @@ function RoomLocation () {
     }
 
     const sortItems = (items) => {
-        const updatedList = items.filter(item => item.location === "room");
+        const updatedList = items.filter(item => item.location === "Room");
 
         const updatedRoomList =  [...new Map(updatedList.map((room) => [room.roomno, room])).values()];
         setItems(updatedRoomList);
         setUnfilteredItems(updatedRoomList);
-
     } 
     const searchItem = (e) => {
         if (e.length > 0) {
@@ -96,7 +93,6 @@ function RoomLocation () {
                 <div className="col text-end ">
                     {/* <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button> */}
                 </div>
-
                 <div className="col text-end ">
                     {/* <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button> */}
                 </div>

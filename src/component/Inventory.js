@@ -9,7 +9,7 @@ import ItemList from "./ItemList";
 import Pagination from "./Pagination";
 
 function Inventory () {
-    // CreateTestEquipment(100);
+    // CreateTestEquipment(30);
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
@@ -24,11 +24,9 @@ function Inventory () {
 
     useEffect( () => {
         API.get("inventory","/items").then( itemRes => {
-            console.log(itemRes);
             setItems([...items,...itemRes]);
             setUnfilteredItems([...items,...itemRes]);
         })
-        if (window.matchMedia("(max-width: 1400px)") && window.matchMedia("(min-width: 900px)") ) setItemsPerPage(15)
     },[]);
 
     const updateList = (serialno) => {

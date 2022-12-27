@@ -30,7 +30,6 @@ const RoomCard = ( {item,updateList,itemCount} ) => {
         }
 
         const ViewItems = (roomParam,locationParam) => {
-            // console.log(e);
             let path = "/";
             if (locationParam === "Storage") {
                  path = "/StorageLocationItem";
@@ -54,7 +53,7 @@ const RoomCard = ( {item,updateList,itemCount} ) => {
                         <div className="row ">
                                 <div className="col" onClick={ () => ViewItems(item.roomno,item.location)}> {item.roomno}</div>
                                 <div className="col" > Otto Miller </div>
-                                <div className="col" > {items.length} </div>
+                                <div className="col" > {itemCount} </div>
                                 <div className="col actions"> 
                                         <div className="row"> 
                                                 <div className="col actions-column">

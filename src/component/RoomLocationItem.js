@@ -10,18 +10,21 @@ import ItemList from "./ItemList";
 
 function RoomLocationItem () {
     const location = useLocation();
-    // CreateTestEquipment(20);
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [itemsPerPage,setItemsPerPage] = useState(15);
+    const [itemsPerPage,setItemsPerPage] = useState(10);
     let roomnoParam = location.state.roomno;
 
     const navigate = useNavigate();
 
-    const AddItem = e => {
-        e.preventDefault();
-        navigate('/AddItem');
+    const AddItem = (locationParam,roomParam) => {
+        navigate('/AddItemToLocation',{
+            state: {
+                    roomno : roomParam,
+                    location : locationParam
+            }
+        });
     }
 
     useEffect( () => {
@@ -31,14 +34,11 @@ function RoomLocationItem () {
     
     },[]);
 
-
-
     const updateList = (serialno) => {
         API.del("inventory","/items/object/"+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
         setItems(updatedList);
-        setUnfilteredItems(updatedList);
-       
+        setUnfilteredItems(updatedList);     
     }
 
     const sortItems = (items) => {
@@ -91,8 +91,7 @@ function RoomLocationItem () {
                         <span className="ms-1">Room Location - </span>  
                         <span>{roomnoParam}</span>  
                         </i>
-                    </Link> 
-                    
+                    </Link>    
                 </div>
 
                 <div className="col-sm-5 searchbar">
@@ -100,7 +99,7 @@ function RoomLocationItem () {
                 </div>
 
                 <div className="col text-end adduser">
-                    <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button>
+                <button type="submit" className="btn" id="AddUser" onClick={ (e) => AddItem("Room",roomnoParam)}>Add Item</button>
                 </div>
 
                 <div className="col auto dropdown">
