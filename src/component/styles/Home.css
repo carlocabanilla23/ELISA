@@ -1,5 +1,130 @@
-.main{
-    width: auto;
+.HomeHeader{
+    background-color: #ffffff;
+    color: #3E2B2E;
+    height: 6vh;
+    width: 85%;
+    position: fixed;
+        top: 6vh;
+        left: 15%;
+    padding-top: 0.5em;
+    padding-bottom: 1em;
+    box-shadow: (0px 4px 4px rgba(0, 0, 0, 0.25));
+    
+   
+}
+.Dashboard {
+    background-color: #EEEEEE;
+    width: 85%;
     height: 100vh;
-    background: #F0F0EB;;
+    position: fixed;
+        top: 12vh;
+        left: 15%;
+    z-index: -1;
+    box-shadow: inset 0 0 10px gray;
+}
+
+.charts {
+    padding-top: 1.2rem;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.charts > div {
+    background: #ffffff;
+    padding: 1.8rem;
+    border-radius: 25px;
+    margin: 1.2rem;
+    box-shadow: 0 2rem 3rem rgba(200, 132, 132, 0.18);
+    transition: all 300ms ease;
+}
+.charts > div:hover {
+    box-shadow: none;
+}
+.insights {
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+.insights > div {
+    background: #ffffff;
+    padding: 1.8rem;
+    border-radius: 25px;
+    margin: 1.2rem;
+    box-shadow: 0 2rem 3rem rgba(200, 132, 132, 0.18);
+    transition: all 300ms ease;
+}
+.insights > div:hover {
+    box-shadow: none;
+}
+.Itemcards > div span {
+    background: #e1b5c0;
+    padding: 0.8rem;
+    border-radius: 20px;
+    color: #7A2036;
+    font-size: 2rem;
+}
+.Itemcards > div.returnItems span {
+    background: #ffd0bc;
+    color: #D97044;
+}
+.UserCards > div span {
+    color: #254392;
+    font-size: 2rem;
+}
+.UserCards > div.ActiveUsers span {
+    color: #3A634E;
+}
+.number {
+    font-weight: bolder;
+    font-size: 1.6rem;
+}
+.mutedText {
+    color: #757575;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.TitleText {
+    margin-top: 20px;
+    margin-left: 30px;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+}
+.UserCards {
+    padding-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.UserCards > div {
+    background: #F6F6F6;
+    padding: 1rem;
+    border-radius: 25px;
+    margin: auto;
+    
+}
+.InventoryOverview {
+    display: flex;
+    flex-direction: column;
+}
+.InventorySections{
+    padding-top: 1.2rem;
+}
+.InventorySections > div  {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.Itemcards > div {
+    padding-top: 3rem;
+    padding-left: 1.2rem;
+    display: flex;
+    flex-direction: row;
+}
+.Itemcards > div .right {
+    padding-left: 1.2rem;
 }
