@@ -30,11 +30,17 @@ function EditUser() {
               setPhone(res.phone);
               setSchoolID(res.schoolID);
           })},[]);
-
-
+    
     const cancelEdit = () => {
         navigate('/Users');
     }    
+    const ShowAlert = () => {
+        var alert = document.getElementById("alert");
+        alert.style.display = "block";
+        setTimeout( () =>{
+                navigate("/Inventory");
+        },1500);
+    }
 
     const EditUser = (e) => {
         e.preventDefault();
@@ -61,14 +67,16 @@ function EditUser() {
             email : email,
             phone : phone,
             password : "password"
-            }
-        });
+        }});
 
-        navigate('/Users');
+        ShowAlert();
     }
 
     return (
         <>
+            <div class="alert alert-success" id="alert" role="alert">
+                The user has been updated successfully!
+            </div>
             <Sidebar />
             <Header />
 
@@ -198,7 +206,7 @@ function EditUser() {
                     {/* Submit Button */}
                     <div className="form-buttons">
                         <button type="button" onClick={cancelEdit} className="btn btn-primary">Cancel</button>
-                        <button type="submit" className="btn btn-primary">Create</button> 
+                        <button type="submit" className="btn btn-primary">Update</button> 
                     </div>
                 </form>
             </div>

@@ -31,8 +31,7 @@ function EditItem() {
             setLocation(res.location);
             setRoom(res.roomno);
             setStatus(res.status);
-        })},[])
-
+        })},[]);
 
 
 
@@ -40,6 +39,14 @@ function EditItem() {
         navigate('/Inventory');
     }    
 
+    const ShowAlert = () => {
+        var alert = document.getElementById("alert");
+        alert.style.display = "block";
+        setTimeout( () =>{
+                navigate("/Inventory");
+        },1500);
+    }
+    
     const EditItem = (e) => {
         e.preventDefault();
         const itemList = API.get("inventory","/items/")
@@ -57,11 +64,15 @@ function EditItem() {
                 status : status,
         }});
 
-        navigate('/Inventory');
+        ShowAlert();
     }
 
     return (
         <>
+            <div class="alert alert-success" id="alert" role="alert">
+                Your item has been updated successfully!
+            </div>
+            
             <Sidebar />
             <Header />
 
@@ -155,7 +166,7 @@ function EditItem() {
                     </div> */}
                     <div className="button-wrapper">
                         <button className="button" type = "button" onClick={CancelEdit} >Cancel</button>
-                        <button className="button" type = "submit" >Edit item</button>
+                        <button className="button" type = "submit" >Update item</button>
                         {/* <span className="errormessage">{errorMessage}</span> */}
                     </div>
                   
