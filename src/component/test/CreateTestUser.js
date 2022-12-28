@@ -5,13 +5,27 @@ function CreateTestUser (e) {
     for ( let i = 0 ; i < e; i++) {
         API.post("userapi","/email/", {
             body : {
-            firstname : "clone"+i,
+            firstname : "new Student"+i,
             lastname : "proto"+i,
-            role : "Professor",
-            schoolID : "00000000"+i,
-            email : "clone"+i+"@spu.edu",
+            role : "Student",
+            schoolID : "88800000"+i,
+            email : "newclone"+i+"@spu.edu",
             phone : "00000000",
-            password : "password"+1
+            password : "password"+1,
+            status: "active"
+            }
+        });
+
+        API.post("userapi","/email/", {
+            body : {
+            firstname : "new inactive Student"+i,
+            lastname : "proto"+i,
+            role : "Student",
+            schoolID : "88880000"+i,
+            email : "newstudents"+i+"@spu.edu",
+            phone : "00000000",
+            password : "password"+1,
+            status: "active"
             }
         });
     }

@@ -6,9 +6,9 @@ import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import UserList from "./UserList";
 import Pagination from "./Pagination";
-
+import CreateTestUser from './test/CreateTestUser';
 function Users () {
-    // CreateTestUser(50);
+    // CreateTestUser(25);
     const [users, setUsers] = useState([]);
     const [unfilteredUsers, setUnfilteredUsers] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
@@ -60,7 +60,8 @@ function Users () {
             const searcedhUser = unfilteredUsers.filter((user) => user.email.toLowerCase().includes(e) || 
                                                             user.firstname.toLowerCase().includes(e) || 
                                                             user.lastname.toLowerCase().includes(e) || 
-                                                            user.schoolID.includes(e));
+                                                            user.schoolID.includes(e) ||
+                                                            user.status.includes(e));
             setUsers(searcedhUser);
         }else{
             setUsers(unfilteredUsers);

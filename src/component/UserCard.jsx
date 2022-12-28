@@ -32,7 +32,7 @@ const User = ( {user,updateList} ) => {
                                 <div className="col"> {user.role} </div>
                                 <div className="col"> {user.email} </div>
                                 <div className="col"> {user.phone} </div>
-                                <div className="col"> Active {user.status} </div>
+                                <div className="col"> {user.status} </div>
                                 <div className="col actions"> 
                                         <div className="row"> 
                                                 <div className="col actions-column">

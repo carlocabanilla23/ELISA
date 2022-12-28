@@ -22,6 +22,7 @@ import AddItemToLocation from './component/AddItemToLocation';
 import StorageLocationItem from './component/StorageLocationItem';
 import ItemInformation from './component/ItemInformation';
 import Setting from './component/Setting';
+import CreateReservation from './component/CreateReservation';
 
 Amplify.configure(awsExport);
 
@@ -62,8 +63,8 @@ function App() {
 
     {/* For Testing */}
     {/* Comment The Routes on Top in order to run this. Change the component below for the test that you want to run */}
-
-        {/* <Users/>  */}
+    {/* < CreateReservation /> */}
+    {/* < Inventory /> */}
    
     </div>
   );

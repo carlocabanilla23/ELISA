@@ -46,7 +46,7 @@ function EditItem() {
             .then(res => {
                 setItem([itemList,...res]);
             });
-        API.put("inventory","/items/", {
+        API.post("inventory","/items/", {
             body : {
                 name : name,
                 serialno : serialNumber,
@@ -84,7 +84,7 @@ function EditItem() {
                     {/* Serial Number */}
                     <div className="form-input">
                         <label className="input-label" for="serialNumber" >Serial #</label>
-                        <input type="text" className="text-input" id="serialNumber"  
+                        <input readOnly type="text" className="text-input" id="serialNumber"  
                         value={serialNumber} onChange = {(e) => {setSerialNumber(e.target.value); }} required = {true} />
                     </div>
                     {/* Type */}
