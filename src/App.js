@@ -47,6 +47,7 @@ function App() {
   
       <Route path='/Reservations' element= {<Reservations />} />
       <Route path='/Reservation' element= {<Reservation />} />
+      <Route path='/CreateReservation' element= {<CreateReservation />} />
 
       <Route path='/EditUser' element= {<EditUser />} /> 
       <Route path='/Users' element= {<Users />} />

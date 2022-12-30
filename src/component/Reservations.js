@@ -52,6 +52,15 @@ function Reservations () {
         // }
        
     }
+
+    const makeReservation = () => {
+        navigate('/CreateReservation', { 
+            state: {
+                reservationCount : reservations.length
+        }});
+
+       
+    }
     
     
     const idxLastReservation = currentPage * reservationsPerPage;
@@ -89,7 +98,7 @@ function Reservations () {
                 </div>
 
                 <div className="col text-end adduser">
-                    <button type="submit" className="btn" id="AddUser" onClick={AddUser}>Make a Reservation</button>
+                    <button type="submit" className="btn" id="AddUser" onClick={makeReservation}>Make a Reservation</button>
                 </div>
 
                 <div className="col auto dropdown">
