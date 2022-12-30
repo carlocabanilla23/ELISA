@@ -1,0 +1,15 @@
+.UserInputForm{
+    background-color: #F0F0EB;
+    width: 40%;
+    height: 80vh;
+    position: absolute;
+        top: 10vh;
+        left: 30%;
+    padding-top: 3.4em;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.FormHeader{
+    text-align: center;
+}
