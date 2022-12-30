@@ -1,0 +1,33 @@
+
+
+.ItemInformation{
+    background-color: #F0F0EB;
+    width: 85%;
+    height: 100vh;
+    position: relative;
+        top: 6vh;
+        left: 15%;
+    padding: 5em 5% 50%;
+    padding-left: 20vw;
+
+}
+
+.Attribute{
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: #3E2B2E;
+    /* display: flex;
+    flex-direction: row; */
+    /* justify-content: space-between;
+    align-items: flex-start; */
+
+
+
+}
+.Information {
+    font-family: 'Inter', serif;
+    font-size: 1.1em;
+}
+

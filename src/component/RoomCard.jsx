@@ -1,30 +1,59 @@
 import React from "react";
 import './styles/User.css';
 import { useNavigate } from "react-router-dom";
+import { useEffect,useState } from "react";
+import { API } from "aws-amplify";
 
-const Item = ( {item,updateList} ) => {
+
+const RoomCard = ( {item,updateList,itemCount} ) => {
         const navigate = useNavigate();
+        const [items, setItems] = useState([]);
+        useEffect( () => {
+                API.get("inventory","/items").then( itemRes => {
+                    sortItems(itemRes);
+                })
+               
+            },[]);
+    
+        const sortItems = (items) => {
+                let updatedList = items.filter(resItem => resItem.roomno === item.roomno);
+                setItems(updatedList);
+        } 
+       
         const EditUser = (e) => {
                 console.log(e);
-                // navigate('/EditUser',{
-                //         state: {
-                //                 serialno : e
-                //         }
-                // });
+                navigate('/EditUser',{
+                        state: {
+                                serialno : e
+                        }
+                });
+        }
+
+        const ViewItems = (roomParam,locationParam) => {
+            let path = "/";
+            if (locationParam === "Storage") {
+                 path = "/StorageLocationItem";
+            } 
+            else if (locationParam === "Room") {
+                 path = "/RoomLocationItem";
+            }
+
+            navigate(path,{
+                    state: {
+                            roomno : roomParam
+                    }
+            });
 
         }
+
         return (
              
         <div className="UserRowItems">
-                <div className="container">
+                <div className="container-fluid">
                         <div className="row ">
-                                <div className="col"> {item.serialno} </div>
-                                <div className="col"> {item.name} </div>
-                                <div className="col"> {item.type} </div>
-                                <div className="col"> {item.model} </div>
-                                <div className="col"> {item.location} </div>
-                                <div className="col"> {item.roomno} </div>
-                                <div className="col"> {item.status} </div>
+                                <div className="col" onClick={ () => ViewItems(item.roomno,item.location)}> {item.roomno}</div>
+                                <div className="col" > Otto Miller </div>
+                                <div className="col" > {itemCount} </div>
                                 <div className="col actions"> 
                                         <div className="row"> 
                                                 <div className="col actions-column">
@@ -63,4 +92,4 @@ const Item = ( {item,updateList} ) => {
 
 }
 
-export default Item;
+export default RoomCard;

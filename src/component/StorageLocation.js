@@ -1,41 +1,47 @@
 import CreateTestEquipment from "./test/CreateTestEquipment";
-import Item from "./Item";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import "./styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
+import RoomList from "./RoomList";
+import Pagination from "./Pagination";
 
 function StorageLocation () {
     // CreateTestEquipment(20);
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
+    const [currentPage,setCurrentPage] = useState(1);
+    const [itemsPerPage,setItemsPerPage] = useState(10);
+
     const navigate = useNavigate();
 
-    // const AddUser = e => {
-    //     e.preventDefault();
-    //     navigate('/CreateUser');
-    // }
+    const AddItem = e => {
+        e.preventDefault();
+        navigate('/AddItem');
+    }
 
     useEffect( () => {
-        // const items = await API.get('myCloudApi', '/items', );
         API.get("inventory","/items/").then( itemRes => {
             sortItems(itemRes);
-        })},[]);
+        })
+    },[]);
 
     const updateList = (serialno) => {
         API.del("inventory","/items/object/"+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
+
         setItems(updatedList);
         setUnfilteredItems(updatedList);
-       
     }
 
     const sortItems = (items) => {
-        const updatedList = items.filter(item => item.location === "storage");
-        setItems(updatedList);
-        setUnfilteredItems(updatedList);
+        const updatedList = items.filter(item => item.location === "Storage");
+
+        const updatedRoomList =  [...new Map(updatedList.map((room) => [room.roomno, room])).values()];
+        setItems(updatedRoomList);
+        setUnfilteredItems(updatedRoomList);
     } 
     const searchItem = (e) => {
         if (e.length > 0) {
@@ -48,7 +54,27 @@ function StorageLocation () {
             setItems(unfilteredItems);
         }
        
-    }  
+    }
+    
+    const idxLastItem = currentPage * itemsPerPage;
+    const idxFirstItem = idxLastItem - itemsPerPage;
+    const currentList = items.slice(idxFirstItem,idxLastItem);
+
+    const paginate = (pageNumber) => {
+        if (pageNumber !== 0 && pageNumber !==  Math.ceil(items.length / itemsPerPage) + 1 ) {
+
+           var obj = document.getElementById(currentPage);
+            obj.style.backgroundColor = "#F0F0EB";
+            obj.style.color = "#3E2B2E";
+
+            setCurrentPage(pageNumber);
+
+            obj = document.getElementById(pageNumber);
+            obj.style.backgroundColor = "#3E2B2E";
+            obj.style.color = "#ffffff";
+        }
+    };
+
     return (
         <div className="Users">
         <Sidebar />
@@ -64,8 +90,14 @@ function StorageLocation () {
                     <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>
                 </div>
 
-                <div className="col text-end adduser">
-                    <button type="submit" className="btn" id="AddUser">Add Item</button>
+                <div className="col text-end ">
+                    {/* <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button> */}
+                </div>
+                <div className="col text-end ">
+                    {/* <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button> */}
+                </div>
+                <div className="col text-end ">
+                    {/* <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button> */}
                 </div>
 
                 <div className="col auto dropdown">
@@ -83,22 +115,13 @@ function StorageLocation () {
         </div>
 
         <div className="UserPane">
-            <div className="UserRowTitle">
-                <div className="container">
-                    <div className="row">
-                            <div className="col"> Serial No </div>
-                            <div className="col"> Name </div>
-                            <div className="col"> Type </div>
-                            <div className="col"> Model </div>
-                            <div className="col"> Location </div>
-                            <div className="col"> Room No </div>
-                            <div className="col"> Status </div>
-                            <div className="col"> Actions</div>        
-                    </div>
-                </div>
-            </div>
-                {items.map( (itemRes,index) => <Item item={itemRes} key={index} updateList={updateList}/>)}
-                   
+            <RoomList items={currentList} updateList={updateList}/>
+            <Pagination
+                    PerPage={itemsPerPage} 
+                    total={items.length} 
+                    paginate={paginate}
+                    currentPageLocation = {currentPage}
+                    />     
         </div>
     </div>    
     )

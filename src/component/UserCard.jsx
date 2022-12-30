@@ -13,10 +13,18 @@ const User = ( {user,updateList} ) => {
                 });
 
         }
+        const UserInformation = (e) => {
+                console.log(e);
+                navigate('/UserInformation', {
+                        state: {
+                                email: e
+                        }
+                });
+        }
         return (
              
         <div className="UserRowItems">
-                <div className="container">
+                <div className="container-fluid">
                         <div className="row ">
                                 <div className="col"> {user.schoolID} </div>
                                 <div className="col"> {user.firstname} </div>
@@ -24,7 +32,7 @@ const User = ( {user,updateList} ) => {
                                 <div className="col"> {user.role} </div>
                                 <div className="col"> {user.email} </div>
                                 <div className="col"> {user.phone} </div>
-                                <div className="col"> Active {user.status} </div>
+                                <div className="col"> {user.status} </div>
                                 <div className="col actions"> 
                                         <div className="row"> 
                                                 <div className="col actions-column">
@@ -36,7 +44,7 @@ const User = ( {user,updateList} ) => {
                                                                         <i className="fa fa-ellipsis-h"></i>
                                                                 </button>
                                                                 <ul className="dropdown-menu">
-                                                                        <li><a className="dropdown-item" >View Information</a></li>
+                                                                        <li><a className="dropdown-item" onClick={() => UserInformation(user.email)}>View Information</a></li>
                                                                         <li><a className="dropdown-item" >View History</a></li>
                                                                         <li><a className="dropdown-item" >Change Role</a></li>
                                                                         <li><a className="dropdown-item" >Change Status</a></li>

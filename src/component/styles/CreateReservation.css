@@ -1,0 +1,36 @@
+.CreateReservation {
+    background-color: #F0F0EB;
+    width: 85%;
+    height: 100vh;
+    position: fixed;
+        top: 12vh;
+        left: 15%;
+    padding-top: 2em;
+}
+
+.CreateReservationHeader {
+    background-color: #ffffff;
+    color: #3E2B2E;
+    width: 85%;
+    margin-left: 15%;
+    height: 6vh;
+    padding-top: 0.5em;
+    padding-bottom: 1em;
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.ReservationForm{
+    width: 40%;
+    margin-left:5%;
+    margin-right: 5%;
+    float: left;
+}
+
+ .dateInput{
+    width: 100%;
+}
+
+.ReservationSummary{
+    width: 45%;
+    float: left;
+}

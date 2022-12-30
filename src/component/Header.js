@@ -20,7 +20,7 @@ function Header() {
             <button className="btn dropdown-toggle" data-bs-toggle = "dropdown" onClick={toggleDropdownMenu}>Anthony</button>
             <ul className="dropdown-menu" ref={dropdownMenu}>
               <li><Link to="">Notification</Link></li>
-              <li><Link to="">Setting</Link></li>
+              <li><Link to="/Setting">Setting</Link></li>
               <li><Link to="/">Logout</Link></li>
             </ul>
           </div>

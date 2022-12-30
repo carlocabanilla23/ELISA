@@ -9,7 +9,7 @@ import { useLocation,useNavigate } from "react-router-dom";
 
 Amplify.configure(awsExport);
 
-function EditUser(e) {
+function EditUser() {
     const location = useLocation();
     const navigate = useNavigate();
     let emailParam = location.state.email;
@@ -20,6 +20,7 @@ function EditUser(e) {
     const [email,setEmail] = React.useState('');
     const [phone,setPhone] = React.useState('');
     const [users, setUsers] = React.useState([]);
+
     useEffect( () => {
         API.get("userapi","/email/object/"+emailParam).then( res => {
               setFirstName(res.firstname);
@@ -29,11 +30,17 @@ function EditUser(e) {
               setPhone(res.phone);
               setSchoolID(res.schoolID);
           })},[]);
-
-
+    
     const cancelEdit = () => {
         navigate('/Users');
     }    
+    const ShowAlert = () => {
+        var alert = document.getElementById("alert");
+        alert.style.display = "block";
+        setTimeout( () =>{
+                navigate("/Inventory");
+        },1500);
+    }
 
     const EditUser = (e) => {
         e.preventDefault();
@@ -60,21 +67,23 @@ function EditUser(e) {
             email : email,
             phone : phone,
             password : "password"
-            }
-        });
+        }});
 
-        navigate('/Users');
+        ShowAlert();
     }
 
     return (
         <>
+            <div class="alert alert-success" id="alert" role="alert">
+                The user has been updated successfully!
+            </div>
             <Sidebar />
             <Header />
 
             <div className="UserHeader">
                     <div className="fs-4 ms-5 fw-bold">
                         <button onClick={cancelEdit} className="PageHeaderBtn"><i class="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
-                        <label>User</label> 
+                        <label>Edit User</label> 
                     </div>
             </div>
 
@@ -197,7 +206,7 @@ function EditUser(e) {
                     {/* Submit Button */}
                     <div className="form-buttons">
                         <button type="button" onClick={cancelEdit} className="btn btn-primary">Cancel</button>
-                        <button type="submit" className="btn btn-primary">Create</button> 
+                        <button type="submit" className="btn btn-primary">Update</button> 
                     </div>
                 </form>
             </div>

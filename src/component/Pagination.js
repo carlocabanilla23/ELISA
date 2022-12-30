@@ -1,10 +1,10 @@
 import React from "react";
 import './styles/Pagination.css';
 
-const Pagination = ({ usersPerPage, totalUsers, paginate,currentPageLocation}) => {
+const Pagination = ({ PerPage, total, paginate,currentPageLocation}) => {
     const pageNumbers = [];
 
-    for (let i = 1; i <= Math.ceil(totalUsers / usersPerPage) ; i++) {
+    for (let i = 1; i <= Math.ceil(total / PerPage) ; i++) {
         pageNumbers.push(i);
     }
 
