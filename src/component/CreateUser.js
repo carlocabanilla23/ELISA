@@ -80,8 +80,7 @@ function CreateUser() {
             password : "password"
             }
         });
-        alert("You successfully create a user");
-        navigate('/Users');
+        ShowAlert();
     }
 
     
@@ -89,8 +88,19 @@ function CreateUser() {
         navigate('/Users');
     }    
 
+    const ShowAlert = () => {
+        var alert = document.getElementById("alert");
+        alert.style.display = "block";
+        setTimeout( () =>{
+             navigate("/Users");
+        },1500);
+    }
+
     return (
         <>
+            <div class="alert alert-success" id="alert" role="alert">
+                The user has been created successfully!
+            </div>
             <Sidebar />
             <Header />
             {/* Previous Page Navigation Bar */}
