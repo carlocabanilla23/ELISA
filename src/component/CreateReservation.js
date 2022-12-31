@@ -20,7 +20,7 @@ function CreateReservation () {
     const [role,setRole] = useState("Student");
     const [summary,setSummary] = useState("Item Request");
     const [currentDate,setCurrentDate] = useState("00-00-0000");
-    const [note,setNode] = useState("Please give me new device");
+    const [note,setNote] = useState("Please give me new device");
 
     const [type, setType] = useState('Type');
     const [model,setModel] = useState('Model');
@@ -182,7 +182,7 @@ function CreateReservation () {
                         <div className="col">
                             <div className="mb-3">
                                 <label  className="form-label">Note</label>
-                                <textarea className="form-control" id="NoteTextarea1"  onChange={ (e) => setSummary(e.target.value) } rows="3"></textarea>
+                                <textarea className="form-control" id="NoteTextarea1"  onChange={ (e) => setNote(e.target.value) } rows="3"></textarea>
                             </div>
                         </div>
                     </div>
@@ -196,7 +196,7 @@ function CreateReservation () {
                     </div>
                 </div>
 
-                <div className="container ReservationSummary">
+                <div className="container CreateReservationSummary">
                     <div className="row">
                         <div className="col">
                             <h1>Summary</h1>
