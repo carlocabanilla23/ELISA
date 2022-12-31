@@ -15,7 +15,6 @@ function Reservations () {
     const [currentPage,setCurrentPage] = useState(1);
     const [reservationsPerPage] = useState(15);
 
-   
 
     useEffect( () => {
         API.get("reservationapi","/reservations").then( res => {
