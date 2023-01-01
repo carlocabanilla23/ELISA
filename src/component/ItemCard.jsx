@@ -133,7 +133,7 @@ const ItemCard = ({ item, updateList }) => {
                     </div> */}
                     {/* Serial Number */}
                     <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Serial Number:</label>
+                        <label  className = "Attribute col-sm-4">Serial #:</label>
                         <div className = "Information col-sm-8">{item.serialno}</div>
                     </div>
                     {/* Type */}
@@ -153,7 +153,7 @@ const ItemCard = ({ item, updateList }) => {
                     </div>
                     {/* Room Number */}
                     <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Room Number:</label>
+                        <label  className = "Attribute col-sm-4">Room #:</label>
                         <div className = "Information col-sm-8">{item.roomno}</div>
                     </div>
                     {/* Status */}
@@ -163,12 +163,12 @@ const ItemCard = ({ item, updateList }) => {
                     </div>
                 {/* Date Created */}
                 <div className = "mb-3 row">
-                    <label  className = "Attribute col-sm-4">Create Date:</label>
+                    <label  className = "Attribute col-sm-4">Created:</label>
                     <div className = "Information col-sm-8">2022-12-21 8:00PM</div>
                 </div>
                 {/* Last Updated */}
                 <div className = "mb-3 row">
-                    <label  className = "Attribute col-sm-4">Last Updated:</label>
+                    <label  className = "Attribute col-sm-4">Updated:</label>
                     <div className = "Information col-sm-8">2022-12-21 8:00PM</div>
                 </div>
         </div>
