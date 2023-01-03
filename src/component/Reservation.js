@@ -5,8 +5,9 @@ import { useLocation,useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { API } from "aws-amplify";
 import './styles/Reservation.css';
-
-
+import ReservationItemList from "./ReservationItemList";
+import Pagination from "./Pagination";
+import ReservationAssignedItemList from "./ReservationAssignedItemList";
 
 
 function Reservation () {
@@ -24,11 +25,27 @@ function Reservation () {
     const [currentDate,setCurrentDate] = useState("00-00-0000");
     const [note,setNote] = useState("Please give me new device"); 
     const [returnDate,setReturnDate] = useState("00-00-0000");
+    const [status,setStatus] = useState('New');
 
     const [reservationCart,setReservationCart] = useState([]);
 
+    // Item List
+    const [items, setItems] = useState([]);
+    const [unfilteredItems, setUnfilteredItems] = useState([]);
+    const [assignedItems,setAssignedItems] = useState([]);
+    const [returnedItems,setReturnedItems] = useState([]);
+    const [itemList,setItemList] = useState([]);
+    const [itemListHeader,setItemListHeader] = useState("Assigned Items");
+
+    // Pagination 
+    const [currentPage,setCurrentPage] = useState(1);
+    const [itemsPerPage,setItemsPerPage] = useState(10);
 
 
+    
+         
+      
+   
     useEffect( () => {
         API.get("reservationapi","/reservations/object/"+reservationno).then( res => {
             setFirstName(res.firstname);
@@ -41,22 +58,171 @@ function Reservation () {
             setNote(res.note);
             setReturnDate(res.returndate);
             setReservationCart(res.itemrequested);
+            setAssignedItems(res.assigneditems);
+            setStatus (res.status);
+            setReturnedItems(res.returneditems);
+
+            if (res.assigneditems.length === 0 && res.status === "Returned") {
+                setItemListHeader("Returned Items");
+                setItemList(res.returneditems);
+            }else{
+                setItemList(res.assigneditems);
+            }
         })
+
+        API.get("inventory","/items").then( itemRes => {
+            sortItems(itemRes);
+        })
+   
     },[]);
 
-
+    const sortItems = (items) => {
+        const updatedList = items.filter(item => item.location !== "Room");
+        setItems(updatedList);
+        setUnfilteredItems(updatedList);
+    } 
    
     const cancelViewReservation = () => {
+        console.log("asdsada");
         navigate('/Reservations');
     }
 
+    const AddItemToLocation = (item,schoolID) => {
+        API.put("inventory","/items", {
+            body : {
+                name : item.name,
+                type : item.type,
+                model : item.model,
+                status : item.status, 
+                serialno : item.serialno,
+                location : schoolID,
+                roomno : "N/A",
+            }
+        });
+    }
+
+    const updateList = (item) => {
+        AddItemToLocation(item,schoolID);
+        const updatedList = items.filter(itemRes => itemRes.serialno !== item.serialno);
+        setItems(updatedList);
+        setUnfilteredItems(updatedList);
+    } 
+
+    // Pagination
+
+    const idxLastItem = currentPage * itemsPerPage;
+    const idxFirstItem = idxLastItem - itemsPerPage;
+    const currentList = items.slice(idxFirstItem,idxLastItem);
+
+    const paginate = (pageNumber) => {
+        if (pageNumber !== 0 && pageNumber !==  Math.ceil(items.length / itemsPerPage) + 1 ) {
+
+           var obj = document.getElementById(currentPage);
+            obj.style.backgroundColor = "#F0F0EB";
+            obj.style.color = "#3E2B2E";
+
+            setCurrentPage(pageNumber);
+
+            obj = document.getElementById(pageNumber);
+            obj.style.backgroundColor = "#3E2B2E";
+            obj.style.color = "#ffffff";
+        }
+    };
+
+    // Add Item
+
+    const addItem = (item) => {
+        // console.log(item);
+        setAssignedItems([...assignedItems,item]);
+        setItemList([...itemList,item]);
+        updateList(item);
+        
+    }
+
+    const returnItems = (assignedItems) => {
+        assignedItems.map( item => {
+            API.post("inventory","/items", {
+                body : {
+                    name : item.name,
+                    type : item.type,
+                    model : item.model,
+                    status : item.status, 
+                    serialno : item.serialno,
+                    location : "Unassgined",
+                    roomno : "N/A",
+                }
+            });
+        })
+
+        API.post("reservationapi","/reservations/", {
+            body : {
+            firstname :firstName,
+            lastname : lastName,
+            role : role,
+            schoolID : schoolID,
+            email : email,
+            reservationno : reservationno,
+            summary : summary,
+            status : "Returned",
+            requestby : firstName + " " + lastName,
+            approvedby : "N/A",
+            requestdate : currentDate,
+            returndate : returnDate,
+            itemrequested : reservationCart,
+            assigneditems : [],
+            returneditems : assignedItems
+            }
+        });
+
+        // setReturnedItems(assignedItems);
+        setStatus("Returned");
+        // setItemList(returnedItems);
+        setItemListHeader("Returned Items");
+        document.getElementById("assignBtn").disabled = true;
+        document.getElementById("assignBtn").disabled = true;
+        
+        setAssignedItems([]);
+
+    }
+
+    const AssignItems = (assignedItems) => {
+        API.post("reservationapi","/reservations/", {
+            body : {
+            firstname :firstName,
+            lastname : lastName,
+            role : role,
+            schoolID : schoolID,
+            email : email,
+            reservationno : reservationno,
+            summary : summary,
+            status : "Assigned",
+            requestby : firstName + " " + lastName,
+            approvedby : "N/A",
+            requestdate : currentDate,
+            returndate : returnDate,
+            itemrequested : reservationCart,
+            assigneditems : assignedItems
+            }
+        });
+
+        setStatus("Assigned");
+        document.getElementById("assignBtn").disabled = true;
+
+    }
+
+    if (status === "Assigned" || status === "Returned") 
+    document.getElementById("assignBtn").disabled = true;
+
+ 
     return (
         <>            
             <Sidebar />
             <Header />
             <div className="ReservationHeader">
                     <div className="fs-4 ms-5 fw-bold">
-                        <button onClick={cancelViewReservation} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
+                        <button onClick={ (e) => cancelViewReservation() } className="PageHeaderBtn">
+                            <i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i>
+                        </button>
                         <label>{reservationno} - {summary}</label> 
                     </div>
             </div>
@@ -64,9 +230,9 @@ function Reservation () {
                 <div className="ReservationSummary">
 
                     <div className="OrderList">
-                        <div className="row">
+                        <div className="row header">
                             <div className="col">
-                                <p className="h5"> Item Requested</p>
+                                 Item Requested
                             </div>
                         </div>
                         {/* Item Requested */}
@@ -105,8 +271,23 @@ function Reservation () {
                                     )}
                                 </ul>
                             </div>
+                            
+                           
                         </div>
-                      
+                                        
+                        <div className="Assigned-Items">
+                            <div className="row header">
+                                <div className="col">
+                                    {itemListHeader}
+                                </div>
+                            </div>
+                            <div className="row Assigneditemlist">
+                                <div className="col">
+                                    <ReservationAssignedItemList items={itemList} />
+                                </div>
+                            </div>
+                        </div>
+                   
                        
                     </div>
                     <div className="UserInfo">
@@ -119,7 +300,7 @@ function Reservation () {
                             <div className="col">
                                 <label className="fw-bold form-label">Status</label>
                                 <br/>
-                                <label className="form-label">Pending</label>
+                                <label className="form-label">{status}</label>
                             </div>
                         </div>
 
@@ -162,7 +343,36 @@ function Reservation () {
                             </div>
                         </div>
 
+                        <div className="row">
+                            <div className="col">
+                                <label className="fw-bold form-label"></label>
+                                <br/>
+                                <label className="form-label"></label>
+                            </div>
+                            <div className="col">
+                                <label className="fw-bold form-label"></label>
+                                <br/>
+                                <button className="btn btn-light" onClick={ (e) => returnItems(assignedItems)}>Return Items</button>
+                                <br/>
+                                <button className="btn btn-light" id="assignBtn" onClick={ (e) => AssignItems(assignedItems)}>Assign Items</button>
+                            </div>
+                        </div>
+
                     </div>
+                </div>
+
+                <div className="ItemList">
+                    
+                    <ReservationItemList items={currentList} addItem={addItem} status={status} />
+                    <div className="Reservation-Pagination">
+                    <Pagination
+                        PerPage={itemsPerPage} 
+                        total={items.length} 
+                        paginate={paginate}
+                        currentPageLocation = {currentPage}
+                        /> 
+                    </div>
+                
                 </div>
             </div>
         </>

@@ -5,6 +5,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import './styles/CreateReservation.css';
 import { useNavigate, useLocation } from "react-router-dom";
+
 function CreateReservation () {
     const location = useLocation();
     const reservationNo = "R"+location.state.reservationCount;
@@ -54,28 +55,29 @@ function CreateReservation () {
       
     }
 
-    // const addItemToOrder = (order) => {
-    //     console.log(order.type + " " + order.model + " " + order.quantity);
-
-    // };
-
     const sortItems = (items) => {
         const updatedTypes =  [...new Set(items.map( item => item.type))];
         setTypes(updatedTypes);
     }
 
 
-    const addItem = () => {
+    const addItem = (e) => {
+        e.preventDefault();
         const order = {
             type : type,
             model : model,
             quantity : quantity
         }
-       setReservationCart([...reservationCart,order]);
+        // console.log(order);
+        // setReservationCart( res => [...res,order] );
+
+        setReservationCart([...reservationCart,order]);
+        console.log(reservationCart);
+       
     }
 
-    const submitOrder = () => {   
-
+    const submitOrder = () => {  
+        console.log(reservationCart); 
         API.post("reservationapi","/reservations/", {
             body : {
             firstname :firstName,
@@ -90,11 +92,13 @@ function CreateReservation () {
             approvedby : "N/A",
             requestdate : currentDate,
             returndate : returnDate,
-            itemrequested : reservationCart
+            itemrequested : reservationCart,
+            assigneditems : []
             }
         });
 
         alert("success!");
+        navigate('/Reservations')
     }
     const cancelEdit = () => {
         navigate('/Reservations');
@@ -172,7 +176,7 @@ function CreateReservation () {
                             </div>
                         </div>
                         <div className="col submit">
-                            <button className="btn AddItemBtn" onClick={ (e) => {addItem()}}>
+                            <button className="btn AddItemBtn" onClick={ (e) => addItem(e)}>
                                 <i className="fa fa-plus-circle" aria-hidden="true"> Add Item</i>
                             </button>
                         </div>
