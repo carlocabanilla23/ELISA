@@ -1,6 +1,7 @@
 import './styles/Home.css';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import iDashboard from "./icons/dashboard.png";
 
 function Home() {
   return (
@@ -10,7 +11,9 @@ function Home() {
               <div className="HomeHeader">
                   <div className="row">
                       <div className="col fs-4 ms-5 fw-bold">
-                          <i className="fa fa-home" aria-hidden="true"> Dashboard</i>
+                        <img src={iDashboard} className="headicon" alt="inventory icon" />
+
+                          <i className="fa" aria-hidden="true"> Dashboard</i>
                         </div>
                   </div>
               </div>

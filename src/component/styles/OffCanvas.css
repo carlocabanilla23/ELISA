@@ -1,0 +1,73 @@
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 99; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin-left: auto; /* 15% from the top and centered */
+    margin-right: 0;
+    margin-top: 5.5%;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 200px; /* Could be more or less, depending on screen size */
+    height: 100%;
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.offcanvas-end{
+    margin-top: 5.5%;
+}
+.offcanvas-header{
+    background-color: transparent;
+    color: #3E2B2E;
+    width: 100%;
+    padding-top: 30px;
+    justify-content: space-between;
+}
+#offcanvasRightLabel{
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-align: left;
+}
+.offcanvas-body{
+    text-align: left;
+
+}
+.Attribute{
+    /* text-align: left; */
+    font-weight: 550;
+    font-size: 0.9em;
+    /* display: flex;
+    flex-direction: row; */
+    /* justify-content: space-between;
+    align-items: flex-start; */
+
+}
+.Information {
+    font-size: 1em;
+    padding-left: 50px;
+}

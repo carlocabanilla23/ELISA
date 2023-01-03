@@ -53,10 +53,11 @@
     margin-left: 0.3em;
     font-size: 0.7em;
 }
-#forgot-pass{
-    float: right;
+#forgot-pass, #create-account{
+    float: left;
     text-decoration: underline;
     padding-top: 0.5em;
+    cursor: pointer;
 }
 
 .img-fluid.img-thumbnail{

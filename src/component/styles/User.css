@@ -25,6 +25,10 @@
 .actions-column{
     padding: 0 !important;
 }
+.headicon{
+    filter: brightness(0) saturate(100%) invert(17%) sepia(20%) saturate(5569%) hue-rotate(318deg) brightness(92%) contrast(94%);
+    padding-right: 0.8rem;
+}
 
 /* Macbook 13 */
 

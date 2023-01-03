@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import UserList from "./UserList";
 import Pagination from "./Pagination";
 import CreateTestUser from './test/CreateTestUser';
+import iUsers from './icons/users.png';
+
 function Users () {
     // CreateTestUser(25);
     const [users, setUsers] = useState([]);
@@ -97,7 +99,8 @@ function Users () {
 
             <div className="row">
                 <div className="col fs-4 ms-5 fw-bold"> 
-                    <i className="fa fa-users" aria-hidden="true"> Users</i>
+                    <img src={iUsers} className="headicon" alt="inventory icon" />
+                    <i className="fa" aria-hidden="true"> Users</i>
                 </div>
 
                 <div className="col-sm-5 searchbar">

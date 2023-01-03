@@ -7,6 +7,7 @@ import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import ItemList from "./ItemList";
 import Pagination from "./Pagination";
+import iInventory from "./icons/inventory.png";
 
 function Inventory () {
     // CreateTestEquipment(30);
@@ -75,7 +76,8 @@ function Inventory () {
 
             <div className="row">
                 <div className="col fs-4 ms-5 fw-bold"> 
-                    <i className="fa fa-users" aria-hidden="true"> Inventory</i>
+                    <img src={iInventory} className="headicon" alt="inventory icon" />
+                    <i className="fa" aria-hidden="true"> Inventory </i>
                 </div>
 
                 <div className="col-sm-5 searchbar">

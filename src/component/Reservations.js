@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import ReservationList from './ReservationList';
 import Pagination from "./Pagination";
 import CreateTestReservation from './test/CreateTestReservation';
+import iReservations from "./icons/reservation.png";
 
 function Reservations () {
     // CreateTestReservation(50);
@@ -89,11 +90,12 @@ function Reservations () {
 
             <div className="row">
                 <div className="col fs-4 ms-5 fw-bold"> 
-                    <i className="fa fa-users" aria-hidden="true"> Reservations</i>
+                    <img src={iReservations} className="headicon" alt="inventory icon" />
+                    <i className="fa" aria-hidden="true"> Reservations</i>
                 </div>
 
                 <div className="col-sm-5 searchbar">
-                    <input type="email" className="form-control" onChange={ (e)=> { searchUser(e.target.value)} } id="exampleFormControlInput1" placeholder="Search User"/>
+                    <input type="email" className="form-control" onChange={ (e)=> { searchUser(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Reservation"/>
                 </div>
 
                 <div className="col text-end adduser">
