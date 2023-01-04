@@ -28,6 +28,7 @@ import AssignedItems from './component/AssignedItems';
 import UnassignedItems from './component/UnassignedItems';
 import ProtectedRoute from './component/Routes/ProtectedRoute';
 
+import Generate from './component/key/generate';
 
 Amplify.configure(awsExport);
 
@@ -35,6 +36,7 @@ function App() {
   const [user,setUser] = useState(null);
 
   useEffect( ()=> {
+      Generate();
       setUser(localStorage.getItem('user'));
   },[]);
   
