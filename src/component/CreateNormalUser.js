@@ -3,7 +3,7 @@ import {API, Amplify, Auth} from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 import awsExport from '../aws-exports';
 import './styles/CreateNormalUser.css';
-import emailjs from 'emailjs-com';
+// import emailjs from 'emailjs-com';
 
 Amplify.configure(awsExport);
 
@@ -75,17 +75,17 @@ function CreateNormalUser () {
         //     }
         // });
 
-        const templateParams = {
-            email: email,
-            verification: verification,
-        };
+        // const templateParams = {
+        //     email: email,
+        //     verification: verification,
+        // };
 
-        emailjs.send('service_tzpca3w', 'template_9ic9ost', templateParams, 'Nvttn7U44NCoKS2B0')
-        .then((result) => {
-            console.log(result.text);
-        }, (error) => {
-            console.log(error.text);
-        });
+        // emailjs.send('service_tzpca3w', 'template_9ic9ost', templateParams, 'Nvttn7U44NCoKS2B0')
+        // .then((result) => {
+        //     console.log(result.text);
+        // }, (error) => {
+        //     console.log(error.text);
+        // });
         ShowAlert();
     }
 
