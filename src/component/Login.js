@@ -18,6 +18,8 @@ function Login() {
     API.get("userapi","/email/object/"+username).then( res => {
         if (res.password === password) {     
                     navigate('/Home');
+
+                    sessionStorage.setItem('userdata',JSON.stringify(res));
         }else{
             const err = ReactDOM.createRoot(
                 document.getElementById('prompt')

@@ -37,6 +37,7 @@ function Sidebar() {
                 <li><Link to="/StorageLocation">Storage Location</Link></li>
                 <li><Link to="/RoomLocation">Room Location</Link></li>
                 <li><Link to="/AssignedItems">Assigned Items</Link></li>
+                <li><Link to="/UnassignedItems">Unassigned Items</Link></li>
               </ul>
             </div>
             <li className="menu-list">

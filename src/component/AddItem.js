@@ -66,7 +66,7 @@ function AddItem() {
 
     return (
         <>
-            <div class="alert alert-success" id="alert" role="alert">
+            <div className="alert alert-success" id="alert" role="alert">
                 Your item has been added successfully!
             </div>
 
@@ -76,7 +76,7 @@ function AddItem() {
             {/* Previous Page Navigation Bar */}
             <div className="ItemHeader">
                     <div className="fs-4 ms-5 fw-bold">
-                        <button onClick={CancelEdit} className="PageHeaderBtn"><i class="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
+                        <button onClick={CancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
                         <label>Add Item</label> 
                     </div>
             </div>

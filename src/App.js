@@ -25,6 +25,9 @@ import Setting from './component/Setting';
 import CreateReservation from './component/CreateReservation';
 import CreateNormalUser from './component/CreateNormalUser';
 import AssignedItems from './component/AssignedItems';
+import UnassignedItems from './component/UnassignedItems';
+
+
 Amplify.configure(awsExport);
 
 function App() {
@@ -45,6 +48,7 @@ function App() {
       <Route path='/StorageLocationItem' element= {<StorageLocationItem />} />
 
       <Route path='/AssignedItems' element= {<AssignedItems />} />
+      <Route path='/UnassignedItems' element= {<UnassignedItems />} />
       
       
       <Route path='/AddItemToLocation' element= {<AddItemToLocation />} />
