@@ -13,7 +13,7 @@ function Header() {
   }
 
   const Logout = () => {
-    localStorage.setItem('user',null);
+    localStorage.clear();
     navigate('/');
 
   }
