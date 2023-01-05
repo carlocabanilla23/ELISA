@@ -15,7 +15,7 @@ function Reservation () {
     const reservationno = location.state.reservationno;
     const navigate = useNavigate();
 
-    // Reservation Data 
+    // Reservation Data
     const [firstName,setFirstName] = useState("John");
     const [lastName,setLastName] = useState("Doe");
     const [schoolID,setSchoolID] = useState("00000001");
@@ -23,7 +23,7 @@ function Reservation () {
     const [role,setRole] = useState("Student");
     const [summary,setSummary] = useState("Item Request");
     const [currentDate,setCurrentDate] = useState("00-00-0000");
-    const [note,setNote] = useState("Please give me new device"); 
+    const [note,setNote] = useState("Please give me new device");
     const [returnDate,setReturnDate] = useState("00-00-0000");
     const [status,setStatus] = useState('New');
 
