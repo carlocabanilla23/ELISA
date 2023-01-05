@@ -27,7 +27,7 @@ function Header() {
             <ul className="dropdown-menu" ref={dropdownMenu}>
               <li><Link to="">Notification</Link></li>
               <li><Link to="/Setting">Setting</Link></li>
-              <li onClick={ (e) =>Logout}>Logout</li>
+              <li onClick={ (e) =>Logout()}>Logout</li>
             </ul>
           </div>
         </div>
