@@ -15,3 +15,7 @@
     background-color: #3E2B2E;
     color: #ffffff;
 }
+
+.hidden{
+    display: none;
+}
