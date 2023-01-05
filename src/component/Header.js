@@ -1,14 +1,20 @@
 import React from 'react';
 import './styles/Header.css';
 import avatar from './icons/avatar_test.png';
-import { Router,Link,Route } from 'react-router-dom';
+import { useNavigate,Link,Route } from 'react-router-dom';
 
 
 function Header() {
   const dropdownMenu = React.useRef(null);
+  const navigate = useNavigate();
 
   function toggleDropdownMenu() {
     dropdownMenu.current.style.display = dropdownMenu.current.style.display === 'block' ? 'none' : 'block';
+  }
+
+  const Logout = () => {
+    localStorage.setItem('user',null);
+    navigate('/');
   }
 
   return (
@@ -21,7 +27,7 @@ function Header() {
             <ul className="dropdown-menu" ref={dropdownMenu}>
               <li><Link to="">Notification</Link></li>
               <li><Link to="/Setting">Setting</Link></li>
-              <li><Link to="/">Logout</Link></li>
+              <li onClick={ (e) => Logout}>Logout</li>
             </ul>
           </div>
         </div>
