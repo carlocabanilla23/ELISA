@@ -31,10 +31,10 @@ Amplify.configure(awsExport);
 
 function App() {
   const [user,setUser] = useState(null);
-
-  useEffect( ()=> {
-      setUser(localStorage.getItem('user'));
-  },[]);
+  // setUser(localStorage.getItem('user'));
+  // useEffect( ()=> {
+  //     setUser(localStorage.getItem('user'));
+  // },[]);
   
 
   return (
