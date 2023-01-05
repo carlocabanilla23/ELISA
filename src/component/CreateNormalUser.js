@@ -3,7 +3,6 @@ import {API, Amplify, Auth} from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 import awsExport from '../aws-exports';
 import './styles/CreateNormalUser.css';
-// import emailjs from 'emailjs-com';
 
 Amplify.configure(awsExport);
 
@@ -14,11 +13,9 @@ function CreateNormalUser () {
     const [email, setEmail] = useState('');
     const [schoolID, setSchoolID] = useState('');
     const [phone, setPhone] = useState('');
-    const [password, setPassword] = useState('');
     const [users, setUserList] = useState('');
     const [error, setError] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [verification, setVerification] = useState(''+<p onClick={() => navigate('/')}>Click here to verify</p>)
     const navigate = useNavigate();
 
     const cancelCreate = e => {
@@ -73,18 +70,6 @@ function CreateNormalUser () {
         //     phone : phone,
         //     password : "password"
         //     }
-        // });
-
-        // const templateParams = {
-        //     email: email,
-        //     verification: verification,
-        // };
-
-        // emailjs.send('service_tzpca3w', 'template_9ic9ost', templateParams, 'Nvttn7U44NCoKS2B0')
-        // .then((result) => {
-        //     console.log(result.text);
-        // }, (error) => {
-        //     console.log(error.text);
         // });
         ShowAlert();
     }
