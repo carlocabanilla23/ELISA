@@ -8,6 +8,8 @@ import UserList from "./UserList";
 import Pagination from "./Pagination";
 import CreateTestUser from './test/CreateTestUser';
 import iUsers from './icons/users.png';
+import Papa from 'papaparse';
+
 
 function Users () {
     // CreateTestUser(25);
@@ -69,8 +71,31 @@ function Users () {
             setUsers(unfilteredUsers);
         }
        
-    }
-    
+    }  
+        // code to generate the CSV file and download it to the local machine
+
+        const CSV = () => {      
+  // the data that you want to write to the CSV file
+  const data = [['firstName', 'lastName', 'email', 'role', 'schoolID']];
+  users.forEach(user => {
+    data.push([user.firstName, user.lastName, user.email, user.role, user.schoolID]);
+  });
+  
+
+  // generate the CSV file
+            const csv = Papa.unparse(data);
+
+  // download the CSV file
+            const a = document.createElement('a');
+            a.href = 'data:attachment/csv,' + csv;
+             a.target = '_blank';
+            a.download = 'output.csv';
+            document.body.appendChild(a);
+            a.click();
+}
+        const PDF = () => {
+
+        }
     
     const idxLastUser = currentPage * usersPerPage;
     const idxFirstUser = idxLastUser - usersPerPage;
@@ -118,8 +143,8 @@ function Users () {
                             Export
                         </button>
                         <ul className="dropdown-menu">
-                            <li><a className="dropdown-item" >CSV</a></li>
-                            <li><a className="dropdown-item" >PDF</a></li>
+                        <li><a className="dropdown-item" onClick={CSV} >CSV</a></li>
+                        <li><a className="dropdown-item" onClick={PDF} >PDF</a></li>
                         </ul>
                     </div>
                 </div>
