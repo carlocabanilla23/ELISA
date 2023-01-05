@@ -16,8 +16,10 @@ function Login() {
     console.log(username);
 
     API.get("userapi","/email/object/"+username).then( res => {
-        if (res.password === password) {     
+        if (res.password === password) {  
+                    localStorage.setItem('user',JSON.stringify(res));   
                     navigate('/Home');
+                    
         }else{
             const err = ReactDOM.createRoot(
                 document.getElementById('prompt')

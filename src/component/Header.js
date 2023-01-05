@@ -6,7 +6,7 @@ import { useNavigate,Link,Route } from 'react-router-dom';
 
 function Header() {
   const dropdownMenu = React.useRef(null);
-  const navigate = useNavigate();
+  const navigate =  useNavigate();
 
   function toggleDropdownMenu() {
     dropdownMenu.current.style.display = dropdownMenu.current.style.display === 'block' ? 'none' : 'block';
@@ -15,8 +15,8 @@ function Header() {
   const Logout = () => {
     localStorage.setItem('user',null);
     navigate('/');
-  }
 
+  }
   return (
     <div className="navbar">
       <div className="header">
@@ -27,7 +27,7 @@ function Header() {
             <ul className="dropdown-menu" ref={dropdownMenu}>
               <li><Link to="">Notification</Link></li>
               <li><Link to="/Setting">Setting</Link></li>
-              <li onClick={ (e) => Logout}>Logout</li>
+              <li onClick={ (e) =>Logout}>Logout</li>
             </ul>
           </div>
         </div>

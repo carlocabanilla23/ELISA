@@ -22,7 +22,6 @@ const RoomList = ({items,updateList}) => {
                             <div className="col"> Room No </div>
                             <div className="col"> Building </div>
                             <div className="col"> Number of Items</div> 
-                            <div className="col"> Actions</div>        
                     </div>
                 </div>
             </div>
@@ -34,6 +33,7 @@ const RoomList = ({items,updateList}) => {
                                     key={index} 
                                     updateList={updateList} 
                                     itemCount={allItems.filter(e => e.roomno === item.roomno).length}
+                                 
                         />
                     </li>
                 ))}

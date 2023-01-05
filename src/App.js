@@ -1,6 +1,6 @@
 import Login from './component/Login';
 import Home from './component/Home';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Amplify,  } from 'aws-amplify';
 import awsExport from './aws-exports';
 import './App.css';
@@ -24,10 +24,18 @@ import ItemInformation from './component/ItemInformation';
 import Setting from './component/Setting';
 import CreateReservation from './component/CreateReservation';
 import CreateNormalUser from './component/CreateNormalUser';
-
+import AssignedItems from './component/AssignedItems';
+import UnassignedItems from './component/UnassignedItems';
+import ProtectedRoute from './component/Routes/ProtectedRoute';
 Amplify.configure(awsExport);
 
 function App() {
+  const [user,setUser] = useState(null);
+
+  useEffect( ()=> {
+      setUser(localStorage.getItem('user'));
+  },[]);
+  
 
   return (
     <div >
@@ -36,13 +44,23 @@ function App() {
     <Routes>
       <Route path='/' element= {<Login />} />
       <Route path='/Home' element= {<Home />} />
-      <Route path='/Inventory' element= {<Inventory />} />
+      <Route 
+        path='/Inventory' 
+        element= {
+          <ProtectedRoute user={user}>
+              <Inventory  />
+          </ProtectedRoute>
+      } />
 
       <Route path='/RoomLocation' element= {<RoomLocation />} />
       <Route path='/RoomLocationItem' element= {<RoomLocationItem />} />
 
       <Route path='/StorageLocation' element= {<StorageLocation />} />
       <Route path='/StorageLocationItem' element= {<StorageLocationItem />} />
+
+      <Route path='/AssignedItems' element= {<AssignedItems />} />
+      <Route path='/UnassignedItems' element= {<UnassignedItems />} />
+      
       
       <Route path='/AddItemToLocation' element= {<AddItemToLocation />} />
   

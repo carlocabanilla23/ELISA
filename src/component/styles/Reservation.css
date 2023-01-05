@@ -50,14 +50,19 @@
     
 }
 
+
 .row.Assigneditemlist{
     padding-left: 0 !important;
     padding-top: 0.1em !important;
+    height: 25vh;
+    overflow: scroll;
+    white-space:nowrap;
 }
 .row.Assigneditemlist > col{
     padding-left: 0 !important;
     padding-top: 0.1em !important;
 }
+
 .UserInfo{
     padding-top: 2em;
     padding-left: 5%;

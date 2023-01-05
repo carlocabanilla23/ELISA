@@ -47,7 +47,7 @@ function UserInformation(e) {
                 <Header />
                 <div className="UserHeader">
                     <div className="fs-4 ms-5 fw-bold">
-                        <button onClick={cancelEdit} className="PageHeaderBtn"><i class="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
+                        <button onClick={cancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
                         <label>User Information</label> 
                     </div>
             </div>

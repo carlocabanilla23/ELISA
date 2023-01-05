@@ -87,22 +87,26 @@ function Reservation () {
         navigate('/Reservations');
     }
 
-    const AddItemToLocation = (item,schoolID) => {
-        API.put("inventory","/items", {
-            body : {
-                name : item.name,
-                type : item.type,
-                model : item.model,
-                status : item.status, 
-                serialno : item.serialno,
-                location : schoolID,
-                roomno : "N/A",
-            }
+    const AddItemToLocation = (items,firstName,lastName) => {
+        items.map(item => {
+            API.put("inventory","/items", {
+                body : {
+                    name : item.name,
+                    type : item.type,
+                    model : item.model,
+                    status : item.status, 
+                    serialno : item.serialno,
+                    location : "NA",
+                    roomno : "NA",
+                    assignedto : firstName + " " + lastName ,
+                    assignedate : currentDate,
+                    returndate : returnDate,        
+                }
+            });
         });
     }
 
     const updateList = (item) => {
-        AddItemToLocation(item,schoolID);
         const updatedList = items.filter(itemRes => itemRes.serialno !== item.serialno);
         setItems(updatedList);
         setUnfilteredItems(updatedList);
@@ -203,7 +207,10 @@ function Reservation () {
             itemrequested : reservationCart,
             assigneditems : assignedItems
             }
+
         });
+
+        AddItemToLocation(assignedItems,firstName,lastName);
 
         setStatus("Assigned");
         document.getElementById("assignBtn").disabled = true;

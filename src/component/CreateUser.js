@@ -98,7 +98,7 @@ function CreateUser() {
 
     return (
         <>
-            <div class="alert alert-success" id="alert" role="alert">
+            <div className="alert alert-success" id="alert" role="alert">
                 The user has been created successfully!
             </div>
             <Sidebar />
@@ -106,7 +106,7 @@ function CreateUser() {
             {/* Previous Page Navigation Bar */}
             <div className="UserHeader">
                     <div className="fs-4 ms-5 fw-bold">
-                        <button onClick={cancelEdit} className="PageHeaderBtn"><i class="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
+                        <button onClick={cancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
                         <label>Create User</label> 
                     </div>
             </div>

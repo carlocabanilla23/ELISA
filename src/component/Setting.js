@@ -18,7 +18,7 @@ function Setting(){
             <Header />
             <div className="ItemHeader">
                 <div className="fs-4 ms-5 fw-bold">
-                    <button onClick={cancelEdit} className="PageHeaderBtn"><i class="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
+                    <button onClick={cancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
                     <label>Back</label> 
                 </div>
             </div>
@@ -72,9 +72,9 @@ function Setting(){
                                 <label className = "input-label" >New Item Added</label>
                                 <label className = "switch">
                                     <input type="checkbox" />
-                                    <span class="slider round">
-                                        <span class="on">On</span>
-                                        <span class="off">Off</span>
+                                    <span className="slider round">
+                                        <span className="on">On</span>
+                                        <span className="off">Off</span>
                                     </span> 
                                 </label>
                             </div>
@@ -82,9 +82,9 @@ function Setting(){
                                 <label className = "input-label" >New Member Added</label>
                                 <label className = "switch">
                                     <input type="checkbox" />
-                                    <span class="slider round">
-                                        <span class="on">On</span>
-                                        <span class="off">Off</span>
+                                    <span className="slider round">
+                                        <span className="on">On</span>
+                                        <span className="off">Off</span>
                                     </span> 
                                 </label>
                             </div>
@@ -92,9 +92,9 @@ function Setting(){
                                 <label className = "input-label" >Out of Stock</label>
                                 <label className = "switch">
                                     <input type="checkbox" />
-                                    <span class="slider round">
-                                        <span class="on">On</span>
-                                        <span class="off">Off</span>
+                                    <span className="slider round">
+                                        <span className="on">On</span>
+                                        <span className="off">Off</span>
                                     </span> 
                                 </label>
                             </div>
@@ -102,9 +102,9 @@ function Setting(){
                                 <label className = "input-label" >Report Email</label>
                                 <label className = "switch">
                                     <input type="checkbox" />
-                                    <span class="slider round">
-                                        <span class="on">On</span>
-                                        <span class="off">Off</span>
+                                    <span className="slider round">
+                                        <span className="on">On</span>
+                                        <span className="off">Off</span>
                                     </span> 
                                 </label>
                             </div>
@@ -112,9 +112,9 @@ function Setting(){
                                 <label className = "input-label" >Reservation Request</label>
                                 <label className = "switch">
                                     <input type="checkbox" />
-                                    <span class="slider round">
-                                        <span class="on">On</span>
-                                        <span class="off">Off</span>
+                                    <span className="slider round">
+                                        <span className="on">On</span>
+                                        <span className="off">Off</span>
                                     </span> 
                                 </label>
                             </div>
@@ -122,9 +122,9 @@ function Setting(){
                                 <label className = "input-label" >Send Notification to Email</label>
                                 <label className = "switch">
                                     <input type="checkbox" />
-                                    <span class="slider round">
-                                        <span class="on">On</span>
-                                        <span class="off">Off</span>
+                                    <span className="slider round">
+                                        <span className="on">On</span>
+                                        <span className="off">Off</span>
                                     </span> 
                                 </label>
                             </div>
@@ -132,9 +132,9 @@ function Setting(){
                                 <label className = "input-label" >Send SMS to Phone</label>
                                 <label className = "switch">
                                     <input type="checkbox" />
-                                    <span class="slider round">
-                                        <span class="on">On</span>
-                                        <span class="off">Off</span>
+                                    <span className="slider round">
+                                        <span className="on">On</span>
+                                        <span className="off">Off</span>
                                     </span> 
                                 </label>
                             </div>
@@ -142,9 +142,9 @@ function Setting(){
                                 <label className = "input-label" >Item Left Building</label>
                                 <label className = "switch">
                                     <input type="checkbox" />
-                                    <span class="slider round">
-                                        <span class="on">On</span>
-                                        <span class="off">Off</span>
+                                    <span className="slider round">
+                                        <span className="on">On</span>
+                                        <span className="off">Off</span>
                                     </span> 
                                 </label>
                             </div>

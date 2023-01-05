@@ -12,6 +12,7 @@ const AWS = require('aws-sdk')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const bodyParser = require('body-parser')
 const express = require('express')
+const md5 = require('md5')
 
 AWS.config.update({ region: process.env.TABLE_REGION });
 
@@ -147,6 +148,7 @@ app.put(path, function(req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
+
   let putItemParams = {
     TableName: tableName,
     Item: req.body
@@ -170,6 +172,10 @@ app.post(path, function(req, res) {
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
+
+  
+  req.body.name = md5("testinglambda");
+
 
   let putItemParams = {
     TableName: tableName,

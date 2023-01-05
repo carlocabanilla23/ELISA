@@ -1,120 +1,186 @@
 {
-  "hosting": {},
-  "storage": {
-    "userdb": {
-      "service": "DynamoDB",
-      "providerPlugin": "awscloudformation"
-    },
+  "api": {
     "inventory": {
-      "service": "DynamoDB",
-      "providerPlugin": "awscloudformation"
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "inventory"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
     },
-    "reservations": {
-      "service": "DynamoDB",
-      "providerPlugin": "awscloudformation"
+    "reservationapi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "reservation"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
+    "userapi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "userlambda"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
     }
   },
   "function": {
-    "userlambda": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "userdb",
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "attributeEnvMap": {
-            "Name": "TABLE_NAME",
-            "Arn": "TABLE_ARN"
-          }
-        }
-      ]
-    },
     "inventory": {
       "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
       "dependsOn": [
         {
-          "category": "storage",
-          "resourceName": "inventory",
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
           "attributes": [
             "Name",
             "Arn"
           ],
-          "attributeEnvMap": {
-            "Name": "TABLE_NAME",
-            "Arn": "TABLE_ARN"
-          }
+          "category": "storage",
+          "resourceName": "inventory"
         }
-      ]
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     },
     "reservation": {
       "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
       "dependsOn": [
         {
-          "category": "storage",
-          "resourceName": "reservations",
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
           "attributes": [
             "Name",
             "Arn"
           ],
+          "category": "storage",
+          "resourceName": "reservations"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "userlambda": {
+      "build": true,
+      "dependsOn": [
+        {
           "attributeEnvMap": {
-            "Name": "TABLE_NAME",
-            "Arn": "TABLE_ARN"
-          }
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "userdb"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "hosting": {},
+  "parameters": {
+    "AMPLIFY_function_equipmentapi_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "equipmentapi"
+        }
+      ]
+    },
+    "AMPLIFY_function_equipmentapi_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "equipmentapi"
+        }
+      ]
+    },
+    "AMPLIFY_function_inventory_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inventory"
+        }
+      ]
+    },
+    "AMPLIFY_function_inventory_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inventory"
+        }
+      ]
+    },
+    "AMPLIFY_function_reservation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reservation"
+        }
+      ]
+    },
+    "AMPLIFY_function_reservation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reservation"
+        }
+      ]
+    },
+    "AMPLIFY_function_userlambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "userlambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_userlambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "userlambda"
         }
       ]
     }
   },
-  "api": {
-    "userapi": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "userlambda",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        }
-      ]
-    },
+  "storage": {
     "inventory": {
-      "service": "API Gateway",
       "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "inventory",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        }
-      ]
+      "service": "DynamoDB"
     },
-    "reservationapi": {
-      "service": "API Gateway",
+    "reservations": {
       "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "reservation",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        }
-      ]
+      "service": "DynamoDB"
+    },
+    "userdb": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
     }
   }
 }
