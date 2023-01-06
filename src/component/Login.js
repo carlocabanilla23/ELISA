@@ -5,6 +5,7 @@ import React  from 'react';
 import { API } from 'aws-amplify';
 import logo from './icons/elisa_logo.png';
 import elisa from './icons/elisa.png';
+import StartSession from './session/SessionInfo';
 
 function Login() {
     const [username,setUsername] = React.useState('');
@@ -17,8 +18,8 @@ function Login() {
 
     API.get("userapi","/email/object/"+username).then( res => {
         if (res.password === password) {  
-                    localStorage.setItem('user',JSON.stringify(res));   
-                    navigate('/Home');
+                StartSession(res);      
+                navigate('/Home');
                     
         }else{
             const err = ReactDOM.createRoot(
