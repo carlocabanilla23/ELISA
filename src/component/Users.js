@@ -85,7 +85,7 @@ function Users () {
   // generate the CSV file
             const csv = Papa.unparse(data);
 
-  // download the CSV file
+  // the CSV file
             const a = document.createElement('a');
             a.href = 'data:attachment/csv,' + csv;
              a.target = '_blank';
