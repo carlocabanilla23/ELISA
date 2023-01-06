@@ -18,7 +18,6 @@ function AssignedItems () {
 
     useEffect( () => {
         API.get("inventory","/items/").then( itemRes => {
-          
             sortItems(itemRes);
         })
     },[]);

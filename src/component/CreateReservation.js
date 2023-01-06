@@ -44,7 +44,6 @@ function CreateReservation () {
         let year = date.getFullYear();
 
         setCurrentDate(`${day}-${month}-${year}`);
-        
     },[]);
 
     const setModelList = (typeParam) => {
