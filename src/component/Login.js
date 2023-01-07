@@ -16,9 +16,15 @@ function Login() {
     e.preventDefault();
     console.log(username);
 
-    API.get("userapi","/email/object/"+username).then( res => {
-        if (res.password === password) {  
-                StartSession(res);      
+    API.post("userapi","/email/Login/"+username,{
+        body : {
+            password : password
+        }
+    }
+    ).then( res => {
+        if (res) {  
+                StartSession(res);
+                console.log(res); 
                 navigate('/Home');
                     
         }else{

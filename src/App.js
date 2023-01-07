@@ -31,7 +31,7 @@ import ProtectedRoute from './component/Routes/ProtectedRoute';
 Amplify.configure(awsExport);
 
 function App() {
-  const [user,setUser] = useState(null);
+  const [user] = useState(null);
 
   return (
     <div >
