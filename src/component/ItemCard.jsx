@@ -53,6 +53,7 @@ const ItemCard = ({ item, updateList }) => {
 
   const CreateQRCode = (e) => {
     document.getElementById("item-info").style.display = "none";
+    document.getElementById("qrcode").style.display = "block";
 
   const qrcode = ReactDOM.createRoot(
       document.getElementById('qrcode')
@@ -61,7 +62,8 @@ const ItemCard = ({ item, updateList }) => {
   }
 
   const viewInformation = (e) => {
-    
+    document.getElementById("item-info").style.display = "block";
+    document.getElementById("qrcode").style.display = "none";
   }
   return (
     <div className="UserRowItems">

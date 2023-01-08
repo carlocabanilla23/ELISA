@@ -30,12 +30,15 @@ if (process.env.ENV && process.env.ENV !== "NONE") {
 const userIdPresent = false; // TODO: update in case is required to use that definition
 const partitionKeyName = "email";
 const partitionKeyType = "S";
+const sessionIDName = "sessionID";
+const sessionIDType = "S";
 const sortKeyName = "";
 const sortKeyType = "";
 const hasSortKey = sortKeyName !== "";
 const path = "/email";
 const UNAUTH = 'UNAUTH';
 const hashKeyPath = '/:' + partitionKeyName;
+const hashKeySessionPath = '/:' + sessionIDName;
 const sortKeyPath = hasSortKey ? '/:' + sortKeyName : '';
 
 // declare a new express app
@@ -143,10 +146,46 @@ app.get(path + '/object' + hashKeyPath + sortKeyPath, function(req, res) {
 });
 
 /*****************************************
+ * HTTP Get method for get single object using sessionid *
+ *****************************************/
+app.get(path, function(req, res) {
+  const condition = {}
+  condition[partitionKeyName] = {
+    ComparisonOperator: 'EQ'
+  }
+
+  if (userIdPresent && req.apiGateway) {
+    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
+  } else {
+    try {
+      condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
+    } catch(err) {
+      res.statusCode = 500;
+      res.json({error: 'Wrong column type ' + err});
+    }
+  }
+
+  let queryParams = {
+    TableName: tableName,
+    KeyConditions: condition
+  }
+  res.json(queryParams);
+  // dynamodb.scan(queryParams, (err, data) => {
+  //   if (err) {
+  //     res.statusCode = 500;
+  //     res.json({error: 'Could not load items: ' + err});
+  //   } else {
+  //     res.json(data.Items);
+  //   }
+  // });
+});
+
+
+/*****************************************
  * HTTP Get method to login *
  *****************************************/
 
-app.get(path + '/Login' + hashKeyPath , function(req, res) {
+app.post(path + '/Login' + hashKeyPath , function(req, res) {
   const params = {};
   if (userIdPresent && req.apiGateway) {
     params[partitionKeyName] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
@@ -167,24 +206,22 @@ app.get(path + '/Login' + hashKeyPath , function(req, res) {
       res.json({error: 'Wrong column type ' + err});
     }
   }
-
+  const password = req.body.password;
   let getItemParams = {
     TableName: tableName,
     Key: params
   }
-
-  //   bcrypt.compare(res.password, req.body.password).then((res) => {
-  //   // res === true
-  // });
-
+  
   dynamodb.get(getItemParams,(err, data) => {
     if(err) {
       res.statusCode = 500;
       res.json({error: 'Could not load items: ' + err.message});
     } else {
       if (data.Item) {
-         bcrypt.compare(data.item.password, req.body.password).then((res) => {
+        bcrypt.compare(password,data.Item.password).then((result) => {
+          if (result === true) {
             res.json(data.Item);
+          }
         });
       } else {
         res.json(data) ;

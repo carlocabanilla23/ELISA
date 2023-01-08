@@ -5,7 +5,7 @@ import logo from '../icons/spu-logo.png';
 
 
 export const Generate  = (e) => {
-    const path = "http://localhost:3000/ViewItemInfo/"+ e;
+    const path = "https://dev.djno0p84ctg6u.amplifyapp.com/ViewItemInfo/"+ e;
     return(
         <QRCodeSVG
         value={path}
