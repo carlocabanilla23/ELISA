@@ -1,7 +1,7 @@
 import Login from './component/Login';
 import Home from './component/Home';
 import React, { useEffect, useState } from 'react';
-import { Amplify,  } from 'aws-amplify';
+import { Amplify, API } from 'aws-amplify';
 import awsExport from './aws-exports';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -27,12 +27,16 @@ import CreateNormalUser from './component/CreateNormalUser';
 import AssignedItems from './component/AssignedItems';
 import UnassignedItems from './component/UnassignedItems';
 import ProtectedRoute from './component/Routes/ProtectedRoute';
+import ViewItemInfo from './component/mobile/ViewItemInfo-m';
 
 Amplify.configure(awsExport);
 
 function App() {
   const [user] = useState(null);
 
+  useEffect( () => {
+    
+  },[]);
   return (
     <div >
     {/* Master Route */}
@@ -170,6 +174,8 @@ function App() {
         <ProtectedRoute user={user}>
             <Setting /> 
         </ProtectedRoute> } />
+
+      <Route path='/ViewItemInfo/:param' element={ < ViewItemInfo />} />
      
     </Routes>
 

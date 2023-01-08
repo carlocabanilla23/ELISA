@@ -4,6 +4,8 @@ import "./styles/OffCanvas.css";
 import { useNavigate,useLocation } from "react-router-dom";
 import { useEffect,useState } from "react";
 import { API } from "aws-amplify";
+import { Generate } from "./qrcode/qrcode";
+import * as ReactDOM from 'react-dom/client';
 
 
 const ItemCard = ({ item, updateList }) => {
@@ -17,6 +19,7 @@ const ItemCard = ({ item, updateList }) => {
   const [roomNumber,setRoom] = React.useState('');
   const [status,setStatus] = React.useState('Status');
   const [allItems, setItems] = useState([]);
+  const [qrcode,setQRCode] = useState();
 
   useEffect( () => {
     API.get("inventory","/items").then( itemRes => {
@@ -47,6 +50,19 @@ const ItemCard = ({ item, updateList }) => {
       },
     });
   };
+
+  const CreateQRCode = (e) => {
+    document.getElementById("item-info").style.display = "none";
+
+  const qrcode = ReactDOM.createRoot(
+      document.getElementById('qrcode')
+  );
+  qrcode.render(Generate(e));
+  }
+
+  const viewInformation = (e) => {
+    
+  }
   return (
     <div className="UserRowItems">
       <div className="container-fluid">
@@ -82,7 +98,13 @@ const ItemCard = ({ item, updateList }) => {
                       >View Information</a>
                     </li>
                     <li>
-                      <a className="dropdown-item">View History</a>
+                      <a onClick={ (e) => CreateQRCode(serialNumber)}
+                      className="dropdown-item"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight"
+                      >Print QR Code</a>
                     </li>
                     <li>
                       <a className="dropdown-item">Change Role</a>
@@ -125,14 +147,10 @@ const ItemCard = ({ item, updateList }) => {
             aria-label="Close"
           ></button>
         </div>
-        <div className="offcanvas-body">
-                                    {/* Name*/}
-                                    {/* <div className = "mb-3 row">
-                        <label  className = "Attribute col-sm-4">Name:</label>
-                        <div className = "Information col-sm-8">{item.name}</div>
-                    </div> */}
-                    {/* Serial Number */}
-                    <div className="mb-3 row">
+          <div className="offcanvas-body">
+            <div id="item-info">
+                {/* Serial Number */}
+                <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Serial #:</label>
                         <div className = "Information col-sm-8">{item.serialno}</div>
                     </div>
@@ -171,6 +189,11 @@ const ItemCard = ({ item, updateList }) => {
                     <label  className = "Attribute col-sm-4">Updated:</label>
                     <div className = "Information col-sm-8">2022-12-21 8:00PM</div>
                 </div>
+            </div>
+
+            <div id="qrcode">
+                {qrcode}
+            </div>
         </div>
       </div>
     </div>
