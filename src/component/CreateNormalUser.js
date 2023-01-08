@@ -81,7 +81,7 @@ function CreateNormalUser () {
             </div>
             <div className="UserInputForm">
                 <div className="FormHeader">
-                    Create an Elisa account
+                    Create Account
                 </div>
                 <form onSubmit={onSubmit}>
                     {/* First Name */}
