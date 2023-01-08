@@ -21,6 +21,7 @@ const ItemCard = ({ item, updateList }) => {
   const [allItems, setItems] = useState([]);
   const [qrcode,setQRCode] = useState();
 
+
   useEffect( () => {
     API.get("inventory","/items").then( itemRes => {
       setItems(itemRes);
@@ -54,11 +55,10 @@ const ItemCard = ({ item, updateList }) => {
   const CreateQRCode = (e) => {
     document.getElementById("item-info").style.display = "none";
     document.getElementById("qrcode").style.display = "block";
-
-  const qrcode = ReactDOM.createRoot(
-      document.getElementById('qrcode')
-  );
-  qrcode.render(Generate(e));
+    
+    console.log(item.serialno);
+  let svg = Generate(item.serialno);
+  setQRCode(svg);
   }
 
   const ViewInformation = (e) => {

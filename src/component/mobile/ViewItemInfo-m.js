@@ -2,6 +2,7 @@ import { API } from "aws-amplify";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import '../styles/ViewItemInfo.css';
 
 
 function ViewItemInfo () {
@@ -30,8 +31,7 @@ function ViewItemInfo () {
 
     return (
         <>
-            <h1>{param}</h1>
-            <div className="container">
+            <div className="container ViewInfo">
                     {/* Serial Number */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Serial #:</label>
