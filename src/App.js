@@ -44,6 +44,7 @@ function App() {
     <Routes>
       {/* Login Page */}
       <Route path='/' element= {<Login /> } />
+      <Route path='/CreateNormalUser' element= {<CreateNormalUser /> } />
       <Route 
         path='/Home' 
         element= {
@@ -137,12 +138,6 @@ function App() {
       <Route path='/CreateUser' element= {
           <ProtectedRoute user={user}>
               <CreateUser /> 
-          </ProtectedRoute> } />
-
-      <Route path='/CreateNormalUser' 
-        element= {
-          <ProtectedRoute user={user}>
-              <CreateNormalUser /> 
           </ProtectedRoute> } />
       
       <Route path='/ItemInformation' 
