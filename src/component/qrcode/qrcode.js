@@ -9,7 +9,7 @@ export const Generate  = (e) => {
     return(
         <QRCodeSVG
         value={path}
-        size={128}
+        size={256}
         bgColor={"#ffffff"}
         fgColor={"#000000"}
         level={"L"}
@@ -18,8 +18,8 @@ export const Generate  = (e) => {
             src: "https://spu.edu/style-guide/assets/branding/logo-spu-flame-legacy-maroon.png",
             x: undefined,
             y: undefined,
-            height: 48,
-            width: 48,
+            height: 72,
+            width: 72,
             excavate: true,
         }}
         />

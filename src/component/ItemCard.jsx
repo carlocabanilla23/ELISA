@@ -61,7 +61,7 @@ const ItemCard = ({ item, updateList }) => {
   qrcode.render(Generate(e));
   }
 
-  const viewInformation = (e) => {
+  const ViewInformation = (e) => {
     document.getElementById("item-info").style.display = "block";
     document.getElementById("qrcode").style.display = "none";
   }
@@ -90,7 +90,7 @@ const ItemCard = ({ item, updateList }) => {
                   </button>
                   <ul className="dropdown-menu">
                     <li>
-                      <a
+                      <a onClick={ (e) => ViewInformation()}
                         className="dropdown-item"
                         type="button"
                         data-bs-toggle="offcanvas"
