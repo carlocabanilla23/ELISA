@@ -1,7 +1,6 @@
 import './styles/Home.css';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import iDashboard from "./icons/dashboard.png";
 
 function Home() {
   return (
