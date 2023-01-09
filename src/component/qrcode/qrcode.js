@@ -1,9 +1,4 @@
-import ReactDOM from 'react-dom';
 import {QRCodeSVG} from 'qrcode.react';
-import { createRoot } from 'react-dom/client';
-import logo from '../icons/spu-logo.png';
-import qrCode from 'qr-code-styling';
-
 
 export const Generate  = (e) => {
     console.log(e);
