@@ -9,12 +9,11 @@ function Home() {
               <Sidebar />
               <Header />
               <div className="HomeHeader">
-                  <div className="row">
-                      <div className="col fs-4 ms-5 fw-bold">
-                        <img src={iDashboard} className="headicon" alt="inventory icon" />
-
-                          <i className="fa" aria-hidden="true"> Dashboard</i>
-                        </div>
+                  <div className="content">
+                    <div>
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>Dashboard</span>
+                    </div>    
                   </div>
               </div>
               <div className="Dashboard">
