@@ -12,7 +12,6 @@ const AWS = require('aws-sdk')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const bodyParser = require('body-parser')
 const express = require('express')
-const md5 = require('md5')
 
 AWS.config.update({ region: process.env.TABLE_REGION });
 
@@ -136,7 +135,6 @@ app.get(path + '/object' + hashKeyPath + sortKeyPath, function(req, res) {
     }
   });
 });
-
 
 /************************************
 * HTTP put method for insert object *

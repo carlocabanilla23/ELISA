@@ -72,17 +72,17 @@ function Users () {
         }
        
     }  
-        // code to generate the CSV file and download it to the local machine
+// code to generate the CSV file and download it to the local machine
 
         const CSV = () => {      
-  // the data that you want to write to the CSV file
-  const data = [['firstName', 'lastName', 'email', 'role', 'schoolID']];
-  users.forEach(user => {
-    data.push([user.firstName, user.lastName, user.email, user.role, user.schoolID]);
-  });
+        // the data that you want to write to the CSV file
+        const data = [['firstName', 'lastName', 'email', 'role', 'schoolID']];
+        users.forEach(user => {
+            data.push([user.firstName, user.lastName, user.email, user.role, user.schoolID]);
+        });
   
 
-  // generate the CSV file
+// generate the CSV file
             const csv = Papa.unparse(data);
 
   // the CSV file

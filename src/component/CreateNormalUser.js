@@ -3,6 +3,14 @@ import {API, Amplify, Auth} from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 import awsExport from '../aws-exports';
 import './styles/CreateNormalUser.css';
+import aws from 'aws-sdk';
+
+aws.config.update({
+    apiVersion:'2010-12-01',
+    accessKeyId: 'YOUR_Access_Key_ID',
+    secretAccessKey: 'YOUR_Secret_Access_Key',
+    region:'us-west-2'
+});
 
 Amplify.configure(awsExport);
 
@@ -32,7 +40,49 @@ function CreateNormalUser () {
         }else if(error === 4){
             setErrorMessage("Please choose a role");
         }
-    })
+    }, [error])
+    /* 
+        Send verification email
+        Since we are using sandbox environment, all emails must verified in AWS SES
+        before they are able to send and receive email from another verified email.
+    */
+    const sendVerification = () => {
+        //Generate a 6 digits code for authentication
+        var verificationCode = '';
+        for(var i = 0; i < 6; i++){
+            verificationCode += Math.floor((Math.random() * 10));
+        }
+        var params = {
+            Destination: {
+                //receiver email address
+                ToAddresses: [
+                    'email address'
+                ]
+            },
+            Message: {
+                Body: {
+                    // Message to recipient
+                    Html: {
+                        Charset: "UTF-8",
+                        Data: "<a href='google.com'>Test Email</a><br /><div>" + verificationCode + "</div>"
+                    }
+                },
+                Subject: {
+                    Charset: 'UTF-8',
+                    Data: 'Verification code'
+                }
+            },
+            //Sender email addres
+            Source: 'email address'
+        }
+        
+        var sendPromise = new aws.SES().sendEmail(params).promise();
+        sendPromise.then(
+            (data) => {console.log(data.MessageId);
+        }).catch(
+            (err) => {console.log(err);
+        })
+    }
 
     const ShowAlert = () => {
         var alert = document.getElementById("alert");
@@ -201,6 +251,7 @@ function CreateNormalUser () {
                     <div className="form-buttons">
                         <button type="button" onClick={cancelCreate} className="btn btn-primary">Cancel</button>
                         <button type="submit" className="btn btn-primary">Create</button> 
+                        <button onClick={sendVerification} className="btn btn-primary">Send verification</button>
                         <span className="errorMessage">{errorMessage}</span>
                     </div>
                 </form>
