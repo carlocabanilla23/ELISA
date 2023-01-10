@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import UserList from "./UserList";
 import Pagination from "./Pagination";
 import CreateTestUser from './test/CreateTestUser';
-import iUsers from './icons/users.png';
 import Papa from 'papaparse';
 
 
@@ -121,22 +120,21 @@ function Users () {
         <Sidebar />
         <Header />
         <div className="UserHeader">
-
-            <div className="row">
-                <div className="col fs-4 ms-5 fw-bold"> 
-                    <img src={iUsers} className="headicon" alt="inventory icon" />
-                    <i className="fa" aria-hidden="true"> Users</i>
-                </div>
-
-                <div className="col-sm-5 searchbar">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
+            <div className="content">
+                <div>
+                    <span class="material-symbols-outlined">group</span>
+                    <span>Users</span>
+            
+                <div className="searchBar">
                     <input type="email" className="form-control" onChange={ (e)=> { searchUser(e.target.value)} } id="exampleFormControlInput1" placeholder="Search User"/>
                 </div>
 
-                <div className="col text-end adduser">
+                <div className="AddUser">
                     <button type="submit" className="btn" id="AddUser" onClick={AddUser}>Add User</button>
                 </div>
 
-                <div className="col auto dropdown">
+                <div className="col-auto-dropdown">
                     <div className="dropdown">
                         <button className="btn dropdown-toggle"
                             type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -148,6 +146,7 @@ function Users () {
                         </ul>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
 
