@@ -32,11 +32,16 @@
 }
 .col-auto-dropdown {
     position: fixed;
-        right: 15px;
+        right: 25px;
+}
+.reserve {
+    position: fixed;
+        right: 25px;
 }
 .searchBar {
-    padding-left: 15%;
-    width: 60%;
+    position: fixed;
+    left: 300px;
+    width: 45%;
 }
 .AddUser {
     position: fixed;
@@ -68,7 +73,6 @@
     background-color: #3E2B2E;
     color: #ffffff;
 }
-
 
 .right-sidemenu{
     width: 20%;
