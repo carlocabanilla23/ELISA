@@ -11,13 +11,11 @@ import Papa from 'papaparse';
 
 
 function Users () {
-    // CreateTestUser(25);
+    // CreateTestUser(1);
     const [users, setUsers] = useState([]);
     const [unfilteredUsers, setUnfilteredUsers] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
     const [usersPerPage] = useState(15);
-
-   
 
     useEffect( () => {
         API.get("userapi","/email").then( res => {
