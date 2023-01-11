@@ -1,0 +1,27 @@
+.UserInputForm{
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.18 );
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1);
+    width: 40%;
+    height: 80vh;
+    position: absolute;
+        top: 10vh;
+        left: 30%;
+    padding: 1em;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.FormHeader{
+    text-align: center;
+    padding-bottom: 40px;
+    padding-top: 20px;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+.form-buttons button{
+    margin-left: 15px;
+}

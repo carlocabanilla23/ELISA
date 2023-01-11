@@ -1,13 +1,42 @@
 export type AmplifyDependentResourcesAttributes = {
-    "storage": {
-        "userdb": {
+    "api": {
+        "inventory": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
+        },
+        "reservationapi": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
+        },
+        "userapi": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
+        }
+    },
+    "function": {
+        "inventory": {
             "Name": "string",
             "Arn": "string",
-            "StreamArn": "string",
-            "PartitionKeyName": "string",
-            "PartitionKeyType": "string",
-            "Region": "string"
+            "Region": "string",
+            "LambdaExecutionRole": "string"
         },
+        "reservation": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "userlambda": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        }
+    },
+    "storage": {
         "inventory": {
             "Name": "string",
             "Arn": "string",
@@ -23,43 +52,14 @@ export type AmplifyDependentResourcesAttributes = {
             "PartitionKeyName": "string",
             "PartitionKeyType": "string",
             "Region": "string"
-        }
-    },
-    "function": {
-        "userlambda": {
+        },
+        "userdb": {
             "Name": "string",
             "Arn": "string",
-            "Region": "string",
-            "LambdaExecutionRole": "string"
-        },
-        "inventory": {
-            "Name": "string",
-            "Arn": "string",
-            "Region": "string",
-            "LambdaExecutionRole": "string"
-        },
-        "reservation": {
-            "Name": "string",
-            "Arn": "string",
-            "Region": "string",
-            "LambdaExecutionRole": "string"
-        }
-    },
-    "api": {
-        "userapi": {
-            "RootUrl": "string",
-            "ApiName": "string",
-            "ApiId": "string"
-        },
-        "inventory": {
-            "RootUrl": "string",
-            "ApiName": "string",
-            "ApiId": "string"
-        },
-        "reservationapi": {
-            "RootUrl": "string",
-            "ApiName": "string",
-            "ApiId": "string"
+            "StreamArn": "string",
+            "PartitionKeyName": "string",
+            "PartitionKeyType": "string",
+            "Region": "string"
         }
     }
 }

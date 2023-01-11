@@ -7,6 +7,7 @@ import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import ItemList from "./ItemList";
 import Pagination from "./Pagination";
+import iInventory from "./icons/inventory.png";
 
 function Inventory () {
     // CreateTestEquipment(30);
@@ -72,30 +73,30 @@ function Inventory () {
         <Sidebar />
         <Header />
         <div className="UserHeader">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
+            <div className="content">
+                <div>
+                    <span class="material-symbols-outlined">inventory_2</span>
+                    <span>Inventory</span>
+                
+                    <div className="searchBar">
+                        <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>
+                    </div>
 
-            <div className="row">
-                <div className="col fs-4 ms-5 fw-bold"> 
-                    <i className="fa fa-users" aria-hidden="true"> Inventory</i>
-                </div>
+                    <div className="AddUser">
+                        <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button>
+                    </div>
 
-                <div className="col-sm-5 searchbar">
-                    <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>
-                </div>
-
-                <div className="col text-end adduser">
-                    <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button>
-
-                </div>
-
-                <div className="col auto dropdown">
-                    <div className="dropdown">
-                        <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Export
-                        </button>
-                        <ul className="dropdown-menu">
-                            <li><a className="dropdown-item" href="#">CSV</a></li>
-                            <li><a className="dropdown-item" href="#">PDF</a></li>
-                        </ul>
+                    <div className="col-auto-dropdown">
+                        <div className="dropdown">
+                            <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Export
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li><a className="dropdown-item" href="#">CSV</a></li>
+                                <li><a className="dropdown-item" href="#">PDF</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

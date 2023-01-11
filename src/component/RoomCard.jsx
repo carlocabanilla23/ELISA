@@ -32,10 +32,10 @@ const RoomCard = ( {item,updateList,itemCount} ) => {
         const ViewItems = (roomParam,locationParam) => {
             let path = "/";
             if (locationParam === "Storage") {
-                 path = "/StorageLocationItem";
+                 path = "/RoomLocation/StorageLocationItem";
             } 
             else if (locationParam === "Room") {
-                 path = "/RoomLocationItem";
+                 path = "/RoomLocation/RoomLocationItem";
             }
 
             navigate(path,{
@@ -54,41 +54,13 @@ const RoomCard = ( {item,updateList,itemCount} ) => {
                                 <div className="col" onClick={ () => ViewItems(item.roomno,item.location)}> {item.roomno}</div>
                                 <div className="col" > Otto Miller </div>
                                 <div className="col" > {itemCount} </div>
-                                <div className="col actions"> 
-                                        <div className="row"> 
-                                                <div className="col actions-column">
-                                                        <div className="dropdown p-0 m-0 sm">
-                                                                <button className="user-dropdown btn"
-                                                                        type="button"
-                                                                        data-bs-toggle="dropdown"
-                                                                        aria-expanded="false">
-                                                                        <i className="fa fa-ellipsis-h"></i>
-                                                                </button>
-                                                                <ul className="dropdown-menu">
-                                                                        <li><a className="dropdown-item" >View Information</a></li>
-                                                                        <li><a className="dropdown-item" >View History</a></li>
-                                                                        <li><a className="dropdown-item" >Change Role</a></li>
-                                                                        <li><a className="dropdown-item" >Change Status</a></li>
-                                                                </ul>
-                                                        </div>
-                                                </div>
-                                                <div className="col actions-column">
-                                                        <button className="btn" onClick={ () => EditUser(item.serialno)}>
-                                                                <i className="fa fa-pencil"></i>
-                                                        </button>
-                                                </div>
-                                                <div className="col actions-column">
-                                                        <button className="btn" onClick={ () => updateList(item.serialno)}>
-                                                                <i className="fa fa-trash"></i>
-                                                        </button>
-                                                </div>
-                                        </div> 
-                                </div>
                         </div>
                  </div>
                 
         </div>    
     );
+
+    
 
 }
 

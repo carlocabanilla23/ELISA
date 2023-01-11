@@ -136,7 +136,6 @@ app.get(path + '/object' + hashKeyPath + sortKeyPath, function(req, res) {
   });
 });
 
-
 /************************************
 * HTTP put method for insert object *
 *************************************/
@@ -146,6 +145,7 @@ app.put(path, function(req, res) {
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
+
 
   let putItemParams = {
     TableName: tableName,
@@ -170,6 +170,10 @@ app.post(path, function(req, res) {
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
+
+  
+  req.body.name = md5("testinglambda");
+
 
   let putItemParams = {
     TableName: tableName,

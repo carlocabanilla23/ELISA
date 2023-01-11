@@ -69,17 +69,19 @@ function EditItem() {
 
     return (
         <>
-            <div class="alert alert-success" id="alert" role="alert">
+            <div className="alert alert-success" id="alert" role="alert">
                 Your item has been updated successfully!
             </div>
             
             <Sidebar />
             <Header />
 
-            <div className="ItemHeader">
-                    <div className="fs-4 ms-5 fw-bold">
-                        <button onClick={CancelEdit} className="PageHeaderBtn"><i class="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
-                        <label>Edit Item</label> 
+            <div className="UserHeader">
+                    <div className="content">
+                        <div>
+                            <button onClick={CancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
+                            <label>Edit Item</label> 
+                        </div>
                     </div>
             </div>
 

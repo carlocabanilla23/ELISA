@@ -1,0 +1,90 @@
+
+.ReservationHeader{
+    background-color: #ffffff;
+    color: #3E2B2E;
+    width: 85%;
+    margin-left: 15%;
+    height: 6vh;
+    padding-top: 0.5em;
+    box-shadow: 3px 3px rgba(0, 0, 0, 0.25);
+    border-bottom: 1px solid black;
+}
+
+.Reservation{
+    background-color: #F0F0EB;
+    width: 85%;
+    height: 100vh;
+    position: fixed;
+        top: 12vh;
+        left: 15%;
+   
+    margin-bottom: 0 !important;
+}
+
+.ReservationSummary{
+    float: left;
+    width: 45%;
+}
+
+.OrderList{
+    min-height: 55vh;
+    border-bottom: 3px solid black;
+    border-right: 3px solid black;
+
+}
+.OrderList .row{
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 1em;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    
+}
+.OrderList .header{
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    font-weight: bolder;
+    background-color: #ffffff;
+    font-size: 1.4em;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+    
+}
+
+
+.row.Assigneditemlist{
+    padding-left: 0 !important;
+    padding-top: 0.1em !important;
+    height: 25vh;
+    overflow: scroll;
+    white-space:nowrap;
+}
+.row.Assigneditemlist > col{
+    padding-left: 0 !important;
+    padding-top: 0.1em !important;
+}
+
+.UserInfo{
+    padding-top: 2em;
+    padding-left: 5%;
+    border-right: 3px solid black;
+    height: 50%;
+    min-height: 33vh;
+}
+
+.ItemList {
+    float: left;
+    width: 55%;
+}
+.Reservation-Pagination > .list-pagination nav {
+    width: 50%;
+}
+
+.ReservationItemList .row{
+    padding-top: 1em;
+    padding-bottom: 1em;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.ReservationItemList .row .action {
+    text-align: center;
+}

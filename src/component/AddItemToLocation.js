@@ -76,10 +76,10 @@ function AddItemToLocation () {
     const returnToViewItemLocation = () => {
         let path = "/";
         if (locationParam === "Storage") {
-             path = "/StorageLocationItem";
+             path = "/RoomLocation/StorageLocationItem";
         } 
         else if (locationParam === "Room") {
-             path = "/RoomLocationItem";
+             path = "/RoomLocation/RoomLocationItem";
         }
 
         navigate(path,{

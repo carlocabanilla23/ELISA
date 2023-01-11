@@ -7,14 +7,16 @@ import { useNavigate } from "react-router-dom";
 import UserList from "./UserList";
 import Pagination from "./Pagination";
 import CreateTestUser from './test/CreateTestUser';
+import Papa from 'papaparse';
+import jsPDF from 'jspdf';
+
+
 function Users () {
-    // CreateTestUser(25);
+    // CreateTestUser(1);
     const [users, setUsers] = useState([]);
     const [unfilteredUsers, setUnfilteredUsers] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
     const [usersPerPage] = useState(15);
-
-   
 
     useEffect( () => {
         API.get("userapi","/email").then( res => {
@@ -67,8 +69,55 @@ function Users () {
             setUsers(unfilteredUsers);
         }
        
+    }  
+// code to generate the CSV file and download it to the local machine
+
+        const CSV = () => {      
+        // the data that you want to write to the CSV file
+        const data = [['firstName', 'lastName', 'email', 'role', 'schoolID']];
+        users.forEach(user => {
+            data.push([user.firstName, user.lastName, user.email, user.role, user.schoolID]);
+        });
+  
+
+// generate the CSV file
+            const csv = Papa.unparse(data);
+
+  // the CSV file
+            const a = document.createElement('a');
+            a.href = 'data:attachment/csv,' + csv;
+             a.target = '_blank';
+            a.download = 'output.csv';
+            document.body.appendChild(a);
+            a.click();
+}
+const PDF = () => {
+    const doc = new jsPDF();
+    const users = [
+      { firstname: 'John', lastname: 'Doe', schoolID: '123456', role: 'student' },
+     { firstname: 'Jane', lastname: 'Doe', schoolID: '987654', role: 'teacher' }
+    ];
+    let y = 10;
+    for (const user of users) {
+      doc.text(`Name: ${user.firstname} ${user.lastname}`, 10, y);
+      y += 5;
+      doc.text(`School ID: ${user.schoolID}`, 10, y);
+      y += 5;
+      doc.text(`Role: ${user.role}`, 10, y);
+      y += 10;
     }
-    
+    const pdf = doc.output();
+    const link = document.createElement('a');
+    link.href = 'data:application/pdf;base64,' + btoa(pdf);
+    link.download = 'users.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  
+
+
+  
     
     const idxLastUser = currentPage * usersPerPage;
     const idxFirstUser = idxLastUser - usersPerPage;
@@ -94,32 +143,33 @@ function Users () {
         <Sidebar />
         <Header />
         <div className="UserHeader">
-
-            <div className="row">
-                <div className="col fs-4 ms-5 fw-bold"> 
-                    <i className="fa fa-users" aria-hidden="true"> Users</i>
-                </div>
-
-                <div className="col-sm-5 searchbar">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
+            <div className="content">
+                <div>
+                    <span class="material-symbols-outlined">group</span>
+                    <span>Users</span>
+            
+                <div className="searchBar">
                     <input type="email" className="form-control" onChange={ (e)=> { searchUser(e.target.value)} } id="exampleFormControlInput1" placeholder="Search User"/>
                 </div>
 
-                <div className="col text-end adduser">
+                <div className="AddUser">
                     <button type="submit" className="btn" id="AddUser" onClick={AddUser}>Add User</button>
                 </div>
 
-                <div className="col auto dropdown">
+                <div className="col-auto-dropdown">
                     <div className="dropdown">
                         <button className="btn dropdown-toggle"
                             type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Export
                         </button>
                         <ul className="dropdown-menu">
-                            <li><a className="dropdown-item" >CSV</a></li>
-                            <li><a className="dropdown-item" >PDF</a></li>
+                        <li><a className="dropdown-item" onClick={CSV} >CSV</a></li>
+                        <li><a className="dropdown-item" onClick={PDF} >PDF</a></li>
                         </ul>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
 

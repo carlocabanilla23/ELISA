@@ -5,6 +5,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import './styles/CreateReservation.css';
 import { useNavigate, useLocation } from "react-router-dom";
+
 function CreateReservation () {
     const location = useLocation();
     const reservationNo = "R"+location.state.reservationCount;
@@ -20,7 +21,7 @@ function CreateReservation () {
     const [role,setRole] = useState("Student");
     const [summary,setSummary] = useState("Item Request");
     const [currentDate,setCurrentDate] = useState("00-00-0000");
-    const [note,setNode] = useState("Please give me new device");
+    const [note,setNote] = useState("Please give me new device");
 
     const [type, setType] = useState('Type');
     const [model,setModel] = useState('Model');
@@ -43,7 +44,6 @@ function CreateReservation () {
         let year = date.getFullYear();
 
         setCurrentDate(`${day}-${month}-${year}`);
-        
     },[]);
 
     const setModelList = (typeParam) => {
@@ -54,28 +54,29 @@ function CreateReservation () {
       
     }
 
-    // const addItemToOrder = (order) => {
-    //     console.log(order.type + " " + order.model + " " + order.quantity);
-
-    // };
-
     const sortItems = (items) => {
         const updatedTypes =  [...new Set(items.map( item => item.type))];
         setTypes(updatedTypes);
     }
 
 
-    const addItem = () => {
+    const addItem = (e) => {
+        e.preventDefault();
         const order = {
             type : type,
             model : model,
             quantity : quantity
         }
-       setReservationCart([...reservationCart,order]);
+        // console.log(order);
+        // setReservationCart( res => [...res,order] );
+
+        setReservationCart([...reservationCart,order]);
+        console.log(reservationCart);
+       
     }
 
-    const submitOrder = () => {   
-
+    const submitOrder = () => {  
+        console.log(reservationCart); 
         API.post("reservationapi","/reservations/", {
             body : {
             firstname :firstName,
@@ -90,25 +91,32 @@ function CreateReservation () {
             approvedby : "N/A",
             requestdate : currentDate,
             returndate : returnDate,
-            itemrequested : reservationCart
+            itemrequested : reservationCart,
+            assigneditems : []
             }
         });
 
         alert("success!");
+        navigate('/Reservations')
     }
     const cancelEdit = () => {
         navigate('/Reservations');
     }
     return (
         <>
+            <div className="alert alert-success" id="alert" role="alert">
+                The reservation has been created successfully!
+            </div>
             <Sidebar />
             <Header />
-                <div className="CreateReservationHeader">
-                        <div className="fs-4 ms-5 fw-bold">
+            <div className="CreateReservationHeader">
+                    <div className="content">
+                        <div>
                             <button onClick={cancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
-                            <label>Make a Reservation User</label> 
+                            <label>Make a Reservation</label> 
                         </div>
-                </div>
+                    </div>
+            </div>
             <div className="CreateReservation">
                 <div className="container ReservationForm">
                     <div className="row">
@@ -172,7 +180,7 @@ function CreateReservation () {
                             </div>
                         </div>
                         <div className="col submit">
-                            <button className="btn AddItemBtn" onClick={ (e) => {addItem()}}>
+                            <button className="btn AddItemBtn" onClick={ (e) => addItem(e)}>
                                 <i className="fa fa-plus-circle" aria-hidden="true"> Add Item</i>
                             </button>
                         </div>
@@ -182,7 +190,7 @@ function CreateReservation () {
                         <div className="col">
                             <div className="mb-3">
                                 <label  className="form-label">Note</label>
-                                <textarea className="form-control" id="NoteTextarea1"  onChange={ (e) => setSummary(e.target.value) } rows="3"></textarea>
+                                <textarea className="form-control" id="NoteTextarea1"  onChange={ (e) => setNote(e.target.value) } rows="3"></textarea>
                             </div>
                         </div>
                     </div>
@@ -196,7 +204,7 @@ function CreateReservation () {
                     </div>
                 </div>
 
-                <div className="container ReservationSummary">
+                <div className="container CreateReservationSummary">
                     <div className="row">
                         <div className="col">
                             <h1>Summary</h1>

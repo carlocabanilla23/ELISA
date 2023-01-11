@@ -8,78 +8,79 @@ function Home() {
               <Sidebar />
               <Header />
               <div className="HomeHeader">
-                  <div className="row">
-                      <div className="col fs-4 ms-5 fw-bold">
-                          <i className="fa fa-home" aria-hidden="true"> Dashboard</i>
-                        </div>
+                  <div className="content">
+                    <div>
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>Dashboard</span>
+                    </div>    
                   </div>
               </div>
               <div className="Dashboard">
               <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
-                  <div class="charts">
-                    <div class="weekly">
-                      <div class="TitleText">Reserved items each week</div>
+                  <div className="charts">
+                    <div className="weekly">
+                      <div className="TitleText">Reserved items each week</div>
                     </div>
-                    <div class="quarterly">
-                      <div class="TitleText">Inventory each quarter</div>
+                    <div className="quarterly">
+                      <div className="TitleText">Inventory each quarter</div>
                     </div>
                   </div>
 
-                  <div class="insights">
-                    <div class="WeekOverview">
-                      <div class="TitleText">This week overview</div>
-                      <div class="Itemcards">
-                        <div class="reservedItem">
-                          <div class="left">
-                            <span class="material-symbols-outlined">fact_check</span>
+                  <div className="insights">
+                    <div className="WeekOverview">
+                      <div className="TitleText">This week overview</div>
+                      <div className="Itemcards">
+                        <div className="reservedItem">
+                          <div className="left">
+                            <span className="material-symbols-outlined">fact_check</span>
                           </div>
-                          <div class="right">
-                            <div class="mutedText">Reserved items</div>
-                            <div class="number">06</div>
+                          <div className="right">
+                            <div className="mutedText">Reserved items</div>
+                            <div className="number">06</div>
                           </div>
                         </div>
-                        <div class="returnItems">
-                          <div class="left">
-                            <span class="material-symbols-outlined">assignment_return</span>
+                        <div className="returnItems">
+                          <div className="left">
+                            <span className="material-symbols-outlined">assignment_return</span>
                           </div>
-                          <div class="right">
-                            <div class="mutedText">Returned items</div>
-                            <div class="number">10</div>
+                          <div className="right">
+                            <div className="mutedText">Returned items</div>
+                            <div className="number">10</div>
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    <div class="InventoryOverview">
-                      <div class="TitleText">Inventory summary</div>
-                      <div class="InventorySections">
-                        <div class="top">
-                          <div class="mutedText">Low stock items</div>
-                          <div class="number">05</div>
+                    <div className="InventoryOverview">
+                      <div className="TitleText">Inventory summary</div>
+                      <div className="InventorySections">
+                        <div className="top">
+                          <div className="mutedText">Low stock items</div>
+                          <div className="number">05</div>
                         </div>
-                        <div class="middle">
-                          <div class="mutedText">Reserved items</div>
-                          <div class="number">12</div>
+                        <div className="middle">
+                          <div className="mutedText">Reserved items</div>
+                          <div className="number">12</div>
                         </div>
-                        <div class="bottom">
-                          <div class="mutedText">Total items</div>
-                          <div class="number">80</div>
+                        <div className="bottom">
+                          <div className="mutedText">Total items</div>
+                          <div className="number">80</div>
                         </div>
                       </div>
                     </div>
 
                     <div className="UserSummary"> 
-                      <div class="TitleText">User Summary</div>
-                      <div class="UserCards">
-                        <div class="TotalUsers">
-                          <span class="material-symbols-outlined">groups</span>
-                          <div class="mutedText">Total Users</div>
-                          <div class="number">50</div>
+                      <div className="TitleText">User Summary</div>
+                      <div className="UserCards">
+                        <div className="TotalUsers">
+                          <span className="material-symbols-outlined">groups</span>
+                          <div className="mutedText">Total Users</div>
+                          <div className="number">50</div>
                         </div>
-                        <div class="ActiveUsers">
-                          <span class="material-symbols-outlined">verified_user</span>
-                          <div class="mutedText">Active Users</div>
-                          <div class="number">20</div>
+                        <div className="ActiveUsers">
+                          <span className="material-symbols-outlined">verified_user</span>
+                          <div className="mutedText">Active Users</div>
+                          <div className="number">20</div>
                         </div>
                       </div>
                       

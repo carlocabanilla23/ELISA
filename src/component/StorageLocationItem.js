@@ -83,34 +83,33 @@ function StorageLocationItem () {
         <Sidebar />
         <Header />
         <div className="UserHeader">
-
-            <div className="row">
-                <div className="col fs-4 ms-5 fw-bold">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
+            <div className="content">
+                <div>
+                    <span class="material-symbols-outlined">arrow_back</span>
                     <Link to="/StorageLocation" className="text-dark">
-                        <i className="fa fa-arrow-left " aria-hidden="true"> 
-                        <span className="ms-1">Storage Location - </span>  
-                        <span>{roomnoParam}</span>  
-                        </i>
-                    </Link>         
-                </div>
+                        <span >Storage Location </span>  
+                    </Link>
+                    <span class="material-symbols-outlined">arrow_right</span>         
+                    <span>{roomnoParam}</span>  
+        
+                    <div className="searchBar">
+                        <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>
+                    </div>
 
-                <div className="col-sm-5 searchbar">
-                    <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>
-                </div>
-
-                <div className="col text-end adduser">
-                    <button type="submit" className="btn" id="AddUser" onClick={ (e) => AddItem("Storage",roomnoParam)}>Add Item</button>
-                </div>
-
-                <div className="col auto dropdown">
-                    <div className="dropdown">
-                        <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Export
-                        </button>
-                        <ul className="dropdown-menu">
-                            <li><a className="dropdown-item" href="#">CSV</a></li>
-                            <li><a className="dropdown-item" href="#">PDF</a></li>
-                        </ul>
+                    <div className="AddUser">
+                        <button type="submit" className="btn" id="AddUser" onClick={ (e) => AddItem("Storage",roomnoParam)}>Add Item</button>
+                    </div>
+                    <div className="col-auto-dropdown">
+                        <div className="dropdown">
+                            <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Export
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li><a className="dropdown-item" href="#">CSV</a></li>
+                                <li><a className="dropdown-item" href="#">PDF</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

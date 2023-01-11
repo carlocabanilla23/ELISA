@@ -5,6 +5,7 @@ import React  from 'react';
 import { API } from 'aws-amplify';
 import logo from './icons/elisa_logo.png';
 import elisa from './icons/elisa.png';
+import StartSession from './session/SessionInfo';
 
 function Login() {
     const [username,setUsername] = React.useState('');
@@ -15,9 +16,17 @@ function Login() {
     e.preventDefault();
     console.log(username);
 
-    API.get("userapi","/email/object/"+username).then( res => {
-        if (res.password === password) {     
-                    navigate('/Home');
+    API.post("userapi","/email/Login/"+username,{
+        body : {
+            password : password
+        }
+    }
+    ).then( res => {
+        if (res) {  
+                StartSession(res);
+                console.log(res); 
+                navigate('/Home');
+                    
         }else{
             const err = ReactDOM.createRoot(
                 document.getElementById('prompt')
@@ -26,7 +35,7 @@ function Login() {
               err.render(element);
 
         }  
-        });
+    });
 
   };
 
@@ -56,6 +65,7 @@ function Login() {
                     <label  className="col col-form-label">Keep me logged in</label>
                 </div>
                 <div className="col">
+                    <label  className="col col-form-label" id="create-account" onClick={() => navigate('/CreateNormalUser')}>create account?</label>
                     <label  className="col col-form-label" id="forgot-pass">Forgot my password?</label>
                 </div>    
             </div>

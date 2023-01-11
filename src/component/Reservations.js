@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import ReservationList from './ReservationList';
 import Pagination from "./Pagination";
 import CreateTestReservation from './test/CreateTestReservation';
+import iReservations from "./icons/reservation.png";
 
 function Reservations () {
     // CreateTestReservation(50);
@@ -15,7 +16,6 @@ function Reservations () {
     const [currentPage,setCurrentPage] = useState(1);
     const [reservationsPerPage] = useState(15);
 
-   
 
     useEffect( () => {
         API.get("reservationapi","/reservations").then( res => {
@@ -87,23 +87,20 @@ function Reservations () {
         <Sidebar />
         <Header />
         <div className="UserHeader">
-
-            <div className="row">
-                <div className="col fs-4 ms-5 fw-bold"> 
-                    <i className="fa fa-users" aria-hidden="true"> Reservations</i>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
+            <div className="content">
+                <div>
+                    <span class="material-symbols-outlined">receipt_long</span>
+                    <span>Reservations</span>
+                
+                <div className="searchBar">
+                    <input type="email" className="form-control" onChange={ (e)=> { searchUser(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Reservation"/>
                 </div>
 
-                <div className="col-sm-5 searchbar">
-                    <input type="email" className="form-control" onChange={ (e)=> { searchUser(e.target.value)} } id="exampleFormControlInput1" placeholder="Search User"/>
-                </div>
-
-                <div className="col text-end adduser">
+                <div className="reserve">
                     <button type="submit" className="btn" id="AddUser" onClick={makeReservation}>Make a Reservation</button>
                 </div>
-
-                <div className="col auto dropdown">
-                
-                </div>
+            </div>
             </div>
         </div>
 
