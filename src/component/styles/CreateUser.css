@@ -14,13 +14,34 @@
     padding-left: 5%;
     padding-right: 50%;
 }
+.content{
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    padding: 10px;
+    width: 100%;
+}
+.content > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 20px;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 1em;
 
+    display: flex;
+    flex-direction: row;
+}
 .CreateUserHeader{
     background-color: #ffffff;
-    color: #3E2B2E;
-    width: 85%;
-    margin-left: 15%;
     height: 6vh;
+    width: 85%;
+    color: #7A2036;
+    position: fixed;
+        top: 6vh;
+        left: 15%;
+    /* margin-left: 15%; */
     padding-top: 0.5em;
     padding-bottom: 1em;
     box-shadow: 1px 1px rgba(0, 0, 0, 0.25);

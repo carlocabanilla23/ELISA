@@ -1,7 +1,7 @@
 import Login from './component/Login';
 import Home from './component/Home';
 import React, { useEffect, useState } from 'react';
-import { Amplify,  } from 'aws-amplify';
+import { Amplify, API } from 'aws-amplify';
 import awsExport from './aws-exports';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -27,59 +27,154 @@ import CreateNormalUser from './component/CreateNormalUser';
 import AssignedItems from './component/AssignedItems';
 import UnassignedItems from './component/UnassignedItems';
 import ProtectedRoute from './component/Routes/ProtectedRoute';
+import ViewItemInfo from './component/mobile/ViewItemInfo-m';
+
 Amplify.configure(awsExport);
 
 function App() {
-  const [user,setUser] = useState(null);
-  // setUser(localStorage.getItem('user'));
-  // useEffect( ()=> {
-  //     setUser(localStorage.getItem('user'));
-  // },[]);
-  
+  const [user] = useState(null);
+
+  useEffect( () => {
+  },[]);
 
   return (
     <div >
     {/* Master Route */}
 
     <Routes>
-      <Route path='/' element= {<Login />} />
-      <Route path='/Home' element= {<Home />} />
-      <Route 
-        path='/Inventory' 
+      {/* Login Page */}
+      <Route path='/' element= {<Login /> } />
+      <Route path='/CreateNormalUser' element= {<CreateNormalUser /> } />
+      <Route
+        path='/Home'
+        element= {
+          <ProtectedRoute user={user}>
+            <Home />
+          </ProtectedRoute>
+      } />
+
+      <Route
+        path='/Inventory'
         element= {
           <ProtectedRoute user={user}>
               <Inventory  />
           </ProtectedRoute>
       } />
 
-      <Route path='/RoomLocation' element= {<RoomLocation />} />
-      <Route path='/RoomLocationItem' element= {<RoomLocationItem />} />
+      <Route
+        path='/RoomLocation'
+        element= {
+          <ProtectedRoute user={user}>
+              <RoomLocation  />
+          </ProtectedRoute>
+      } />
 
-      <Route path='/StorageLocation' element= {<StorageLocation />} />
-      <Route path='/StorageLocationItem' element= {<StorageLocationItem />} />
-
-      <Route path='/AssignedItems' element= {<AssignedItems />} />
-      <Route path='/UnassignedItems' element= {<UnassignedItems />} />
-      
-      
-      <Route path='/AddItemToLocation' element= {<AddItemToLocation />} />
+      <Route path='/RoomLocation/RoomLocationItem'
+        element= {
+          <ProtectedRoute user={user}>
+              <RoomLocationItem />
+          </ProtectedRoute>
+      } />
   
-      <Route path='/Reservations' element= {<Reservations />} />
-      <Route path='/Reservation' element= {<Reservation />} />
-      <Route path='/CreateReservation' element= {<CreateReservation />} />
+      <Route path='/StorageLocation' 
+        element= {
+          <ProtectedRoute user={user}>
+              <StorageLocation /> 
+          </ProtectedRoute> } />
 
-      <Route path='/EditUser' element= {<EditUser />} /> 
-      <Route path='/Users' element= {<Users />} />
-      <Route path='/CreateUser' element= {<CreateUser />} />
-      <Route path='/CreateNormalUser' element= {<CreateNormalUser />} />
+      <Route path='/RoomLocation/StorageLocationItem' 
+        element= {
+          <ProtectedRoute user={user}>
+              <StorageLocationItem /> 
+          </ProtectedRoute> } />
+
+      <Route path='/AssignedItems' 
+        element= {
+          <ProtectedRoute user={user}>
+              <AssignedItems /> 
+          </ProtectedRoute> } />
+      <Route path='/UnassignedItems' 
+        element= {
+          <ProtectedRoute user={user}>
+              <UnassignedItems /> 
+          </ProtectedRoute> } />
       
-      <Route path='/ItemInformation' element= {<ItemInformation />} />
-      <Route path="/EditItem" element={<EditItem />} />
-      <Route path='/AddItem' element= {<AddItem />} />
-      <Route path='/UserInformation' element= {<UserInformation />} />
+      
+      <Route path='/AddItemToLocation' 
+        element= {
+          <ProtectedRoute user={user}>
+              <AddItemToLocation /> 
+          </ProtectedRoute> } />
+  
+      <Route path='/Reservations' 
+        element= {
+          <ProtectedRoute user={user}>
+              <Reservations /> 
+          </ProtectedRoute> } />
 
-      <Route path='/Setting' element= {<Setting />} />
-     
+      <Route path='/Reservation' 
+        element= {
+          <ProtectedRoute user={user}>
+              <Reservation /> 
+          </ProtectedRoute> } />
+
+      <Route path='/CreateReservation'
+        element= {
+          <ProtectedRoute user={user}>
+              <CreateReservation /> 
+          </ProtectedRoute> } />
+
+      <Route path='/EditUser'
+        element= {
+          <ProtectedRoute user={user}>
+              <EditUser /> 
+          </ProtectedRoute> } /> 
+      <Route path='/Users' 
+        element= {
+          <ProtectedRoute user={user}>
+              <Users /> 
+          </ProtectedRoute> } />
+
+      <Route path='/CreateUser' element= {
+          <ProtectedRoute user={user}>
+              <CreateUser /> 
+          </ProtectedRoute> } />
+      
+      <Route path='/ItemInformation' 
+          element= {
+            <ProtectedRoute user={user}>
+                <ItemInformation /> 
+            </ProtectedRoute> } />
+            
+      <Route path="/EditItem" 
+        element={
+          <ProtectedRoute user={user}>
+            <EditItem /> 
+          </ProtectedRoute> } />
+
+      <Route path='/AddItem' 
+        element= {
+          <ProtectedRoute user={user}>
+              <AddItem /> 
+          </ProtectedRoute> } />
+
+      <Route path='/UserInformation'
+        element= {
+          <ProtectedRoute user={user}>
+              <UserInformation /> 
+          </ProtectedRoute> } />
+
+      <Route path='/Setting'
+        element= {
+        <ProtectedRoute user={user}>
+            <Setting />
+        </ProtectedRoute> } />
+
+      <Route path='/ViewItemInfo/:param'
+        element= {
+        <ProtectedRoute user={user}>
+            <ViewItemInfo />
+        </ProtectedRoute> } />
     </Routes>
 
     {/* For Testing */}

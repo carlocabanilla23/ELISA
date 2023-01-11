@@ -105,9 +105,11 @@ function CreateUser() {
             <Header />
             {/* Previous Page Navigation Bar */}
             <div className="UserHeader">
-                    <div className="fs-4 ms-5 fw-bold">
-                        <button onClick={cancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
-                        <label>Create User</label> 
+                    <div className="content">
+                        <div>
+                            <button onClick={cancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
+                            <label>Create User</label> 
+                        </div>
                     </div>
             </div>
             <div className="CreateUserForm">

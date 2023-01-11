@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import UserList from "./UserList";
 import Pagination from "./Pagination";
 import CreateTestUser from './test/CreateTestUser';
-import iUsers from './icons/users.png';
 import Papa from 'papaparse';
 import jsPDF from 'jspdf';
 
@@ -73,17 +72,17 @@ function Users () {
         }
        
     }  
-        // code to generate the CSV file and download it to the local machine
+// code to generate the CSV file and download it to the local machine
 
         const CSV = () => {      
-  // the data that you want to write to the CSV file
-  const data = [['firstName', 'lastName', 'email', 'role', 'schoolID']];
-  users.forEach(user => {
-    data.push([user.firstName, user.lastName, user.email, user.role, user.schoolID]);
-  });
+        // the data that you want to write to the CSV file
+        const data = [['firstName', 'lastName', 'email', 'role', 'schoolID']];
+        users.forEach(user => {
+            data.push([user.firstName, user.lastName, user.email, user.role, user.schoolID]);
+        });
   
 
-  // generate the CSV file
+// generate the CSV file
             const csv = Papa.unparse(data);
 
   // the CSV file
@@ -146,22 +145,21 @@ const PDF = () => {
         <Sidebar />
         <Header />
         <div className="UserHeader">
-
-            <div className="row">
-                <div className="col fs-4 ms-5 fw-bold"> 
-                    <img src={iUsers} className="headicon" alt="inventory icon" />
-                    <i className="fa" aria-hidden="true"> Users</i>
-                </div>
-
-                <div className="col-sm-5 searchbar">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
+            <div className="content">
+                <div>
+                    <span class="material-symbols-outlined">group</span>
+                    <span>Users</span>
+            
+                <div className="searchBar">
                     <input type="email" className="form-control" onChange={ (e)=> { searchUser(e.target.value)} } id="exampleFormControlInput1" placeholder="Search User"/>
                 </div>
 
-                <div className="col text-end adduser">
+                <div className="AddUser">
                     <button type="submit" className="btn" id="AddUser" onClick={AddUser}>Add User</button>
                 </div>
 
-                <div className="col auto dropdown">
+                <div className="col-auto-dropdown">
                     <div className="dropdown">
                         <button className="btn dropdown-toggle"
                             type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -173,6 +171,7 @@ const PDF = () => {
                         </ul>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
 
