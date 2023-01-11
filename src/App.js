@@ -35,8 +35,8 @@ function App() {
   const [user] = useState(null);
 
   useEffect( () => {
-    
   },[]);
+
   return (
     <div >
     {/* Master Route */}
@@ -45,31 +45,31 @@ function App() {
       {/* Login Page */}
       <Route path='/' element= {<Login /> } />
       <Route path='/CreateNormalUser' element= {<CreateNormalUser /> } />
-      <Route 
-        path='/Home' 
+      <Route
+        path='/Home'
         element= {
           <ProtectedRoute user={user}>
             <Home />
           </ProtectedRoute>
       } />
-      
-      <Route 
-        path='/Inventory' 
+
+      <Route
+        path='/Inventory'
         element= {
           <ProtectedRoute user={user}>
               <Inventory  />
           </ProtectedRoute>
       } />
 
-      <Route 
-        path='/RoomLocation' 
+      <Route
+        path='/RoomLocation'
         element= {
           <ProtectedRoute user={user}>
               <RoomLocation  />
           </ProtectedRoute>
       } />
 
-      <Route path='/RoomLocation/RoomLocationItem' 
+      <Route path='/RoomLocation/RoomLocationItem'
         element= {
           <ProtectedRoute user={user}>
               <RoomLocationItem />
@@ -164,14 +164,17 @@ function App() {
               <UserInformation /> 
           </ProtectedRoute> } />
 
-      <Route path='/Setting' 
+      <Route path='/Setting'
         element= {
         <ProtectedRoute user={user}>
-            <Setting /> 
+            <Setting />
         </ProtectedRoute> } />
 
-      <Route path='/ViewItemInfo/:param' element={ < ViewItemInfo />} />
-     
+      <Route path='/ViewItemInfo/:param'
+        element= {
+        <ProtectedRoute user={user}>
+            <ViewItemInfo />
+        </ProtectedRoute> } />
     </Routes>
 
     {/* For Testing */}
