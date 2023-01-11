@@ -104,14 +104,19 @@ function CreateReservation () {
     }
     return (
         <>
+            <div className="alert alert-success" id="alert" role="alert">
+                The reservation has been created successfully!
+            </div>
             <Sidebar />
             <Header />
-                <div className="CreateReservationHeader">
-                        <div className="fs-4 ms-5 fw-bold">
+            <div className="CreateReservationHeader">
+                    <div className="content">
+                        <div>
                             <button onClick={cancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
-                            <label>Make a Reservation User</label> 
+                            <label>Make a Reservation</label> 
                         </div>
-                </div>
+                    </div>
+            </div>
             <div className="CreateReservation">
                 <div className="container ReservationForm">
                     <div className="row">
