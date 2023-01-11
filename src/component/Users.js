@@ -8,6 +8,7 @@ import UserList from "./UserList";
 import Pagination from "./Pagination";
 import CreateTestUser from './test/CreateTestUser';
 import Papa from 'papaparse';
+import jsPDF from 'jspdf';
 
 
 function Users () {
@@ -90,9 +91,33 @@ function Users () {
             document.body.appendChild(a);
             a.click();
 }
-        const PDF = () => {
+const PDF = () => {
+    const doc = new jsPDF();
+    const users = [
+      { firstname: 'John', lastname: 'Doe', schoolID: '123456', role: 'student' },
+     { firstname: 'Jane', lastname: 'Doe', schoolID: '987654', role: 'teacher' }
+    ];
+    let y = 10;
+    for (const user of users) {
+      doc.text(`Name: ${user.firstname} ${user.lastname}`, 10, y);
+      y += 5;
+      doc.text(`School ID: ${user.schoolID}`, 10, y);
+      y += 5;
+      doc.text(`Role: ${user.role}`, 10, y);
+      y += 10;
+    }
+    const pdf = doc.output();
+    const link = document.createElement('a');
+    link.href = 'data:application/pdf;base64,' + btoa(pdf);
+    link.download = 'users.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  
 
-        }
+
+  
     
     const idxLastUser = currentPage * usersPerPage;
     const idxFirstUser = idxLastUser - usersPerPage;
