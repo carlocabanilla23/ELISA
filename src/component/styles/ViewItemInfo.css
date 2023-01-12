@@ -1,6 +1,6 @@
 @media only screen 
-and (min-device-width: 375px) 
-and (max-device-width: 812px) 
+and (min-device-width: 375px)
+and (max-device-width: 812px)
 and (-webkit-min-device-pixel-ratio: 3) {
     .ViewInfo{
         background-color: #F0F0EB;
@@ -15,6 +15,14 @@ and (-webkit-min-device-pixel-ratio: 3) {
         position: fixed;
             top: 0;
             left: 0;;
+    }
+
+    /* Login Form */
+    .Login-Form{
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 2em;
     }
 
 }
