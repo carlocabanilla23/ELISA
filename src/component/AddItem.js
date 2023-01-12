@@ -34,10 +34,10 @@ function AddItem() {
     // },[error])
 
 
-    const AddItem = (e) => {
+    const AddItem = (e) => { //// AddItem function is called when the form is submitted
         e.preventDefault();
 
-        API.post("inventory","/items/", {
+        API.post("inventory","/items/", {  // call the API to post the item's information to the inventory
             body : {
                 name : name,
                 serialno : serialNumber,
@@ -49,17 +49,17 @@ function AddItem() {
                
             }
         });
-        ShowAlert();
+        ShowAlert(); // call the ShowAlert function to display a success message
     }
         
-    const CancelEdit = () => {
+    const CancelEdit = () => { //// CancelEdit function navigates the user back to the inventory page
         navigate("/Inventory");
     }
 
-    const ShowAlert = () => {
+    const ShowAlert = () => { // ShowAlert function displays a success message to the user
         var alert = document.getElementById("alert");
         alert.style.display = "block";
-        setTimeout( () =>{
+        setTimeout( () =>{  // navigate the user back to the inventory page after 1.5 seconds
              navigate("/Inventory");
         },1500);
     }
