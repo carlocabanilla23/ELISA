@@ -20,6 +20,8 @@ function ItemInformation() {
     const [location,setLocation] = React.useState('Location');
     const [roomNumber,setRoom] = React.useState('');
     const [status,setStatus] = React.useState('Status');
+    const [manufacturer, setManufacturer] = React.useStatus('');
+    const [cost, setCost] = React.useStatus('');
     // const [item, setItem] = React.useState([]);
     // const [createDate, setCreateDate] = React.useState('');
     // const [lastUpdate, setLastUpdate] = React.useState('');
@@ -32,6 +34,8 @@ function ItemInformation() {
             setLocation(res.location);
             setRoom(res.roomno);
             setStatus(res.status);
+            setManufacturer(res.manufacturer);
+            setCost(res.cost);
             // setCreateDate(res.createdate);
             // setLastUpdate(res.lastupdate);
           })},[]);
@@ -73,6 +77,11 @@ function ItemInformation() {
                         <label  className = "Attribute col-sm-4">Model:</label>
                         <div className = "Information col-sm-8">{model}</div>
                     </div>
+                    {/* Manufacturer */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Manufacturer:</label>
+                        <div className = "Information col-sm-8">{manufacturer}</div>
+                    </div>
                     {/* Location */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Location:</label>
@@ -87,6 +96,11 @@ function ItemInformation() {
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Status:</label>
                         <div className = "Information col-sm-8">{status}</div>
+                    </div>
+                    {/* Cost */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Cost:</label>
+                        <div className = "Information col-sm-8">{cost}</div>
                     </div>
                 {/* Date Created */}
                 <div className = "mb-3 row">

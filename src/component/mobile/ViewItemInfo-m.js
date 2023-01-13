@@ -18,6 +18,8 @@ function ViewItemInfo () {
     const [location,setLocation] = useState('Location');
     const [roomNumber,setRoom] = useState('');
     const [status,setStatus] = useState('Status');
+    const [manufacturer, setManufacturer] = useState('');
+    const [cost, setCost] = useState('');
 
     useEffect( () => {
         API.get("inventory","/items/object/"+param).then(res => {
@@ -28,6 +30,8 @@ function ViewItemInfo () {
             setLocation(res.location);
             setRoom(res.roomno);
             setStatus(res.status);
+            setManufacturer(res.manufacturer);
+            setCost(res.cost);
         })},[]);
 
 
@@ -53,6 +57,11 @@ function ViewItemInfo () {
                         <label  className = "Attribute col-sm-4">Model:</label>
                         <div className = "Information col-sm-8">{model}</div>
                     </div>
+                    {/* Manufacturer */}
+                    <div className="mx-2 mb-3 row">
+                        <label  className = "Attribute col-sm-4">Manufacturer:</label>
+                        <div className = "Information col-sm-8">{manufacturer}</div>
+                    </div>
                     {/* Location */}
                     <div className="mx-2 mb-3 row">
                         <label  className = "Attribute col-sm-4">Location:</label>
@@ -67,6 +76,11 @@ function ViewItemInfo () {
                     <div className="mx-2 mb-3 row">
                         <label  className = "Attribute col-sm-4">Status:</label>
                         <div className = "Information col-sm-8">{status}</div>
+                    </div>
+                    {/* Cost */}
+                    <div className="mx-2 mb-3 row">
+                        <label  className = "Attribute col-sm-4">Cost:</label>
+                        <div className = "Information col-sm-8">{cost}</div>
                     </div>
                 {/* Date Created */}
                 <div className = "mx-2 mb-3 row">

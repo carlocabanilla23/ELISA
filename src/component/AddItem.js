@@ -16,6 +16,8 @@ function AddItem() {
     const [location,setLocation] = React.useState('Location');
     const [roomNumber,setRoom] = React.useState('');
     const [status,setStatus] = React.useState('Status');
+    const [manufacturer, setManufacturer] = React.useState('');
+    const [cost, setCost] = React.useState('');
     // const [photo,setPhoto] = React.useState('');
     const [item, setItem] = React.useState([]);
     // const [error, setError] = React.useState('');
@@ -43,10 +45,12 @@ function AddItem() {
                 serialno : serialNumber,
                 type : type,
                 model : model,
+                manufacturer: manufacturer,
                 location : location,
                 roomno : roomNumber,
                 status : status,
-               
+                cost: cost,
+
             }
         });
         ShowAlert(); // call the ShowAlert function to display a success message
@@ -99,7 +103,7 @@ function AddItem() {
                     </div>
                     {/* Type */}
                     <div className="form-input">
-                        <label className="input-label" for="manufacturer" >Type</label>
+                        <label className="input-label" for="type" >Type</label>
                         <input type="text" className="text-input" id="type"
                         value={type} onChange = {(e) => {setType(e.target.value)}} required = {true}/>
                     </div>
@@ -108,6 +112,12 @@ function AddItem() {
                         <label className="input-label" for="model" >Model</label>
                         <input type="text" className="text-input" id="model" 
                         value={model} onChange = {(e) => {setModel(e.target.value)}} required = {true}/>
+                    </div>
+                    {/* Manufacturer */}
+                    <div className="form-input">
+                        <label className="input-label" for="manufacturer">Manufacturer</label>
+                        <input type="text" className="text-input" id="manufacturer"
+                        value={manufacturer} onChange={(e) => {setManufacturer(e.target.value)}} required={true} />
                     </div>
                     {/* Location */}
                     <div className="form-input">
@@ -158,6 +168,13 @@ function AddItem() {
                                 </ul>
                             </div>
                         </div>                    
+                    </div>
+                    {/* Cost */}
+                    <div className="form-input">
+                        <label className="input-label" for="cost">Cost</label>
+                        <input type="text" className="text-input" id="cost"
+                        value={cost} onChange={(e) => {setCost(e.target.value)}} required={true} />
+                        <div>$</div>
                     </div>
                     {/* <div className="form-input">
                         <label className="input-label" for="photo" >Photo</label>

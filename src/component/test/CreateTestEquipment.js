@@ -9,9 +9,11 @@ function CreateTestEquipment (e) {
             name : "HPdevice"+i,
             type : "tester",
             model : "HP",
+            manufacturer: "Fluke",
             status : "new",
             location : "Room",
-            roomno : "ECS201"
+            roomno : "ECS201",
+            cost: "20"
             }
         });
 
@@ -21,9 +23,11 @@ function CreateTestEquipment (e) {
             name : "HPdevice"+i,
             type : "voltmeter",
             model : "HP",
+            manufacturer: "Express",
             status : "new",
             location : "Room",
-            roomno : "ECS202"
+            roomno : "ECS202",
+            cost: "40"
             }
         });
 
@@ -33,9 +37,11 @@ function CreateTestEquipment (e) {
             name : "Delldevice"+i,
             type : "tester",
             model : "Dell",
+            manufacturer: "Smart Sensor",
             status : "new",
             location : "Storage",
-            roomno : "ECS203"
+            roomno : "ECS203",
+            cost: "30"
             }
         });
 
@@ -45,9 +51,11 @@ function CreateTestEquipment (e) {
             name : "Delldevice"+i,
             type : "voltmeter",
             model : "Dell",
+            manufacturer: "Mechanic",
             status : "new",
             location : "Storage",
-            roomno : "ECS204"
+            roomno : "ECS204",
+            cost: "75"
             }
         });
 
@@ -57,9 +65,11 @@ function CreateTestEquipment (e) {
             name : "Lenovodevice"+i,
             type : "tester",
             model : "Lenovo",
+            manufacturer: "Leeve",
             status : "new",
             location : "Room",
-            roomno : "ECS205"
+            roomno : "ECS205",
+            cost: "35"
             }
         });
 
@@ -69,9 +79,11 @@ function CreateTestEquipment (e) {
             name : "Lenovodevice"+i,
             type : "voltmeter",
             model : "Lenovo",
+            manufacturer: "TechDevice",
             status : "new",
             location : "Storage",
-            roomno : "ECS206"
+            roomno : "ECS206",
+            cost: "40"
             }
         });
 
@@ -81,9 +93,11 @@ function CreateTestEquipment (e) {
             name : "samsungdevice"+i,
             type : "thermometer",
             model : "Samsung",
+            manufacturer: "SamsungFactory",
             status : "new",
             location : "Room",
-            roomno : "ECS208"
+            roomno : "ECS208",
+            cost: "80"
             }
         });
 
@@ -93,9 +107,11 @@ function CreateTestEquipment (e) {
             name : "samsungdevice"+i,
             type : "ohmeter",
             model : "Samsung",
+            manufacturer: "SmartTech",
             status : "new",
             location : "Storage",
-            roomno : "ECS209"
+            roomno : "ECS209",
+            cost: "90"
             }
         });
 
@@ -105,9 +121,11 @@ function CreateTestEquipment (e) {
             name : "texasdevice"+i,
             type : "thermometer",
             model : "Texas",
+            manufacturer: "MetalFactory",
             status : "new",
             location : "Room",
-            roomno : "ECS210"
+            roomno : "ECS210",
+            cost: "60"
             }
         });
 
@@ -117,9 +135,11 @@ function CreateTestEquipment (e) {
             name : "texasdevice"+i,
             type : "ohmeter",
             model : "Texas",
+            manufacturer: "Melter",
             status : "new",
             location : "Storage",
-            roomno : "ECS211"
+            roomno : "ECS211",
+            cost: "55"
             }
         });
     }
