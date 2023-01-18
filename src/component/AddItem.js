@@ -39,6 +39,21 @@ function AddItem() {
     const AddItem = (e) => { //// AddItem function is called when the form is submitted
         e.preventDefault();
 
+        //Get the current time the item is added
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth()+1;
+        var day = date.getDate();
+        var hour = date.getHours();
+        var minutes = date.getMinutes();
+
+        var today = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;
+        if(hour >= 12){
+            today += 'PM';
+        }else{
+            today += 'AM';
+        }
+
         API.post("inventory","/items/", {  // call the API to post the item's information to the inventory
             body : {
                 name : name,
@@ -50,6 +65,8 @@ function AddItem() {
                 roomno : roomNumber,
                 status : status,
                 cost: cost,
+                createdate: today,
+                lastupdated: today,
 
             }
         });

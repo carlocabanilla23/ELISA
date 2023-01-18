@@ -1,20 +1,12 @@
-import React, { useState, useEffect, useRef} from 'react';
-import {API, Amplify, Auth} from 'aws-amplify';
+import React, { useState, useEffect} from 'react';
+import {API, Amplify} from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 import awsExport from '../aws-exports';
-import './styles/CreateNormalUser.css';
-import aws from 'aws-sdk';
-
-aws.config.update({
-    apiVersion:'2010-12-01',
-    accessKeyId: 'YOUR_Access_Key_ID',
-    secretAccessKey: 'YOUR_Secret_Access_Key',
-    region:'us-west-2'
-});
+import './styles/Signup.css';
 
 Amplify.configure(awsExport);
 
-function CreateNormalUser () {
+function Signup () {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [role, setRole] = useState('Role');
@@ -41,48 +33,6 @@ function CreateNormalUser () {
             setErrorMessage("Please choose a role");
         }
     }, [error])
-    /* 
-        Send verification email
-        Since we are using sandbox environment, all emails must verified in AWS SES
-        before they are able to send and receive email from another verified email.
-    */
-    const sendVerification = () => {
-        //Generate a 6 digits code for authentication
-        var verificationCode = '';
-        for(var i = 0; i < 6; i++){
-            verificationCode += Math.floor((Math.random() * 10));
-        }
-        var params = {
-            Destination: {
-                //receiver email address
-                ToAddresses: [
-                    'email address'
-                ]
-            },
-            Message: {
-                Body: {
-                    // Message to recipient
-                    Html: {
-                        Charset: "UTF-8",
-                        Data: "<a href='google.com'>Test Email</a><br /><div>" + verificationCode + "</div>"
-                    }
-                },
-                Subject: {
-                    Charset: 'UTF-8',
-                    Data: 'Verification code'
-                }
-            },
-            //Sender email addres
-            Source: 'email address'
-        }
-        
-        var sendPromise = new aws.SES().sendEmail(params).promise();
-        sendPromise.then(
-            (data) => {console.log(data.MessageId);
-        }).catch(
-            (err) => {console.log(err);
-        })
-    }
 
     const ShowAlert = () => {
         var alert = document.getElementById("alert");
@@ -250,8 +200,7 @@ function CreateNormalUser () {
                     {/* Submit Button */}
                     <div className="form-buttons">
                         <button type="button" onClick={cancelCreate} className="btn btn-primary">Cancel</button>
-                        <button type="submit" className="btn btn-primary">Create</button> 
-                        <button onClick={sendVerification} className="btn btn-primary">Send verification</button>
+                        <button type="submit" className="btn btn-primary">Create</button>
                         <span className="errorMessage">{errorMessage}</span>
                     </div>
                 </form>
@@ -260,4 +209,4 @@ function CreateNormalUser () {
     );
 }
 
-export default CreateNormalUser;
+export default Signup;

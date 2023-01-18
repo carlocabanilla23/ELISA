@@ -20,6 +20,8 @@ function ViewItemInfo () {
     const [status,setStatus] = useState('Status');
     const [manufacturer, setManufacturer] = useState('');
     const [cost, setCost] = useState('');
+    const [createDate, setCreatedDate] = useState('');
+    const [lastUpdate, setLastUpdated] = useState('');
 
     useEffect( () => {
         API.get("inventory","/items/object/"+param).then(res => {
@@ -32,6 +34,8 @@ function ViewItemInfo () {
             setStatus(res.status);
             setManufacturer(res.manufacturer);
             setCost(res.cost);
+            setCreatedDate(res.createdate);
+            setLastUpdated(res.lastupdated);
         })},[]);
 
 
@@ -85,12 +89,12 @@ function ViewItemInfo () {
                 {/* Date Created */}
                 <div className = "mx-2 mb-3 row">
                     <label  className = "Attribute col-sm-4">Created:</label>
-                    <div className = "Information col-sm-8">2022-12-21 8:00PM</div>
+                    <div className = "Information col-sm-8">{createDate}</div>
                 </div>
                 {/* Last Updated */}
                 <div className = "mx-2 mb-3 row">
                     <label  className = "Attribute col-sm-4">Updated:</label>
-                    <div className = "Information col-sm-8">2022-12-21 8:00PM</div>
+                    <div className = "Information col-sm-8">{lastUpdate}</div>
                 </div>
         </div>
         </>

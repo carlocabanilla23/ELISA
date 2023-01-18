@@ -23,7 +23,7 @@ import StorageLocationItem from './component/StorageLocationItem';
 import ItemInformation from './component/ItemInformation';
 import Setting from './component/Setting';
 import CreateReservation from './component/CreateReservation';
-import CreateNormalUser from './component/CreateNormalUser';
+import Signup from './component/Signup';
 import AssignedItems from './component/AssignedItems';
 import UnassignedItems from './component/UnassignedItems';
 import ProtectedRoute from './component/Routes/ProtectedRoute';
@@ -44,7 +44,7 @@ function App() {
     <Routes>
       {/* Login Page */}
       <Route path='/' element= {<Login /> } />
-      <Route path='/CreateNormalUser' element= {<CreateNormalUser /> } />
+      <Route path='/Signup' element= {<Signup /> } />
       <Route
         path='/Home'
         element= {

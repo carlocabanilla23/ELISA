@@ -65,7 +65,7 @@ function Login() {
                     <label  className="col col-form-label">Keep me logged in</label>
                 </div>
                 <div className="col">
-                    <label  className="col col-form-label" id="create-account" onClick={() => navigate('/CreateNormalUser')}>create account?</label>
+                    <label  className="col col-form-label" id="create-account" onClick={() => navigate('/Signup')}>create account?</label>
                     <label  className="col col-form-label" id="forgot-pass">Forgot my password?</label>
                 </div>    
             </div>

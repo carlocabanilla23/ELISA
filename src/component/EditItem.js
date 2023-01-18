@@ -57,6 +57,21 @@ function EditItem() {
             .then(res => {
                 setItem([itemList,...res]);
             });
+
+        //Get the current time
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth()+1;
+        var day = date.getDate();
+        var hour = date.getHours();
+        var minutes = date.getMinutes();
+
+        var today = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;
+        if(hour >= 12){
+            today += 'PM';
+        }else{
+            today += 'AM';
+        }
         API.post("inventory","/items/", {
             body : {
                 name : name,
@@ -68,6 +83,7 @@ function EditItem() {
                 status : status,
                 manufacturer: manufacturer,
                 cost: cost,
+                lastupdated: today,
         }});
 
         ShowAlert();

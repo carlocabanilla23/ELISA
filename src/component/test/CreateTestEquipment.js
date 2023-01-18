@@ -1,6 +1,20 @@
 import { API } from 'aws-amplify';
 
 function CreateTestEquipment (e) {
+    //Get the current time the item is added
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = date.getMonth()+1;
+    var day = date.getDate();
+    var hour = date.getHours();
+    var minutes = date.getMinutes();
+
+    var today = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;
+    if(hour >= 12){
+        today += 'PM';
+    }else{
+        today += 'AM';
+    }
 
     for ( let i = 0 ; i < e; i++) {
         API.post("inventory","/items", {
@@ -13,7 +27,9 @@ function CreateTestEquipment (e) {
             status : "new",
             location : "Room",
             roomno : "ECS201",
-            cost: "20"
+            cost: "20",
+            createdate: today,
+            lastupdated: today,
             }
         });
 
@@ -27,7 +43,9 @@ function CreateTestEquipment (e) {
             status : "new",
             location : "Room",
             roomno : "ECS202",
-            cost: "40"
+            cost: "40",
+            createdate: today,
+            lastupdated: today,
             }
         });
 
@@ -41,7 +59,9 @@ function CreateTestEquipment (e) {
             status : "new",
             location : "Storage",
             roomno : "ECS203",
-            cost: "30"
+            cost: "30",
+            createdate: today,
+            lastupdated: today,
             }
         });
 
@@ -55,7 +75,9 @@ function CreateTestEquipment (e) {
             status : "new",
             location : "Storage",
             roomno : "ECS204",
-            cost: "75"
+            cost: "75",
+            createdate: today,
+            lastupdated: today,
             }
         });
 
@@ -69,7 +91,9 @@ function CreateTestEquipment (e) {
             status : "new",
             location : "Room",
             roomno : "ECS205",
-            cost: "35"
+            cost: "35",
+            createdate: today,
+            lastupdated: today,
             }
         });
 
@@ -83,7 +107,9 @@ function CreateTestEquipment (e) {
             status : "new",
             location : "Storage",
             roomno : "ECS206",
-            cost: "40"
+            cost: "40",
+            createdate: today,
+            lastupdated: today,
             }
         });
 
@@ -97,7 +123,9 @@ function CreateTestEquipment (e) {
             status : "new",
             location : "Room",
             roomno : "ECS208",
-            cost: "80"
+            cost: "80",
+            createdate: today,
+            lastupdated: today,
             }
         });
 
@@ -111,7 +139,9 @@ function CreateTestEquipment (e) {
             status : "new",
             location : "Storage",
             roomno : "ECS209",
-            cost: "90"
+            cost: "90",
+            createdate: today,
+            lastupdated: today,
             }
         });
 
@@ -125,7 +155,9 @@ function CreateTestEquipment (e) {
             status : "new",
             location : "Room",
             roomno : "ECS210",
-            cost: "60"
+            cost: "60",
+            createdate: today,
+            lastupdated: today,
             }
         });
 
@@ -139,7 +171,9 @@ function CreateTestEquipment (e) {
             status : "new",
             location : "Storage",
             roomno : "ECS211",
-            cost: "55"
+            cost: "55",
+            createdate: today,
+            lastupdated: today,
             }
         });
     }
