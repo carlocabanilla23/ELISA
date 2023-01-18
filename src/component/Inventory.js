@@ -10,7 +10,7 @@ import Pagination from "./Pagination";
 import iInventory from "./icons/inventory.png";
 
 function Inventory () {
-    // CreateTestEquipment(30);
+    // CreateTestEquipment(5);
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);

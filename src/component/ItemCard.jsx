@@ -186,6 +186,11 @@ const ItemCard = ({ item, updateList }) => {
                         <label  className = "Attribute col-sm-4">Model:</label>
                         <div className = "Information col-sm-8">{item.model}</div>
                     </div>
+                    {/* Manufacturer */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Manufacturer:</label>
+                        <div className = "Information col-sm-8">{item.manufacturer}</div>
+                    </div>
                     {/* Location */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Location:</label>
@@ -201,15 +206,20 @@ const ItemCard = ({ item, updateList }) => {
                         <label  className = "Attribute col-sm-4">Status:</label>
                         <div className = "Information col-sm-8">{item.status}</div>
                     </div>
+                    {/* Cost */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Cost:</label>
+                        <div className = "Information col-sm-8">{item.cost}</div>
+                    </div>
                 {/* Date Created */}
                 <div className = "mb-3 row">
                     <label  className = "Attribute col-sm-4">Created:</label>
-                    <div className = "Information col-sm-8">2022-12-21 8:00PM</div>
+                    <div className = "Information col-sm-8">{item.createdate}</div>
                 </div>
                 {/* Last Updated */}
                 <div className = "mb-3 row">
                     <label  className = "Attribute col-sm-4">Updated:</label>
-                    <div className = "Information col-sm-8">2022-12-21 8:00PM</div>
+                    <div className = "Information col-sm-8">{item.lastupdated}</div>
                 </div>
             </div>
 

@@ -16,6 +16,8 @@ function AddItem() {
     const [location,setLocation] = React.useState('Location');
     const [roomNumber,setRoom] = React.useState('');
     const [status,setStatus] = React.useState('Status');
+    const [manufacturer, setManufacturer] = React.useState('');
+    const [cost, setCost] = React.useState('');
     // const [photo,setPhoto] = React.useState('');
     const [item, setItem] = React.useState([]);
     // const [error, setError] = React.useState('');
@@ -34,32 +36,51 @@ function AddItem() {
     // },[error])
 
 
-    const AddItem = (e) => {
+    const AddItem = (e) => { //// AddItem function is called when the form is submitted
         e.preventDefault();
 
-        API.post("inventory","/items/", {
+        //Get the current time the item is added
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth()+1;
+        var day = date.getDate();
+        var hour = date.getHours();
+        var minutes = date.getMinutes();
+
+        var today = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;
+        if(hour >= 12){
+            today += 'PM';
+        }else{
+            today += 'AM';
+        }
+
+        API.post("inventory","/items/", {  // call the API to post the item's information to the inventory
             body : {
                 name : name,
                 serialno : serialNumber,
                 type : type,
                 model : model,
+                manufacturer: manufacturer,
                 location : location,
                 roomno : roomNumber,
                 status : status,
-               
+                cost: cost,
+                createdate: today,
+                lastupdated: today,
+
             }
         });
-        ShowAlert();
+        ShowAlert(); // call the ShowAlert function to display a success message
     }
         
-    const CancelEdit = () => {
+    const CancelEdit = () => { //// CancelEdit function navigates the user back to the inventory page
         navigate("/Inventory");
     }
 
-    const ShowAlert = () => {
+    const ShowAlert = () => { // ShowAlert function displays a success message to the user
         var alert = document.getElementById("alert");
         alert.style.display = "block";
-        setTimeout( () =>{
+        setTimeout( () =>{  // navigate the user back to the inventory page after 1.5 seconds
              navigate("/Inventory");
         },1500);
     }
@@ -99,7 +120,7 @@ function AddItem() {
                     </div>
                     {/* Type */}
                     <div className="form-input">
-                        <label className="input-label" for="manufacturer" >Type</label>
+                        <label className="input-label" for="type" >Type</label>
                         <input type="text" className="text-input" id="type"
                         value={type} onChange = {(e) => {setType(e.target.value)}} required = {true}/>
                     </div>
@@ -108,6 +129,12 @@ function AddItem() {
                         <label className="input-label" for="model" >Model</label>
                         <input type="text" className="text-input" id="model" 
                         value={model} onChange = {(e) => {setModel(e.target.value)}} required = {true}/>
+                    </div>
+                    {/* Manufacturer */}
+                    <div className="form-input">
+                        <label className="input-label" for="manufacturer">Manufacturer</label>
+                        <input type="text" className="text-input" id="manufacturer"
+                        value={manufacturer} onChange={(e) => {setManufacturer(e.target.value)}} required={true} />
                     </div>
                     {/* Location */}
                     <div className="form-input">
@@ -158,6 +185,13 @@ function AddItem() {
                                 </ul>
                             </div>
                         </div>                    
+                    </div>
+                    {/* Cost */}
+                    <div className="form-input">
+                        <label className="input-label" for="cost">Cost</label>
+                        <input type="text" className="text-input" id="cost"
+                        value={cost} onChange={(e) => {setCost(e.target.value)}} required={true} />
+                        <div>$</div>
                     </div>
                     {/* <div className="form-input">
                         <label className="input-label" for="photo" >Photo</label>
