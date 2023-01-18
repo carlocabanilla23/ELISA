@@ -78,7 +78,7 @@ function Inventory () {
                 <div>
                     <span class="material-symbols-outlined">inventory_2</span>
                     <span>Inventory</span>
-                
+
                     <div className="searchBar">
                         <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>
                     </div>
@@ -113,7 +113,7 @@ function Inventory () {
                     /> 
           
                 {/* {items.map( (itemRes,index) => <Item item={itemRes} key={index} updateList={updateList}/>)} */}
-                   
+
         </div>
     </div>    
     )

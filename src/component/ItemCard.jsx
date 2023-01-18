@@ -4,8 +4,9 @@ import "./styles/OffCanvas.css";
 import { useNavigate,useLocation } from "react-router-dom";
 import { useEffect,useState } from "react";
 import { API } from "aws-amplify";
-import { Generate } from "./qrcode/qrcode";
+import { Generate } from "./code-generator/qrcode";
 import * as ReactDOM from 'react-dom/client';
+import { GenerateBarcode } from "./code-generator/barcode";
 
 
 const ItemCard = ({ item, updateList }) => {
@@ -20,6 +21,7 @@ const ItemCard = ({ item, updateList }) => {
   const [status,setStatus] = React.useState('Status');
   const [allItems, setItems] = useState([]);
   const [qrcode,setQRCode] = useState();
+  const [barcode,setBarcode] = useState();
 
 
   useEffect( () => {
@@ -55,15 +57,27 @@ const ItemCard = ({ item, updateList }) => {
   const CreateQRCode = (e) => {
     document.getElementById("item-info").style.display = "none";
     document.getElementById("qrcode").style.display = "block";
-    
+    document.getElementById("barcode").style.display = "none";
+  
     console.log(item.serialno);
   let svg = Generate(item.serialno);
   setQRCode(svg);
+  }
+  const CreateBarcode = (e) => {
+    document.getElementById("item-info").style.display = "none";
+    document.getElementById("qrcode").style.display = "none";
+    document.getElementById("barcode").style.display = "block";
+
+    console.log(item.serialno);
+  let svg = GenerateBarcode(item.serialno);
+  setBarcode(svg);
   }
 
   const ViewInformation = (e) => {
     document.getElementById("item-info").style.display = "block";
     document.getElementById("qrcode").style.display = "none";
+    document.getElementById("barcode").style.display = "none";
+
   }
   return (
     <div className="UserRowItems">
@@ -109,7 +123,13 @@ const ItemCard = ({ item, updateList }) => {
                       >Print QR Code</a>
                     </li>
                     <li>
-                      <a className="dropdown-item">Change Role</a>
+                      <a onClick = { (e) => CreateBarcode(serialNumber)}
+                      className="dropdown-item"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight"
+                      >Print Barcode</a>
                     </li>
                     <li>
                       <a className="dropdown-item">Change Status</a>
@@ -195,6 +215,10 @@ const ItemCard = ({ item, updateList }) => {
 
             <div id="qrcode">
                 {qrcode}
+            </div>
+
+            <div id="barcode">
+                {barcode}
             </div>
         </div>
       </div>
