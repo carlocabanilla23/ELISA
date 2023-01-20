@@ -86,13 +86,13 @@ function StorageLocationItem () {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
                 <div>
-                    <span class="material-symbols-outlined">arrow_back</span>
-                    <Link to="/StorageLocation" className="text-dark">
-                        <span >Storage Location </span>  
+                    <span class="material-symbols-outlined" style={{cursor: "pointer"}} onClick={() => navigate('/Location')}>arrow_back</span>
+                    <Link to="/Location" className="text-dark">
+                        <span >Storage Location </span>
                     </Link>
                     <span class="material-symbols-outlined">arrow_right</span>         
-                    <span>{roomnoParam}</span>  
-        
+                    <span>{roomnoParam}</span>
+
                     <div className="searchBar">
                         <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>
                     </div>

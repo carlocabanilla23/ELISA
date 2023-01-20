@@ -19,21 +19,22 @@ function AddItem() {
     const [manufacturer, setManufacturer] = React.useState('');
     const [cost, setCost] = React.useState('');
     // const [photo,setPhoto] = React.useState('');
-    const [item, setItem] = React.useState([]);
-    // const [error, setError] = React.useState('');
-    // const [errorMessage, setErrorMessage] = React.useState('');
+
+    const [items, setItems] = React.useState([]);
+    const [error, setError] = React.useState('');
+    const [errorMessage, setErrorMessage] = React.useState('');
 
     const navigate = useNavigate();
 
-    // React.useEffect(() => {
-    //     if(error === '1'){
-    //         setErrorMessage('Serial Number is already exist');
-    //     }else if(error === '2'){
-    //         setErrorMessage('Please choose a Location');
-    //     }else if(error === '3'){
-    //         setErrorMessage('Please choose a Status');
-    //     }
-    // },[error])
+    React.useEffect(() => {
+        if(error === '1'){
+            setErrorMessage('Serial Number is already exist');
+        }else if(error === '2'){
+            setErrorMessage('Please choose a Location');
+        }else if(error === '3'){
+            setErrorMessage('Please choose a Status');
+        }
+    },[error])
 
 
     const AddItem = (e) => { //// AddItem function is called when the form is submitted
@@ -46,12 +47,28 @@ function AddItem() {
         var day = date.getDate();
         var hour = date.getHours();
         var minutes = date.getMinutes();
-
         var today = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;
         if(hour >= 12){
             today += 'PM';
         }else{
             today += 'AM';
+        }
+
+        //Validation check for the new item
+        const itemList = API.get("inventory", "/items")
+        .then(res => {
+            setItems([itemList,...res]);
+        })
+        console.log(items);
+
+        for(var i = 0; i < items.length; i++){
+            if(items[i].serialno === serialNumber){
+                throw new Error(setError('1'));
+            }else if(location === "Location"){
+                throw new Error(setError('2'));
+            }else if(status === "Status"){
+                throw new Error(setError('3'));
+            }
         }
 
         API.post("inventory","/items/", {  // call the API to post the item's information to the inventory
@@ -197,10 +214,10 @@ function AddItem() {
                         <label className="input-label" for="photo" >Photo</label>
                         <input type="text" className="nameInput" id="name"  />
                     </div> */}
+                    <span className="errormessage">{errorMessage}</span>
                     <div className="button-wrapper">
                         <button className="button" type = "button" onClick={CancelEdit} >Cancel</button>
                         <button className="button" type = "submit" >Save item</button>
-                        {/* <span className="errormessage">{errorMessage}</span> */}
                     </div>
                   
                 </form>
