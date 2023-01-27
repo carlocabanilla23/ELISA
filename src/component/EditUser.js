@@ -38,7 +38,7 @@ function EditUser() {
         var alert = document.getElementById("alert");
         alert.style.display = "block";
         setTimeout( () =>{
-                navigate("/Inventory");
+                navigate("/Users");
         },1500);
     }
 
@@ -173,7 +173,7 @@ function EditUser() {
                             onChange = {(e) => setSchoolID(e.target.value)}
                             id="schoolID"
                             required = {true}
-                            pattern = '^([0-9]{8})$' />
+                            pattern = '^([0-9]{9})$' />
                             <span className="errorMessage">{schoolID?"schoolID must be unique":"schoolID is required"}</span>
                         </div>
                     </div>
@@ -181,14 +181,14 @@ function EditUser() {
                     <div className="mb-3 row">
                         <label for = "inputEmail" className = "col-sm-2 col-form-label">Email</label>
                         <div className = "col-sm-10">
-                            <input type = "text"
+                            <div className = "emailInfo">{email}</div>
+                            {/* <input type = "text"
                             className = "form-control"
                             value = {email}
                             onChange = {(e) => setEmail(e.target.value)}
                             id = "inputEmail"
                             required = {true}
-                            pattern = '^([a-z0-9]{1,})@spu\.edu$' />
-                            <span className="errorMessage">{email?"Email must end with @spu.edu and unique":"Email is required"}</span>
+                            pattern = '^([a-z0-9]{1,})@spu\.edu$' /> */}
                         </div>
                     </div>      
                     {/* Phone */}

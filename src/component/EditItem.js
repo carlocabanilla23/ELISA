@@ -119,8 +119,7 @@ function EditItem() {
                     {/* Serial Number */}
                     <div className="form-input">
                         <label className="input-label" for="serialNumber" >Serial #</label>
-                        <input readOnly type="text" className="text-input" id="serialNumber"  
-                        value={serialNumber} onChange = {(e) => {setSerialNumber(e.target.value); }} required = {true} />
+                        <div className="serialNumber">{serialNumber}</div>
                     </div>
                     {/* Type */}
                     <div className="form-input">
