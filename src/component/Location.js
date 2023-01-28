@@ -37,7 +37,7 @@ function StorageLocation () {
     }
 
     const sortItems = (items) => {
-        const updatedList = items.filter(item => item.location === "Storage");
+        const updatedList = items.filter(item => item.location === "Storage" || item.location === "Room");
 
         const updatedRoomList =  [...new Map(updatedList.map((room) => [room.roomno, room])).values()];
         setItems(updatedRoomList);
@@ -83,8 +83,8 @@ function StorageLocation () {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
                 <div> 
-                    <span class="material-symbols-outlined">shelves</span>
-                    <span>Storage Location</span>
+                    <span class="material-symbols-outlined">door_open</span>
+                    <span>Location</span>
                     <div className="searchBar">
                         <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>
                     </div>

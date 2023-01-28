@@ -34,8 +34,7 @@ function Sidebar() {
             <div className="inventory-dropdown">
               <ul>
                 <li><Link to="/Inventory">All Items</Link></li>
-                <li><Link to="/StorageLocation">Storage Location</Link></li>
-                <li><Link to="/RoomLocation">Room Location</Link></li>
+                <li><Link to="/Location">Location</Link></li>
                 <li><Link to="/AssignedItems">Assigned Items</Link></li>
                 <li><Link to="/UnassignedItems">Unassigned Items</Link></li>
               </ul>

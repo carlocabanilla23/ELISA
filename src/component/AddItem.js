@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Amplify, API } from "aws-amplify";
 import awsExport from '../aws-exports';
 import { useNavigate } from 'react-router-dom'; 
@@ -19,39 +19,73 @@ function AddItem() {
     const [manufacturer, setManufacturer] = React.useState('');
     const [cost, setCost] = React.useState('');
     // const [photo,setPhoto] = React.useState('');
-    const [item, setItem] = React.useState([]);
-    // const [error, setError] = React.useState('');
-    // const [errorMessage, setErrorMessage] = React.useState('');
+
+    const [items, setItems] = React.useState([]);
+    const [error, setError] = React.useState('');
+    const [errorMessage, setErrorMessage] = React.useState('');
 
     const navigate = useNavigate();
 
-    // React.useEffect(() => {
-    //     if(error === '1'){
-    //         setErrorMessage('Serial Number is already exist');
-    //     }else if(error === '2'){
-    //         setErrorMessage('Please choose a Location');
-    //     }else if(error === '3'){
-    //         setErrorMessage('Please choose a Status');
-    //     }
-    // },[error])
+    useEffect(() => {
+        setErrorMessage('');
+        setError('');
+    }, [name,serialNumber,type,model,location,roomNumber,status,manufacturer,cost])
 
+    useEffect(() => {
+        if(error === '1'){
+            setErrorMessage('Serial Number is already exist!');
+        }else if(error === '2'){
+            setErrorMessage('Please choose a Location!');
+        }else if(error === '3'){
+            setErrorMessage('Please choose a Status!');
+        }else if(error === '4'){
+            setErrorMessage('Unassigned item has no room number!');
+        }else if(error === '5'){
+            setErrorMessage('Room number is associated with different location type!');
+        }
+    },[error])
+    useEffect(() => {
+        API.get("inventory", "/items").then(res => {
+            setItems([...items,...res]);
+        })
+    }, []);
 
     const AddItem = (e) => { //// AddItem function is called when the form is submitted
         e.preventDefault();
 
-        //Get the current time the item is added
+        //Get the current time the item is add
         var date = new Date();
         var year = date.getFullYear();
         var month = date.getMonth()+1;
         var day = date.getDate();
         var hour = date.getHours();
         var minutes = date.getMinutes();
-
         var today = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;
         if(hour >= 12){
             today += 'PM';
         }else{
             today += 'AM';
+        }
+
+        /*
+            Validation check for the new item:
+            1. Check if serialNumber is already exist
+            2 and 3. Check if user choose a location or a status for the item
+            4. Check if user set a room for the unassigned item. Unassigned item will have no room
+            5. Check if the room number is already exist as a different location type
+        */
+        for(var i = 0; i < items.length; i++){
+            if(items[i].serialno === serialNumber){
+                throw new Error(setError('1'));
+            }else if(location === "Location"){
+                throw new Error(setError('2'));
+            }else if(status === "Status"){
+                throw new Error(setError('3'));
+            }else if(location === "Unassigned" && roomNumber != ''){
+                throw new Error(setError('4'));
+            }else if(items[i].roomno === roomNumber && items[i].location != location){
+                throw new Error(setError('5'));
+            }
         }
 
         API.post("inventory","/items/", {  // call the API to post the item's information to the inventory
@@ -162,7 +196,7 @@ function AddItem() {
                     <div className="form-input">
                         <label className="input-label" for="roomNumber" >Room/Storage #</label>
                         <input type="text" className="text-input" id="roomNumber" 
-                        value={roomNumber} onChange = {(e) => {setRoom(e.target.value)}} required = {true} />
+                        value={roomNumber} onChange = {(e) => {setRoom(e.target.value)}} required={location !== "Unassigned"} />
                     </div>
                     {/* Status */}
                     <div className="form-input">
@@ -197,10 +231,10 @@ function AddItem() {
                         <label className="input-label" for="photo" >Photo</label>
                         <input type="text" className="nameInput" id="name"  />
                     </div> */}
+                    <span className="errormessage">{errorMessage}</span>
                     <div className="button-wrapper">
                         <button className="button" type = "button" onClick={CancelEdit} >Cancel</button>
                         <button className="button" type = "submit" >Save item</button>
-                        {/* <span className="errormessage">{errorMessage}</span> */}
                     </div>
                   
                 </form>

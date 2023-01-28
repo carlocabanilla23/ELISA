@@ -12,8 +12,7 @@ import AddItem from './component/AddItem';
 import EditItem from './component/EditItem';
 import EditUser from './component/EditUser';
 import Inventory from './component/Inventory';
-import RoomLocation from './component/RoomLocation';
-import StorageLocation from './component/StorageLocation';
+import Location from './component/Location';
 import Reservations from './component/Reservations';
 import Reservation from './component/Reservation';
 import UserInformation from './component/UserInformation';
@@ -61,14 +60,6 @@ function App() {
           </ProtectedRoute>
       } />
 
-      <Route
-        path='/RoomLocation'
-        element= {
-          <ProtectedRoute user={user}>
-              <RoomLocation  />
-          </ProtectedRoute>
-      } />
-
       <Route path='/RoomLocation/RoomLocationItem'
         element= {
           <ProtectedRoute user={user}>
@@ -76,10 +67,10 @@ function App() {
           </ProtectedRoute>
       } />
   
-      <Route path='/StorageLocation' 
+      <Route path='/Location' 
         element= {
           <ProtectedRoute user={user}>
-              <StorageLocation /> 
+              <Location /> 
           </ProtectedRoute> } />
 
       <Route path='/RoomLocation/StorageLocationItem' 

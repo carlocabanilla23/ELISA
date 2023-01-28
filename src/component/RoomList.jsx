@@ -19,9 +19,10 @@ const RoomList = ({items,updateList}) => {
             <div className="UserRowTitle">
                 <div className="container-fluid">
                     <div className="row">   
-                            <div className="col"> Room No </div>
-                            <div className="col"> Building </div>
-                            <div className="col"> Number of Items</div> 
+                        <div className="col"> Room No </div>
+                        <div className="col"> Location </div>
+                        <div className="col"> Building </div>
+                        <div className="col"> Number of Items</div> 
                     </div>
                 </div>
             </div>
