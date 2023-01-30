@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import awsExport from '../aws-exports';
 import './styles/Signup.css';
 
+
 Amplify.configure(awsExport);
 
 function Signup () {
@@ -60,17 +61,33 @@ function Signup () {
             setError(4);
         }
 
-        // API.post("userapi","/email/", {
-        //     body : {
-        //     firstname : firstName,
-        //     lastname : lastName,
-        //     role : role,
-        //     schoolID : schoolID,
-        //     email : email,
-        //     phone : phone,
-        //     password : "password"
-        //     }
-        // });
+        API.post("userapi","/email/", {
+            body : {
+            firstname : firstName,
+            lastname : lastName,
+            role : role,
+            schoolID : schoolID,
+            email : email,
+            phone : phone,
+            password : "password"
+            }
+        });
+
+        API.post("emailsystem","/email/send", {
+            body : {
+            id : crypto.randomUUID(),
+            email : email
+            }
+        });
+
+        API.post("emailsystem","/email", {
+            body : {
+            id : crypto.randomUUID(),
+            email : email
+            }
+        });
+        
+        console.log("success");
         ShowAlert();
     }
 
@@ -177,9 +194,10 @@ function Signup () {
                             onChange = {(e) => {setEmail(e.target.value); setErrorMessage('')}}
                             id = "inputEmail"
                             required={true}
-                            pattern='^([a-z0-9]{1,})@spu\.edu$' 
-                            onInvalid={(event) => {event.target.setCustomValidity('Email must end with @spu.edu and unique')}}
-                            onInput={e => e.target.setCustomValidity('')} />
+                            // pattern='^([a-z0-9]{1,})@spu\.edu$' 
+                            // onInvalid={(event) => {event.target.setCustomValidity('Email must end with @spu.edu and unique')}}
+                            // onInput={e => e.target.setCustomValidity('')}
+                            />
                         </div>
                     </div>      
                     {/* Phone */}

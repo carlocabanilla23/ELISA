@@ -16,17 +16,11 @@ function Login() {
     e.preventDefault();
     console.log(username);
 
-    API.post("userapi","/email/Login/"+username,{
-        body : {
-            password : password
-        }
-    }
-    ).then( res => {
+    API.get("userapi","/email/object/"+username).then( res => {
         if (res) {  
                 StartSession(res);
                 console.log(res); 
-                navigate('/Home');
-                    
+                navigate('/Home'); 
         }else{
             const err = ReactDOM.createRoot(
                 document.getElementById('prompt')

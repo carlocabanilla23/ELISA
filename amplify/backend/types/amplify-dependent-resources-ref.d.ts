@@ -14,6 +14,11 @@ export type AmplifyDependentResourcesAttributes = {
             "RootUrl": "string",
             "ApiName": "string",
             "ApiId": "string"
+        },
+        "emailsystem": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
         }
     },
     "function": {
@@ -30,6 +35,12 @@ export type AmplifyDependentResourcesAttributes = {
             "LambdaExecutionRole": "string"
         },
         "userlambda": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "emaillambda": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
@@ -54,6 +65,14 @@ export type AmplifyDependentResourcesAttributes = {
             "Region": "string"
         },
         "userdb": {
+            "Name": "string",
+            "Arn": "string",
+            "StreamArn": "string",
+            "PartitionKeyName": "string",
+            "PartitionKeyType": "string",
+            "Region": "string"
+        },
+        "emaildb": {
             "Name": "string",
             "Arn": "string",
             "StreamArn": "string",

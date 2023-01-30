@@ -12,33 +12,26 @@ const AWS = require('aws-sdk')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const bodyParser = require('body-parser')
 const express = require('express')
-const bcrypt = require('bcryptjs');
-const md5 = require('md5');
-
-var salt = bcrypt.genSaltSync(3);
-
+const nodemailer = require('nodemailer')
 
 AWS.config.update({ region: process.env.TABLE_REGION });
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-let tableName = "userdb";
+let tableName = "emaildb";
 if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + '-' + process.env.ENV;
 }
 
 const userIdPresent = false; // TODO: update in case is required to use that definition
-const partitionKeyName = "email";
+const partitionKeyName = "id";
 const partitionKeyType = "S";
-const sessionIDName = "sessionID";
-const sessionIDType = "S";
 const sortKeyName = "";
 const sortKeyType = "";
 const hasSortKey = sortKeyName !== "";
 const path = "/email";
 const UNAUTH = 'UNAUTH';
 const hashKeyPath = '/:' + partitionKeyName;
-const hashKeySessionPath = '/:' + sessionIDName;
 const sortKeyPath = hasSortKey ? '/:' + sortKeyName : '';
 
 // declare a new express app
@@ -88,7 +81,6 @@ app.get(path, function(req, res) {
     TableName: tableName,
     KeyConditions: condition
   }
-  console.log("query" + queryParams);
 
   dynamodb.scan(queryParams, (err, data) => {
     if (err) {
@@ -145,6 +137,7 @@ app.get(path + '/object' + hashKeyPath + sortKeyPath, function(req, res) {
   });
 });
 
+
 /************************************
 * HTTP put method for insert object *
 *************************************/
@@ -169,10 +162,51 @@ app.put(path, function(req, res) {
   });
 });
 
+/************************************
+* HTTP post method for sending email *
+*************************************/
+
+app.post(path+"/send", function(req, res) {
+
+  if (userIdPresent) {
+    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  }
+
+  let putItemParams = {
+    TableName: tableName,
+    Item: req.body
+  }
+
+  let mailTransporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 587, false for other ports
+    requireTLS: true,
+    auth : {
+        user: "SPU.Elisa@gmail.com",
+        pass: "svitawseyjrkqgav"
+    }
+  });
+  let email = req.body.email;
+  let content = {
+    from: "SPU.Elisa@gmail.com",
+    to: email,
+    subject : "Email Verification",
+    text : "Please click the link below to verify your email \n click this link"
+  }
+
+  mailTransporter.sendMail(content,(err)=>{
+    if (err)
+        res.json("error occured" + err);
+    else
+        res.json("success");
+  });
+
+});
 
 
 /************************************
-* HTTP post method for insert object *
+* HTTP post method for sending email *
 *************************************/
 
 app.post(path, function(req, res) {
@@ -181,24 +215,18 @@ app.post(path, function(req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
-  bcrypt.hash(req.body.password, salt, function(err, hash) {
+  let putItemParams = {
+    TableName: tableName,
+    Item: req.body
+  }
 
-    req.body.sessionID = md5(req.body.schoolID);
-    req.body.password = hash;
-
-    let putItemParams = {
-      TableName: tableName,
-      Item: req.body
+  dynamodb.put(putItemParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({error: err, url: req.url, body: req.body});
+    } else {
+      res.json({success: 'post call succeed!', url: req.url, data: data})
     }
-
-    dynamodb.put(putItemParams, (err, data) => {
-      if (err) {
-        res.statusCode = 500;
-        res.json({error: err, url: req.url, body: req.body});
-      } else {
-        res.json({success: 'post call succeed!', url: req.url, data: data})
-      }
-    });
   });
 });
 
