@@ -82,7 +82,7 @@ function Signup () {
 
         API.post("emailsystem","/email", {
             body : {
-            id : getRandomInt(999999),
+            id : "asd123s,
             email : email
             }
         });
