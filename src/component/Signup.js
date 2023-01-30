@@ -82,7 +82,7 @@ function Signup () {
 
         API.post("emailsystem","/email", {
             body : {
-            id : crypto.randomUUID(),
+            id : getRandomInt(999999),
             email : email
             }
         });
