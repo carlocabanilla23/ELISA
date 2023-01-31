@@ -75,14 +75,13 @@ function Signup () {
 
         API.post("emailsystem","/email/send", {
             body : {
-            id : crypto.randomUUID(),
             email : email
             }
         });
 
         API.post("emailsystem","/email", {
             body : {
-            id : "asd123s,
+            id : crypto.randomUUID(),
             email : email
             }
         });
