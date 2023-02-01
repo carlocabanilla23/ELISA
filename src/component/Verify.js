@@ -1,7 +1,8 @@
 import './styles/Login.css';
 import { useNavigate } from 'react-router-dom';
 import * as ReactDOM from 'react-dom/client';
-import React, { useEffect, useParams }  from 'react';
+import React, { useEffect }  from 'react';
+import { useParams } from "react-router-dom";
 import { API } from 'aws-amplify';
 import logo from './icons/elisa_logo.png';
 import elisa from './icons/elisa.png';
