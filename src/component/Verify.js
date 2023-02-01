@@ -1,7 +1,7 @@
 import './styles/Login.css';
 import { useNavigate } from 'react-router-dom';
 import * as ReactDOM from 'react-dom/client';
-import React, { useEffect }  from 'react';
+import React, { useEffect, useState }  from 'react';
 import { useParams } from "react-router-dom";
 import { API } from 'aws-amplify';
 import logo from './icons/elisa_logo.png';
@@ -9,9 +9,23 @@ import elisa from './icons/elisa.png';
 
 function Verify() {
     const {param} = useParams();
+    // const [email,setEmail] = useState('');
+
+
     useEffect( ()=>{
         API.get("userapi","/email/object/"+param).then( res => {
-           console.log(res);
+           API.post("userapi","/email/", {
+            body : {
+            firstname : res.firstname,
+            lastname : res.lastname,
+            role : res.role,
+            schoolID : res.password,
+            email : res.email,
+            phone : res.phone,
+            status : "verified",
+            password : "password"
+        }})
+        
         });
     },[]);
     
@@ -25,5 +39,7 @@ function Verify() {
     </div>
   );
 }
+
+
 
 export default Verify;
