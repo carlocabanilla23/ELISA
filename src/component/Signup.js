@@ -76,15 +76,14 @@ function Signup () {
 
         API.post("emailsystem","/email/send", {
             body : {
-            id : "crypto.randomUUID()",
             email : email,
-            link : "https://dev.djno0p84ctg6u.amplifyapp.com/verify/"+email
+            message: "Thank you for registering to Elisa Please click the link below to verify your account. \n \n https://dev.djno0p84ctg6u.amplifyapp.com/verify/"+email
             }
         });
 
         API.post("emailsystem","/email", {
             body : {
-            id : "asd123s",
+            id : crypto.randomUUID(),
             email : email
             }
         });

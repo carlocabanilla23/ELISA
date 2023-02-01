@@ -31,7 +31,6 @@ function StorageLocationItem () {
         API.get("inventory","/items/").then( itemRes => {
             sortItems(itemRes);
         })
-    
     },[]);
 
     const updateList = (serialno) => {
@@ -116,7 +115,7 @@ function StorageLocationItem () {
         </div>
 
         <div className="UserPane">
-            <ItemList items={currentList} updateList={updateList}/>
+            <ItemList items={currentList} updateList={updateList} />
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 

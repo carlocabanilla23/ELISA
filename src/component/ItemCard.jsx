@@ -9,7 +9,7 @@ import * as ReactDOM from 'react-dom/client';
 import { GenerateBarcode } from "./code-generator/barcode";
 
 
-const ItemCard = ({ item, updateList }) => {
+const ItemCard = ({ item, updateList}) => {
   const navigate = useNavigate();
   const loc = useLocation();
   const [name,setName] = React.useState('');
@@ -36,7 +36,8 @@ const ItemCard = ({ item, updateList }) => {
         // setStatus(res.status);
         // setCreateDate(res.createdate);
         // setLastUpdate(res.lastupdate);
-      })},[]);
+      })
+    },[]);
   const EditItem = (e) => {
     console.log(e);
     navigate("/EditItem", {
@@ -86,10 +87,10 @@ const ItemCard = ({ item, updateList }) => {
           <div className="col"> {item.serialno} </div>
           <div className="col"> {item.name} </div>
           <div className="col"> {item.type} </div>
-          <div className="col"> {item.model} </div>
-          <div className="col"> {item.location} </div>
-          <div className="col"> {item.roomno} </div>
-          <div className="col"> {item.status} </div>
+          <div id="model" className="col"> {item.model} </div>
+          <div id="location" className="col"> {item.location} </div>
+          <div id="roomNumber" className="col"> {item.roomno} </div>
+          <div id="status" className="col"> {item.status} </div>
           <div className="col actions">
             <div className="row">
               <div className="col actions-column">
@@ -113,6 +114,9 @@ const ItemCard = ({ item, updateList }) => {
                         // onClick={() => ItemInformation(item.serialno)}
                       >View Information</a>
                     </li>
+                    <li style={{display: 'none'}} id="mobile">
+                      <a className="dropdown-item" type="button" onClick={() => EditItem(item.serialno)}>Edit</a>
+                    </li>
                     <li>
                       <a onClick={ (e) => CreateQRCode(serialNumber)}
                       className="dropdown-item"
@@ -134,15 +138,18 @@ const ItemCard = ({ item, updateList }) => {
                     <li>
                       <a className="dropdown-item">Change Status</a>
                     </li>
+                    <li style={{display: 'none'}} id="mobile">
+                      <a className="dropdown-item" type="button" onClick={() => updateList(item.serialno)}>Delete</a>
+                    </li>
                   </ul>
                 </div>
               </div>
-              <div className="col actions-column">
+              <div id="computer" className="col actions-column">
                 <button className="btn" onClick={() => EditItem(item.serialno)}>
                   <i className="fa fa-pencil"></i>
                 </button>
               </div>
-              <div className="col actions-column">
+              <div id="computer" className="col actions-column">
                 <button
                   className="btn"
                   onClick={() => updateList(item.serialno)}

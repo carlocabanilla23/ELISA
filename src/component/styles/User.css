@@ -84,3 +84,15 @@
 
 }
 
+@media only screen
+and (min-device-width: 325px)
+and (max-device-width: 924px)
+and (-webkit-min-device-pixel-ratio: 1) {
+    #model, #location, #roomNumber, #status, #computer{
+        display: none;
+    }
+    #mobile{
+        display: block !important
+    }
+}
+
