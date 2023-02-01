@@ -27,14 +27,14 @@ import AssignedItems from './component/AssignedItems';
 import UnassignedItems from './component/UnassignedItems';
 import ProtectedRoute from './component/Routes/ProtectedRoute';
 import ViewItemInfo from './component/mobile/ViewItemInfo-m';
+import Verify from './component/Verify';
 
 Amplify.configure(awsExport);
 
 function App() {
   const [user] = useState(null);
+  const [access,setAccess] = useState('');
 
-  useEffect( () => {
-  },[]);
 
   return (
     <div >
@@ -43,6 +43,8 @@ function App() {
     <Routes>
       {/* Login Page */}
       <Route path='/' element= {<Login /> } />
+
+      <Route path='/Verify/:param' element= {<Verify /> } />
       <Route path='/Signup' element= {<Signup /> } />
       <Route
         path='/Home'

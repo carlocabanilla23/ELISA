@@ -6,9 +6,21 @@ import iInventory from "./icons/inventory.png";
 import iReservations from "./icons/reservation.png";
 import iUsers from './icons/users.png';
 import { Router,Link,Route } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 
 function Sidebar() {
+  const access = localStorage.getItem('access');
+
+  
+  useEffect( () => {
+    if (access === "Student") {
+      
+      let hide = document.getElementById("users");
+      hide.style.display = "none";
+    }
+  },[]);
+
   return (
     <div className="sidenav">    
         <div className='sidebar'>
@@ -43,7 +55,7 @@ function Sidebar() {
             <img src={iReservations} className="icon" alt="reservation icon" />
               <Link to="/Reservations">Reservations</Link>
             </li>
-            <li className="menu-list">
+            <li  id="users" className="menu-list">
             <img src={iUsers} className="icon" alt="users icon" />
               <Link to="/Users">Users</Link>
             </li>

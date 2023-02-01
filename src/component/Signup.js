@@ -69,20 +69,22 @@ function Signup () {
             schoolID : schoolID,
             email : email,
             phone : phone,
+            status : "inactive",
             password : "password"
             }
         });
 
         API.post("emailsystem","/email/send", {
             body : {
-            id : crypto.randomUUID(),
-            email : email
+            id : "crypto.randomUUID()",
+            email : email,
+            link : "https://dev.djno0p84ctg6u.amplifyapp.com/verify/"+email
             }
         });
 
         API.post("emailsystem","/email", {
             body : {
-            id : "asd123s,
+            id : "asd123s",
             email : email
             }
         });
