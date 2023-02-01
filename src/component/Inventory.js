@@ -104,7 +104,7 @@ function Inventory () {
 
         <div className="UserPane">
             
-            <ItemList items={currentList} updateList={updateList}/>
+            <ItemList items={currentList} updateList={updateList} isLocation={"inventory"}/>
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 
