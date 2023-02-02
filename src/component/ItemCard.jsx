@@ -228,6 +228,16 @@ const ItemCard = ({ item, updateList}) => {
                     <label  className = "Attribute col-sm-4">Updated:</label>
                     <div className = "Information col-sm-8">{item.lastupdated}</div>
                 </div>
+                {/* Dated Acquired */}
+                <div className = "mb-3 row">
+                    <label  className = "Attribute col-sm-4">Acquired:</label>
+                    <div className = "Information col-sm-8">{item.acquiredate}</div>
+                </div>
+                {/* Dated Expired */}
+                <div className = "mb-3 row">
+                    <label  className = "Attribute col-sm-4">Expired:</label>
+                    <div className = "Information col-sm-8">{item.expiredate}</div>
+                </div>
             </div>
 
             <div id="qrcode">
