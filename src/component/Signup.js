@@ -43,6 +43,7 @@ function Signup () {
         }, 1500);
     }
     const onSubmit = (e) => {
+        let id = crypto.randomUUID();
         e.preventDefault();
         const userList = API.get("userapi", "/email/") 
         .then(res => {
@@ -83,7 +84,7 @@ function Signup () {
 
         API.post("emailsystem","/email", {
             body : {
-            id : crypto.randomUUID(),
+            id : id,
             email : email
             }
         });
