@@ -188,11 +188,12 @@ app.post(path+"/send", function(req, res) {
     }
   });
   let email = req.body.email;
+  let email = req.body.message;
   let content = {
     from: "SPU.Elisa@gmail.com",
     to: email,
     subject : "Email Verification",
-    text : "Please click the link below to verify your email \n click this link"
+    text : message
   }
 
   mailTransporter.sendMail(content,(err)=>{

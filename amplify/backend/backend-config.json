@@ -1,5 +1,19 @@
 {
   "api": {
+    "emailsystem": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "emaillambda"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "inventory": {
       "dependsOn": [
         {
@@ -41,23 +55,28 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "API Gateway"
-    },
-    "emailsystem": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "emaillambda",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        }
-      ]
     }
   },
   "function": {
+    "emaillambda": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "emaildb"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "inventory": {
       "build": true,
       "dependsOn": [
@@ -114,29 +133,26 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
-    },
-    "emaillambda": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "emaildb",
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "attributeEnvMap": {
-            "Name": "TABLE_NAME",
-            "Arn": "TABLE_ARN"
-          }
-        }
-      ]
     }
   },
   "hosting": {},
   "parameters": {
+    "AMPLIFY_function_emaillambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "emaillambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_emaillambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "emaillambda"
+        }
+      ]
+    },
     "AMPLIFY_function_equipmentapi_deploymentBucketName": {
       "usedBy": [
         {
@@ -203,6 +219,14 @@
     }
   },
   "storage": {
+    "email": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "emaildb": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
     "inventory": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
@@ -214,14 +238,6 @@
     "userdb": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
-    },
-    "email": {
-      "service": "DynamoDB",
-      "providerPlugin": "awscloudformation"
-    },
-    "emaildb": {
-      "service": "DynamoDB",
-      "providerPlugin": "awscloudformation"
     }
   }
 }
