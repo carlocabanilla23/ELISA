@@ -25,7 +25,8 @@ function EditItem() {
     const [acquiredDate, setAcquiredDate] = React.useState('');
     const [expiredDate, setExpiredDate] = React.useState('');
     const [item, setItem] = React.useState([]);
-
+    const [error, setError] = React.useState('');
+    const [errorMessage, setErrorMessage] = React.useState('');
     useEffect( () => {
         API.get("inventory","/items/object/"+serialParam).then(res => {
             setName(res.name);
@@ -39,9 +40,28 @@ function EditItem() {
             setCost(res.cost);
             setAcquiredDate(res.acquiredate);
             setExpiredDate(res.expiredate);
-        })},[]);
+        })
+        API.get("inventory", "/items").then(res => {
+            setItem([...item,...res]);
+        })
+    },[]);
 
+    useEffect(() => {
+        if(error === '1'){
+            setErrorMessage('Please choose a Location!');
+        }else if(error === '2'){
+            setErrorMessage('Please choose a Status!');
+        }else if(error === '3'){
+            setErrorMessage('Unassigned item has no room number!');
+        }else if(error === '4'){
+            setErrorMessage('Room number is associated with different location type!');
+        }
+    },[error]);
 
+    useEffect(() => {
+        setErrorMessage('');
+        setError('');
+    }, [name,serialNumber,type,model,location,roomNumber,status,manufacturer,cost]);
 
     const CancelEdit = () => {
         navigate('/Inventory');
@@ -57,10 +77,6 @@ function EditItem() {
     
     const EditItem = (e) => {
         e.preventDefault();
-        const itemList = API.get("inventory","/items/")
-            .then(res => {
-                setItem([itemList,...res]);
-            });
 
         //Get the current time
         var date = new Date();
@@ -76,6 +92,19 @@ function EditItem() {
         }else{
             today += 'AM';
         }
+        if(location === "Location"){
+            throw new Error(setError('1'));
+        }else if(status === "Status"){
+            throw new Error(setError('2'));
+        }else if(location === "Unassigned" && roomNumber != ''){
+            throw new Error(setError('3'));
+        }
+        for(var i = 0; i < item.length; i++){
+            if(item[i].roomno === roomNumber && item[i].location != location){
+                throw new Error(setError('4'));
+            }
+        }
+
         API.post("inventory","/items/", {
             body : {
                 name : name,
@@ -172,7 +201,7 @@ function EditItem() {
                         <div className="form-input">
                             <label className="input-label" for="roomNumber" >Room/Storage #</label>
                             <input type="text" className="text-input" id="roomNumber" 
-                            value={roomNumber} onChange = {(e) => {setRoom(e.target.value)}} required = {true} />
+                            value={roomNumber} onChange = {(e) => {setRoom(e.target.value)}} required = {location != "Unassigned"} />
                         </div>
                         {/* Status */}
                         <div className="form-input">
@@ -190,6 +219,9 @@ function EditItem() {
                                             </a>
                                         </li>
                                         <li><a className="dropdown-item" onClick={(e)=> setStatus ("Used")} > Used
+                                            </a>
+                                        </li>
+                                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("Broken")} > Broken
                                             </a>
                                         </li>
                                     </ul>
@@ -221,10 +253,10 @@ function EditItem() {
                             <label className="input-label" for="photo" >Photo</label>
                             <input type="text" className="nameInput" id="name"  />
                         </div> */}
+                        <span className="errormessage">{errorMessage}</span>
                         <div className="button-wrapper">
                             <button className="button" type = "button" onClick={CancelEdit} >Cancel</button>
                             <button className="button" type = "submit" >Update item</button>
-                            {/* <span className="errormessage">{errorMessage}</span> */}
                         </div>
                     </div>
                 </form>

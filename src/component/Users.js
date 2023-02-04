@@ -24,7 +24,6 @@ function Users () {
             setUsers([...users,...res]);
             setUnfilteredUsers([...users,...res]);
         })
-
     },[]);
 
     const navigate = useNavigate();

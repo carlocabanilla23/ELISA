@@ -95,6 +95,12 @@
 
 .addItemColumn{
     position: absolute;
-        top: 9.3vh;
+        top: 9.3%;
         left: 50%;
+}
+
+.errormessage{
+    position: absolute;
+        top: 100%;
+        left: 43%;
 }

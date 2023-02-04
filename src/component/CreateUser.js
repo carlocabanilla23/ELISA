@@ -16,6 +16,7 @@ function CreateUser() {
     const [schoolID,setSchoolID] = React.useState('');
     const [email,setEmail] = React.useState('');
     const [phone,setPhone] = React.useState('');
+    const [password,setPassword] = React.useState('');
 
     /* 
         These useState is for checking the uniqueness of the input information
@@ -40,6 +41,14 @@ function CreateUser() {
         }
     }, [error])
 
+    React.useEffect(() => {
+        API.get("userapi", "/email").then(res => {
+            setUsers([...users,...res]);
+        })
+        setError('');
+        setErrorMessage('');
+    }, []);
+
     const AddUser = (e) => {
         e.preventDefault();
         /* validate:
@@ -51,10 +60,7 @@ function CreateUser() {
             The back arrow is implemented using fa fa-back-arrow as you mentioned, and all button will direct
             back to the Users page if you click it (for create button if successfully pass all validations).
         */
-        const userList = API.get("userapi", "/email/")
-        .then(res => {
-            setUsers([userList,...res]);
-        });
+        console.log(users);
         for(var i = 0; i < users.length; i++){
             if(users[i].email === email && users[i].schoolID === schoolID){
                 throw new Error(setError('1'));
@@ -77,7 +83,7 @@ function CreateUser() {
             schoolID : schoolID,
             email : email,
             phone : phone,
-            password : "password"
+            password : password,
             }
         });
         ShowAlert();
@@ -124,7 +130,7 @@ function CreateUser() {
                         <input  type = "text"
                                 className = "form-control"
                                 value = {firstName}
-                                onChange = {(e) => {setFirstName(e.target.value); setErrorMessage('')}}
+                                onChange = {(e) => {setFirstName(e.target.value)}}
                                 id="inputFirstName"
                                 required={true} />
                         </div>
@@ -139,7 +145,7 @@ function CreateUser() {
                         <input  type="text"
                                 className="form-control"
                                 value = {lastName}
-                                onChange = {(e) => {setLastName(e.target.value); setErrorMessage('')}}
+                                onChange = {(e) => {setLastName(e.target.value)}}
                                 id="inputLastName"
                                 required={true} />
                         </div>
@@ -189,7 +195,7 @@ function CreateUser() {
                             <input type = "text"
                             className = "form-control"
                             value = {schoolID}
-                            onChange = {(e) => {setSchoolID(e.target.value); setErrorMessage('')}}
+                            onChange = {(e) => {setSchoolID(e.target.value)}}
                             id="schoolID"
                             required={true}
                             pattern='^([0-9]{9})$'
@@ -204,33 +210,48 @@ function CreateUser() {
                             <input type = "text"
                             className = "form-control"
                             value = {email}
-                            onChange = {(e) => {setEmail(e.target.value); setErrorMessage('')}}
+                            onChange = {(e) => {setEmail(e.target.value)}}
                             id = "inputEmail"
                             required={true}
-                            pattern='^([a-z0-9]{1,})@spu\.edu$' 
+                            pattern='^([a-z0-9]{1,})@spu\.edu$'
                             onInvalid={(event) => {event.target.setCustomValidity('Email must end with @spu.edu and unique')}}
                             onInput={e => e.target.setCustomValidity('')} />
                         </div>
-                    </div>      
+                    </div>
                     {/* Phone */}
                     <div className = "mb-3 row">
                         <label for= "inputPhone" className = "col-sm-2 col-form-label">Phone</label>
                         <div className = "col-sm-10">
-                            <input type = "text" 
-                            className = "form-control" 
+                            <input type = "text"
+                            className = "form-control"
                             value = {phone}
-                            onChange = {(e) => {setPhone(e.target.value); setErrorMessage('')}}
-                            id = "inputPhone" 
+                            onChange = {(e) => {setPhone(e.target.value)}}
+                            id = "inputPhone"
                             required={true}
-                            pattern='^([0-9]{10})$' 
+                            pattern='^([0-9]{10})$'
                             onInvalid={(event) => {event.target.setCustomValidity('Phone number must have 10 digits: #########')}}
+                            onInput={e => e.target.setCustomValidity('')} />
+                        </div>
+                    </div>
+                    {/* Password */}
+                    <div className = "mb-3 row">
+                        <label for="Password" className="col-sm-2 col-form-label">Password</label>
+                        <div className="col-sm-10">
+                            <input type="text"
+                            className="form-control"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            id="inputPassword"
+                            required={true}
+                            pattern='^(.{8,})$'
+                            onInvalid={(event) => {event.target.setCustomValidity('Password must have at least 8 characters')}}
                             onInput={e => e.target.setCustomValidity('')} />
                         </div>
                     </div>
                     {/* Submit Button */}
                     <div className="form-buttons">
                         <button type="button" onClick={cancelEdit} className="btn btn-primary">Cancel</button>
-                        <button type="submit" className="btn btn-primary">Create</button> 
+                        <button type="submit" className="btn btn-primary">Create</button>
                         <span className="errorMessage">{errorMessage}</span>
                     </div>
                 </form>
