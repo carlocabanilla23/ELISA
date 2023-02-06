@@ -21,6 +21,16 @@ const User = ( {user,updateList} ) => {
                         }
                 });
         }
+
+        const updateStatus = (status) => {
+                if(status === 'active') {
+                        user.status = 'inactive';
+                }
+                else if(status === 'inactive') {
+                        user.status = 'active';
+                }
+        }
+        
         return (
              
         <div className="UserRowItems">
@@ -47,7 +57,13 @@ const User = ( {user,updateList} ) => {
                                                                         <li><a className="dropdown-item" onClick={() => UserInformation(user.email)}>View Information</a></li>
                                                                         <li><a className="dropdown-item" >View History</a></li>
                                                                         <li><a className="dropdown-item" >Change Role</a></li>
-                                                                        <li><a className="dropdown-item" >Change Status</a></li>
+                                                                        <li><a onClick = { (e) => updateStatus(user.status)}
+  className="dropdown-item"
+  type="button"
+  data-bs-toggle="offcanvas"
+  data-bs-target="#offcanvasRight"
+  aria-controls="offcanvasRight"
+  >Change Status</a></li>
                                                                 </ul>
                                                         </div>
                                                 </div>
