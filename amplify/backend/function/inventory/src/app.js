@@ -171,10 +171,6 @@ app.post(path, function(req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
-  
-  req.body.name = md5("testinglambda");
-
-
   let putItemParams = {
     TableName: tableName,
     Item: req.body

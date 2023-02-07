@@ -18,6 +18,8 @@ function AddItem() {
     const [status,setStatus] = React.useState('Status');
     const [manufacturer, setManufacturer] = React.useState('');
     const [cost, setCost] = React.useState('');
+    const [acquiredDate, setAcquiredDate] = React.useState('');
+    const [expiredDate, setExpiredDate] = React.useState('');
     // const [photo,setPhoto] = React.useState('');
 
     const [items, setItems] = React.useState([]);
@@ -101,7 +103,8 @@ function AddItem() {
                 cost: cost,
                 createdate: today,
                 lastupdated: today,
-
+                acquiredate: acquiredDate,
+                expiredate: expiredDate,
             }
         });
         ShowAlert(); // call the ShowAlert function to display a success message
@@ -140,103 +143,121 @@ function AddItem() {
             {/* Add Item Form */}
             <div className="form-wrapper">
                 <form onSubmit={AddItem}>
-                    {/*Name */}
-                    <div className="form-input">
-                        <label className="input-label" for="name" >Name</label>
-                        <input type="text" className="text-input" id="name" 
-                        value={name} onChange = {(e) => {setName(e.target.value); }} required={true} />
-                    </div>
-                    {/* Serial Number */}
-                    <div className="form-input">
-                        <label className="input-label" for="serialNumber" >Serial #</label>
-                        <input type="text" className="text-input" id="serialNumber"  
-                        value={serialNumber} onChange = {(e) => {setSerialNumber(e.target.value); }} required = {true} />
-                    </div>
-                    {/* Type */}
-                    <div className="form-input">
-                        <label className="input-label" for="type" >Type</label>
-                        <input type="text" className="text-input" id="type"
-                        value={type} onChange = {(e) => {setType(e.target.value)}} required = {true}/>
-                    </div>
-                    {/* Model */}
-                    <div className="form-input">
-                        <label className="input-label" for="model" >Model</label>
-                        <input type="text" className="text-input" id="model" 
-                        value={model} onChange = {(e) => {setModel(e.target.value)}} required = {true}/>
-                    </div>
-                    {/* Manufacturer */}
-                    <div className="form-input">
-                        <label className="input-label" for="manufacturer">Manufacturer</label>
-                        <input type="text" className="text-input" id="manufacturer"
-                        value={manufacturer} onChange={(e) => {setManufacturer(e.target.value)}} required={true} />
-                    </div>
-                    {/* Location */}
-                    <div className="form-input">
-                        <label className="input-label" for="location" >Location</label>
-                        <div className="col-sm-10">
-                            <div className="dropdown">
-                                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {location}
-                                </button>
-                                <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" onClick={(e)=> setLocation ("Room")} > Room
-                                        </a>
-                                    </li>
-                                    <li><a className="dropdown-item" onClick={(e)=> setLocation ("Storage")} > Storage
-                                        </a>
-                                    </li>
-                                    <li><a className="dropdown-item" onClick={(e)=> setLocation ("Unassigned")} > Unassigned
-                                        </a>
-                                    </li>
-                                </ul>
+                    <div className="test">
+                        {/*Name */}
+                        <div className="form-input">
+                            <label className="input-label" for="name" >Name</label>
+                            <input type="text" className="text-input" id="name" 
+                            value={name} onChange = {(e) => {setName(e.target.value); }} required={true} />
+                        </div>
+                        {/* Serial Number */}
+                        <div className="form-input">
+                            <label className="input-label" for="serialNumber" >Serial #</label>
+                            <input type="text" className="text-input" id="serialNumber"  
+                            value={serialNumber} onChange = {(e) => {setSerialNumber(e.target.value); }} required = {true} />
+                        </div>
+                        {/* Type */}
+                        <div className="form-input">
+                            <label className="input-label" for="type" >Type</label>
+                            <input type="text" className="text-input" id="type"
+                            value={type} onChange = {(e) => {setType(e.target.value)}} required = {true}/>
+                        </div>
+                        {/* Model */}
+                        <div className="form-input">
+                            <label className="input-label" for="model" >Model</label>
+                            <input type="text" className="text-input" id="model" 
+                            value={model} onChange = {(e) => {setModel(e.target.value)}} required = {true}/>
+                        </div>
+                        {/* Manufacturer */}
+                        <div className="form-input">
+                            <label className="input-label" for="manufacturer">Manufacturer</label>
+                            <input type="text" className="text-input" id="manufacturer"
+                            value={manufacturer} onChange={(e) => {setManufacturer(e.target.value)}} required={true} />
+                        </div>
+                        {/* Location */}
+                        <div className="form-input">
+                            <label className="input-label" for="location" >Location</label>
+                            <div className="col-sm-10">
+                                <div className="dropdown">
+                                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {location}
+                                    </button>
+                                    <ul className="dropdown-menu">
+                                        <li><a className="dropdown-item" onClick={(e)=> setLocation ("Room")} > Room
+                                            </a>
+                                        </li>
+                                        <li><a className="dropdown-item" onClick={(e)=> setLocation ("Storage")} > Storage
+                                            </a>
+                                        </li>
+                                        <li><a className="dropdown-item" onClick={(e)=> setLocation ("Unassigned")} > Unassigned
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
+                        {/* Room Number */}
+                        <div className="form-input">
+                            <label className="input-label" for="roomNumber" >Room/Storage #</label>
+                            <input type="text" className="text-input" id="roomNumber" 
+                            value={roomNumber} onChange = {(e) => {setRoom(e.target.value)}} required={location !== "Unassigned"} />
+                        </div>
+                        {/* Status */}
+                        <div className="form-input">
+                            <label className="input-label" for="status" >Status</label>
+                            <div className="col-sm-10">
+                                <div className="dropdown">
+                                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {status}
+                                    </button>
+                                    <ul className="dropdown-menu">
+                                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("New")} > New
+                                            </a>
+                                        </li>
+                                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("Old")} > Old
+                                            </a>
+                                        </li>
+                                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("Used")} > Used
+                                            </a>
+                                        </li>
+                                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("Broken")} > Broken
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>                    
+                        </div>
                     </div>
-                    {/* Room Number */}
-                    <div className="form-input">
-                        <label className="input-label" for="roomNumber" >Room/Storage #</label>
-                        <input type="text" className="text-input" id="roomNumber" 
-                        value={roomNumber} onChange = {(e) => {setRoom(e.target.value)}} required={location !== "Unassigned"} />
+                    <div className="addItemColumn" id="rightCol">
+                        {/* Cost */}
+                        <div className="form-input">
+                            <label className="input-label" for="cost">Cost</label>
+                            <input type="text" className="text-input" id="cost"
+                            value={cost} onChange={(e) => {setCost(e.target.value)}} required={true} />
+                            <div>$</div>
+                        </div>
+                        {/* Date Acquired */}
+                        <div className="form-input">
+                            <label className="input-label" for="dateAcquried" >Date Acquired</label>
+                            <input type="date" className="text-input" id="dateAcquired" 
+                            value={acquiredDate} onChange={(e) => {setAcquiredDate(e.target.value)}} required={true} />
+                        </div>
+                        {/* Date Expired */}
+                        <div className="form-input">
+                            <label className="input-label" for="dateExpired" >Date Expired</label>
+                            <input type="date" className="text-input" id="dateExpired" 
+                            value={expiredDate} onChange = {(e) => {setExpiredDate(e.target.value)}} required={true} />
+                        </div>
+                        {/* <div className="form-input">
+                            <label className="input-label" for="photo" >Photo</label>
+                            <input type="text" className="nameInput" id="name"  />
+                        </div> */}
+                        <span id="lastCheck" className="errormessage">{errorMessage}</span>
+                        <div id="lastCheck" className="button-wrapper">
+                            <button className="button" type = "button" onClick={CancelEdit} >Cancel</button>
+                            <button className="button" type = "submit" >Save item</button>
+                        </div>
                     </div>
-                    {/* Status */}
-                    <div className="form-input">
-                        <label className="input-label" for="status" >Status</label>
-                        <div className="col-sm-10">
-                            <div className="dropdown">
-                                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {status}
-                                </button>
-                                <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" onClick={(e)=> setStatus ("New")} > New
-                                        </a>
-                                    </li>
-                                    <li><a className="dropdown-item" onClick={(e)=> setStatus ("Old")} > Old
-                                        </a>
-                                    </li>
-                                    <li><a className="dropdown-item" onClick={(e)=> setStatus ("Used")} > Used
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>                    
-                    </div>
-                    {/* Cost */}
-                    <div className="form-input">
-                        <label className="input-label" for="cost">Cost</label>
-                        <input type="text" className="text-input" id="cost"
-                        value={cost} onChange={(e) => {setCost(e.target.value)}} required={true} />
-                        <div>$</div>
-                    </div>
-                    {/* <div className="form-input">
-                        <label className="input-label" for="photo" >Photo</label>
-                        <input type="text" className="nameInput" id="name"  />
-                    </div> */}
-                    <span className="errormessage">{errorMessage}</span>
-                    <div className="button-wrapper">
-                        <button className="button" type = "button" onClick={CancelEdit} >Cancel</button>
-                        <button className="button" type = "submit" >Save item</button>
-                    </div>
-                  
                 </form>
             </div>
         </>

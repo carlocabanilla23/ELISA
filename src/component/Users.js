@@ -24,7 +24,6 @@ function Users () {
             setUsers([...users,...res]);
             setUnfilteredUsers([...users,...res]);
         })
-
     },[]);
 
     const navigate = useNavigate();
@@ -102,14 +101,15 @@ const PDF = () => {     // Exporting to pdf
    //   { firstName: 'John', lastName: 'Patrick', schoolID: '474593', role: 'student'}
    //   { firstName: 'Jane', lastName: 'Doe', schoolID: '987654', role: 'teacher' }
   //  ];
-    const data = [['firstname', 'lastname', 'schoolID', 'role']];
+    const data = [['FIRSTNAME', 'LASTNAME', 'SCHOOLID', 'ROLE']];
     users.forEach(user => {
         data.push([user.firstname, user.lastname, user.email, user.role, user.schoolID]);
     });
     doc.autoTable({
-        head: [['firstName', 'lastName', 'schoolID', 'role']],
+     //   head: [['firstName', 'lastName', 'schoolID', 'role']],
         body: data
     });
+    
     const pdf = doc.output();
     const link = document.createElement('a');
     link.href = 'data:application/pdf;base64,' + btoa(pdf);

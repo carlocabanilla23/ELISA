@@ -51,7 +51,10 @@ const RoomCard = ( {item,updateList,itemCount} ) => {
         <div className="UserRowItems">
                 <div className="container-fluid">
                         <div className="row">
-                                <div className="col" onClick={ () => ViewItems(item.roomno,item.location)}> {item.roomno}</div>
+                                <div className="col">
+                                        <div className="clickableCol" onClick={ () => ViewItems(item.roomno,item.location)}> {item.roomno}</div>
+                                </div>
+                               
                                 <div className="col"> {item.location} </div>
                                 <div className="col" > Otto Miller </div>
                                 <div className="col" > {itemCount} </div>

@@ -80,6 +80,22 @@ const ItemCard = ({ item, updateList}) => {
     document.getElementById("barcode").style.display = "none";
 
   }
+
+  const UpdateStatus = (status) => {
+    document.getElementById("offcanvasRight").style.display = "block";
+    document.getElementById("item-info").style.display = "none";
+  
+    let newStatus = status === "active" ? "inactive" : "active";
+    console.log(`Status changed to ${newStatus}`);
+    item.status = newStatus;
+  
+    document.getElementById("status-display").innerHTML = `Status: ${newStatus}`;
+  }
+  
+    
+  
+
+  
   return (
     <div className="UserRowItems">
       <div className="container-fluid">
@@ -135,8 +151,14 @@ const ItemCard = ({ item, updateList}) => {
                       aria-controls="offcanvasRight"
                       >Print Barcode</a>
                     </li>
-                    <li>
-                      <a className="dropdown-item">Change Status</a>
+                    <li>               
+                    <a onClick = { (e) => UpdateStatus(item.status)}
+  className="dropdown-item"
+  type="button"
+  data-bs-toggle="offcanvas"
+  data-bs-target="#offcanvasRight"
+  aria-controls="offcanvasRight"
+  >Change Status</a>
                     </li>
                     <li style={{display: 'none'}} id="mobile">
                       <a className="dropdown-item" type="button" onClick={() => updateList(item.serialno)}>Delete</a>
@@ -227,6 +249,16 @@ const ItemCard = ({ item, updateList}) => {
                 <div className = "mb-3 row">
                     <label  className = "Attribute col-sm-4">Updated:</label>
                     <div className = "Information col-sm-8">{item.lastupdated}</div>
+                </div>
+                {/* Dated Acquired */}
+                <div className = "mb-3 row">
+                    <label  className = "Attribute col-sm-4">Acquired:</label>
+                    <div className = "Information col-sm-8">{item.acquiredate}</div>
+                </div>
+                {/* Dated Expired */}
+                <div className = "mb-3 row">
+                    <label  className = "Attribute col-sm-4">Expired:</label>
+                    <div className = "Information col-sm-8">{item.expiredate}</div>
                 </div>
             </div>
 

@@ -17,6 +17,7 @@ function Signup () {
     const [users, setUserList] = useState('');
     const [error, setError] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
     const cancelCreate = e => {
@@ -35,6 +36,12 @@ function Signup () {
         }
     }, [error])
 
+    useEffect(() => {
+        API.get("userapi","/email").then(res => {
+            setUserList([...users,...res]);
+        })
+    },[])
+
     const ShowAlert = () => {
         var alert = document.getElementById("alert");
         alert.style.display = "block";
@@ -43,11 +50,8 @@ function Signup () {
         }, 1500);
     }
     const onSubmit = (e) => {
+        let id = crypto.randomUUID();
         e.preventDefault();
-        const userList = API.get("userapi", "/email/") 
-        .then(res => {
-            setUserList([userList, ...res]);
-        }, [error]);
         for(var i = 0; i < users.length; i++){
             if(users[i].email === email && users[i].schoolID === schoolID){
                 throw new Error(setError(1));
@@ -58,7 +62,7 @@ function Signup () {
             }
         }
         if(role === "Role"){
-            setError(4);
+            throw new Error(setError(4));
         }
 
         API.post("userapi","/email/", {
@@ -70,7 +74,7 @@ function Signup () {
             email : email,
             phone : phone,
             status : "inactive",
-            password : "password"
+            password : password,
             }
         });
 
@@ -83,7 +87,7 @@ function Signup () {
 
         API.post("emailsystem","/email", {
             body : {
-            id : crypto.randomUUID(),
+            id : id,
             email : email
             }
         });
@@ -213,6 +217,21 @@ function Signup () {
                             required={true}
                             pattern='^([0-9]{10})$' 
                             onInvalid={(event) => {event.target.setCustomValidity('Phone number must have 10 digits: #########')}}
+                            onInput={e => e.target.setCustomValidity('')} />
+                        </div>
+                    </div>
+                    {/* Password */}
+                    <div className = "mb-3 row">
+                        <label for="Password" className="col-sm-3 col-form-label">Password</label>
+                        <div className="col-sm-9">
+                            <input type="text"
+                            className="form-control"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            id="inputPassword"
+                            required={true}
+                            pattern='^(.{8,})$'
+                            onInvalid={(event) => {event.target.setCustomValidity('Password must have at least 8 characters')}}
                             onInput={e => e.target.setCustomValidity('')} />
                         </div>
                     </div>

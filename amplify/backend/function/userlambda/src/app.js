@@ -181,10 +181,7 @@ app.post(path, function(req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
-  bcrypt.hash(req.body.password, salt, function(err, hash) {
-
     req.body.sessionID = md5(req.body.schoolID);
-    req.body.password = hash;
 
     let putItemParams = {
       TableName: tableName,
@@ -199,7 +196,6 @@ app.post(path, function(req, res) {
         res.json({success: 'post call succeed!', url: req.url, data: data})
       }
     });
-  });
 });
 
 /**************************************
