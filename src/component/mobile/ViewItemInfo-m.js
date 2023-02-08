@@ -24,6 +24,7 @@ function ViewItemInfo () {
     const [lastUpdate, setLastUpdated] = useState('');
     const [acquiredDate, setAcquiredDate] = useState('');
     const [expiredDate, setExpiredDate] = useState('');
+    const [image,setImage] = useState('');
 
     useEffect( () => {
         API.get("inventory","/items/object/"+param).then(res => {
@@ -40,6 +41,7 @@ function ViewItemInfo () {
             setLastUpdated(res.lastupdated);
             setAcquiredDate(res.acquiredate);
             setExpiredDate(res.expiredate);
+            setImage(res.image);
         })},[]);
 
 
@@ -50,6 +52,8 @@ function ViewItemInfo () {
                     <img src={logo} className="logo1" alt="Elisa Logo" />
                     <p className="h1 text-center"> Item Information</p>
                 </div>
+                {/* Image */}
+                <img src={image} width="150" height="150" alt="" />
                 {/* Serial Number */}
                 <div className="mx-2 mb-3 row">
                     <label  className = "Attribute col-sm-4">Serial #:</label>
