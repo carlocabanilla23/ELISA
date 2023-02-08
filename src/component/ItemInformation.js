@@ -25,6 +25,7 @@ function ItemInformation() {
     // const [item, setItem] = React.useState([]);
     const [createdDate, setCreateDate] = React.useState('');
     const [lastUpdate, setLastUpdate] = React.useState('');
+    const [image, setImage] = React.useState('');
     useEffect( () => {
         API.get("inventory","/items/object/"+serialParam).then(res => {
             setName(res.name);
@@ -38,6 +39,7 @@ function ItemInformation() {
             setCost(res.cost);
             setCreateDate(res.createdate);
             setLastUpdate(res.lastupdated);
+            setImage(res.Image);
           })},[]);
 
     const cancelEdit = () => {
@@ -57,6 +59,10 @@ function ItemInformation() {
             </div>
             {/* Information Area */}
             <div className="ItemInformation">
+                    {/* Image */}
+                    <div className = "mb-3 row">
+                        <img src={image} width="150" height="150" alt="" />
+                    </div>
                     {/* Name*/}
                     <div className = "mb-3 row">
                         <label  className = "Attribute col-sm-4">Name:</label>
