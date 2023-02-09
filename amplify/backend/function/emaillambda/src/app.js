@@ -188,7 +188,7 @@ app.post(path+"/send", function(req, res) {
     }
   });
   let email = req.body.email;
-  let email = req.body.message;
+  let message = req.body.message;
   let content = {
     from: "SPU.Elisa@gmail.com",
     to: email,

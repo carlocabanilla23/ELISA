@@ -17,7 +17,7 @@ function Login() {
     console.log(username);
 
     API.get("userapi","/email/object/"+username).then( res => {
-        if (res) {  
+        if (res.email === username && res.password === password) {  
                 StartSession(res);
                 console.log(res); 
                 navigate('/Home'); 
