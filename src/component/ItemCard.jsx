@@ -22,6 +22,7 @@ const ItemCard = ({ item, updateList}) => {
   const [newnewStatus, setnewnewStatus] = useState('status');
   const [allItems, setItems] = useState([]);
   const [qrcode,setQRCode] = useState();
+  const [image, setImage] = useState('');
   const [barcode,setBarcode] = useState();
 
 
@@ -219,8 +220,12 @@ const ItemCard = ({ item, updateList}) => {
         </div>
           <div className="offcanvas-body">
             <div id="item-info">
-                {/* Serial Number */}
-                <div className="mb-3 row">
+                    {/* Image */}
+                    <div className="mb-3 row">
+                        <img src={item.image} width="150" height="150" alt="" />
+                    </div>
+                    {/* Serial Number */}
+                    <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Serial #:</label>
                         <div className = "Information col-sm-8">{item.serialno}</div>
                     </div>
