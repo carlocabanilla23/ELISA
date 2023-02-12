@@ -24,12 +24,14 @@ const ItemCard = ({ item, updateList}) => {
   const [qrcode,setQRCode] = useState();
   const [image, setImage] = useState('');
   const [barcode,setBarcode] = useState();
+  const [offItems, SetOffItems] = useState('');
 
 
   useEffect( () => {
     setStatus(item.status)
     setnewnewStatus(item.status)
     },[]);
+    
   const EditItem = (e) => {
     navigate("/EditItem", {
       state: {
@@ -50,28 +52,33 @@ const ItemCard = ({ item, updateList}) => {
     document.getElementById("item-info").style.display = "none";
     document.getElementById("qrcode").style.display = "block";
     document.getElementById("barcode").style.display = "none";
-    document.getElementById("status").style.display = "none";
+    document.getElementById("Offstatus").style.display = "none";
   
-    console.log(item.serialno);
-  let svg = Generate(item.serialno);
+    console.log(e.serialno);
+  let svg = Generate(e.serialno);
   setQRCode(svg);
   }
   const CreateBarcode = (e) => {
     document.getElementById("item-info").style.display = "none";
     document.getElementById("qrcode").style.display = "none";
     document.getElementById("barcode").style.display = "block";
-    document.getElementById("status").style.display = "none";
+    document.getElementById("Offstatus").style.display = "none";
 
-    console.log(item.serialno);
-  let svg = GenerateBarcode(item.serialno);
+    console.log(e.serialno);
+  let svg = GenerateBarcode(e.serialno);
   setBarcode(svg);
   }
 
   const ViewInformation = (e) => {
+    // e.preventDefault();
+    API.get("inventory","/items/object/"+e).then(res => {
+      console.log(res)
+      SetOffItems(res);
+  })
     document.getElementById("item-info").style.display = "block";
     document.getElementById("qrcode").style.display = "none";
     document.getElementById("barcode").style.display = "none";
-    document.getElementById("status").style.display = "none";
+    document.getElementById("Offstatus").style.display = "none";
 
   }
   
@@ -81,7 +88,7 @@ const ItemCard = ({ item, updateList}) => {
       document.getElementById("item-info").style.display = "none";
     document.getElementById("qrcode").style.display = "none";
     document.getElementById("barcode").style.display = "none";
-    document.getElementById("status").style.display = "block";
+    document.getElementById("Offstatus").style.display = "block";
      
   }
 
@@ -139,7 +146,7 @@ const ItemCard = ({ item, updateList}) => {
                   </button>
                   <ul className="dropdown-menu">
                     <li>
-                      <a onClick={ (e) => ViewInformation()}
+                      <a onClick={ (e) => ViewInformation(item.serialno)}
                         className="dropdown-item"
                         type="button"
                         data-bs-toggle="offcanvas"
@@ -152,7 +159,7 @@ const ItemCard = ({ item, updateList}) => {
                       <a className="dropdown-item" type="button" onClick={() => EditItem(item.serialno)}>Edit</a>
                     </li>
                     <li>
-                      <a onClick={ (e) => CreateQRCode(serialNumber)}
+                      <a onClick={ (e) => CreateQRCode(item.serialno)}
                       className="dropdown-item"
                       type="button"
                       data-bs-toggle="offcanvas"
@@ -161,7 +168,7 @@ const ItemCard = ({ item, updateList}) => {
                       >Print QR Code</a>
                     </li>
                     <li>
-                      <a onClick = { (e) => CreateBarcode(serialNumber)}
+                      <a onClick = { (e) => CreateBarcode(item.serialno)}
                       className="dropdown-item"
                       type="button"
                       data-bs-toggle="offcanvas"
@@ -221,67 +228,67 @@ const ItemCard = ({ item, updateList}) => {
             <div id="item-info">
                     {/* Image */}
                     <div className="mb-3 row">
-                        <img src={item.image} width="150" height="150" alt="" />
+                        <img src={offItems.image} width="150" height="150" alt="" />
                     </div>
                     {/* Serial Number */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Serial #:</label>
-                        <div className = "Information col-sm-8">{item.serialno}</div>
+                        <div className = "Information col-sm-8">{offItems.serialno}</div>
                     </div>
                     {/* Type */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Type:</label>
-                        <div className = "Information col-sm-8">{item.type}</div>
+                        <div className = "Information col-sm-8">{offItems.type}</div>
                     </div>
                     {/* Model */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Model:</label>
-                        <div className = "Information col-sm-8">{item.model}</div>
+                        <div className = "Information col-sm-8">{offItems.model}</div>
                     </div>
                     {/* Manufacturer */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Manufacturer:</label>
-                        <div className = "Information col-sm-8">{item.manufacturer}</div>
+                        <div className = "Information col-sm-8">{offItems.manufacturer}</div>
                     </div>
                     {/* Location */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Location:</label>
-                        <div className = "Information col-sm-8">{item.location}</div>
+                        <div className = "Information col-sm-8">{offItems.location}</div>
                     </div>
                     {/* Room Number */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Room #:</label>
-                        <div className = "Information col-sm-8">{item.roomno}</div>
+                        <div className = "Information col-sm-8">{offItems.roomno}</div>
                     </div>
                     {/* Status */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Status:</label>
-                        <div className = "Information col-sm-8">{item.status}</div>
+                        <div className = "Information col-sm-8">{offItems.status}</div>
                     </div>
                     {/* Cost */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Cost:</label>
-                        <div className = "Information col-sm-8">{item.cost}</div>
+                        <div className = "Information col-sm-8">{offItems.cost}</div>
                     </div>
                 {/* Date Created */}
                 <div className = "mb-3 row">
                     <label  className = "Attribute col-sm-4">Created:</label>
-                    <div className = "Information col-sm-8">{item.createdate}</div>
+                    <div className = "Information col-sm-8">{offItems.createdate}</div>
                 </div>
                 {/* Last Updated */}
                 <div className = "mb-3 row">
                     <label  className = "Attribute col-sm-4">Updated:</label>
-                    <div className = "Information col-sm-8">{item.lastupdated}</div>
+                    <div className = "Information col-sm-8">{offItems.lastupdated}</div>
                 </div>
                 {/* Dated Acquired */}
                 <div className = "mb-3 row">
                     <label  className = "Attribute col-sm-4">Acquired:</label>
-                    <div className = "Information col-sm-8">{item.acquiredate}</div>
+                    <div className = "Information col-sm-8">{offItems.acquiredate}</div>
                 </div>
                 {/* Dated Expired */}
                 <div className = "mb-3 row">
                     <label  className = "Attribute col-sm-4">Expired:</label>
-                    <div className = "Information col-sm-8">{item.expiredate}</div>
+                    <div className = "Information col-sm-8">{offItems.expiredate}</div>
                 </div>
             </div>
 
@@ -293,7 +300,7 @@ const ItemCard = ({ item, updateList}) => {
                 {barcode}
             </div>
 
-            <div id="status">
+            <div id="Offstatus">
             <div className="dropdown">
                 <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     {newnewStatus}
