@@ -240,7 +240,7 @@ function Signup () {
                     {/* Password */}
                     <div className = "mb-3 row">
                         <label for="Password" className="col-sm-3 col-form-label">Password</label>
-                        <div className="col-sm-9">
+                        <div className="col-sm-9 position-relative">
                             <input type={hidePassword ? 'password' : 'text'}
                             className="form-control"
                             value={password}
