@@ -1,5 +1,5 @@
 import { Amplify, API } from "aws-amplify";
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import awsExport from '../aws-exports';
 import Header from "./Header";
@@ -27,6 +27,7 @@ function EditItem() {
     const [item, setItem] = React.useState([]);
     const [error, setError] = React.useState('');
     const [errorMessage, setErrorMessage] = React.useState('');
+    const [image,setImage] = useState('');
     useEffect( () => {
         API.get("inventory","/items/object/"+serialParam).then(res => {
             setName(res.name);
@@ -40,6 +41,7 @@ function EditItem() {
             setCost(res.cost);
             setAcquiredDate(res.acquiredate);
             setExpiredDate(res.expiredate);
+            setImage(res.image);
         })
         API.get("inventory", "/items").then(res => {
             setItem([...item,...res]);
@@ -116,12 +118,26 @@ function EditItem() {
                 status : status,
                 manufacturer: manufacturer,
                 cost: cost,
-                lastupdated: today,
+                lastupdated: date,
                 acquiredate: acquiredDate,
                 expiredDate: expiredDate,
+                image : image
         }});
 
         ShowAlert();
+    }
+
+    
+    const encodeImage = (e) => {
+        var reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+
+        reader.onload = () => {
+            setImage(reader.result);
+        console.log(reader.result); //base64encoded string
+        };
+
+   
     }
 
     return (
@@ -248,6 +264,13 @@ function EditItem() {
                             <label className="input-label" for="dateExpired" >Date Expired</label>
                             <input type="date" className="text-input" id="dateExpired" 
                             value={expiredDate} onChange = {(e) => {setExpiredDate(e.target.value)}} required={true} />
+                        </div>
+                        {/* Image */}
+                        <div className="form-input">
+                            <label className="input-label" for="photo" >Photo</label>
+                            <input type="file" className="text-input" id="photo" 
+                            onChange={(e) => { encodeImage(e)}} required={true} />
+                           
                         </div>
                         {/* <div className="form-input">
                             <label className="input-label" for="photo" >Photo</label>
