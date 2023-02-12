@@ -102,7 +102,7 @@ function Inventory () {
     }  
     const CSV = () => {      
         // the data that you want to write to the CSV file
-        const data = [['SERIALNO', 'NAME', 'STATUS', 'ROOM NO']];
+        const data = [];
         items.forEach(items => {
             data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
         });
