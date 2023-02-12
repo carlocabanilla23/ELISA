@@ -25,3 +25,12 @@
 .form-buttons button{
     margin-left: 15px;
 }
+
+.eye-slash{
+    width: 5%;
+    position: absolute;
+        right: 13%;
+        top: 62%;
+    mix-blend-mode: multiply;
+    cursor: pointer;
+}

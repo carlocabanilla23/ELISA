@@ -3,7 +3,8 @@ import {API, Amplify} from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 import awsExport from '../aws-exports';
 import './styles/Signup.css';
-
+import eyeSlashHide from './icons/eye-slash-hide.png';
+import eyeSlashShow from './icons/eye-slash-show.png';
 
 Amplify.configure(awsExport);
 
@@ -18,7 +19,11 @@ function Signup () {
     const [error, setError] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [password, setPassword] = useState('');
+    const [hidePassword,setHidePassword] = useState(true);
     const navigate = useNavigate();
+
+    const eyeShow = document.getElementById('eye-slash-show');
+    const eyeHide = document.getElementById('eye-slash-hide');
 
     const cancelCreate = e => {
         navigate('/');
@@ -94,6 +99,18 @@ function Signup () {
         
         console.log("success");
         ShowAlert();
+    }
+
+    const togglePassword = (e) => {
+        if(hidePassword === false){
+            eyeShow.style.display = 'none';
+            eyeHide.style.display = 'block';
+            setHidePassword(!hidePassword);
+        }else if(hidePassword === true){
+            eyeShow.style.display = 'block';
+            eyeHide.style.display = 'none';
+            setHidePassword(!hidePassword);
+        }
     }
 
     return (
@@ -199,9 +216,9 @@ function Signup () {
                             onChange = {(e) => {setEmail(e.target.value); setErrorMessage('')}}
                             id = "inputEmail"
                             required={true}
-                            // pattern='^([a-z0-9]{1,})@spu\.edu$' 
-                            // onInvalid={(event) => {event.target.setCustomValidity('Email must end with @spu.edu and unique')}}
-                            // onInput={e => e.target.setCustomValidity('')}
+                            pattern='^([a-z0-9]{1,})@spu\.edu$'
+                            onInvalid={(event) => {event.target.setCustomValidity('Email must end with @spu.edu and unique')}}
+                            onInput={e => e.target.setCustomValidity('')}
                             />
                         </div>
                     </div>      
@@ -224,7 +241,7 @@ function Signup () {
                     <div className = "mb-3 row">
                         <label for="Password" className="col-sm-3 col-form-label">Password</label>
                         <div className="col-sm-9">
-                            <input type="text"
+                            <input type={hidePassword ? 'password' : 'text'}
                             className="form-control"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -233,6 +250,8 @@ function Signup () {
                             pattern='^(.{8,})$'
                             onInvalid={(event) => {event.target.setCustomValidity('Password must have at least 8 characters')}}
                             onInput={e => e.target.setCustomValidity('')} />
+                            <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide" alt="Hide" onClick={togglePassword} />
+                            <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show" style={{display: 'none'}} alt="Show" onClick={togglePassword} />
                         </div>
                     </div>
                     {/* Submit Button */}
