@@ -3,15 +3,62 @@ import { useNavigate } from 'react-router-dom';
 import { Router,Link,Route } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import React,{ useState,useEffect } from 'react';
+import { API } from 'aws-amplify';
+import { useLocation } from "react-router-dom";
+
 
 function Setting(){
-
+    const loc = useLocation();
+    const emailParam = "SPU.Elisa@gmail.com";
+    const [fname,setFname] = useState('');
+    const [lname,setLname] = useState('');
+    const [email,setEmail] = useState('');
+    const [cpass,setCpass] = useState('');
+    const [npass,setNpass] = useState('');
+    const [rnpass,setRnpass] = useState('');
     const navigate = useNavigate();
+
+    useEffect( () => {
+        API.get("userapi","/email/object/"+emailParam).then( res => {
+            // setEmail(res.email);
+            setFname(res.firstname);
+            setLname(res.lastname);
+            // console.log("email" + email);
+        })
+    },[email]);
+
+
+
+      
 
     const cancelEdit = () => {
         navigate('/Home');
-    }    
+    }
+    const UpdateInfo = (e) => {
+        e.preventDefault();
+        // setEmail(emailParam);
+        console.log(emailParam);
+        console.log(email);
+        API.get("userapi","/email/object/" + emailParam).then( res => {
+            API.put("userapi","/email/", {
+                body : {
+                   email: emailParam,
+                   firstname: fname,
+                   lastname: lname,
+                   role: res.role,
+                   schoolID: res.schoolID,
+                   status: res.status,
+                   password: res.password
+                }
+            });
+        })
+        localStorage.setItem('name',fname);
+        window.location.reload(true);
 
+    }
+
+    
     return(
         <>
             <Sidebar />
@@ -26,49 +73,50 @@ function Setting(){
             </div>
         
             <div className="setting">
-                <form className="setting-form">
-                    <div className="flex-container">
-                        <div className = "left-col">
+                <div className="row">
+                    <div className = "col">
+                        <form onSubmit={UpdateInfo} className="setting-form"> 
                             <h3 className='heading'> Contact Information </h3>
+
                             <div className="form-input">
-                                <label className = "input-label" for = "first-name">First Name</label>
-                                <input className = "input-field" type = "text" id = "first-name" />
+                                <label className = "input-label" htmlFor = "first-name">First Name</label>
+                                <input className = "input-field" onChange={ (e) => setFname(e.target.value)} type = "text" id = "first-name" value={fname}/>
                             </div>
                             <div className="form-input">
-                                <label className = "input-label" for = "last-name">Last Name</label>
-                                <input className = "input-field" type = "text" id = "last-name" />
+                                <label className = "input-label" htmlFor = "last-name">Last Name</label>
+                                <input className = "input-field" onChange={ (e) => setLname(e.target.value)} type = "text" id = "last-name" value={lname}/>
                             </div>
-                            <div className="form-input">
-                                <label className = "input-label" for = "email1">Email 1</label>
-                                <input className = "input-field" type = "email" id = "email1" />
+                            {/* <div className="form-input">
+                                <label className = "input-label">Email</label>
+                                <label className="input-label" type = "text" id = "email"> {email} </label>
+                            </div> */}
+
+                            <div className="settings-button-wrapper">
+                                <button className="button" type = "submit" >Save</button>
                             </div>
-                            <div className="form-input">
-                                <label className = "input-label" for = "email2">Email 2</label>
-                                <input className = "input-field" type = "email" id = "email2" />
-                            </div> 
-                            <div className="form-input">
-                                <label className = "input-label" for = "phone1">Phone 1</label>
-                                <input className = "input-field" type = "tel" id = "phone1" />
+                        </form>
+                        <form className="setting-form"> 
+                        <h3 className='heading'> Change Password </h3>
+                                <div className="form-input">
+                                    <label className = "input-label" htmlFor = "current-password">Current Password</label>
+                                    <input className = "input-field" type = "password" id = "current-password" defaultValue={cpass}/>
+                                </div>
+                                <div className="form-input">
+                                    <label className = "input-label" htmlFor = "new-password">New Password</label>
+                                    <input className = "input-field" type = "password" id = "new-password" defaultValue={npass} />
+                                </div>
+                                <div className="form-input">
+                                    <label className = "input-label" htmlFor = "confirm-password">Confirm Password</label>
+                                    <input className = "input-field" type = "password" id = "confirm-password" defaultValue={rnpass} />
+                                </div>
+                                <div className="settings-button-wrapper">
+                                <button className="button" type = "submit" >Save item</button>
                             </div>
-                            <div className="form-input">
-                                <label className = "input-label" for = "phone2">Phone 2</label>
-                                <input className = "input-field" type = "tel" id = "phone2" />
-                            </div>
-                            <h3 className='heading'> Change Password </h3>
-                            <div className="form-input">
-                                <label className = "input-label" for = "current-password">Current Password</label>
-                                <input className = "input-field" type = "password" id = "current-password" />
-                            </div>
-                            <div className="form-input">
-                                <label className = "input-label" for = "new-password">New Password</label>
-                                <input className = "input-field" type = "password" id = "new-password" />
-                            </div>
-                            <div className="form-input">
-                                <label className = "input-label" for = "confirm-password">Confirm Password</label>
-                                <input className = "input-field" type = "password" id = "confirm-password" />
-                            </div>
-                        </div>
-                        <div className = "right-col">
+                            </form>
+                    </div>
+
+                    <div className="col">
+                        <form className="setting-form">
                             <h3 className='heading'> Notifications </h3>
                             <div className="form-input">
                                 <label className = "input-label" >New Item Added</label>
@@ -150,13 +198,24 @@ function Setting(){
                                     </span> 
                                 </label>
                             </div>
-                            <div className="button-wrapper">
+                            <div className="settings-button-wrapper">
                                 <button className="button" type = "submit" >Save item</button>
                             </div>
-                        </div>
+                        </form>
                     </div>
-                </form>
-            </div>
+            
+
+                </div>
+               
+                            
+                       
+
+                        {/* <div className = "right-col">
+                            
+                         */}
+                   
+               
+          </div>
         </>
     )
 

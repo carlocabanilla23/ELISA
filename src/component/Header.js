@@ -6,18 +6,26 @@ import { useNavigate,Link,Route } from 'react-router-dom';
 function Header() {
   const dropdownMenu = React.useRef(null);
   const navigate =  useNavigate();
-  const [name,setName] = useState('');
+  const [name] = useState(localStorage.getItem('name'));
 
   function toggleDropdownMenu() {
     dropdownMenu.current.style.display = dropdownMenu.current.style.display === 'block' ? 'none' : 'block';
   }
   useEffect ( ()=> { 
-    setName(localStorage.getItem('name'));
+    // setName(localStorage.getItem('name'));
   },[]);
   const Logout = () => {
     localStorage.clear();
     navigate('/');
 
+  }
+
+  const gotoSetting = () => {
+    navigate("/Setting", {
+      state: {
+        email: decodeURIComponent(escape(window.atob(localStorage.getItem('email'))))
+      },
+    });
   }
   return (
     <div className="navbar">
@@ -28,7 +36,7 @@ function Header() {
             <button className="btn dropdown-toggle" data-bs-toggle = "dropdown" onClick={toggleDropdownMenu}>{name}</button>
             <ul className="dropdown-menu" ref={dropdownMenu}>
               <li><Link to="">Notification</Link></li>
-              <li><Link to="/Setting">Setting</Link></li>
+              <li onClick={ (e) =>gotoSetting()}>Setting</li>
               <li onClick={ (e) =>Logout()}>Logout</li>
             </ul>
           </div>

@@ -35,6 +35,10 @@
         "emaillambda": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
           "s3Key": "amplify-builds/emaillambda-2f34574c4d6772664237-build.zip"
+        },
+        "notifprofile": {
+          "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
+          "s3Key": "amplify-builds/notifprofile-61656639357171796c44-build.zip"
         }
       },
       "storage": {
@@ -43,14 +47,16 @@
         "inventory": {},
         "reservations": {},
         "email": {},
-        "emaildb": {}
+        "emaildb": {},
+        "usernotifprofile": {}
       },
       "api": {
         "userapi": {},
         "inventoryapi": {},
         "inventory": {},
         "reservationapi": {},
-        "emailsystem": {}
+        "emailsystem": {},
+        "notificationapi": {}
       }
     }
   }

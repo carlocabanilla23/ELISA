@@ -40,7 +40,6 @@ const ItemCard = ({ item, updateList}) => {
       })
     },[]);
   const EditItem = (e) => {
-    console.log(e);
     navigate("/EditItem", {
       state: {
         serialno: e,
