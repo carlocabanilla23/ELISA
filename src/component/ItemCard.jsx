@@ -23,6 +23,13 @@ const ItemCard = ({ item, updateList}) => {
   const [allItems, setItems] = useState([]);
   const [qrcode,setQRCode] = useState();
   const [image, setImage] = useState('');
+  const [manufacturer,setManufacturer] = useState('');
+  const [cost, setCost] = useState('');
+  const [createdate, setCreatedate] = useState('');
+  const [lastupdated, setLastdate] = useState('');
+  const [acquiredate, setAcquiredate] = useState('');
+  const [expiredate, setExpiredate] = useState('');
+
   const [barcode,setBarcode] = useState();
   const [offItems, SetOffItems] = useState('');
 
@@ -72,8 +79,9 @@ const ItemCard = ({ item, updateList}) => {
   const ViewInformation = (e) => {
     // e.preventDefault();
     API.get("inventory","/items/object/"+e).then(res => {
-      console.log(res)
-      SetOffItems(res);
+      setName(res.name);
+      setSerialNumber(res.serialno);
+      setType(res.type);
   })
     document.getElementById("item-info").style.display = "block";
     document.getElementById("qrcode").style.display = "none";
@@ -146,7 +154,7 @@ const ItemCard = ({ item, updateList}) => {
                   </button>
                   <ul className="dropdown-menu">
                     <li>
-                      <a onClick={ (e) => ViewInformation(item.serialno)}
+                      <a onClick={ (e) => ItemInformation(item.serialno)}
                         className="dropdown-item"
                         type="button"
                         data-bs-toggle="offcanvas"
@@ -228,67 +236,67 @@ const ItemCard = ({ item, updateList}) => {
             <div id="item-info">
                     {/* Image */}
                     <div className="mb-3 row">
-                        <img src={offItems.image} width="150" height="150" alt="" />
+                        <img src={image} width="150" height="150" alt="" />
                     </div>
                     {/* Serial Number */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Serial #:</label>
-                        <div className = "Information col-sm-8">{offItems.serialno}</div>
+                        <div className = "Information col-sm-8">{serialNumber}</div>
                     </div>
                     {/* Type */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Type:</label>
-                        <div className = "Information col-sm-8">{offItems.type}</div>
+                        <div className = "Information col-sm-8">{type}</div>
                     </div>
                     {/* Model */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Model:</label>
-                        <div className = "Information col-sm-8">{offItems.model}</div>
+                        <div className = "Information col-sm-8">{model}</div>
                     </div>
                     {/* Manufacturer */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Manufacturer:</label>
-                        <div className = "Information col-sm-8">{offItems.manufacturer}</div>
+                        <div className = "Information col-sm-8">{manufacturer}</div>
                     </div>
                     {/* Location */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Location:</label>
-                        <div className = "Information col-sm-8">{offItems.location}</div>
+                        <div className = "Information col-sm-8">{location}</div>
                     </div>
                     {/* Room Number */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Room #:</label>
-                        <div className = "Information col-sm-8">{offItems.roomno}</div>
+                        <div className = "Information col-sm-8">{roomNumber}</div>
                     </div>
                     {/* Status */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Status:</label>
-                        <div className = "Information col-sm-8">{offItems.status}</div>
+                        <div className = "Information col-sm-8">{status}</div>
                     </div>
                     {/* Cost */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Cost:</label>
-                        <div className = "Information col-sm-8">{offItems.cost}</div>
+                        <div className = "Information col-sm-8">{cost}</div>
                     </div>
                 {/* Date Created */}
                 <div className = "mb-3 row">
                     <label  className = "Attribute col-sm-4">Created:</label>
-                    <div className = "Information col-sm-8">{offItems.createdate}</div>
+                    <div className = "Information col-sm-8">{createdate}</div>
                 </div>
                 {/* Last Updated */}
                 <div className = "mb-3 row">
                     <label  className = "Attribute col-sm-4">Updated:</label>
-                    <div className = "Information col-sm-8">{offItems.lastupdated}</div>
+                    <div className = "Information col-sm-8">{lastupdated}</div>
                 </div>
                 {/* Dated Acquired */}
                 <div className = "mb-3 row">
                     <label  className = "Attribute col-sm-4">Acquired:</label>
-                    <div className = "Information col-sm-8">{offItems.acquiredate}</div>
+                    <div className = "Information col-sm-8">{acquiredate}</div>
                 </div>
                 {/* Dated Expired */}
                 <div className = "mb-3 row">
                     <label  className = "Attribute col-sm-4">Expired:</label>
-                    <div className = "Information col-sm-8">{offItems.expiredate}</div>
+                    <div className = "Information col-sm-8">{expiredate}</div>
                 </div>
             </div>
 
