@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 const OffCanvasCard = ({item,qrcode,barcode}) => {
     const [status,setStatus] = useState('');
-    
+
     const setNewStatus = () => {
         const today = new Date();
         console.log(item);
@@ -44,7 +44,7 @@ const OffCanvasCard = ({item,qrcode,barcode}) => {
             <div id="item-info">
                 {/* Image */}
                 <div className="mb-3 row">
-                    <img src={item.image} width="150" height="150" alt="" />
+                    <img src={item.image} width="150" height="150" alt="Image of the device" />
                 </div>
                 {/* Serial Number */}
                 <div className="mb-3 row">
