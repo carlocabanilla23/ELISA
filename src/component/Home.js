@@ -1,7 +1,8 @@
 import './styles/Home.css';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import PieReport from '../component/charts/Pie';
+import iDashboard from "./icons/dashboard.png";
+import QuarterReport from '../component/charts/Quarter';
 import GraphReport from '../component/charts/Graph';
 import GraphReport2 from '../component/charts/Graph2';
 import BarReport from '../component/charts/Bar';
@@ -15,18 +16,20 @@ function Home() {
               <Header />
               <div className="HomeHeader">
                   <div className="content">
-                    <div>
-                    <span>Dashboard</span>
-                    </div>    
+                  <div>
+                    <img src={iDashboard} className="icon" alt="dashboard icon" />
+                    <span className="dashboardLabel">Dashboard</span>
+                    </div>     
                   </div>
               </div>
               <div className="Dashboard">
-                <div class="top">   <PieReport /> </div>
-                <div class="top">  <GraphReport /> </div>
+                <div class="top"> <p className="chartLabel">Inventory Each Quarter</p>  <QuarterReport /> </div>
+                <div class="top"> <p className="chartLabel">Inventory Summary</p>  <GraphReport /> </div>
                 <div class="center"></div>
-                <div class="bottom">    <BarReport /></div>
-                <div class="bottom">  <GraphReport2 /> </div>
-                <div class="bottom">    <ScatterReport /> </div>
+                <div class="bottom">  <p className="chartLabel">Reservation Summary</p>   <BarReport /></div>
+                {/* <div class="top"> <p className="chartLabel">Type of inventory</p>   <PieReport /> </div> */}
+                <div class="bottom">  <p className="chartLabel">Status Summary</p>   <ScatterReport /> </div>
+                <div class="bottom"> <p className="chartLabel">Status Summary</p>  <GraphReport2 /> </div>
 
               </div> 
     </div>

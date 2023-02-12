@@ -46,6 +46,7 @@
     float: left;
     background: white;
     box-shadow: 0 0 10px gray;
+    border-radius: 10px;
 }
 .center{
     clear: both;
@@ -60,6 +61,7 @@
     float: left;
     background: white;
     box-shadow: 0 0 10px gray;
+    border-radius: 10px;
 }
 
 .scatter {
@@ -138,4 +140,10 @@
 }
 .Itemcards > div .right {
     padding-left: 1.2rem;
+}
+.chartLabel {
+    font-weight: 500;
+    font-size: 18px;
+    color: #000000;
+    margin: 15px 0px 20px 20px; 
 }

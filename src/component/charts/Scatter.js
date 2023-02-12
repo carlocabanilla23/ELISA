@@ -1,57 +1,49 @@
 import React, { PureComponent } from 'react';
-import {
-  ScatterChart,
-  Scatter,
-  XAxis,
-  YAxis,
-  ZAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
+import { PieChart, Pie, Sector, Cell, Legend , ResponsiveContainer } from 'recharts';
+import '../styles/graph.css';
 
 function ScatterReport () {
 
     
-const data01 = [
-    { x: 10, y: 30 },
-    { x: 30, y: 200 },
-    { x: 45, y: 100 },
-    { x: 50, y: 400 },
-    { x: 70, y: 150 },
-    { x: 100, y: 250 },
+  const data = [
+    { name: 'Low Stock', value: 10 },
+    { name: 'Old', value: 7 },
+    { name: 'Broken', value: 8 },
+    { name: 'Reserved', value: 25 },
   ];
-  const data02 = [
-    { x: 30, y: 20 },
-    { x: 50, y: 180 },
-    { x: 75, y: 240 },
-    { x: 100, y: 100 },
-    { x: 120, y: 190 },
-  ];
+  
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+  
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  }
 
   
     return (
-    <ResponsiveContainer width="100%" height={400}>
-    <ScatterChart
-        margin={{
-          top: 20,
-          right: 20,
-          bottom: 20,
-          left: 20,
-        }}
-      >
-        <CartesianGrid />
-        <XAxis type="number" dataKey="x" name="stature" unit="cm" />
-        <YAxis type="number" dataKey="y" name="weight" unit="kg" />
-        <ZAxis type="number" range={[100]} />
-        <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-        <Legend />
-        <Scatter name="A school" data={data01} fill="#8884d8" line shape="cross" />
-        <Scatter name="B school" data={data02} fill="#82ca9d" line shape="diamond" />
-      </ScatterChart>
-      </ResponsiveContainer>
-      );
+        <PieChart width={500} height={350}>
+          <Pie
+            data={data}
+            // cx="50%"
+            // cy="50%"
+            labelLine={false}
+            label={renderCustomizedLabel}
+            // outerRadius={80}
+            fill="#8884d8"
+            dataKey="value"
+            nameKey="name"
+            legendType="circle"
+            
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Legend />
+        </PieChart>
+    );
 }
 
 

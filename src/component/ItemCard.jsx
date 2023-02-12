@@ -328,7 +328,7 @@ const ItemCard = ({ item, updateList}) => {
                     </li>
                 </ul>
                 <button onClick={(e)=> newStatus() }  className="btn btn-secondary" type="button">
-                  save
+                  Save
                 </button>
             </div>
             </div>

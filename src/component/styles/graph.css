@@ -4,3 +4,28 @@
 .Inventory-Report{
     margin-top: 2em;
 }
+.summary{
+    width: 100%;
+}
+.summaryItem{
+    margin: 0 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0px;
+    border-bottom: 2px solid #C0C0C0;
+}
+.summaryItem:last-child{
+    border-bottom: none;
+}
+.summaryTitle{
+    font-weight: 500;
+    color: #757575;
+}
+.summaryCount{
+    margin-right: 20px;
+    font-weight: 700;
+    font-size: 24px;
+    color: #3E2B2E;
+}
