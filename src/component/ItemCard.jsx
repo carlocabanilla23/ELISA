@@ -7,9 +7,10 @@ import { API } from "aws-amplify";
 import { Generate } from "./code-generator/qrcode";
 import * as ReactDOM from 'react-dom/client';
 import { GenerateBarcode } from "./code-generator/barcode";
+import OffCanvasCard from "./card/OffCanvasCard";
 
 
-const ItemCard = ({ item, updateList}) => {
+const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus}) => {
   const navigate = useNavigate();
   const loc = useLocation();
   const [name,setName] = React.useState('');
@@ -29,14 +30,15 @@ const ItemCard = ({ item, updateList}) => {
   const [lastupdated, setLastdate] = useState('');
   const [acquiredate, setAcquiredate] = useState('');
   const [expiredate, setExpiredate] = useState('');
-
-  const [barcode,setBarcode] = useState();
+  const [itemInfo,setItemInfo] = useState();
+ 
   const [offItems, SetOffItems] = useState('');
 
 
   useEffect( () => {
     setStatus(item.status)
     setnewnewStatus(item.status)
+    
     },[]);
     
   const EditItem = (e) => {
@@ -55,79 +57,70 @@ const ItemCard = ({ item, updateList}) => {
     });
   };
 
-  const CreateQRCode = (e) => {
-    document.getElementById("item-info").style.display = "none";
-    document.getElementById("qrcode").style.display = "block";
-    document.getElementById("barcode").style.display = "none";
-    document.getElementById("Offstatus").style.display = "none";
+  // const CreateQRCode = (e) => {
+  //   document.getElementById("item-info").style.display = "none";
+  //   document.getElementById("qrcode").style.display = "block";
+  //   document.getElementById("barcode").style.display = "none";
+  //   document.getElementById("Offstatus").style.display = "none";
   
-    console.log(e.serialno);
-  let svg = Generate(e.serialno);
-  setQRCode(svg);
-  }
-  const CreateBarcode = (e) => {
-    document.getElementById("item-info").style.display = "none";
-    document.getElementById("qrcode").style.display = "none";
-    document.getElementById("barcode").style.display = "block";
-    document.getElementById("Offstatus").style.display = "none";
+  //   console.log(e.serialno);
+  // let svg = Generate(e.serialno);
+  // setQRCode(svg);
+  // }
+  // const CreateBarcode = (e) => {
+  //   document.getElementById("item-info").style.display = "none";
+  //   document.getElementById("qrcode").style.display = "none";
+  //   document.getElementById("barcode").style.display = "block";
+  //   document.getElementById("Offstatus").style.display = "none";
 
-    console.log(e.serialno);
-  let svg = GenerateBarcode(e.serialno);
-  setBarcode(svg);
-  }
+  //   console.log(e.serialno);
+  // let svg = GenerateBarcode(e.serialno);
+  // setBarcode(svg);
+  // }
 
-  const ViewInformation = (e) => {
-    // e.preventDefault();
-    API.get("inventory","/items/object/"+e).then(res => {
-      setName(res.name);
-      setSerialNumber(res.serialno);
-      setType(res.type);
-  })
-    document.getElementById("item-info").style.display = "block";
-    document.getElementById("qrcode").style.display = "none";
-    document.getElementById("barcode").style.display = "none";
-    document.getElementById("Offstatus").style.display = "none";
-
-  }
+  // const ViewInformation = (e) => {
+  //   // e.preventDefault();
+ 
+ 
+  //   document.getElementById("item-info").style.display = "block";
+  //   document.getElementById("qrcode").style.display = "none";
+  //   document.getElementById("barcode").style.display = "none";
+  //   document.getElementById("Offstatus").style.display = "none";
+  //   setItemInfo( <OffCanvasCard item={item} />)
+  // } 
   
     
   
-    const changeStatus = () => {
-      document.getElementById("item-info").style.display = "none";
-    document.getElementById("qrcode").style.display = "none";
-    document.getElementById("barcode").style.display = "none";
-    document.getElementById("Offstatus").style.display = "block";
+  // const changeStatus = () => {
+  //   document.getElementById("item-info").style.display = "none";
+  //   document.getElementById("qrcode").style.display = "none";
+  //   document.getElementById("barcode").style.display = "none";
+  //   document.getElementById("Offstatus").style.display = "block";
      
-  }
+  // }
 
-  const newStatus = () => {
-    const today = new Date();
-    console.log(item);
-    API.post("inventory","/items/", {
-      body : {
-         name : item.name,
-         serialno : item.serialno, 
-         type : item.type,
-          model : item.model,
-          location : item.location,
-          roomno : item.roomno,
-           status : newnewStatus, 
-          manufacturer: item.manufacturer,
-            cost: item.cost,
-            lastupdated: today, 
-          }});
-          setStatus(newnewStatus);
-  }
+  // const newStatus = () => {
+  //   const today = new Date();
+  //   console.log(item);
+  //   API.post("inventory","/items/", {
+  //     body : {
+  //        name : item.name,
+  //        serialno : item.serialno, 
+  //        type : item.type,
+  //        model : item.model,
+  //        location : item.location,
+  //        roomno : item.roomno,
+  //        status : newnewStatus, 
+  //        manufacturer: item.manufacturer,
+  //        cost: item.cost,
+  //        lastupdated: today,
+  //        createdate: item.createdate,
+  //        expiredate: item.expiredate,
+  //        image : item.image
+  //       }});
+  //         setStatus(newnewStatus);
+  // }
   
-  
-
-  
-  
-  
-  
-    
-  
-
   
   return (
     <div className="UserRowItems">
@@ -154,7 +147,7 @@ const ItemCard = ({ item, updateList}) => {
                   </button>
                   <ul className="dropdown-menu">
                     <li>
-                      <a onClick={ (e) => ViewInformation(item.serialno)}
+                      <a onClick={ (e) => ViewInformation(item)}
                         className="dropdown-item"
                         type="button"
                         data-bs-toggle="offcanvas"
@@ -185,7 +178,7 @@ const ItemCard = ({ item, updateList}) => {
                       >Print Barcode</a>
                     </li>
                     <li>           
-                    <a onClick={(e) =>  changeStatus(status)}
+                    <a onClick={(e) =>  changeStatus(item)}
                       className="dropdown-item"
                       type="button"
                       data-bs-toggle="offcanvas"
@@ -217,123 +210,7 @@ const ItemCard = ({ item, updateList}) => {
           </div>
         </div>
       </div>
-      <div
-        className="offcanvas offcanvas-end"
-        tabIndex="-1"
-        id="offcanvasRight"
-        aria-labelledby="offcanvasRightLabel"
-      >
-        <div className="offcanvas-header">
-          <h5 id="offcanvasRightLabel">{item.name}</h5>
-          <button
-            type="button"
-            className="btn-close text-reset"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-          <div className="offcanvas-body">
-            <div id="item-info">
-                    {/* Image */}
-                    <div className="mb-3 row">
-                        <img src={image} width="150" height="150" alt="" />
-                    </div>
-                    {/* Serial Number */}
-                    <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Serial #:</label>
-                        <div className = "Information col-sm-8">{serialNumber}</div>
-                    </div>
-                    {/* Type */}
-                    <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Type:</label>
-                        <div className = "Information col-sm-8">{type}</div>
-                    </div>
-                    {/* Model */}
-                    <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Model:</label>
-                        <div className = "Information col-sm-8">{model}</div>
-                    </div>
-                    {/* Manufacturer */}
-                    <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Manufacturer:</label>
-                        <div className = "Information col-sm-8">{manufacturer}</div>
-                    </div>
-                    {/* Location */}
-                    <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Location:</label>
-                        <div className = "Information col-sm-8">{location}</div>
-                    </div>
-                    {/* Room Number */}
-                    <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Room #:</label>
-                        <div className = "Information col-sm-8">{roomNumber}</div>
-                    </div>
-                    {/* Status */}
-                    <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Status:</label>
-                        <div className = "Information col-sm-8">{status}</div>
-                    </div>
-                    {/* Cost */}
-                    <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Cost:</label>
-                        <div className = "Information col-sm-8">{cost}</div>
-                    </div>
-                {/* Date Created */}
-                <div className = "mb-3 row">
-                    <label  className = "Attribute col-sm-4">Created:</label>
-                    <div className = "Information col-sm-8">{createdate}</div>
-                </div>
-                {/* Last Updated */}
-                <div className = "mb-3 row">
-                    <label  className = "Attribute col-sm-4">Updated:</label>
-                    <div className = "Information col-sm-8">{lastupdated}</div>
-                </div>
-                {/* Dated Acquired */}
-                <div className = "mb-3 row">
-                    <label  className = "Attribute col-sm-4">Acquired:</label>
-                    <div className = "Information col-sm-8">{acquiredate}</div>
-                </div>
-                {/* Dated Expired */}
-                <div className = "mb-3 row">
-                    <label  className = "Attribute col-sm-4">Expired:</label>
-                    <div className = "Information col-sm-8">{expiredate}</div>
-                </div>
-            </div>
-
-            <div id="qrcode">
-                {qrcode}
-            </div>
-
-            <div id="barcode">
-                {barcode}
-            </div>
-
-            <div id="Offstatus">
-            <div className="dropdown">
-                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                    {newnewStatus}
-                </button>
-                <ul className="dropdown-menu">
-                    <li><a className="dropdown-item" onClick={(e)=> setnewnewStatus ("New")} > New
-                        </a>
-                    </li>
-                    <li><a className="dropdown-item" onClick={(e)=> setnewnewStatus ("Old")} > Old
-                        </a>
-                    </li>
-                    <li><a className="dropdown-item" onClick={(e)=> setnewnewStatus ("Used")} > Used
-                        </a>
-                    </li>
-                    <li><a className="dropdown-item" onClick={(e)=> setnewnewStatus ("Broken")} > Broken
-                        </a>
-                    </li>
-                </ul>
-                <button onClick={(e)=> newStatus() }  className="btn btn-secondary" type="button">
-                  save
-                </button>
-            </div>
-            </div>
-        </div>
-      </div>
+      
     </div>
   );
 };

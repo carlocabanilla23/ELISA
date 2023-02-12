@@ -8,9 +8,14 @@ import { useNavigate } from "react-router-dom";
 import ItemList from "./ItemList";
 import Pagination from "./Pagination";
 import iInventory from "./icons/inventory.png";
+import OffCanvasCard from "./card/OffCanvasCard";
 import Papa from 'papaparse';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { Generate } from "./code-generator/qrcode";
+import { GenerateBarcode } from "./code-generator/barcode";
+
+
 
 function Inventory () {
     // CreateTestEquipment(5);
@@ -18,6 +23,10 @@ function Inventory () {
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
     const [itemsPerPage,setItemsPerPage] = useState(10);
+
+    const [offCanvasItem, setOffCanvasItem] = useState('');
+    const [qrcode,setQRCode] = useState();
+    const [barcode,setBarcode] = useState();
 
     const navigate = useNavigate();
 
@@ -39,6 +48,46 @@ function Inventory () {
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     } 
+
+    const ViewInformation = (item) => {
+        setOffCanvasItem(item);
+        document.getElementById("item-info").style.display = "block";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+    }
+
+    const CreateQRCode = (serialno) => {
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "block";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+      
+        console.log(serialno);
+        let svg = Generate(serialno);
+        setQRCode(svg);
+    }
+    const CreateBarcode = (serialno) => {
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "block";
+        document.getElementById("Offstatus").style.display = "none";
+    
+        console.log(serialno);
+        let svg = GenerateBarcode(serialno);
+        setBarcode(svg);
+    }
+
+    const changeStatus = (item) => {
+        setOffCanvasItem(item);
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "block";
+         
+    }
+
+
     const searchItem = (e) => {
         if (e.length > 0) {
             const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
@@ -152,7 +201,12 @@ const csv = Papa.unparse({
 
         <div className="UserPane">
             
-            <ItemList items={currentList} updateList={updateList} />
+            <ItemList items={currentList} 
+                      ViewInformation={ViewInformation}
+                      updateList={updateList}
+                      CreateQRCode={CreateQRCode} 
+                      CreateBarcode={CreateBarcode}
+                      changeStatus={changeStatus} />
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 
@@ -163,6 +217,13 @@ const csv = Papa.unparse({
                 {/* {items.map( (itemRes,index) => <Item item={itemRes} key={index} updateList={updateList}/>)} */}
 
         </div>
+
+
+
+        {/* OFf canvas */}
+        <OffCanvasCard  item={offCanvasItem} qrcode={qrcode} barcode={barcode} />
+
+       
     </div>    
     )
 }

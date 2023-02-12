@@ -3,7 +3,7 @@ import React from "react";
 import './styles/List.css';
 import { useEffect } from "react";
 
-const ItemList = ({items,updateList}) => {
+const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus}) => {
 
     return (
         <>
@@ -25,7 +25,12 @@ const ItemList = ({items,updateList}) => {
             <ul className="list-group">
                 { items.map( (items,index) => (
                     <li key={index}>
-                        <ItemCard item={items} key={index} updateList={updateList}/>
+                        <ItemCard item={items} key={index}
+                                  updateList={updateList}
+                                  ViewInformation={ViewInformation}
+                                  CreateQRCode={CreateQRCode} 
+                                  CreateBarcode={CreateBarcode}
+                                  changeStatus={changeStatus}/>
                     </li>
                 ))}
                 
