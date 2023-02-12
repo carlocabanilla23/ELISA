@@ -221,7 +221,7 @@ function EditUser() {
                     <div className = "mb-3 row">
                         <label for="Password" className="col-sm-2 col-form-label">Password</label>
                         <div className="col-sm-10">
-                            <input type="text"
+                            <input type="password"
                             className="form-control"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}

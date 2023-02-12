@@ -32,7 +32,11 @@ function UserInformation(e) {
               setRole(res.role);
               setPhone(res.phone);
               setSchoolID(res.schoolID);
-              setPassword(res.password);
+              var text = ''
+              for(var i = 0; i < res.password.length; i++){
+                text += '*';
+              }
+              setPassword(text);
           })},[]);
 
     const cancelEdit = () => {
