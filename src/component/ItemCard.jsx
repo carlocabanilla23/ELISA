@@ -19,6 +19,7 @@ const ItemCard = ({ item, updateList}) => {
   const [location,setLocation] = React.useState('Location');
   const [roomNumber,setRoom] = React.useState('');
   const [status,setStatus] = React.useState('Status');
+  const [newnewStatus, setnewnewStatus] = useState('status');
   const [allItems, setItems] = useState([]);
   const [qrcode,setQRCode] = useState();
   const [image, setImage] = useState('');
@@ -26,18 +27,8 @@ const ItemCard = ({ item, updateList}) => {
 
 
   useEffect( () => {
-    API.get("inventory","/items").then( itemRes => {
-      setItems(itemRes);
-      // setName(res.name);
-        // setSerialNumber(res.serialno);
-        // setType(res.type);
-        // setModel(res.model);
-        // setLocation(res.location);
-        // setRoom(res.roomno);
-        // setStatus(res.status);
-        // setCreateDate(res.createdate);
-        // setLastUpdate(res.lastupdate);
-      })
+    setStatus(item.status)
+    setnewnewStatus(item.status)
     },[]);
   const EditItem = (e) => {
     navigate("/EditItem", {
@@ -59,6 +50,7 @@ const ItemCard = ({ item, updateList}) => {
     document.getElementById("item-info").style.display = "none";
     document.getElementById("qrcode").style.display = "block";
     document.getElementById("barcode").style.display = "none";
+    document.getElementById("status").style.display = "none";
   
     console.log(item.serialno);
   let svg = Generate(item.serialno);
@@ -68,6 +60,7 @@ const ItemCard = ({ item, updateList}) => {
     document.getElementById("item-info").style.display = "none";
     document.getElementById("qrcode").style.display = "none";
     document.getElementById("barcode").style.display = "block";
+    document.getElementById("status").style.display = "none";
 
     console.log(item.serialno);
   let svg = GenerateBarcode(item.serialno);
@@ -78,19 +71,44 @@ const ItemCard = ({ item, updateList}) => {
     document.getElementById("item-info").style.display = "block";
     document.getElementById("qrcode").style.display = "none";
     document.getElementById("barcode").style.display = "none";
+    document.getElementById("status").style.display = "none";
 
   }
-
-  const UpdateStatus = (status) => {
-    document.getElementById("offcanvasRight").style.display = "block";
-    document.getElementById("item-info").style.display = "none";
   
-    let newStatus = status === "active" ? "inactive" : "active";
-    console.log(`Status changed to ${newStatus}`);
-    item.status = newStatus;
+    
   
-    document.getElementById("status-display").innerHTML = `Status: ${newStatus}`;
+    const changeStatus = () => {
+      document.getElementById("item-info").style.display = "none";
+    document.getElementById("qrcode").style.display = "none";
+    document.getElementById("barcode").style.display = "none";
+    document.getElementById("status").style.display = "block";
+     
   }
+
+  const newStatus = () => {
+    const today = new Date();
+    console.log(item);
+    API.post("inventory","/items/", {
+      body : {
+         name : item.name,
+         serialno : item.serialno, 
+         type : item.type,
+          model : item.model,
+          location : item.location,
+          roomno : item.roomno,
+           status : newnewStatus, 
+          manufacturer: item.manufacturer,
+            cost: item.cost,
+            lastupdated: today, 
+          }});
+          setStatus(newnewStatus);
+  }
+  
+  
+
+  
+  
+  
   
     
   
@@ -106,7 +124,7 @@ const ItemCard = ({ item, updateList}) => {
           <div id="model" className="col"> {item.model} </div>
           <div id="location" className="col"> {item.location} </div>
           <div id="roomNumber" className="col"> {item.roomno} </div>
-          <div id="status" className="col"> {item.status} </div>
+          <div id="status" className="col"> {status} </div>
           <div className="col actions">
             <div className="row">
               <div className="col actions-column">
@@ -151,14 +169,15 @@ const ItemCard = ({ item, updateList}) => {
                       aria-controls="offcanvasRight"
                       >Print Barcode</a>
                     </li>
-                    <li>               
-                    <a onClick = { (e) => UpdateStatus(item.status)}
-  className="dropdown-item"
-  type="button"
-  data-bs-toggle="offcanvas"
-  data-bs-target="#offcanvasRight"
-  aria-controls="offcanvasRight"
-  >Change Status</a>
+                    <li>           
+                    <a onClick={(e) =>  changeStatus(status)}
+                      className="dropdown-item"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight">
+                      Change Status
+                      </a>
                     </li>
                     <li style={{display: 'none'}} id="mobile">
                       <a className="dropdown-item" type="button" onClick={() => updateList(item.serialno)}>Delete</a>
@@ -272,6 +291,31 @@ const ItemCard = ({ item, updateList}) => {
 
             <div id="barcode">
                 {barcode}
+            </div>
+
+            <div id="status">
+            <div className="dropdown">
+                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    {newnewStatus}
+                </button>
+                <ul className="dropdown-menu">
+                    <li><a className="dropdown-item" onClick={(e)=> setnewnewStatus ("New")} > New
+                        </a>
+                    </li>
+                    <li><a className="dropdown-item" onClick={(e)=> setnewnewStatus ("Old")} > Old
+                        </a>
+                    </li>
+                    <li><a className="dropdown-item" onClick={(e)=> setnewnewStatus ("Used")} > Used
+                        </a>
+                    </li>
+                    <li><a className="dropdown-item" onClick={(e)=> setnewnewStatus ("Broken")} > Broken
+                        </a>
+                    </li>
+                </ul>
+                <button onClick={(e)=> newStatus() }  className="btn btn-secondary" type="button">
+                  save
+                </button>
+            </div>
             </div>
         </div>
       </div>
