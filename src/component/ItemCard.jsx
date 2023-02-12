@@ -154,7 +154,7 @@ const ItemCard = ({ item, updateList}) => {
                   </button>
                   <ul className="dropdown-menu">
                     <li>
-                      <a onClick={ (e) => ItemInformation(item.serialno)}
+                      <a onClick={ (e) => ViewInformation(item.serialno)}
                         className="dropdown-item"
                         type="button"
                         data-bs-toggle="offcanvas"
