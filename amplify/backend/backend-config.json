@@ -69,6 +69,20 @@
           ]
         }
       ]
+    },
+    "useraccounts": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "accountapi",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
     }
   },
   "function": {
@@ -156,6 +170,25 @@
         {
           "category": "storage",
           "resourceName": "usernotifprofile",
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "attributeEnvMap": {
+            "Name": "TABLE_NAME",
+            "Arn": "TABLE_ARN"
+          }
+        }
+      ]
+    },
+    "accountapi": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "accountdb",
           "attributes": [
             "Name",
             "Arn"
@@ -273,6 +306,10 @@
       "service": "DynamoDB"
     },
     "usernotifprofile": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "accountdb": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
     }

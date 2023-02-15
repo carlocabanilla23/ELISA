@@ -17,10 +17,25 @@ function Setting(){
     const [cpass,setCpass] = useState('');
     const [npass,setNpass] = useState('');
     const [rnpass,setRnpass] = useState('');
+    
+    const [newItemChecked,setNewItemChecked] = useState(false);
+    const [newMemberChecked,setNewMemberChecked] = useState(false);
+    const [outOfStockChecked,setOutOfStockChecked] = useState(false);
+    const [reservationRequestChecked,setReservationRequestChecked] = useState(false);
+    const [emailNotificationChecked,setEmailNotificationChecked] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect( () => {
-        API.get("userapi","/email/object/"+emailParam).then( res => {
+        API.get("userapi","/email/object/" + emailParam).then( res => {
+            API.get("notificationapi","/sid/object/" + res.schoolID).then( resNotif => {
+                setNewItemChecked(resNotif.newitem);
+                setNewMemberChecked(resNotif.newmember);
+                setOutOfStockChecked(resNotif.outofstock);
+                setReservationRequestChecked(resNotif.reservationrequest);
+                setEmailNotificationChecked(resNotif.emailnotification);
+            });
+
             // setEmail(res.email);
             setFname(res.firstname);
             setLname(res.lastname);
@@ -29,9 +44,62 @@ function Setting(){
     },[email]);
 
 
+    const handleChangeNewItem = () => {
+        if (newItemChecked === true)
+            setNewItemChecked(false);
+        else
+            setNewItemChecked(true)
+        // console.log(checked);
+    };
 
-      
+    const handleChangeNewMember = () => {
+        if (newMemberChecked === true)
+            setNewMemberChecked(false);
+        else
+            setNewMemberChecked(true)
+        // console.log(checked);
+    };
+    
+    const handleChangeOutOfStock = () => {
+        if (outOfStockChecked === true)
+            setOutOfStockChecked(false);
+        else
+            setOutOfStockChecked(true)
+        // console.log(checked);
+    };
 
+    const handleChangeReservationRequest = () => {
+        if (reservationRequestChecked === true)
+            setReservationRequestChecked(false);
+        else
+            setReservationRequestChecked(true)
+        // console.log(checked);
+    };
+
+    const handleChangeEmailNotification = () => {
+        if (emailNotificationChecked === true)
+            setEmailNotificationChecked(false);
+        else
+            setEmailNotificationChecked(true)
+        // console.log(checked);
+    };
+    
+    const UpdateNotification = (e) => {
+        e.preventDefault();
+        API.get("userapi","/email/object/" + emailParam).then( res => {
+            console.log(res.schoolID);
+            API.post("notificationapi","/sid/", {
+                body : {
+                   sid : res.schoolID,
+                   newitem : newItemChecked,
+                   newmember : newMemberChecked,
+                   outofstock : outOfStockChecked,
+                   reservationrequest : reservationRequestChecked,
+                   emailnotification : emailNotificationChecked       
+                }
+            });
+        })
+    }
     const cancelEdit = () => {
         navigate('/Home');
     }
@@ -116,12 +184,16 @@ function Setting(){
                     </div>
 
                     <div className="col">
-                        <form className="setting-form">
+                        <form onSubmit={UpdateNotification} className="setting-form">
                             <h3 className='heading'> Notifications </h3>
                             <div className="form-input">
                                 <label className = "input-label" >New Item Added</label>
                                 <label className = "switch">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" 
+                                        // value={newItemChecked}
+                                        checked={newItemChecked}
+                                        onChange={ (e) => handleChangeNewItem()}
+                                    />
                                     <span className="slider round">
                                         <span className="on">On</span>
                                         <span className="off">Off</span>
@@ -131,7 +203,10 @@ function Setting(){
                             <div className="form-input">
                                 <label className = "input-label" >New Member Added</label>
                                 <label className = "switch">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" 
+                                          checked={newMemberChecked}
+                                          onChange={handleChangeNewMember}
+                                    />
                                     <span className="slider round">
                                         <span className="on">On</span>
                                         <span className="off">Off</span>
@@ -141,17 +216,10 @@ function Setting(){
                             <div className="form-input">
                                 <label className = "input-label" >Out of Stock</label>
                                 <label className = "switch">
-                                    <input type="checkbox" />
-                                    <span className="slider round">
-                                        <span className="on">On</span>
-                                        <span className="off">Off</span>
-                                    </span> 
-                                </label>
-                            </div>
-                            <div className="form-input">
-                                <label className = "input-label" >Report Email</label>
-                                <label className = "switch">
-                                    <input type="checkbox" />
+                                    <input type="checkbox"
+                                         checked={outOfStockChecked}
+                                         onChange={handleChangeOutOfStock}
+                                    />
                                     <span className="slider round">
                                         <span className="on">On</span>
                                         <span className="off">Off</span>
@@ -161,7 +229,10 @@ function Setting(){
                             <div className="form-input">
                                 <label className = "input-label" >Reservation Request</label>
                                 <label className = "switch">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" 
+                                        checked={reservationRequestChecked}
+                                        onChange={handleChangeReservationRequest}
+                                    />
                                     <span className="slider round">
                                         <span className="on">On</span>
                                         <span className="off">Off</span>
@@ -171,24 +242,17 @@ function Setting(){
                             <div className="form-input">
                                 <label className = "input-label" >Send Notification to Email</label>
                                 <label className = "switch">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" 
+                                        checked={emailNotificationChecked}
+                                        onChange={handleChangeEmailNotification}
+                                    />
                                     <span className="slider round">
                                         <span className="on">On</span>
                                         <span className="off">Off</span>
                                     </span> 
                                 </label>
                             </div>
-                            <div className="form-input">
-                                <label className = "input-label" >Send SMS to Phone</label>
-                                <label className = "switch">
-                                    <input type="checkbox" />
-                                    <span className="slider round">
-                                        <span className="on">On</span>
-                                        <span className="off">Off</span>
-                                    </span> 
-                                </label>
-                            </div>
-                            <div className="form-input">
+                            {/* <div className="form-input">
                                 <label className = "input-label" >Item Left Building</label>
                                 <label className = "switch">
                                     <input type="checkbox" />
@@ -197,7 +261,7 @@ function Setting(){
                                         <span className="off">Off</span>
                                     </span> 
                                 </label>
-                            </div>
+                            </div> */}
                             <div className="settings-button-wrapper">
                                 <button className="button" type = "submit" >Save item</button>
                             </div>

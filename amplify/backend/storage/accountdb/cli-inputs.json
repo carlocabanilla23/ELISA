@@ -1,0 +1,10 @@
+{
+  "resourceName": "accountdb",
+  "tableName": "accountdb",
+  "partitionKey": {
+    "fieldName": "email",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

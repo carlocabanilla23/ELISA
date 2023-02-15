@@ -24,6 +24,11 @@ export type AmplifyDependentResourcesAttributes = {
             "RootUrl": "string",
             "ApiName": "string",
             "ApiId": "string"
+        },
+        "useraccounts": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
         }
     },
     "function": {
@@ -56,6 +61,12 @@ export type AmplifyDependentResourcesAttributes = {
             "LambdaExecutionRoleArn": "string"
         },
         "notifprofile": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "accountapi": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
@@ -96,6 +107,14 @@ export type AmplifyDependentResourcesAttributes = {
             "Region": "string"
         },
         "usernotifprofile": {
+            "Name": "string",
+            "Arn": "string",
+            "StreamArn": "string",
+            "PartitionKeyName": "string",
+            "PartitionKeyType": "string",
+            "Region": "string"
+        },
+        "accountdb": {
             "Name": "string",
             "Arn": "string",
             "StreamArn": "string",

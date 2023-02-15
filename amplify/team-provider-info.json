@@ -38,7 +38,11 @@
         },
         "notifprofile": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/notifprofile-61656639357171796c44-build.zip"
+          "s3Key": "amplify-builds/notifprofile-334c6a64634d436d6b6d-build.zip"
+        },
+        "accountapi": {
+          "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
+          "s3Key": "amplify-builds/accountapi-59316f4a695539377152-build.zip"
         }
       },
       "storage": {
@@ -48,7 +52,8 @@
         "reservations": {},
         "email": {},
         "emaildb": {},
-        "usernotifprofile": {}
+        "usernotifprofile": {},
+        "accountdb": {}
       },
       "api": {
         "userapi": {},
@@ -56,7 +61,8 @@
         "inventory": {},
         "reservationapi": {},
         "emailsystem": {},
-        "notificationapi": {}
+        "notificationapi": {},
+        "useraccounts": {}
       }
     }
   }
