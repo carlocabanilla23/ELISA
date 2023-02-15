@@ -125,6 +125,29 @@ function Setting(){
         window.location.reload(true);
 
     }
+    const UpdatePassword = (e) => {
+        e.preventDefault();
+        API.get("useraccounts","/email/object/" + emailParam).then( res => {
+            console.log(cpass);
+            console.log(res.password);
+            if (cpass !== res.password) {
+                console.log("wrong passowrd");
+            } else {
+                if (npass !== rnpass ) {
+                    console.log("New Password does not match");
+                } else {
+                    API.post("useraccounts","/email/",{
+                        body:{
+                            email:emailParam,
+                            password: npass
+                        }
+                    });
+                    console.log("success !")
+                }
+            }
+        })
+    
+    }
 
     
     return(
@@ -163,19 +186,19 @@ function Setting(){
                                 <button className="button" type = "submit" >Save</button>
                             </div>
                         </form>
-                        <form className="setting-form"> 
+                        <form onSubmit={UpdatePassword} className="setting-form"> 
                         <h3 className='heading'> Change Password </h3>
                                 <div className="form-input">
                                     <label className = "input-label" htmlFor = "current-password">Current Password</label>
-                                    <input className = "input-field" type = "password" id = "current-password" defaultValue={cpass}/>
+                                    <input className = "input-field" type = "password" id = "current-password" defaultValue={cpass} onChange={ (e) => setCpass(e.target.value)}/>
                                 </div>
                                 <div className="form-input">
                                     <label className = "input-label" htmlFor = "new-password">New Password</label>
-                                    <input className = "input-field" type = "password" id = "new-password" defaultValue={npass} />
+                                    <input className = "input-field" type = "password" id = "new-password" defaultValue={npass} onChange={ (e) => setNpass(e.target.value)}/>
                                 </div>
                                 <div className="form-input">
                                     <label className = "input-label" htmlFor = "confirm-password">Confirm Password</label>
-                                    <input className = "input-field" type = "password" id = "confirm-password" defaultValue={rnpass} />
+                                    <input className = "input-field" type = "password" id = "confirm-password" defaultValue={rnpass}  onChange={ (e) => setRnpass(e.target.value)}/>
                                 </div>
                                 <div className="settings-button-wrapper">
                                 <button className="button" type = "submit" >Save item</button>
