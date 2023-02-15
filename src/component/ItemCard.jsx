@@ -4,11 +4,13 @@ import "./styles/OffCanvas.css";
 import { useNavigate,useLocation } from "react-router-dom";
 import { useEffect,useState } from "react";
 import { API } from "aws-amplify";
-import { Generate } from "./qrcode/qrcode";
+import { Generate } from "./code-generator/qrcode";
 import * as ReactDOM from 'react-dom/client';
+import { GenerateBarcode } from "./code-generator/barcode";
+import OffCanvasCard from "./card/OffCanvasCard";
 
 
-const ItemCard = ({ item, updateList }) => {
+const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus}) => {
   const navigate = useNavigate();
   const loc = useLocation();
   const [name,setName] = React.useState('');
@@ -18,25 +20,28 @@ const ItemCard = ({ item, updateList }) => {
   const [location,setLocation] = React.useState('Location');
   const [roomNumber,setRoom] = React.useState('');
   const [status,setStatus] = React.useState('Status');
+  const [newnewStatus, setnewnewStatus] = useState('status');
   const [allItems, setItems] = useState([]);
   const [qrcode,setQRCode] = useState();
+  const [image, setImage] = useState('');
+  const [manufacturer,setManufacturer] = useState('');
+  const [cost, setCost] = useState('');
+  const [createdate, setCreatedate] = useState('');
+  const [lastupdated, setLastdate] = useState('');
+  const [acquiredate, setAcquiredate] = useState('');
+  const [expiredate, setExpiredate] = useState('');
+  const [itemInfo,setItemInfo] = useState();
+ 
+  const [offItems, SetOffItems] = useState('');
 
 
   useEffect( () => {
-    API.get("inventory","/items").then( itemRes => {
-      setItems(itemRes);
-      // setName(res.name);
-        // setSerialNumber(res.serialno);
-        // setType(res.type);
-        // setModel(res.model);
-        // setLocation(res.location);
-        // setRoom(res.roomno);
-        // setStatus(res.status);
-        // setCreateDate(res.createdate);
-        // setLastUpdate(res.lastupdate);
-      })},[]);
+    setStatus(item.status)
+    setnewnewStatus(item.status)
+    
+    },[]);
+    
   const EditItem = (e) => {
-    console.log(e);
     navigate("/EditItem", {
       state: {
         serialno: e,
@@ -52,19 +57,71 @@ const ItemCard = ({ item, updateList }) => {
     });
   };
 
-  const CreateQRCode = (e) => {
-    document.getElementById("item-info").style.display = "none";
-    document.getElementById("qrcode").style.display = "block";
-    
-    console.log(item.serialno);
-  let svg = Generate(item.serialno);
-  setQRCode(svg);
-  }
+  // const CreateQRCode = (e) => {
+  //   document.getElementById("item-info").style.display = "none";
+  //   document.getElementById("qrcode").style.display = "block";
+  //   document.getElementById("barcode").style.display = "none";
+  //   document.getElementById("Offstatus").style.display = "none";
+  
+  //   console.log(e.serialno);
+  // let svg = Generate(e.serialno);
+  // setQRCode(svg);
+  // }
+  // const CreateBarcode = (e) => {
+  //   document.getElementById("item-info").style.display = "none";
+  //   document.getElementById("qrcode").style.display = "none";
+  //   document.getElementById("barcode").style.display = "block";
+  //   document.getElementById("Offstatus").style.display = "none";
 
-  const ViewInformation = (e) => {
-    document.getElementById("item-info").style.display = "block";
-    document.getElementById("qrcode").style.display = "none";
-  }
+  //   console.log(e.serialno);
+  // let svg = GenerateBarcode(e.serialno);
+  // setBarcode(svg);
+  // }
+
+  // const ViewInformation = (e) => {
+  //   // e.preventDefault();
+ 
+ 
+  //   document.getElementById("item-info").style.display = "block";
+  //   document.getElementById("qrcode").style.display = "none";
+  //   document.getElementById("barcode").style.display = "none";
+  //   document.getElementById("Offstatus").style.display = "none";
+  //   setItemInfo( <OffCanvasCard item={item} />)
+  // } 
+  
+    
+  
+  // const changeStatus = () => {
+  //   document.getElementById("item-info").style.display = "none";
+  //   document.getElementById("qrcode").style.display = "none";
+  //   document.getElementById("barcode").style.display = "none";
+  //   document.getElementById("Offstatus").style.display = "block";
+     
+  // }
+
+  // const newStatus = () => {
+  //   const today = new Date();
+  //   console.log(item);
+  //   API.post("inventory","/items/", {
+  //     body : {
+  //        name : item.name,
+  //        serialno : item.serialno, 
+  //        type : item.type,
+  //        model : item.model,
+  //        location : item.location,
+  //        roomno : item.roomno,
+  //        status : newnewStatus, 
+  //        manufacturer: item.manufacturer,
+  //        cost: item.cost,
+  //        lastupdated: today,
+  //        createdate: item.createdate,
+  //        expiredate: item.expiredate,
+  //        image : item.image
+  //       }});
+  //         setStatus(newnewStatus);
+  // }
+  
+  
   return (
     <div className="UserRowItems">
       <div className="container-fluid">
@@ -72,10 +129,10 @@ const ItemCard = ({ item, updateList }) => {
           <div className="col"> {item.serialno} </div>
           <div className="col"> {item.name} </div>
           <div className="col"> {item.type} </div>
-          <div className="col"> {item.model} </div>
-          <div className="col"> {item.location} </div>
-          <div className="col"> {item.roomno} </div>
-          <div className="col"> {item.status} </div>
+          <div id="model" className="col"> {item.model} </div>
+          <div id="location" className="col"> {item.location} </div>
+          <div id="roomNumber" className="col"> {item.roomno} </div>
+          <div id="status" className="col"> {status} </div>
           <div className="col actions">
             <div className="row">
               <div className="col actions-column">
@@ -90,7 +147,7 @@ const ItemCard = ({ item, updateList }) => {
                   </button>
                   <ul className="dropdown-menu">
                     <li>
-                      <a onClick={ (e) => ViewInformation()}
+                      <a onClick={ (e) => ViewInformation(item)}
                         className="dropdown-item"
                         type="button"
                         data-bs-toggle="offcanvas"
@@ -99,8 +156,11 @@ const ItemCard = ({ item, updateList }) => {
                         // onClick={() => ItemInformation(item.serialno)}
                       >View Information</a>
                     </li>
+                    <li style={{display: 'none'}} id="mobile">
+                      <a className="dropdown-item" type="button" onClick={() => EditItem(item.serialno)}>Edit</a>
+                    </li>
                     <li>
-                      <a onClick={ (e) => CreateQRCode(serialNumber)}
+                      <a onClick={ (e) => CreateQRCode(item.serialno)}
                       className="dropdown-item"
                       type="button"
                       data-bs-toggle="offcanvas"
@@ -109,20 +169,36 @@ const ItemCard = ({ item, updateList }) => {
                       >Print QR Code</a>
                     </li>
                     <li>
-                      <a className="dropdown-item">Change Role</a>
+                      <a onClick = { (e) => CreateBarcode(item.serialno)}
+                      className="dropdown-item"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight"
+                      >Print Barcode</a>
                     </li>
-                    <li>
-                      <a className="dropdown-item">Change Status</a>
+                    <li>           
+                    <a onClick={(e) =>  changeStatus(item)}
+                      className="dropdown-item"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight">
+                      Change Status
+                      </a>
+                    </li>
+                    <li style={{display: 'none'}} id="mobile">
+                      <a className="dropdown-item" type="button" onClick={() => updateList(item.serialno)}>Delete</a>
                     </li>
                   </ul>
                 </div>
               </div>
-              <div className="col actions-column">
+              <div id="computer" className="col actions-column">
                 <button className="btn" onClick={() => EditItem(item.serialno)}>
                   <i className="fa fa-pencil"></i>
                 </button>
               </div>
-              <div className="col actions-column">
+              <div id="computer" className="col actions-column">
                 <button
                   className="btn"
                   onClick={() => updateList(item.serialno)}
@@ -134,70 +210,7 @@ const ItemCard = ({ item, updateList }) => {
           </div>
         </div>
       </div>
-      <div
-        className="offcanvas offcanvas-end"
-        tabIndex="-1"
-        id="offcanvasRight"
-        aria-labelledby="offcanvasRightLabel"
-      >
-        <div className="offcanvas-header">
-          <h5 id="offcanvasRightLabel">{item.name}</h5>
-          <button
-            type="button"
-            className="btn-close text-reset"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-          <div className="offcanvas-body">
-            <div id="item-info">
-                {/* Serial Number */}
-                <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Serial #:</label>
-                        <div className = "Information col-sm-8">{item.serialno}</div>
-                    </div>
-                    {/* Type */}
-                    <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Type:</label>
-                        <div className = "Information col-sm-8">{item.type}</div>
-                    </div>
-                    {/* Model */}
-                    <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Model:</label>
-                        <div className = "Information col-sm-8">{item.model}</div>
-                    </div>
-                    {/* Location */}
-                    <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Location:</label>
-                        <div className = "Information col-sm-8">{item.location}</div>
-                    </div>
-                    {/* Room Number */}
-                    <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Room #:</label>
-                        <div className = "Information col-sm-8">{item.roomno}</div>
-                    </div>
-                    {/* Status */}
-                    <div className="mb-3 row">
-                        <label  className = "Attribute col-sm-4">Status:</label>
-                        <div className = "Information col-sm-8">{item.status}</div>
-                    </div>
-                {/* Date Created */}
-                <div className = "mb-3 row">
-                    <label  className = "Attribute col-sm-4">Created:</label>
-                    <div className = "Information col-sm-8">2022-12-21 8:00PM</div>
-                </div>
-                {/* Last Updated */}
-                <div className = "mb-3 row">
-                    <label  className = "Attribute col-sm-4">Updated:</label>
-                    <div className = "Information col-sm-8">2022-12-21 8:00PM</div>
-                </div>
-            </div>
-
-            <div id="qrcode">
-                {qrcode}
-            </div>
-        </div>
-      </div>
+      
     </div>
   );
 };

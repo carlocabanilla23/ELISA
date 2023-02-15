@@ -1,5 +1,5 @@
 .UserInputForm{
-    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+    background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.5));
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
@@ -24,4 +24,14 @@
 }
 .form-buttons button{
     margin-left: 15px;
+}
+
+.eye-slash{
+    width: 5%;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    mix-blend-mode: multiply;
+    cursor: pointer;
 }

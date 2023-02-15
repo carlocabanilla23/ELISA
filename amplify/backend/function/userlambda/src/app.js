@@ -145,92 +145,6 @@ app.get(path + '/object' + hashKeyPath + sortKeyPath, function(req, res) {
   });
 });
 
-/*****************************************
- * HTTP Get method for get single object using sessionid *
- *****************************************/
-app.get(path, function(req, res) {
-  const condition = {}
-  condition[partitionKeyName] = {
-    ComparisonOperator: 'EQ'
-  }
-
-  if (userIdPresent && req.apiGateway) {
-    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
-  } else {
-    try {
-      condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
-    } catch(err) {
-      res.statusCode = 500;
-      res.json({error: 'Wrong column type ' + err});
-    }
-  }
-
-  let queryParams = {
-    TableName: tableName,
-    KeyConditions: condition
-  }
-  res.json(queryParams);
-  // dynamodb.scan(queryParams, (err, data) => {
-  //   if (err) {
-  //     res.statusCode = 500;
-  //     res.json({error: 'Could not load items: ' + err});
-  //   } else {
-  //     res.json(data.Items);
-  //   }
-  // });
-});
-
-
-/*****************************************
- * HTTP Get method to login *
- *****************************************/
-
-app.post(path + '/Login' + hashKeyPath , function(req, res) {
-  const params = {};
-  if (userIdPresent && req.apiGateway) {
-    params[partitionKeyName] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  } else {
-    params[partitionKeyName] = req.params[partitionKeyName];
-    try {
-      params[partitionKeyName] = convertUrlType(req.params[partitionKeyName], partitionKeyType);
-    } catch(err) {
-      res.statusCode = 500;
-      res.json({error: 'Wrong column type ' + err});
-    }
-  }
-  if (hasSortKey) {
-    try {
-      params[sortKeyName] = convertUrlType(req.params[sortKeyName], sortKeyType);
-    } catch(err) {
-      res.statusCode = 500;
-      res.json({error: 'Wrong column type ' + err});
-    }
-  }
-  const password = req.body.password;
-  let getItemParams = {
-    TableName: tableName,
-    Key: params
-  }
-  
-  dynamodb.get(getItemParams,(err, data) => {
-    if(err) {
-      res.statusCode = 500;
-      res.json({error: 'Could not load items: ' + err.message});
-    } else {
-      if (data.Item) {
-        bcrypt.compare(password,data.Item.password).then((result) => {
-          if (result === true) {
-            res.json(data.Item);
-          }
-        });
-      } else {
-        res.json(data) ;
-      }
-    }
-  });
-});
-
-
 /************************************
 * HTTP put method for insert object *
 *************************************/
@@ -267,10 +181,7 @@ app.post(path, function(req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
-  bcrypt.hash(req.body.password, salt, function(err, hash) {
-
     req.body.sessionID = md5(req.body.schoolID);
-    req.body.password = hash;
 
     let putItemParams = {
       TableName: tableName,
@@ -285,7 +196,6 @@ app.post(path, function(req, res) {
         res.json({success: 'post call succeed!', url: req.url, data: data})
       }
     });
-  });
 });
 
 /**************************************

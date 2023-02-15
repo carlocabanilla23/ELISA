@@ -16,17 +16,11 @@ function Login() {
     e.preventDefault();
     console.log(username);
 
-    API.post("userapi","/email/Login/"+username,{
-        body : {
-            password : password
-        }
-    }
-    ).then( res => {
-        if (res) {  
+    API.get("userapi","/email/object/"+username).then( res => {
+        if (res.email === username && res.password === password) {  
                 StartSession(res);
                 console.log(res); 
-                navigate('/Home');
-                    
+                navigate('/Home'); 
         }else{
             const err = ReactDOM.createRoot(
                 document.getElementById('prompt')
@@ -65,7 +59,7 @@ function Login() {
                     <label  className="col col-form-label">Keep me logged in</label>
                 </div>
                 <div className="col">
-                    <label  className="col col-form-label" id="create-account" onClick={() => navigate('/CreateNormalUser')}>create account?</label>
+                    <label  className="col col-form-label" id="create-account" onClick={() => navigate('/Signup')}>create account?</label>
                     <label  className="col col-form-label" id="forgot-pass">Forgot my password?</label>
                 </div>    
             </div>

@@ -16,8 +16,8 @@
         top: 12vh;
         left: 15%;
     padding-top: 5em;
-    padding-left: 5%;
-    padding-right: 50%;
+    padding-left: 15%;
+    /* padding-right: 50%; */
     
     /* display: flex;
     flex-direction: row; */
@@ -30,7 +30,7 @@
     min-width: 35vw;
     display: flex;
     flex-direction: row;
-    padding: 1rem;
+    padding: 2rem;
 }
 
 .input-label {
@@ -65,6 +65,8 @@
     justify-content: center;
     align-items: center;
     gap: 1.5rem;
+    padding-top: 40%;
+    padding-left: 25%;
 }
 
 .button {
@@ -89,4 +91,16 @@
 
 #alert {
     display: none;
+}
+
+.addItemColumn{
+    position: absolute;
+        top: 9.3%;
+        left: 50%;
+}
+
+.errormessage{
+    position: absolute;
+        top: 100%;
+        left: 43%;
 }

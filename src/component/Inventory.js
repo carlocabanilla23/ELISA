@@ -8,13 +8,25 @@ import { useNavigate } from "react-router-dom";
 import ItemList from "./ItemList";
 import Pagination from "./Pagination";
 import iInventory from "./icons/inventory.png";
+import OffCanvasCard from "./card/OffCanvasCard";
+import Papa from 'papaparse';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { Generate } from "./code-generator/qrcode";
+import { GenerateBarcode } from "./code-generator/barcode";
+
+
 
 function Inventory () {
-    // CreateTestEquipment(30);
+    // CreateTestEquipment(5);
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
     const [itemsPerPage,setItemsPerPage] = useState(10);
+
+    const [offCanvasItem, setOffCanvasItem] = useState('');
+    const [qrcode,setQRCode] = useState();
+    const [barcode,setBarcode] = useState();
 
     const navigate = useNavigate();
 
@@ -36,6 +48,46 @@ function Inventory () {
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     } 
+
+    const ViewInformation = (item) => {
+        setOffCanvasItem(item);
+        document.getElementById("item-info").style.display = "block";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+    }
+
+    const CreateQRCode = (serialno) => {
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "block";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+      
+        console.log(serialno);
+        let svg = Generate(serialno);
+        setQRCode(svg);
+    }
+    const CreateBarcode = (serialno) => {
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "block";
+        document.getElementById("Offstatus").style.display = "none";
+    
+        console.log(serialno);
+        let svg = GenerateBarcode(serialno);
+        setBarcode(svg);
+    }
+
+    const changeStatus = (item) => {
+        setOffCanvasItem(item);
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "block";
+         
+    }
+
+
     const searchItem = (e) => {
         if (e.length > 0) {
             const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
@@ -48,6 +100,51 @@ function Inventory () {
         }
        
     }  
+    const CSV = () => {      
+        // the data that you want to write to the CSV file
+        const data = [];
+        items.forEach(items => {
+            data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
+        });
+  
+
+// generate the CSV file
+const csv = Papa.unparse({
+    fields: ['SERIALNO', 'NAME', 'STATUS', 'ROOM NO'],
+    data: data
+});
+
+  // the CSV file
+            const a = document.createElement('a');
+            a.href = 'data:attachment/csv,' + csv;
+             a.target = '_blank';
+            a.download = 'output.csv';
+            document.body.appendChild(a);
+            a.click();
+}
+    const PDF = () => {     // Exporting to pdf 
+        const doc = new jsPDF();
+       // const users = [
+       //   { firstName: 'John', lastName: 'Patrick', schoolID: '474593', role: 'student'}
+       //   { firstName: 'Jane', lastName: 'Doe', schoolID: '987654', role: 'teacher' }
+      //  ];
+        const data = [['SERIALNO', 'NAME', 'STATUS', 'ROOM NO']];
+        items.forEach(items => {
+            data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
+        });
+        doc.autoTable({
+         //   head: [['firstName', 'lastName', 'schoolID', 'role']],
+            body: data
+        });
+        
+        const pdf = doc.output();
+        const link = document.createElement('a');
+        link.href = 'data:application/pdf;base64,' + btoa(pdf);
+        link.download = 'users.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 
     const idxLastItem = currentPage * itemsPerPage;
     const idxFirstItem = idxLastItem - itemsPerPage;
@@ -78,7 +175,7 @@ function Inventory () {
                 <div>
                     <span class="material-symbols-outlined">inventory_2</span>
                     <span>Inventory</span>
-                
+
                     <div className="searchBar">
                         <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>
                     </div>
@@ -93,8 +190,8 @@ function Inventory () {
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#">CSV</a></li>
-                                <li><a className="dropdown-item" href="#">PDF</a></li>
+                            <li><a className="dropdown-item" onClick={CSV} >CSV</a></li> 
+                                <li><a className="dropdown-item" onClick={PDF} >PDF</a></li>
                             </ul>
                         </div>
                     </div>
@@ -104,7 +201,12 @@ function Inventory () {
 
         <div className="UserPane">
             
-            <ItemList items={currentList} updateList={updateList}/>
+            <ItemList items={currentList} 
+                      ViewInformation={ViewInformation}
+                      updateList={updateList}
+                      CreateQRCode={CreateQRCode} 
+                      CreateBarcode={CreateBarcode}
+                      changeStatus={changeStatus} />
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 
@@ -113,8 +215,15 @@ function Inventory () {
                     /> 
           
                 {/* {items.map( (itemRes,index) => <Item item={itemRes} key={index} updateList={updateList}/>)} */}
-                   
+
         </div>
+
+
+
+        {/* OFf canvas */}
+        <OffCanvasCard  item={offCanvasItem} qrcode={qrcode} barcode={barcode} />
+
+       
     </div>    
     )
 }

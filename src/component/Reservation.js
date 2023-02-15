@@ -182,8 +182,8 @@ function Reservation () {
         setStatus("Returned");
         // setItemList(returnedItems);
         setItemListHeader("Returned Items");
-        document.getElementById("assignBtn").disabled = true;
-        document.getElementById("assignBtn").disabled = true;
+        // document.getElementById("assignBtn").disabled = true;
+        // document.getElementById("assignBtn").disabled = true;
         
         setAssignedItems([]);
 
@@ -213,12 +213,12 @@ function Reservation () {
         AddItemToLocation(assignedItems,firstName,lastName);
 
         setStatus("Assigned");
-        document.getElementById("assignBtn").disabled = true;
+        // document.getElementById("assignBtn").disabled = true;
 
     }
 
-    if (status === "Assigned" || status === "Returned") 
-    document.getElementById("assignBtn").disabled = true;
+    // if (status === "Assigned" || status === "Returned") 
+    // // document.getElementById("assignBtn").disabled = true;
 
  
     return (

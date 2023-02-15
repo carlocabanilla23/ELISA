@@ -12,8 +12,7 @@ import AddItem from './component/AddItem';
 import EditItem from './component/EditItem';
 import EditUser from './component/EditUser';
 import Inventory from './component/Inventory';
-import RoomLocation from './component/RoomLocation';
-import StorageLocation from './component/StorageLocation';
+import Location from './component/Location';
 import Reservations from './component/Reservations';
 import Reservation from './component/Reservation';
 import UserInformation from './component/UserInformation';
@@ -23,19 +22,19 @@ import StorageLocationItem from './component/StorageLocationItem';
 import ItemInformation from './component/ItemInformation';
 import Setting from './component/Setting';
 import CreateReservation from './component/CreateReservation';
-import CreateNormalUser from './component/CreateNormalUser';
+import Signup from './component/Signup';
 import AssignedItems from './component/AssignedItems';
 import UnassignedItems from './component/UnassignedItems';
 import ProtectedRoute from './component/Routes/ProtectedRoute';
 import ViewItemInfo from './component/mobile/ViewItemInfo-m';
+import Verify from './component/Verify';
 
 Amplify.configure(awsExport);
 
 function App() {
   const [user] = useState(null);
+  const [access,setAccess] = useState('');
 
-  useEffect( () => {
-  },[]);
 
   return (
     <div >
@@ -44,7 +43,9 @@ function App() {
     <Routes>
       {/* Login Page */}
       <Route path='/' element= {<Login /> } />
-      <Route path='/CreateNormalUser' element= {<CreateNormalUser /> } />
+
+      <Route path='/Verify/:param' element= {<Verify /> } />
+      <Route path='/Signup' element= {<Signup /> } />
       <Route
         path='/Home'
         element= {
@@ -61,14 +62,6 @@ function App() {
           </ProtectedRoute>
       } />
 
-      <Route
-        path='/RoomLocation'
-        element= {
-          <ProtectedRoute user={user}>
-              <RoomLocation  />
-          </ProtectedRoute>
-      } />
-
       <Route path='/RoomLocation/RoomLocationItem'
         element= {
           <ProtectedRoute user={user}>
@@ -76,10 +69,10 @@ function App() {
           </ProtectedRoute>
       } />
   
-      <Route path='/StorageLocation' 
+      <Route path='/Location' 
         element= {
           <ProtectedRoute user={user}>
-              <StorageLocation /> 
+              <Location /> 
           </ProtectedRoute> } />
 
       <Route path='/RoomLocation/StorageLocationItem' 

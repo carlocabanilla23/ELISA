@@ -7,12 +7,14 @@ import { useNavigate } from "react-router-dom";
 import UserList from "./UserList";
 import Pagination from "./Pagination";
 import CreateTestUser from './test/CreateTestUser';
+import Init from './test/InitUser';
 import Papa from 'papaparse';
 import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 
 function Users () {
-    // CreateTestUser(1);
+    // Init();
     const [users, setUsers] = useState([]);
     const [unfilteredUsers, setUnfilteredUsers] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
@@ -23,7 +25,6 @@ function Users () {
             setUsers([...users,...res]);
             setUnfilteredUsers([...users,...res]);
         })
-
     },[]);
 
     const navigate = useNavigate();
@@ -74,14 +75,17 @@ function Users () {
 
         const CSV = () => {      
         // the data that you want to write to the CSV file
-        const data = [['firstName', 'lastName', 'email', 'role', 'schoolID']];
+        const data = [];
         users.forEach(user => {
-            data.push([user.firstName, user.lastName, user.email, user.role, user.schoolID]);
+            data.push([user.firstname, user.lastname, user.email, user.role, user.schoolID]);
         });
   
 
 // generate the CSV file
-            const csv = Papa.unparse(data);
+const csv = Papa.unparse({
+    fields: ['firstName', 'lastName', 'schoolID', 'role'],
+    data: data
+});
 
   // the CSV file
             const a = document.createElement('a');
@@ -91,21 +95,22 @@ function Users () {
             document.body.appendChild(a);
             a.click();
 }
-const PDF = () => {
+
+const PDF = () => {     // Exporting to pdf 
     const doc = new jsPDF();
-    const users = [
-      { firstname: 'John', lastname: 'Doe', schoolID: '123456', role: 'student' },
-     { firstname: 'Jane', lastname: 'Doe', schoolID: '987654', role: 'teacher' }
-    ];
-    let y = 10;
-    for (const user of users) {
-      doc.text(`Name: ${user.firstname} ${user.lastname}`, 10, y);
-      y += 5;
-      doc.text(`School ID: ${user.schoolID}`, 10, y);
-      y += 5;
-      doc.text(`Role: ${user.role}`, 10, y);
-      y += 10;
-    }
+   // const users = [
+   //   { firstName: 'John', lastName: 'Patrick', schoolID: '474593', role: 'student'}
+   //   { firstName: 'Jane', lastName: 'Doe', schoolID: '987654', role: 'teacher' }
+  //  ];
+    const data = [['FIRST NAME', 'LAST NAME', 'EMAIL', 'ROLE']];
+    users.forEach(user => {
+        data.push([user.firstname, user.lastname, user.email, user.role, user.schoolID]);
+    });
+    doc.autoTable({
+     //   head: [['firstName', 'lastName', 'schoolID', 'role']],
+        body: data
+    });
+    
     const pdf = doc.output();
     const link = document.createElement('a');
     link.href = 'data:application/pdf;base64,' + btoa(pdf);
@@ -113,7 +118,8 @@ const PDF = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  }
+}
+
   
 
 

@@ -15,7 +15,7 @@
       "function": {
         "userlambda": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/userlambda-625a616e37675a742b55-build.zip"
+          "s3Key": "amplify-builds/userlambda-784e5a75505844585838-build.zip"
         },
         "equipmentapi": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
@@ -25,25 +25,44 @@
         "inventoryfunctions": {},
         "inventory": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/inventory-6f42344f467066573830-build.zip"
+          "s3Key": "amplify-builds/inventory-686b47334f7678774875-build.zip"
         },
         "reservation": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/reservation-49564354434f766f4a65-build.zip"
+          "s3Key": "amplify-builds/reservation-426f35494d474142756b-build.zip"
         },
-        "qrlambda": {}
+        "qrlambda": {},
+        "emaillambda": {
+          "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
+          "s3Key": "amplify-builds/emaillambda-2f34574c4d6772664237-build.zip"
+        },
+        "notifprofile": {
+          "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
+          "s3Key": "amplify-builds/notifprofile-334c6a64634d436d6b6d-build.zip"
+        },
+        "accountapi": {
+          "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
+          "s3Key": "amplify-builds/accountapi-59316f4a695539377152-build.zip"
+        }
       },
       "storage": {
         "userdb": {},
         "inventorydb": {},
         "inventory": {},
-        "reservations": {}
+        "reservations": {},
+        "email": {},
+        "emaildb": {},
+        "usernotifprofile": {},
+        "accountdb": {}
       },
       "api": {
         "userapi": {},
         "inventoryapi": {},
         "inventory": {},
-        "reservationapi": {}
+        "reservationapi": {},
+        "emailsystem": {},
+        "notificationapi": {},
+        "useraccounts": {}
       }
     }
   }

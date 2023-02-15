@@ -18,7 +18,9 @@ const ReservationCard = ( {reservation,updateList} ) => {
         <div className="UserRowItems">
                 <div className="container-fluid">
                         <div className="row ">
-                                <div onClick={ (e) => gotoReservation(reservation.reservationno)} className="col"> {reservation.reservationno} </div>
+                                <div className="col"> 
+                                        <div onClick={ (e) => gotoReservation(reservation.reservationno)} className="clickableCol"> {reservation.reservationno} </div>
+                                </div>
                                 <div className="col"> {reservation.summary} </div>
                                 <div className="col"> {reservation.status} </div>
                                 <div className="col"> {reservation.requestby} </div>

@@ -1,8 +1,9 @@
 import ItemCard from "./ItemCard";
 import React from "react";
 import './styles/List.css';
+import { useEffect } from "react";
 
-const ItemList = ({items,updateList}) => {
+const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus}) => {
 
     return (
         <>
@@ -12,10 +13,10 @@ const ItemList = ({items,updateList}) => {
                             <div className="col"> Serial No </div>
                             <div className="col"> Name </div>
                             <div className="col"> Type </div>
-                            <div className="col"> Model </div>
-                            <div className="col"> Location </div>
-                            <div className="col"> Room No </div>
-                            <div className="col"> Status </div>
+                            <div id="model" className="col"> Model </div>
+                            <div id="location" className="col"> Location </div>
+                            <div id="roomNumber" className="col"> Room No </div>
+                            <div id="status" className="col"> Status </div>
                             <div className="col"> Actions</div>        
                     </div>
                 </div>
@@ -24,7 +25,12 @@ const ItemList = ({items,updateList}) => {
             <ul className="list-group">
                 { items.map( (items,index) => (
                     <li key={index}>
-                        <ItemCard item={items} key={index} updateList={updateList} />
+                        <ItemCard item={items} key={index}
+                                  updateList={updateList}
+                                  ViewInformation={ViewInformation}
+                                  CreateQRCode={CreateQRCode} 
+                                  CreateBarcode={CreateBarcode}
+                                  changeStatus={changeStatus}/>
                     </li>
                 ))}
                 

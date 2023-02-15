@@ -1,0 +1,10 @@
+{
+  "resourceName": "usernotifprofile",
+  "tableName": "usernotifprofile",
+  "partitionKey": {
+    "fieldName": "sid",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

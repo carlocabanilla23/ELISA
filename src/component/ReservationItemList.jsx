@@ -6,7 +6,7 @@ import './styles/List.css';
 const ReservationItemList = ({items,addItem,status}) => {
     const [display,setDisplay] = useState("btn btn-dark");
     useEffect( () => {
-        if (status !== "Open") setDisplay("btn btn-dark hidden");
+        // if (status !== "Open") setDisplay("btn btn-dark hidden");
     },[]);
 
     return (
@@ -31,7 +31,7 @@ const ReservationItemList = ({items,addItem,status}) => {
                         <div className="container-fluid">
                             <div className="row ">
                                 <div className="col action">
-                                    <button className={display} onClick={ () => addItem(item)}>Assign</button>
+                                    <button className="btn btn-dark" onClick={ () => addItem(item)}>Assign</button>
                                 </div>
                                 <div className="col"> {item.serialno} </div>
                                 <div className="col"> {item.name} </div>

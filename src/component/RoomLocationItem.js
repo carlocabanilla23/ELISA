@@ -31,7 +31,6 @@ function RoomLocationItem () {
         API.get("inventory","/items/").then( itemRes => {
             sortItems(itemRes);
         })
-    
     },[]);
 
     const updateList = (serialno) => {
@@ -86,9 +85,9 @@ function RoomLocationItem () {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
                 <div>
-                    <span class="material-symbols-outlined">arrow_back</span>
-                    <Link to="/RoomLocation" className="text-dark">
-                        <span>Room Location  </span>
+                    <span class="material-symbols-outlined" style={{cursor: "pointer"}} onClick={() => navigate('/Location')}>arrow_back</span>
+                    <Link to="/Location" className="text-dark">
+                        <span>Room Location</span>
                     </Link>  
                     <span class="material-symbols-outlined">arrow_right</span>  
                     <span>{roomnoParam}</span>          
@@ -117,7 +116,7 @@ function RoomLocationItem () {
         </div>
 
         <div className="UserPane">
-            <ItemList items={currentList} updateList={updateList}/>
+            <ItemList items={currentList} updateList={updateList} />
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 

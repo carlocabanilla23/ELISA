@@ -1,20 +1,14 @@
-import React, { useState, useEffect, useRef} from 'react';
-import {API, Amplify, Auth} from 'aws-amplify';
+import React, { useState, useEffect} from 'react';
+import {API, Amplify} from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 import awsExport from '../aws-exports';
-import './styles/CreateNormalUser.css';
-import aws from 'aws-sdk';
-
-aws.config.update({
-    apiVersion:'2010-12-01',
-    accessKeyId: 'YOUR_Access_Key_ID',
-    secretAccessKey: 'YOUR_Secret_Access_Key',
-    region:'us-west-2'
-});
+import './styles/Signup.css';
+import eyeSlashHide from './icons/eye-slash-hide.png';
+import eyeSlashShow from './icons/eye-slash-show.png';
 
 Amplify.configure(awsExport);
 
-function CreateNormalUser () {
+function Signup () {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [role, setRole] = useState('Role');
@@ -24,7 +18,12 @@ function CreateNormalUser () {
     const [users, setUserList] = useState('');
     const [error, setError] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [password, setPassword] = useState('');
+    const [hidePassword,setHidePassword] = useState(true);
     const navigate = useNavigate();
+
+    const eyeShow = document.getElementById('eye-slash-show');
+    const eyeHide = document.getElementById('eye-slash-hide');
 
     const cancelCreate = e => {
         navigate('/');
@@ -41,48 +40,12 @@ function CreateNormalUser () {
             setErrorMessage("Please choose a role");
         }
     }, [error])
-    /* 
-        Send verification email
-        Since we are using sandbox environment, all emails must verified in AWS SES
-        before they are able to send and receive email from another verified email.
-    */
-    const sendVerification = () => {
-        //Generate a 6 digits code for authentication
-        var verificationCode = '';
-        for(var i = 0; i < 6; i++){
-            verificationCode += Math.floor((Math.random() * 10));
-        }
-        var params = {
-            Destination: {
-                //receiver email address
-                ToAddresses: [
-                    'email address'
-                ]
-            },
-            Message: {
-                Body: {
-                    // Message to recipient
-                    Html: {
-                        Charset: "UTF-8",
-                        Data: "<a href='google.com'>Test Email</a><br /><div>" + verificationCode + "</div>"
-                    }
-                },
-                Subject: {
-                    Charset: 'UTF-8',
-                    Data: 'Verification code'
-                }
-            },
-            //Sender email addres
-            Source: 'email address'
-        }
-        
-        var sendPromise = new aws.SES().sendEmail(params).promise();
-        sendPromise.then(
-            (data) => {console.log(data.MessageId);
-        }).catch(
-            (err) => {console.log(err);
+
+    useEffect(() => {
+        API.get("userapi","/email").then(res => {
+            setUserList([...users,...res]);
         })
-    }
+    },[])
 
     const ShowAlert = () => {
         var alert = document.getElementById("alert");
@@ -92,11 +55,8 @@ function CreateNormalUser () {
         }, 1500);
     }
     const onSubmit = (e) => {
+        let id = crypto.randomUUID();
         e.preventDefault();
-        const userList = API.get("userapi", "/email/") 
-        .then(res => {
-            setUserList([userList, ...res]);
-        }, [error]);
         for(var i = 0; i < users.length; i++){
             if(users[i].email === email && users[i].schoolID === schoolID){
                 throw new Error(setError(1));
@@ -107,21 +67,50 @@ function CreateNormalUser () {
             }
         }
         if(role === "Role"){
-            setError(4);
+            throw new Error(setError(4));
         }
 
-        // API.post("userapi","/email/", {
-        //     body : {
-        //     firstname : firstName,
-        //     lastname : lastName,
-        //     role : role,
-        //     schoolID : schoolID,
-        //     email : email,
-        //     phone : phone,
-        //     password : "password"
-        //     }
-        // });
+        API.post("userapi","/email/", {
+            body : {
+            firstname : firstName,
+            lastname : lastName,
+            role : role,
+            schoolID : schoolID,
+            email : email,
+            phone : phone,
+            status : "inactive",
+            password : password,
+            }
+        });
+
+        API.post("emailsystem","/email/send", {
+            body : {
+            email : email,
+            message: "Thank you for registering to Elisa Please click the link below to verify your account. \n \n https://dev.djno0p84ctg6u.amplifyapp.com/verify/"+email
+            }
+        });
+
+        API.post("emailsystem","/email", {
+            body : {
+            id : id,
+            email : email
+            }
+        });
+        
+        console.log("success");
         ShowAlert();
+    }
+
+    const togglePassword = (e) => {
+        if(hidePassword === false){
+            eyeShow.style.display = 'none';
+            eyeHide.style.display = 'block';
+            setHidePassword(!hidePassword);
+        }else if(hidePassword === true){
+            eyeShow.style.display = 'block';
+            eyeHide.style.display = 'none';
+            setHidePassword(!hidePassword);
+        }
     }
 
     return (
@@ -227,9 +216,10 @@ function CreateNormalUser () {
                             onChange = {(e) => {setEmail(e.target.value); setErrorMessage('')}}
                             id = "inputEmail"
                             required={true}
-                            pattern='^([a-z0-9]{1,})@spu\.edu$' 
+                            pattern='^([a-z0-9]{1,})@spu\.edu$'
                             onInvalid={(event) => {event.target.setCustomValidity('Email must end with @spu.edu and unique')}}
-                            onInput={e => e.target.setCustomValidity('')} />
+                            onInput={e => e.target.setCustomValidity('')}
+                            />
                         </div>
                     </div>      
                     {/* Phone */}
@@ -247,11 +237,27 @@ function CreateNormalUser () {
                             onInput={e => e.target.setCustomValidity('')} />
                         </div>
                     </div>
+                    {/* Password */}
+                    <div className = "mb-3 row">
+                        <label for="Password" className="col-sm-3 col-form-label">Password</label>
+                        <div className="col-sm-9 position-relative">
+                            <input type={hidePassword ? 'password' : 'text'}
+                            className="form-control"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            id="inputPassword"
+                            required={true}
+                            pattern='^(.{8,})$'
+                            onInvalid={(event) => {event.target.setCustomValidity('Password must have at least 8 characters')}}
+                            onInput={e => e.target.setCustomValidity('')} />
+                            <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide" alt="Hide" onClick={togglePassword} />
+                            <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show" style={{display: 'none'}} alt="Show" onClick={togglePassword} />
+                        </div>
+                    </div>
                     {/* Submit Button */}
                     <div className="form-buttons">
                         <button type="button" onClick={cancelCreate} className="btn btn-primary">Cancel</button>
-                        <button type="submit" className="btn btn-primary">Create</button> 
-                        <button onClick={sendVerification} className="btn btn-primary">Send verification</button>
+                        <button type="submit" className="btn btn-primary">Create</button>
                         <span className="errorMessage">{errorMessage}</span>
                     </div>
                 </form>
@@ -260,4 +266,4 @@ function CreateNormalUser () {
     );
 }
 
-export default CreateNormalUser;
+export default Signup;

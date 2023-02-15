@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/sid": {
+      "name": "/sid",
+      "lambdaFunction": "notifprofile",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

@@ -1,5 +1,10 @@
 export type AmplifyDependentResourcesAttributes = {
     "api": {
+        "emailsystem": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
+        },
         "inventory": {
             "RootUrl": "string",
             "ApiName": "string",
@@ -14,22 +19,54 @@ export type AmplifyDependentResourcesAttributes = {
             "RootUrl": "string",
             "ApiName": "string",
             "ApiId": "string"
+        },
+        "notificationapi": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
+        },
+        "useraccounts": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
         }
     },
     "function": {
+        "emaillambda": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string",
+            "LambdaExecutionRoleArn": "string"
+        },
         "inventory": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
-            "LambdaExecutionRole": "string"
+            "LambdaExecutionRole": "string",
+            "LambdaExecutionRoleArn": "string"
         },
         "reservation": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
-            "LambdaExecutionRole": "string"
+            "LambdaExecutionRole": "string",
+            "LambdaExecutionRoleArn": "string"
         },
         "userlambda": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string",
+            "LambdaExecutionRoleArn": "string"
+        },
+        "notifprofile": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "accountapi": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
@@ -37,6 +74,14 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "storage": {
+        "emaildb": {
+            "Name": "string",
+            "Arn": "string",
+            "StreamArn": "string",
+            "PartitionKeyName": "string",
+            "PartitionKeyType": "string",
+            "Region": "string"
+        },
         "inventory": {
             "Name": "string",
             "Arn": "string",
@@ -54,6 +99,22 @@ export type AmplifyDependentResourcesAttributes = {
             "Region": "string"
         },
         "userdb": {
+            "Name": "string",
+            "Arn": "string",
+            "StreamArn": "string",
+            "PartitionKeyName": "string",
+            "PartitionKeyType": "string",
+            "Region": "string"
+        },
+        "usernotifprofile": {
+            "Name": "string",
+            "Arn": "string",
+            "StreamArn": "string",
+            "PartitionKeyName": "string",
+            "PartitionKeyType": "string",
+            "Region": "string"
+        },
+        "accountdb": {
             "Name": "string",
             "Arn": "string",
             "StreamArn": "string",
