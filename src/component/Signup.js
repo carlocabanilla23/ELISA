@@ -5,6 +5,8 @@ import awsExport from '../aws-exports';
 import './styles/Signup.css';
 import eyeSlashHide from './icons/eye-slash-hide.png';
 import eyeSlashShow from './icons/eye-slash-show.png';
+import Hash from './bcrypt/Hash';
+
 
 Amplify.configure(awsExport);
 
@@ -70,6 +72,31 @@ function Signup () {
             throw new Error(setError(4));
         }
 
+        //Encrypted the password
+        var saltRound = 512;
+        var decimal = Math.floor(Math.random() * 36);
+        var salt = '';
+        var saltList = [];
+        var curSaltedPassword, curHashedPassword;
+        curHashedPassword = password;
+        while(saltRound > 0){
+            for(var i = 0; i < 11; i++){
+                if(decimal <= 9){
+                    //HTML ASCII: 48 = digit '0'
+                    salt += String.fromCharCode(decimal + 48);
+                }else{
+                    //HTML ASCII: 97 = alphabet 'a'
+                    salt += String.fromCharCode(decimal + 87);
+                }
+                decimal = Math.floor(Math.random() * 37);
+            }
+            saltList.push(salt);
+            curSaltedPassword = curHashedPassword + salt;
+            curHashedPassword = Hash({curSaltedPassword});
+            saltRound--;
+            salt = '';
+        }
+
         API.post("userapi","/email/", {
             body : {
             firstname : firstName,
@@ -79,7 +106,8 @@ function Signup () {
             email : email,
             phone : phone,
             status : "inactive",
-            password : password,
+            password : curHashedPassword,
+            salt: saltList,
             }
         });
 
@@ -112,6 +140,39 @@ function Signup () {
             setHidePassword(!hidePassword);
         }
     }
+
+    // const Hashing = (e) => {
+    //     var t0 = performance.now();
+    //     //Generate salt containing 11 random characters including numbers and letters
+    //     var saltRound = 1024;
+    //     var decimal = Math.floor(Math.random() * 36);
+    //     var salt = '';
+    //     var curSaltedPassword, t1, curHashed;
+    //     var saltedTimes = saltRound;
+    //     curHashed = password;
+    //     while(saltRound > 0){
+    //         for(var i = 0; i < 11; i++){
+    //             if(decimal <= 9){
+    //                 //HTML ASCII: 48 = digit '0'
+    //                 salt += String.fromCharCode(decimal + 48);
+    //             }else{
+    //                 //HTML ASCII: 97 = alphabet 'a'
+    //                 salt += String.fromCharCode(decimal + 87);
+    //             }
+    //             decimal = Math.floor(Math.random() * 37);
+    //         }
+    //         curSaltedPassword = curHashed + salt;
+    //         curHashed = Hash({curSaltedPassword});
+    //         saltRound--;
+    //         salt = '';
+    //     }
+    //     t1 = performance.now();
+    //     console.log('Salt Round: ' + saltedTimes);
+    //     console.log('before hashing: ' + t0);
+    //     console.log('after hashing: ' + t1);
+    //     console.log('Hashing time: ' + (t1 - t0) + 'ms');
+    //     console.log('Final encrypted password: ' + curHashed);
+    // }
 
     return (
         <div className="Body">
@@ -216,7 +277,7 @@ function Signup () {
                             onChange = {(e) => {setEmail(e.target.value); setErrorMessage('')}}
                             id = "inputEmail"
                             required={true}
-                            pattern='^([a-z0-9]{1,})@spu\.edu$'
+                            pattern='^([a-zA-Z0-9]{1,})@spu\.edu$'
                             onInvalid={(event) => {event.target.setCustomValidity('Email must end with @spu.edu and unique')}}
                             onInput={e => e.target.setCustomValidity('')}
                             />
@@ -240,7 +301,7 @@ function Signup () {
                     {/* Password */}
                     <div className = "mb-3 row">
                         <label for="Password" className="col-sm-3 col-form-label">Password</label>
-                        <div className="col-sm-9 position-relative">
+                        <div className="col-sm-9">
                             <input type={hidePassword ? 'password' : 'text'}
                             className="form-control"
                             value={password}
@@ -258,6 +319,7 @@ function Signup () {
                     <div className="form-buttons">
                         <button type="button" onClick={cancelCreate} className="btn btn-primary">Cancel</button>
                         <button type="submit" className="btn btn-primary">Create</button>
+                        {/* <button type="button" onClick={Hashing} className="btn btn-primary">Hash Password</button> */}
                         <span className="errorMessage">{errorMessage}</span>
                     </div>
                 </form>

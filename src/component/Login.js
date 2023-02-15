@@ -6,6 +6,7 @@ import { API } from 'aws-amplify';
 import logo from './icons/elisa_logo.png';
 import elisa from './icons/elisa.png';
 import StartSession from './session/SessionInfo';
+import Hash from './bcrypt/Hash';
 
 function Login() {
     const [username,setUsername] = React.useState('');
@@ -13,25 +14,34 @@ function Login() {
     const navigate = useNavigate();
 
     const onSubmit = e => {
-    e.preventDefault();
-    console.log(username);
-
-    API.get("userapi","/email/object/"+username).then( res => {
-        if (res.email === username && res.password === password) {  
-                StartSession(res);
-                console.log(res); 
-                navigate('/Home'); 
-        }else{
-            const err = ReactDOM.createRoot(
-                document.getElementById('prompt')
-            );
-            const element = <p className='text-danger'>Incorect Email or Password</p>;
-              err.render(element);
-
-        }  
-    });
-
-  };
+        e.preventDefault();
+        console.log(username);
+        // var curHashedPassword, curSaltedPassword, saltList;
+        // var i = 0;
+        API.get("userapi","/email/object/"+username).then( res => {
+            // curHashedPassword = password;
+            // saltList = res.salt;
+            // while(i < saltList.length){
+            //     curSaltedPassword = curHashedPassword + saltList[i];
+            //     curHashedPassword = Hash({curSaltedPassword});
+            //     i++;
+            // }
+            // if(res.password === curHashedPassword){
+            //     console.log('password matched');
+            // }
+            if (res.email === username && res.password === password) {  
+                    StartSession(res);
+                    console.log(res); 
+                    navigate('/Home'); 
+            }else{
+                const err = ReactDOM.createRoot(
+                    document.getElementById('prompt')
+                );
+                const element = <p className='text-danger'>Incorect Email or Password</p>;
+                err.render(element);
+            }
+        });
+    };
 
   return (
     <div className="Login">
