@@ -16,16 +16,16 @@ function Reservation () {
     const navigate = useNavigate();
 
     // Reservation Data
-    const [firstName,setFirstName] = useState("John");
-    const [lastName,setLastName] = useState("Doe");
-    const [schoolID,setSchoolID] = useState("00000001");
-    const [email,setEmail] = useState("doej@spu.edu");
-    const [role,setRole] = useState("Student");
-    const [summary,setSummary] = useState("Item Request");
-    const [currentDate,setCurrentDate] = useState("00-00-0000");
-    const [note,setNote] = useState("Please give me new device");
-    const [returnDate,setReturnDate] = useState("00-00-0000");
-    const [status,setStatus] = useState('New');
+    const [firstName,setFirstName] = useState("");
+    const [lastName,setLastName] = useState("");
+    const [schoolID,setSchoolID] = useState("");
+    const [email,setEmail] = useState("");
+    const [role,setRole] = useState("");
+    const [summary,setSummary] = useState("");
+    const [currentDate,setCurrentDate] = useState("");
+    const [note,setNote] = useState("");
+    const [returnDate,setReturnDate] = useState("");
+    const [status,setStatus] = useState('');
 
     const [reservationCart,setReservationCart] = useState([]);
 
@@ -41,10 +41,6 @@ function Reservation () {
     const [currentPage,setCurrentPage] = useState(1);
     const [itemsPerPage,setItemsPerPage] = useState(10);
 
-
-    
-         
-      
    
     useEffect( () => {
         API.get("reservationapi","/reservations/object/"+reservationno).then( res => {

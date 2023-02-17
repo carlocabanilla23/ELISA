@@ -14,18 +14,18 @@ function CreateReservation () {
     const [items,setItems] = useState([]);
 
 
-    const [firstName,setFirstName] = useState("John");
-    const [lastName,setLastName] = useState("Doe");
-    const [schoolID,setSchoolID] = useState("00000001");
-    const [email,setEmail] = useState("doej@spu.edu");
-    const [role,setRole] = useState("Student");
-    const [summary,setSummary] = useState("Item Request");
-    const [currentDate,setCurrentDate] = useState("00-00-0000");
-    const [note,setNote] = useState("Please give me new device");
+    const [firstName,setFirstName] = useState("");
+    const [lastName,setLastName] = useState("");
+    const [schoolID,setSchoolID] = useState("");
+    const [email,setEmail] = useState("");
+    const [role,setRole] = useState("");
+    const [summary,setSummary] = useState("");
+    const [currentDate,setCurrentDate] = useState("");
+    const [note,setNote] = useState("");
 
     const [type, setType] = useState('Type');
     const [model,setModel] = useState('Model');
-    const [returnDate,setReturnDate] = useState("00-00-0000");
+    const [returnDate,setReturnDate] = useState("");
     const [quantity,setQuantity] = useState(0);
     const [reservationCart,setReservationCart] = useState([]);
     const navigate = useNavigate();
@@ -44,6 +44,16 @@ function CreateReservation () {
         let year = date.getFullYear();
 
         setCurrentDate(`${day}-${month}-${year}`);
+
+        let emailParam = decodeURIComponent(escape(window.atob( localStorage.getItem('email'))));
+        API.get("userapi","/email/object/" + emailParam).then( res => {
+            setFirstName(res.firstname);
+            setLastName(res.lastname);
+            setSchoolID(res.schoolID);
+            setEmail(res.email);
+            setRole(res.role);
+        })
+
     },[]);
 
     const setModelList = (typeParam) => {
@@ -96,12 +106,21 @@ function CreateReservation () {
             }
         });
 
-        alert("success!");
-        navigate('/Reservations')
+        ShowAlert();
+        // navigate('/Reservations')
     }
     const cancelEdit = () => {
         navigate('/Reservations');
     }
+
+    const ShowAlert = () => {
+        var alert = document.getElementById("alert");
+        alert.style.display = "block";
+        setTimeout( () =>{
+             navigate("/Reservations");
+        },1500);
+    }
+    
     return (
         <>
             <div className="alert alert-success" id="alert" role="alert">
@@ -239,12 +258,6 @@ function CreateReservation () {
                         <label  className="col-sm-2 col-form-label">Student Email</label>
                         <div className="col-sm-10">
                             <input type="text" readOnly className="form-control-plaintext" value={email} />
-                        </div>
-                    </div>
-                    <div className="mb-3 row">
-                        <label  className="col-sm-2 col-form-label">Summary</label>
-                        <div className="col-sm-10">
-                            <input type="text" readOnly className="form-control-plaintext" value={summary} />
                         </div>
                     </div>
                     <div className="mb-3 row">

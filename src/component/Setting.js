@@ -6,6 +6,8 @@ import Header from './Header';
 import React,{ useState,useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { useLocation } from "react-router-dom";
+import eyeSlashHide from './icons/eye-slash-hide.png';
+import eyeSlashShow from './icons/eye-slash-show.png';
 
 
 function Setting(){
@@ -17,6 +19,7 @@ function Setting(){
     const [cpass,setCpass] = useState('');
     const [npass,setNpass] = useState('');
     const [rnpass,setRnpass] = useState('');
+    const [error,setError] = useState('');
     
     const [newItemChecked,setNewItemChecked] = useState(false);
     const [newMemberChecked,setNewMemberChecked] = useState(false);
@@ -25,6 +28,11 @@ function Setting(){
     const [emailNotificationChecked,setEmailNotificationChecked] = useState(false);
 
     const navigate = useNavigate();
+
+    const [hidePassword,setHidePassword] = useState(true);
+
+    const eyeShow = document.getElementById('eye-slash-show');
+    const eyeHide = document.getElementById('eye-slash-hide');
 
     useEffect( () => {
         let emailParam = decodeURIComponent(escape(window.atob( localStorage.getItem('email'))));
@@ -43,7 +51,6 @@ function Setting(){
             // console.log("email" + email);
         })
     },[]);
-
 
     const handleChangeNewItem = () => {
         if (newItemChecked === true)
@@ -84,7 +91,7 @@ function Setting(){
             setEmailNotificationChecked(true)
         // console.log(checked);
     };
-    
+   
     const UpdateNotification = (e) => {
         e.preventDefault();
         API.get("userapi","/email/object/" + email).then( res => {
@@ -100,6 +107,8 @@ function Setting(){
                 }
             });
         })
+
+        ShowAlert();
     }
     const cancelEdit = () => {
         navigate('/Home');
@@ -123,19 +132,20 @@ function Setting(){
             });
         })
         localStorage.setItem('name',fname);
+        ShowAlert();
         window.location.reload(true);
 
     }
     const UpdatePassword = (e) => {
         e.preventDefault();
         API.get("useraccounts","/email/object/" + email).then( res => {
-            console.log(cpass);
-            console.log(res.password);
             if (cpass !== res.password) {
-                console.log("wrong passowrd");
-            } else {
+                setError("Wrong passowrd");
+            }else if (npass.length === 0  || rnpass.length === 0  ) {
+                setError("Input a new password !");
+            }else {
                 if (npass !== rnpass ) {
-                    console.log("New Password does not match");
+                    setError("New Password does not match");
                 } else {
                     API.post("useraccounts","/email/",{
                         body:{
@@ -143,16 +153,38 @@ function Setting(){
                             password: npass
                         }
                     });
-                    console.log("success !")
+                    ShowAlert();
                 }
             }
         })
     
     }
 
+    const ShowAlert = () => {
+        var alert = document.getElementById("alert");
+        alert.style.display = "block";
+        setTimeout( () =>{
+             navigate("/Reservations");
+        },1500);
+    }
+
+    const togglePassword = (e) => {
+        if(hidePassword === false){
+            eyeShow.style.display = 'none';
+            eyeHide.style.display = 'block';
+            setHidePassword(!hidePassword);
+        }else if(hidePassword === true){
+            eyeShow.style.display = 'block';
+            eyeHide.style.display = 'none';
+            setHidePassword(!hidePassword);
+        }
+    }
     
     return(
         <>
+        <div className="alert alert-success" id="alert" role="alert">
+                The setting changed successfully!
+            </div>
             <Sidebar />
             <Header />
             <div className="UserHeader">
@@ -190,20 +222,37 @@ function Setting(){
                         <form onSubmit={UpdatePassword} className="setting-form"> 
                         <h3 className='heading'> Change Password </h3>
                                 <div className="form-input">
+                                    <label className = "input-label" htmlFor = "current-password"></label>
+                                    <p className='text-danger'>{error}</p>
+                                </div>
+                                <div className="form-input">
                                     <label className = "input-label" htmlFor = "current-password">Current Password</label>
-                                    <input className = "input-field" type = "password" id = "current-password" defaultValue={cpass} onChange={ (e) => setCpass(e.target.value)}/>
+                                    <div className="position-relative">
+                                        <input className = "input-field" type={hidePassword ? 'password' : 'text'} id = "current-password" defaultValue={cpass} onChange={ (e) => setCpass(e.target.value)}/>
+                                        <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide" alt="Hide" onClick={togglePassword} />
+                                        <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show" style={{display: 'none'}} alt="Show" onClick={togglePassword} />
+                                    </div>
                                 </div>
                                 <div className="form-input">
-                                    <label className = "input-label" htmlFor = "new-password">New Password</label>
-                                    <input className = "input-field" type = "password" id = "new-password" defaultValue={npass} onChange={ (e) => setNpass(e.target.value)}/>
+                                    <label className = "input-label" htmlFor = "current-password">Current Password</label>
+                                    <div className="position-relative">
+                                        <input className = "input-field" type={hidePassword ? 'password' : 'text'} id = "current-password" defaultValue={npass} onChange={ (e) => setNpass(e.target.value)}/>
+                                        <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide" alt="Hide" onClick={togglePassword} />
+                                        <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show" style={{display: 'none'}} alt="Show" onClick={togglePassword} />
+                                    </div>
                                 </div>
                                 <div className="form-input">
-                                    <label className = "input-label" htmlFor = "confirm-password">Confirm Password</label>
-                                    <input className = "input-field" type = "password" id = "confirm-password" defaultValue={rnpass}  onChange={ (e) => setRnpass(e.target.value)}/>
+                                    <label className = "input-label" htmlFor = "current-password">Current Password</label>
+                                    <div className="position-relative">
+                                        <input className = "input-field" type={hidePassword ? 'password' : 'text'} id = "current-password" defaultValue={rnpass} onChange={ (e) => setRnpass(e.target.value)}/>
+                                        <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide" alt="Hide" onClick={togglePassword} />
+                                        <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show" style={{display: 'none'}} alt="Show" onClick={togglePassword} />
+                                    </div>
                                 </div>
+                                
                                 <div className="settings-button-wrapper">
-                                <button className="button" type = "submit" >Save item</button>
-                            </div>
+                                    <button className="button" type = "submit" >Save item</button>
+                                </div>
                             </form>
                     </div>
 
