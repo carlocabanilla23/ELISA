@@ -89,6 +89,17 @@ function Signup () {
             }
         });
 
+        API.post("notificationapi","/sid/", {
+            body : {
+               sid : schoolID,
+               newitem : false,
+               newmember : false,
+               outofstock : false,
+               reservationrequest : false,
+               emailnotification : false       
+            }
+        });
+
         API.post("emailsystem","/email/send", {
             body : {
             email : email,

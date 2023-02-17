@@ -86,6 +86,17 @@ function CreateUser() {
             }
         });
 
+        API.post("notificationapi","/sid/", {
+            body : {
+               sid : schoolID,
+               newitem : false,
+               newmember : false,
+               outofstock : false,
+               reservationrequest : false,
+               emailnotification : false       
+            }
+        });
+
         API.post("useraccounts","/email/",{
             body:{
                 email:email,
