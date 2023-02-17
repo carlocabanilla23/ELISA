@@ -83,9 +83,16 @@ function CreateUser() {
             schoolID : schoolID,
             email : email,
             phone : phone,
-            password : password,
             }
         });
+
+        API.post("useraccounts","/email/",{
+            body:{
+                email:email,
+                password:password
+            }
+        });
+
         ShowAlert();
     }
 

@@ -79,7 +79,13 @@ function Signup () {
             email : email,
             phone : phone,
             status : "inactive",
-            password : password,
+            }
+        });
+
+        API.post("useraccounts","/email/",{
+            body:{
+                email:email,
+                password:password
             }
         });
 

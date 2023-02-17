@@ -16,18 +16,19 @@ function Login() {
     e.preventDefault();
     console.log(username);
 
-    API.get("userapi","/email/object/"+username).then( res => {
-        if (res.email === username && res.password === password) {  
+    API.get("useraccounts","/email/object/"+username).then( acc => {
+        if (acc.email === username && acc.password === password) {  
+            API.get("userapi","/email/object/"+acc.email).then( res => {
                 StartSession(res);
                 console.log(res); 
                 navigate('/Home'); 
+            });  
         }else{
             const err = ReactDOM.createRoot(
                 document.getElementById('prompt')
             );
             const element = <p className='text-danger'>Incorect Email or Password</p>;
               err.render(element);
-
         }  
     });
 
