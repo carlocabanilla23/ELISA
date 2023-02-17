@@ -10,7 +10,7 @@ import { useLocation } from "react-router-dom";
 
 function Setting(){
     const loc = useLocation();
-    const emailParam = "SPU.Elisa@gmail.com";
+    // const emailParam = "SPU.Elisa@gmail.com";
     const [fname,setFname] = useState('');
     const [lname,setLname] = useState('');
     const [email,setEmail] = useState('');
@@ -27,6 +27,7 @@ function Setting(){
     const navigate = useNavigate();
 
     useEffect( () => {
+        let emailParam = decodeURIComponent(escape(window.atob( localStorage.getItem('email'))));
         API.get("userapi","/email/object/" + emailParam).then( res => {
             API.get("notificationapi","/sid/object/" + res.schoolID).then( resNotif => {
                 setNewItemChecked(resNotif.newitem);
@@ -36,12 +37,12 @@ function Setting(){
                 setEmailNotificationChecked(resNotif.emailnotification);
             });
 
-            // setEmail(res.email);
+            setEmail(res.email);
             setFname(res.firstname);
             setLname(res.lastname);
             // console.log("email" + email);
         })
-    },[email]);
+    },[]);
 
 
     const handleChangeNewItem = () => {
@@ -86,7 +87,7 @@ function Setting(){
     
     const UpdateNotification = (e) => {
         e.preventDefault();
-        API.get("userapi","/email/object/" + emailParam).then( res => {
+        API.get("userapi","/email/object/" + email).then( res => {
             console.log(res.schoolID);
             API.post("notificationapi","/sid/", {
                 body : {
@@ -106,12 +107,12 @@ function Setting(){
     const UpdateInfo = (e) => {
         e.preventDefault();
         // setEmail(emailParam);
-        console.log(emailParam);
         console.log(email);
-        API.get("userapi","/email/object/" + emailParam).then( res => {
+        console.log(email);
+        API.get("userapi","/email/object/" + email).then( res => {
             API.put("userapi","/email/", {
                 body : {
-                   email: emailParam,
+                   email: email,
                    firstname: fname,
                    lastname: lname,
                    role: res.role,
@@ -127,7 +128,7 @@ function Setting(){
     }
     const UpdatePassword = (e) => {
         e.preventDefault();
-        API.get("useraccounts","/email/object/" + emailParam).then( res => {
+        API.get("useraccounts","/email/object/" + email).then( res => {
             console.log(cpass);
             console.log(res.password);
             if (cpass !== res.password) {
@@ -138,7 +139,7 @@ function Setting(){
                 } else {
                     API.post("useraccounts","/email/",{
                         body:{
-                            email:emailParam,
+                            email:email,
                             password: npass
                         }
                     });
