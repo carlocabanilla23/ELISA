@@ -5,6 +5,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import './styles/CreateReservation.css';
 import { useNavigate, useLocation } from "react-router-dom";
+import SendNotification from "./notification/Notification";
 
 function CreateReservation () {
     const location = useLocation();
@@ -105,7 +106,8 @@ function CreateReservation () {
             assigneditems : []
             }
         });
-
+        // Send Email to Admin
+        SendNotification("NEW_RESERVATION",reservationNo);
         ShowAlert();
         // navigate('/Reservations')
     }

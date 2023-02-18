@@ -6,9 +6,7 @@ function StartSession (user) {
     let e = window.btoa(unescape(encodeURIComponent(user.email)));
 
     localStorage.setItem('email',e);
-
-    console.log( "decoded" + decodeURIComponent(escape(window.atob(e))) );
-
+    // console.log( "decoded" + decodeURIComponent(escape(window.atob(e))) );
 }
 
 
