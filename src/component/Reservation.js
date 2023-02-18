@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { useLocation,useNavigate } from "react-router-dom";
+import { useLocation,useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { API } from "aws-amplify";
 import './styles/Reservation.css';
@@ -12,7 +12,7 @@ import ReservationAssignedItemList from "./ReservationAssignedItemList";
 
 function Reservation () {
     const location = useLocation();
-    const reservationno = location.state.reservationno;
+    const {reservationno} = useParams();
     const navigate = useNavigate();
 
     // Reservation Data
@@ -27,7 +27,7 @@ function Reservation () {
     const [returnDate,setReturnDate] = useState("");
     const [status,setStatus] = useState('');
 
-    const [reservationCart,setReservationCart] = useState([]);
+    const [reservationCart,setReservationCart] = useState(["sample"]);
 
     // Item List
     const [items, setItems] = useState([]);
@@ -58,7 +58,8 @@ function Reservation () {
             setStatus (res.status);
             setReturnedItems(res.returneditems);
 
-            if (res.assigneditems.length === 0 && res.status === "Returned") {
+            if (res.assignedItems === undefined) {}
+            else if (res.assigneditems.length === 0 && res.status === "Returned") {
                 setItemListHeader("Returned Items");
                 setItemList(res.returneditems);
             }else{
@@ -256,7 +257,7 @@ function Reservation () {
                                         </div>
                                     </li>
 
-                                    {reservationCart.map ( (res,index)=> 
+                                    {reservationCart?.map ( (res,index)=> 
                                     <li className="list-group" key={index}>
                                         <div className="row">
                                             <div className="col">
