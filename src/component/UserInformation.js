@@ -97,10 +97,10 @@ function UserInformation(e) {
                         <div className = "Information col-sm-8">{phone}</div>
                     </div>
                     {/* Password */}
-                    <div className = "mb-3 row">
+                    {/* <div className = "mb-3 row">
                         <label  className = "Attribute col-sm-4">Password:</label>
                         <div className = "Information col-sm-8">{password}</div>
-                    </div>
+                    </div> */}
                 </div>
                 {/* Date Created */}
                 <div className = "mb-3 row">
