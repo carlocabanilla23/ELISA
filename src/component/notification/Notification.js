@@ -9,7 +9,8 @@ export default function SendNotification (protocol,id) {
                   API.post("emailsystem","/email/send", {
                         body : {
                         email : user.email,
-                        message: "New reservation available. \n \n https://dev.djno0p84ctg6u.amplifyapp.com/Reservation/"+ id
+                        message: "New reservation available. \n \n https://dev.djno0p84ctg6u.amplifyapp.com/Reservation/"+ id,
+                        subject : "New Reservation"
                     }
                 });
             }
