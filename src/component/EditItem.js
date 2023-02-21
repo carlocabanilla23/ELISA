@@ -23,7 +23,7 @@ function EditItem() {
     const [manufacturer, setManufacturer] = React.useState('');
     const [cost, setCost] = React.useState('');
     const [acquiredDate, setAcquiredDate] = React.useState('');
-    const [expiredDate, setExpiredDate] = React.useState('');
+    const [expiredDate, setExpiredDate] = React.useState('N/A');
     const [item, setItem] = React.useState([]);
     const [error, setError] = React.useState('');
     const [errorMessage, setErrorMessage] = React.useState('');
@@ -260,11 +260,11 @@ function EditItem() {
                             value={acquiredDate} onChange = {(e) => {setAcquiredDate(e.target.value)}} required={true} />
                         </div>
                         {/* Date Expired */}
-                        <div className="form-input">
+                        {/* <div className="form-input">
                             <label className="input-label" for="dateExpired" >Date Expired</label>
                             <input type="date" className="text-input" id="dateExpired" 
                             value={expiredDate} onChange = {(e) => {setExpiredDate(e.target.value)}} required={true} />
-                        </div>
+                        </div> */}
                         {/* Image */}
                         <div className="form-input">
                             <label className="input-label" for="photo" >Photo</label>

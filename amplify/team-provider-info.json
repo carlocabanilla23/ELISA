@@ -34,7 +34,7 @@
         "qrlambda": {},
         "emaillambda": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/emaillambda-2f34574c4d6772664237-build.zip"
+          "s3Key": "amplify-builds/emaillambda-6d4c666838364a4d2b52-build.zip"
         },
         "notifprofile": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
@@ -42,7 +42,7 @@
         },
         "accountapi": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/accountapi-59316f4a695539377152-build.zip"
+          "s3Key": "amplify-builds/accountapi-674142485341492b5a4d-build.zip"
         }
       },
       "storage": {

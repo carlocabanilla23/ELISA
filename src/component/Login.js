@@ -14,34 +14,26 @@ function Login() {
     const navigate = useNavigate();
 
     const onSubmit = e => {
-        e.preventDefault();
-        console.log(username);
-        // var curHashedPassword, curSaltedPassword, saltList;
-        // var i = 0;
-        API.get("userapi","/email/object/"+username).then( res => {
-            // curHashedPassword = password;
-            // saltList = res.salt;
-            // while(i < saltList.length){
-            //     curSaltedPassword = curHashedPassword + saltList[i];
-            //     curHashedPassword = Hash({curSaltedPassword});
-            //     i++;
-            // }
-            // if(res.password === curHashedPassword){
-            //     console.log('password matched');
-            // }
-            if (res.email === username && res.password === password) {  
-                    StartSession(res);
-                    console.log(res); 
-                    navigate('/Home'); 
-            }else{
-                const err = ReactDOM.createRoot(
-                    document.getElementById('prompt')
-                );
-                const element = <p className='text-danger'>Incorect Email or Password</p>;
-                err.render(element);
-            }
-        });
-    };
+    e.preventDefault();
+    console.log(username);
+
+    API.get("useraccounts","/email/object/"+username).then( acc => {
+        if (acc.email === username && acc.password === password) {  
+            API.get("userapi","/email/object/"+acc.email).then( res => {
+                StartSession(res);
+                console.log(res); 
+                navigate('/Home'); 
+            });  
+        }else{
+            const err = ReactDOM.createRoot(
+                document.getElementById('prompt')
+            );
+            const element = <p className='text-danger'>Incorect Email or Password</p>;
+              err.render(element);
+        }  
+    });
+
+  };
 
   return (
     <div className="Login">

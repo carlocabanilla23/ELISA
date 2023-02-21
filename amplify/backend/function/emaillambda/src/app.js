@@ -189,10 +189,11 @@ app.post(path+"/send", function(req, res) {
   });
   let email = req.body.email;
   let message = req.body.message;
+  let subject = req.body.subject;
   let content = {
     from: "SPU.Elisa@gmail.com",
     to: email,
-    subject : "Email Verification",
+    subject : subject,
     text : message
   }
 

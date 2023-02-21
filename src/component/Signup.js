@@ -106,8 +106,24 @@ function Signup () {
             email : email,
             phone : phone,
             status : "inactive",
-            password : curHashedPassword,
-            salt: saltList,
+            }
+        });
+
+        API.post("useraccounts","/email/",{
+            body:{
+                email:email,
+                password:password
+            }
+        });
+
+        API.post("notificationapi","/sid/", {
+            body : {
+               sid : schoolID,
+               newitem : false,
+               newmember : false,
+               outofstock : false,
+               reservationrequest : false,
+               emailnotification : false       
             }
         });
 
