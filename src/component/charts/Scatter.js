@@ -23,7 +23,7 @@ function ScatterReport () {
 
   
     return (
-        <PieChart width={500} height={350}>
+        <PieChart width={350} height={225}>
           <Pie
             data={data}
             // cx="50%"

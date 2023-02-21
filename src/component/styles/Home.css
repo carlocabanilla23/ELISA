@@ -147,3 +147,8 @@
     color: #000000;
     margin: 15px 0px 20px 20px; 
 }
+@media screen and (max-width: 1920px) {
+    .chartLabel {
+    margin: 15px 0px 10px 20px; 
+    }
+}
