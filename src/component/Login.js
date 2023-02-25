@@ -6,6 +6,7 @@ import { API } from 'aws-amplify';
 import logo from './icons/elisa_logo.png';
 import elisa from './icons/elisa.png';
 import StartSession from './session/SessionInfo';
+import Hash from './bcrypt/Hash';
 
 function Login() {
     const [username,setUsername] = React.useState('');

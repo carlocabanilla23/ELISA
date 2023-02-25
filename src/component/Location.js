@@ -83,7 +83,7 @@ function StorageLocation () {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
                 <div> 
-                    <span class="material-symbols-outlined">door_open</span>
+                    <span className="material-symbols-outlined">door_open</span>
                     <span>Location</span>
                     <div className="searchBar">
                         <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>

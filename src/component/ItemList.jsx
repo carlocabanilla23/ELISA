@@ -13,11 +13,11 @@ const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,c
                             <div className="col"> Serial No </div>
                             <div className="col"> Name </div>
                             <div className="col"> Type </div>
-                            <div id="model" className="col"> Model </div>
-                            <div id="location" className="col"> Location </div>
-                            <div id="roomNumber" className="col"> Room No </div>
-                            <div id="status" className="col"> Status </div>
-                            <div className="col"> Actions</div>        
+                            <div id="model" className="col rmobile"> Model </div>
+                            <div id="location" className="col rmobile"> Location </div>
+                            <div id="roomNumber" className="col rmobile"> Room No </div>
+                            <div id="status" className="col rmobile"> Status </div>
+                            <div className="col rmobile"> Actions</div>        
                     </div>
                 </div>
             </div>

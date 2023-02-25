@@ -50,8 +50,8 @@ function BarReport () {
        
           return (
               <BarChart
-                width={550}
-                height={400}
+                width={375}
+                height={225}
                 data={data}
               >
               <CartesianGrid strokeDasharray="3 3" />

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { useLocation,useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { API } from "aws-amplify";
 import './styles/Reservation.css';
@@ -11,8 +11,7 @@ import ReservationAssignedItemList from "./ReservationAssignedItemList";
 
 
 function Reservation () {
-    const location = useLocation();
-    const {reservationno} = useParams();
+    const {param} = useParams();
     const navigate = useNavigate();
 
     // Reservation Data
@@ -26,6 +25,7 @@ function Reservation () {
     const [note,setNote] = useState("");
     const [returnDate,setReturnDate] = useState("");
     const [status,setStatus] = useState('');
+    const [reservationno,setReservationNo] = useState('');
 
     const [reservationCart,setReservationCart] = useState(["sample"]);
 
@@ -43,7 +43,9 @@ function Reservation () {
 
    
     useEffect( () => {
-        API.get("reservationapi","/reservations/object/"+reservationno).then( res => {
+        console.log(param);
+        API.get("reservationapi","/reservations/object/"+param).then( res => {
+            setReservationNo(res.reservationno);
             setFirstName(res.firstname);
             setLastName(res.lastname);
             setSchoolID(res.schoolID);
@@ -134,6 +136,7 @@ function Reservation () {
 
     const addItem = (item) => {
         // console.log(item);
+        console.log(item);
         setAssignedItems([...assignedItems,item]);
         setItemList([...itemList,item]);
         updateList(item);
@@ -187,6 +190,7 @@ function Reservation () {
     }
 
     const AssignItems = (assignedItems) => {
+        console.log(assignedItems)
         API.post("reservationapi","/reservations/", {
             body : {
             firstname :firstName,
@@ -287,7 +291,7 @@ function Reservation () {
                             </div>
                             <div className="row Assigneditemlist">
                                 <div className="col">
-                                    <ReservationAssignedItemList items={itemList} />
+                                    <ReservationAssignedItemList items={assignedItems} />
                                 </div>
                             </div>
                         </div>

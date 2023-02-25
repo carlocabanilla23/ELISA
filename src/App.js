@@ -62,7 +62,7 @@ function App() {
           </ProtectedRoute>
       } />
 
-      <Route path='/RoomLocation/RoomLocationItem'
+      <Route path='/RoomLocation/RoomLocationItem/:param'
         element= {
           <ProtectedRoute user={user}>
               <RoomLocationItem />
@@ -75,7 +75,7 @@ function App() {
               <Location /> 
           </ProtectedRoute> } />
 
-      <Route path='/RoomLocation/StorageLocationItem' 
+      <Route path='/RoomLocation/StorageLocationItem/:param' 
         element= {
           <ProtectedRoute user={user}>
               <StorageLocationItem /> 

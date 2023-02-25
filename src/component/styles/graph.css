@@ -29,3 +29,14 @@
     font-size: 24px;
     color: #3E2B2E;
 }
+/* Media queries */
+@media screen and (max-width: 1920px) {
+    .summaryItem{
+        padding: 10px 0px;
+
+    }
+    .summaryCount {
+        font-size: 18px;
+      }
+  }
+  

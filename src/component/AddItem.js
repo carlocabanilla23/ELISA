@@ -19,7 +19,7 @@ function AddItem() {
     const [manufacturer, setManufacturer] = React.useState('');
     const [cost, setCost] = React.useState('');
     const [acquiredDate, setAcquiredDate] = useState('');
-    const [expiredDate, setExpiredDate] = useState('');
+    const [expiredDate, setExpiredDate] = useState('N/A');
     const [image, setImage] = useState('');
 
     const [items, setItems] = React.useState([]);
@@ -258,11 +258,11 @@ function AddItem() {
                             value={acquiredDate} onChange={(e) => {setAcquiredDate(e.target.value)}} required={true} />
                         </div>
                         {/* Date Expired */}
-                        <div className="form-input">
+                        {/* <div className="form-input">
                             <label className="input-label" for="dateExpired" >Date Expired</label>
                             <input type="date" className="text-input" id="dateExpired" 
                             value={expiredDate} onChange = {(e) => {setExpiredDate(e.target.value)}} required={true} />
-                        </div>
+                        </div> */}
                         {/* Image */}
                         <div className="form-input">
                             <label className="input-label" for="photo" >Photo</label>
