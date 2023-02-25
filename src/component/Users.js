@@ -3,7 +3,7 @@ import { API } from 'aws-amplify';
 import "./styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import UserList from "./UserList";
 import Pagination from "./Pagination";
 import CreateTestUser from './test/CreateTestUser';
@@ -14,6 +14,7 @@ import 'jspdf-autotable';
 
 
 function Users () {
+    const {param} = useParams();
     // Init();
     const [users, setUsers] = useState([]);
     const [unfilteredUsers, setUnfilteredUsers] = useState([]);
@@ -22,9 +23,18 @@ function Users () {
 
     useEffect( () => {
         API.get("userapi","/email").then( res => {
-            setUsers([...users,...res]);
-            setUnfilteredUsers([...users,...res]);
+
+            if (param !== undefined) {
+                const updatedList = res.filter(user => user.email === param);
+                setUsers([...users,...updatedList]);
+                setUnfilteredUsers([...users,...updatedList]);
+            }else {
+                setUsers([...users,...res]);
+                setUnfilteredUsers([...users,...res]);
+            }
+           
         })
+        console.log(param);
     },[]);
 
     const navigate = useNavigate();

@@ -122,7 +122,14 @@ function App() {
           <ProtectedRoute user={user}>
               <EditUser /> 
           </ProtectedRoute> } /> 
+
       <Route path='/Users' 
+        element= {
+          <ProtectedRoute user={user}>
+              <Users /> 
+          </ProtectedRoute> } />
+
+      <Route path='/Users/:param' 
         element= {
           <ProtectedRoute user={user}>
               <Users /> 

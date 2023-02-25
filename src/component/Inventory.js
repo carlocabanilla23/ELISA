@@ -27,6 +27,7 @@ function Inventory () {
     const [offCanvasItem, setOffCanvasItem] = useState('');
     const [qrcode,setQRCode] = useState();
     const [barcode,setBarcode] = useState();
+    const [elisaImg,setElisaImage] = useState();
 
     const navigate = useNavigate();
 
@@ -108,30 +109,31 @@ function Inventory () {
         });
   
 
-// generate the CSV file
-const csv = Papa.unparse({
-    fields: ['SERIALNO', 'NAME', 'STATUS', 'ROOM NO'],
-    data: data
-});
+    // generate the CSV file
+    const csv = Papa.unparse({
+        fields: ['SERIALNO', 'NAME', 'STATUS', 'ROOM NO'],
+        data: data
+    });
 
-  // the CSV file
-            const a = document.createElement('a');
-            a.href = 'data:attachment/csv,' + csv;
-             a.target = '_blank';
-            a.download = 'output.csv';
-            document.body.appendChild(a);
-            a.click();
-}
+    // the CSV file
+                const a = document.createElement('a');
+                a.href = 'data:attachment/csv,' + csv;
+                a.target = '_blank';
+                a.download = 'output.csv';
+                document.body.appendChild(a);
+                a.click();
+    }
+
+ 
+
     const PDF = () => {     // Exporting to pdf 
-        const doc = new jsPDF();
-       // const users = [
-       //   { firstName: 'John', lastName: 'Patrick', schoolID: '474593', role: 'student'}
-       //   { firstName: 'Jane', lastName: 'Doe', schoolID: '987654', role: 'teacher' }
-      //  ];
+        const doc = new jsPDF('p', 'mm', 'a4');
+        
         const data = [['SERIALNO', 'NAME', 'STATUS', 'ROOM NO']];
         items.forEach(items => {
             data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
         });
+
         doc.autoTable({
          //   head: [['firstName', 'lastName', 'schoolID', 'role']],
             body: data
