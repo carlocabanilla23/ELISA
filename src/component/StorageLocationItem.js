@@ -4,9 +4,11 @@ import { API } from 'aws-amplify';
 import "./styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { useNavigate, useLocation, Link, useParams } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import Pagination from "./Pagination";
 import ItemList from "./ItemList";
+import OffCanvasCardRoom from "./card/OffCanvasCardRoom";
+import { GenerateRoomQRCode } from "./code-generator/RoomQRCode";
 
 function StorageLocationItem () {
     const {param} = useParams();
@@ -14,6 +16,7 @@ function StorageLocationItem () {
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
     const [itemsPerPage,setItemsPerPage] = useState(10);
+    const [qrcode,setQRCode] = useState();
    
 
     const navigate = useNavigate();
@@ -77,6 +80,12 @@ function StorageLocationItem () {
         }
     };
 
+    const printQRCode = (roomno) => {
+        // document.getElementById("qrcode").style.display = "block";
+        let svg = GenerateRoomQRCode(roomno);
+        setQRCode(svg);
+
+    }
     return (
         <div className="Users">
         <Sidebar />
@@ -99,6 +108,15 @@ function StorageLocationItem () {
                     <div className="AddUser">
                         <button type="submit" className="btn" id="AddUser" onClick={ (e) => AddItem("Storage",param)}>Add Item</button>
                     </div>
+                     {/* Print QR Code */}
+                    <div className="PrintQRCode">
+                        <button type="submit" className="btn" id="AddUser" 
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight"
+                            aria-controls="offcanvasRight"
+                            onClick={ (e) => printQRCode(param)}>Print QR</button>
+                    </div>
+
                     <div className="col-auto-dropdown">
                         <div className="dropdown">
                             <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -122,6 +140,8 @@ function StorageLocationItem () {
                     paginate={paginate}
                     currentPageLocation = {currentPage}
                     />     
+            {/* OFf canvas */}
+            <OffCanvasCardRoom  qrcode={qrcode}/>
         </div>
     </div>    
     )
