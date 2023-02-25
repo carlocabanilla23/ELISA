@@ -94,7 +94,7 @@ function RoomLocationItem () {
         <div className="UserHeader">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
-                <div>
+                <div className="header-menu">
                     <span class="material-symbols-outlined" style={{cursor: "pointer"}} onClick={() => navigate('/Location')}>arrow_back</span>
                     <Link to="/Location" className="text-dark">
                         <span>Room Location</span>

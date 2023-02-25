@@ -86,3 +86,39 @@
         top: 0;
     background-color: #ffffff;
 }
+
+@media only screen 
+and (min-device-width: 375px)
+and (max-device-width: 812px)
+and (-webkit-min-device-pixel-ratio: 3) {
+    .sidenav { display: none;}
+    .navbar { display: none;}
+    .UserPane {
+        position: fixed;
+            top: 0;
+            left: 0;
+        width: 100vh;
+    }
+    .UserRowItems,.UserRowTitle {
+        padding: 0 !important;
+        margin: 0 !important;
+        margin: 0 !important;
+        width: 47vh;
+    }
+    .row {
+        font-size: 1em;
+        margin: 0.1em;
+    }
+    .col{
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .UserHeader { display: none;}
+
+    .rmobile {display: none;}
+    .list-pagination {
+        position: fixed;
+        left: 9%;
+    }
+
+}
