@@ -45,7 +45,11 @@
 }
 .AddUser {
     position: fixed;
-    right: 10%;
+    right: 15%;
+}
+.PrintQRCode{
+    position: fixed;
+    right: 8%;
 }
 .UserPane{
     background-color: #F0F0EB;
