@@ -235,9 +235,6 @@ function AddItem() {
                                         <li><a className="dropdown-item" onClick={(e)=> setStatus ("Used")} > Used
                                             </a>
                                         </li>
-                                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("Broken")} > Broken
-                                            </a>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>                    
@@ -257,18 +254,11 @@ function AddItem() {
                             <input type="date" className="text-input" id="dateAcquired" 
                             value={acquiredDate} onChange={(e) => {setAcquiredDate(e.target.value)}} required={true} />
                         </div>
-                        {/* Date Expired */}
-                        {/* <div className="form-input">
-                            <label className="input-label" for="dateExpired" >Date Expired</label>
-                            <input type="date" className="text-input" id="dateExpired" 
-                            value={expiredDate} onChange = {(e) => {setExpiredDate(e.target.value)}} required={true} />
-                        </div> */}
                         {/* Image */}
                         <div className="form-input">
                             <label className="input-label" for="photo" >Photo</label>
                             <input type="file" className="text-input" id="photo" 
                             onChange={(e) => { encodeImage(e)}} required={true} />
-                           
                         </div>
                         <img src={image} width="150" height="150" alt="" />
                         {/* <div className="form-input">

@@ -22,10 +22,16 @@ function Signup () {
     const [errorMessage, setErrorMessage] = useState('');
     const [password, setPassword] = useState('');
     const [hidePassword,setHidePassword] = useState(true);
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
+    const [confirmPasswordPattern, setConfirmPasswordPattern] = useState('');
     const navigate = useNavigate();
 
     const eyeShow = document.getElementById('eye-slash-show');
     const eyeHide = document.getElementById('eye-slash-hide');
+
+    const eyeShow2 = document.getElementById('eye-slash-show2');
+    const eyeHide2 = document.getElementById('eye-slash-hide2');
 
     const cancelCreate = e => {
         navigate('/');
@@ -40,6 +46,8 @@ function Signup () {
             setErrorMessage("SchoolID is already existed");
         }else if(error === 4){
             setErrorMessage("Please choose a role");
+        }else if(error === 5){
+            setErrorMessage("Confirm password not matches");
         }
     }, [error])
 
@@ -48,6 +56,10 @@ function Signup () {
             setUserList([...users,...res]);
         })
     },[])
+
+    useEffect(() => {
+        setConfirmPasswordPattern('^(.{' + password.length + ',})$')
+    }, [password])
 
     const ShowAlert = () => {
         var alert = document.getElementById("alert");
@@ -70,32 +82,34 @@ function Signup () {
         }
         if(role === "Role"){
             throw new Error(setError(4));
+        }else if(confirmPassword !== password){
+            throw new Error(setError(5));
         }
 
         //Encrypted the password
-        var saltRound = 512;
-        var decimal = Math.floor(Math.random() * 36);
-        var salt = '';
-        var saltList = [];
-        var curSaltedPassword, curHashedPassword;
-        curHashedPassword = password;
-        while(saltRound > 0){
-            for(var i = 0; i < 11; i++){
-                if(decimal <= 9){
-                    //HTML ASCII: 48 = digit '0'
-                    salt += String.fromCharCode(decimal + 48);
-                }else{
-                    //HTML ASCII: 97 = alphabet 'a'
-                    salt += String.fromCharCode(decimal + 87);
-                }
-                decimal = Math.floor(Math.random() * 37);
-            }
-            saltList.push(salt);
-            curSaltedPassword = curHashedPassword + salt;
-            curHashedPassword = Hash({curSaltedPassword});
-            saltRound--;
-            salt = '';
-        }
+        // var saltRound = 512;
+        // var decimal = Math.floor(Math.random() * 36);
+        // var salt = '';
+        // var saltList = [];
+        // var curSaltedPassword, curHashedPassword;
+        // curHashedPassword = password;
+        // while(saltRound > 0){
+        //     for(var i = 0; i < 11; i++){
+        //         if(decimal <= 9){
+        //             //HTML ASCII: 48 = digit '0'
+        //             salt += String.fromCharCode(decimal + 48);
+        //         }else{
+        //             //HTML ASCII: 97 = alphabet 'a'
+        //             salt += String.fromCharCode(decimal + 87);
+        //         }
+        //         decimal = Math.floor(Math.random() * 37);
+        //     }
+        //     saltList.push(salt);
+        //     curSaltedPassword = curHashedPassword + salt;
+        //     curHashedPassword = Hash({curSaltedPassword});
+        //     saltRound--;
+        //     salt = '';
+        // }
 
         API.post("userapi","/email/", {
             body : {
@@ -157,38 +171,25 @@ function Signup () {
         }
     }
 
-    // const Hashing = (e) => {
-    //     var t0 = performance.now();
-    //     //Generate salt containing 11 random characters including numbers and letters
-    //     var saltRound = 1024;
-    //     var decimal = Math.floor(Math.random() * 36);
-    //     var salt = '';
-    //     var curSaltedPassword, t1, curHashed;
-    //     var saltedTimes = saltRound;
-    //     curHashed = password;
-    //     while(saltRound > 0){
-    //         for(var i = 0; i < 11; i++){
-    //             if(decimal <= 9){
-    //                 //HTML ASCII: 48 = digit '0'
-    //                 salt += String.fromCharCode(decimal + 48);
-    //             }else{
-    //                 //HTML ASCII: 97 = alphabet 'a'
-    //                 salt += String.fromCharCode(decimal + 87);
-    //             }
-    //             decimal = Math.floor(Math.random() * 37);
-    //         }
-    //         curSaltedPassword = curHashed + salt;
-    //         curHashed = Hash({curSaltedPassword});
-    //         saltRound--;
-    //         salt = '';
-    //     }
-    //     t1 = performance.now();
-    //     console.log('Salt Round: ' + saltedTimes);
-    //     console.log('before hashing: ' + t0);
-    //     console.log('after hashing: ' + t1);
-    //     console.log('Hashing time: ' + (t1 - t0) + 'ms');
-    //     console.log('Final encrypted password: ' + curHashed);
-    // }
+    const toggleConfirmPassword = (e) => {
+        if(hideConfirmPassword === false){
+            eyeShow2.style.display = 'none';
+            eyeHide2.style.display = 'block';
+            setHideConfirmPassword(!hideConfirmPassword);
+        }else if(hideConfirmPassword === true){
+            eyeShow2.style.display = 'block';
+            eyeHide2.style.display = 'none';
+            setHideConfirmPassword(!hideConfirmPassword);
+        }
+    }
+
+    const ConfirmCustomValidity = (e) => {
+        if(confirmPassword.length < password.length-1){
+            e.target.setCustomValidity('Enter password again to confirm');
+        }else if(confirmPassword.length >= password.length-1){
+            e.target.setCustomValidity('');
+        }
+    }
 
     return (
         <div className="Body">
@@ -210,7 +211,7 @@ function Signup () {
                         <input  type = "text"
                                 className = "firstName form-control"
                                 value = {firstName}
-                                onChange = {(e) => {setFirstName(e.target.value); setErrorMessage('')}}
+                                onChange = {(e) => {setFirstName(e.target.value); setErrorMessage(''); setError('')}}
                                 id="inputFirstName"
                                 required={true} />
                         </div>
@@ -225,7 +226,7 @@ function Signup () {
                         <input  type="text"
                                 className="form-control"
                                 value = {lastName}
-                                onChange = {(e) => {setLastName(e.target.value); setErrorMessage('')}}
+                                onChange = {(e) => {setLastName(e.target.value); setErrorMessage(''); setError('')}}
                                 id="inputLastName"
                                 required={true} />
                         </div>
@@ -275,7 +276,7 @@ function Signup () {
                             <input type = "text"
                             className = "form-control"
                             value = {schoolID}
-                            onChange = {(e) => {setSchoolID(e.target.value); setErrorMessage('')}}
+                            onChange = {(e) => {setSchoolID(e.target.value); setErrorMessage(''); setError('')}}
                             id="schoolID"
                             required={true}
                             pattern='^([0-9]{9})$'
@@ -290,7 +291,7 @@ function Signup () {
                             <input type = "text"
                             className = "email form-control"
                             value = {email}
-                            onChange = {(e) => {setEmail(e.target.value); setErrorMessage('')}}
+                            onChange = {(e) => {setEmail(e.target.value); setErrorMessage(''); setError('')}}
                             id = "inputEmail"
                             required={true}
                             pattern='^([a-zA-Z0-9]{1,})@spu\.edu$'
@@ -306,7 +307,7 @@ function Signup () {
                             <input type = "text" 
                             className = "form-control" 
                             value = {phone}
-                            onChange = {(e) => {setPhone(e.target.value); setErrorMessage('')}}
+                            onChange = {(e) => {setPhone(e.target.value); setErrorMessage(''); setError('')}}
                             id = "inputPhone" 
                             required={true}
                             pattern='^([0-9]{10})$' 
@@ -321,7 +322,7 @@ function Signup () {
                             <input type={hidePassword ? 'password' : 'text'}
                             className="form-control"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => {setPassword(e.target.value); setErrorMessage(''); setError('')}}
                             id="inputPassword"
                             required={true}
                             pattern='^(.{8,})$'
@@ -329,6 +330,23 @@ function Signup () {
                             onInput={e => e.target.setCustomValidity('')} />
                             <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide" alt="Hide" onClick={togglePassword} />
                             <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show" style={{display: 'none'}} alt="Show" onClick={togglePassword} />
+                        </div>
+                    </div>
+                    {/* Confirm Password */}
+                    <div className = "mb-3 row">
+                        <label for="ConfirmPassword" className="col-sm-3 col-form-label confirmPds">Confirm Password</label>
+                        <div className="col-sm-9">
+                            <input type={hideConfirmPassword ? 'password' : 'text'}
+                            className="form-control"
+                            value={confirmPassword}
+                            onChange={(e) => {setConfirmPassword(e.target.value); setErrorMessage(''); setError('')}}
+                            id="inputConfirmPassword"
+                            required={true}
+                            pattern={confirmPasswordPattern}
+                            onInvalid={ConfirmCustomValidity}
+                            onInput={ConfirmCustomValidity} />
+                            <img src={eyeSlashHide} className="eye-slash2" id="eye-slash-hide2" alt="Hide" onClick={toggleConfirmPassword} />
+                            <img src={eyeSlashShow} className="eye-slash2" id="eye-slash-show2" style={{display: 'none'}} alt="Show" onClick={toggleConfirmPassword} />
                         </div>
                     </div>
                     {/* Submit Button */}

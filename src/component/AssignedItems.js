@@ -32,6 +32,19 @@ function AssignedItems () {
 
     const sortItems = (items) => {
         const updatedList = items.filter(item => item.location === "NA");
+        updatedList.sort((a,b) => {
+            var tA = Number.parseInt(a.assignedto);
+            var tB = Number.parseInt(b.assignedto);
+            if(isNaN(tA) && isNaN(tB)){
+                return a.assignedto.localeCompare(b.assignedto);
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
         console.log(updatedList);
         setItems(updatedList);
         setUnfilteredItems(updatedList);

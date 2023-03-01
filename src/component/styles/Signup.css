@@ -27,11 +27,26 @@
 }
 
 .eye-slash{
-    width: 5%;
+    width: 4%;
     position: absolute;
     right: 12px;
     top: 50%;
     transform: translateY(-50%);
     mix-blend-mode: multiply;
     cursor: pointer;
+}
+
+.eye-slash2{
+    width: 4%;
+    position: absolute;
+    right: 12px;
+    top: 64%;
+    transform: translateY(-50%);
+    mix-blend-mode: multiply;
+    cursor: pointer;
+}
+
+.confirmPds{
+    display: flex;
+    padding-right: 0px;
 }

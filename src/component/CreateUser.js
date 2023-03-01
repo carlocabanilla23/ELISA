@@ -251,21 +251,6 @@ function CreateUser() {
                             onInput={e => e.target.setCustomValidity('')} />
                         </div>
                     </div>
-                    {/* Password */}
-                    <div className = "mb-3 row">
-                        <label for="Password" className="col-sm-2 col-form-label">Password</label>
-                        <div className="col-sm-10">
-                            <input type="password"
-                            className="form-control"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            id="inputPassword"
-                            required={true}
-                            pattern='^(.{8,})$'
-                            onInvalid={(event) => {event.target.setCustomValidity('Password must have at least 8 characters')}}
-                            onInput={e => e.target.setCustomValidity('')} />
-                        </div>
-                    </div>
                     {/* Submit Button */}
                     <div className="form-buttons">
                         <button type="button" onClick={cancelEdit} className="btn btn-primary">Cancel</button>

@@ -23,7 +23,19 @@ function Users () {
 
     useEffect( () => {
         API.get("userapi","/email").then( res => {
-
+            res.sort((a,b) => {
+                var tA = Number.parseInt(a.schoolID);
+                var tB = Number.parseInt(b.schoolID);
+                if(isNaN(tA) && isNaN(tB)){
+                    return a.roomno.localeCompare(b.schoolID);
+                }else if(isNaN(tA)){
+                    return -1;
+                }else if(isNaN(tB)){
+                    return 1;
+                }else{
+                    return Math.sign(tA - tB);
+                }
+            });
             if (param !== undefined) {
                 const updatedList = res.filter(user => user.email === param);
                 setUsers([...users,...updatedList]);
@@ -32,7 +44,6 @@ function Users () {
                 setUsers([...users,...res]);
                 setUnfilteredUsers([...users,...res]);
             }
-           
         })
         console.log(param);
     },[]);
@@ -73,8 +84,8 @@ function Users () {
             const searcedhUser = unfilteredUsers.filter((user) => user.email.toLowerCase().includes(e) || 
                                                             user.firstname.toLowerCase().includes(e) || 
                                                             user.lastname.toLowerCase().includes(e) || 
-                                                            user.schoolID.includes(e) ||
-                                                            user.status.includes(e));
+                                                            user.schoolID.includes(e));
+                                                            // user.status.includes(e));
             setUsers(searcedhUser);
         }else{
             setUsers(unfilteredUsers);

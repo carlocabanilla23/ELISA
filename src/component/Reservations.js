@@ -14,16 +14,43 @@ function Reservations () {
     const [reservations, setReservations] = useState([]);
     const [unfilteredReservations, setUnfilteredReservations] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [reservationsPerPage] = useState(15);
+    const [reservationsPerPage] = useState(10);
 
 
     useEffect( () => {
         API.get("reservationapi","/reservations").then( res => {
-            console.log(res);
-            setReservations([...reservations,...res]);
-            setUnfilteredReservations([...reservations,...res]);
+            // console.log(res);
+            let sorted = [];
+            let list = [];
+            let size = res.length;
+            let curLength = 2;
+            while(size > 0){
+                for(let i = 0; i < res.length; i++){
+                    if(res[i].reservationno.length == curLength){
+                        list.push(res[i]);
+                        size--;
+                    }
+                }
+                list.sort((a,b) => {
+                    var tA = Number.parseInt(a.reservationno);
+                    var tB = Number.parseInt(b.reservationno);
+                    if(isNaN(tA) && isNaN(tB)){
+                        return a.reservationno.localeCompare(b.reservationno);
+                    }else if(isNaN(tA)){
+                        return -1;
+                    }else if(isNaN(tB)){
+                        return 1;
+                    }else{
+                        return Math.sign(tA - tB);
+                    }
+                });
+                sorted.push.apply(sorted, list);
+                list = [];
+                curLength++;
+            }
+            setReservations([...reservations,...sorted]);
+            setUnfilteredReservations([...reservations,...sorted]);
         })
-
     },[]);
 
     const navigate = useNavigate();
@@ -58,15 +85,12 @@ function Reservations () {
             state: {
                 reservationCount : reservations.length
         }});
-
-       
     }
     
     
     const idxLastReservation = currentPage * reservationsPerPage;
     const idxFirstReservation = idxLastReservation - reservationsPerPage;
     const currentList = reservations.slice(idxFirstReservation,idxLastReservation);
-
     const paginate = (pageNumber) => {
         if (pageNumber !== 0 && pageNumber !==  Math.ceil(reservations.length / reservationsPerPage) + 1 ) {
 

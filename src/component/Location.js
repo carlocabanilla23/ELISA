@@ -38,8 +38,20 @@ function StorageLocation () {
 
     const sortItems = (items) => {
         const updatedList = items.filter(item => item.location === "Storage" || item.location === "Room");
-
-        const updatedRoomList =  [...new Map(updatedList.map((room) => [room.roomno, room])).values()];
+        let updatedRoomList =  [...new Map(updatedList.map((room) => [room.roomno, room])).values()];
+        updatedRoomList.sort((a,b) => {
+            var tA = Number.parseInt(a.roomno);
+            var tB = Number.parseInt(b.roomno);
+            if(isNaN(tA) && isNaN(tB)){
+                return a.roomno.localeCompare(b.roomno);
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
         setItems(updatedRoomList);
         setUnfilteredItems(updatedRoomList);
     } 

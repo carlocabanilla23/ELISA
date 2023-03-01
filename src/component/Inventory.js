@@ -38,6 +38,19 @@ function Inventory () {
 
     useEffect( () => {
         API.get("inventory","/items").then( itemRes => {
+            itemRes.sort((a,b) => {
+                var tA = Number.parseInt(a.type);
+                var tB = Number.parseInt(b.type);
+                if(isNaN(tA) && isNaN(tB)){
+                    return a.type.localeCompare(b.type);
+                }else if(isNaN(tA)){
+                    return -1;
+                }else if(isNaN(tB)){
+                    return 1;
+                }else{
+                    return Math.sign(tA - tB);
+                }
+            });
             setItems([...items,...itemRes]);
             setUnfilteredItems([...items,...itemRes]);
         })
