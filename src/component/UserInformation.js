@@ -32,11 +32,7 @@ function UserInformation(e) {
               setRole(res.role);
               setPhone(res.phone);
               setSchoolID(res.schoolID);
-              var text = ''
-              for(var i = 0; i < res.password.length; i++){
-                text += '*';
-              }
-              setPassword(text);
+              setPassword(res.password);
           })},[]);
 
     const cancelEdit = () => {
@@ -95,11 +91,6 @@ function UserInformation(e) {
                     <div className = "mb-3 row">
                         <label  className = "Attribute col-sm-4">Phone:</label>
                         <div className = "Information col-sm-8">{phone}</div>
-                    </div>
-                    {/* Password */}
-                    <div className = "mb-3 row">
-                        <label  className = "Attribute col-sm-4">Password:</label>
-                        <div className = "Information col-sm-8">{password}</div>
                     </div>
                 </div>
                 {/* Date Created */}

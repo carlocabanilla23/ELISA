@@ -4,7 +4,7 @@ import './styles/List.css';
 import { useNavigate } from "react-router-dom";
 const ReservationList = ({reservations,updateList}) => {
     const navigate = useNavigate();
-  
+
     return (
         <>
              <div className="UserRowTitle">

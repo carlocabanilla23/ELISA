@@ -83,9 +83,27 @@ function CreateUser() {
             schoolID : schoolID,
             email : email,
             phone : phone,
-            password : password,
             }
         });
+
+        API.post("notificationapi","/sid/", {
+            body : {
+               sid : schoolID,
+               newitem : false,
+               newmember : false,
+               outofstock : false,
+               reservationrequest : false,
+               emailnotification : false       
+            }
+        });
+
+        API.post("useraccounts","/email/",{
+            body:{
+                email:email,
+                password:password
+            }
+        });
+
         ShowAlert();
     }
 
@@ -230,21 +248,6 @@ function CreateUser() {
                             required={true}
                             pattern='^([0-9]{10})$'
                             onInvalid={(event) => {event.target.setCustomValidity('Phone number must have 10 digits: #########')}}
-                            onInput={e => e.target.setCustomValidity('')} />
-                        </div>
-                    </div>
-                    {/* Password */}
-                    <div className = "mb-3 row">
-                        <label for="Password" className="col-sm-2 col-form-label">Password</label>
-                        <div className="col-sm-10">
-                            <input type="password"
-                            className="form-control"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            id="inputPassword"
-                            required={true}
-                            pattern='^(.{8,})$'
-                            onInvalid={(event) => {event.target.setCustomValidity('Password must have at least 8 characters')}}
                             onInput={e => e.target.setCustomValidity('')} />
                         </div>
                     </div>

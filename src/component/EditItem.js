@@ -23,7 +23,7 @@ function EditItem() {
     const [manufacturer, setManufacturer] = React.useState('');
     const [cost, setCost] = React.useState('');
     const [acquiredDate, setAcquiredDate] = React.useState('');
-    const [expiredDate, setExpiredDate] = React.useState('');
+    const [expiredDate, setExpiredDate] = React.useState('N/A');
     const [item, setItem] = React.useState([]);
     const [error, setError] = React.useState('');
     const [errorMessage, setErrorMessage] = React.useState('');
@@ -237,9 +237,6 @@ function EditItem() {
                                         <li><a className="dropdown-item" onClick={(e)=> setStatus ("Used")} > Used
                                             </a>
                                         </li>
-                                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("Broken")} > Broken
-                                            </a>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>                    
@@ -259,19 +256,13 @@ function EditItem() {
                             <input type="date" className="text-input" id="dateAcquired" 
                             value={acquiredDate} onChange = {(e) => {setAcquiredDate(e.target.value)}} required={true} />
                         </div>
-                        {/* Date Expired */}
-                        <div className="form-input">
-                            <label className="input-label" for="dateExpired" >Date Expired</label>
-                            <input type="date" className="text-input" id="dateExpired" 
-                            value={expiredDate} onChange = {(e) => {setExpiredDate(e.target.value)}} required={true} />
-                        </div>
                         {/* Image */}
                         <div className="form-input">
                             <label className="input-label" for="photo" >Photo</label>
                             <input type="file" className="text-input" id="photo" 
                             onChange={(e) => { encodeImage(e)}} required={true} />
-                           
                         </div>
+                        <img src={image} width="150" height="150" alt="" />
                         {/* <div className="form-input">
                             <label className="input-label" for="photo" >Photo</label>
                             <input type="text" className="nameInput" id="name"  />

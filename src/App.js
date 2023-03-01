@@ -62,7 +62,7 @@ function App() {
           </ProtectedRoute>
       } />
 
-      <Route path='/RoomLocation/RoomLocationItem'
+      <Route path='/RoomLocation/RoomLocationItem/:param'
         element= {
           <ProtectedRoute user={user}>
               <RoomLocationItem />
@@ -75,7 +75,7 @@ function App() {
               <Location /> 
           </ProtectedRoute> } />
 
-      <Route path='/RoomLocation/StorageLocationItem' 
+      <Route path='/RoomLocation/StorageLocationItem/:param' 
         element= {
           <ProtectedRoute user={user}>
               <StorageLocationItem /> 
@@ -105,7 +105,7 @@ function App() {
               <Reservations /> 
           </ProtectedRoute> } />
 
-      <Route path='/Reservation' 
+      <Route path='/Reservation/:param' 
         element= {
           <ProtectedRoute user={user}>
               <Reservation /> 
@@ -122,7 +122,14 @@ function App() {
           <ProtectedRoute user={user}>
               <EditUser /> 
           </ProtectedRoute> } /> 
+
       <Route path='/Users' 
+        element= {
+          <ProtectedRoute user={user}>
+              <Users /> 
+          </ProtectedRoute> } />
+
+      <Route path='/Users/:param' 
         element= {
           <ProtectedRoute user={user}>
               <Users /> 

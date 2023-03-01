@@ -129,11 +129,11 @@ const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,
           <div className="col"> {item.serialno} </div>
           <div className="col"> {item.name} </div>
           <div className="col"> {item.type} </div>
-          <div id="model" className="col"> {item.model} </div>
-          <div id="location" className="col"> {item.location} </div>
-          <div id="roomNumber" className="col"> {item.roomno} </div>
+          <div id="model" className="col rmobile"> {item.model} </div>
+          <div id="location" className="col rmobile"> {item.location} </div>
+          <div id="roomNumber" className="col rmobile"> {item.roomno} </div>
           <div id="status" className="col"> {status} </div>
-          <div className="col actions">
+          <div className="col actions rmobile">
             <div className="row">
               <div className="col actions-column">
                 <div className="dropdown p-0 m-0 sm">

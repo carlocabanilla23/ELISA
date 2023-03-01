@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { useLocation,useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { API } from "aws-amplify";
 import './styles/Reservation.css';
@@ -11,23 +11,23 @@ import ReservationAssignedItemList from "./ReservationAssignedItemList";
 
 
 function Reservation () {
-    const location = useLocation();
-    const reservationno = location.state.reservationno;
+    const {param} = useParams();
     const navigate = useNavigate();
 
     // Reservation Data
-    const [firstName,setFirstName] = useState("John");
-    const [lastName,setLastName] = useState("Doe");
-    const [schoolID,setSchoolID] = useState("00000001");
-    const [email,setEmail] = useState("doej@spu.edu");
-    const [role,setRole] = useState("Student");
-    const [summary,setSummary] = useState("Item Request");
-    const [currentDate,setCurrentDate] = useState("00-00-0000");
-    const [note,setNote] = useState("Please give me new device");
-    const [returnDate,setReturnDate] = useState("00-00-0000");
-    const [status,setStatus] = useState('New');
+    const [firstName,setFirstName] = useState("");
+    const [lastName,setLastName] = useState("");
+    const [schoolID,setSchoolID] = useState("");
+    const [email,setEmail] = useState("");
+    const [role,setRole] = useState("");
+    const [summary,setSummary] = useState("");
+    const [currentDate,setCurrentDate] = useState("");
+    const [note,setNote] = useState("");
+    const [returnDate,setReturnDate] = useState("");
+    const [status,setStatus] = useState('');
+    const [reservationno,setReservationNo] = useState('');
 
-    const [reservationCart,setReservationCart] = useState([]);
+    const [reservationCart,setReservationCart] = useState(["sample"]);
 
     // Item List
     const [items, setItems] = useState([]);
@@ -41,13 +41,11 @@ function Reservation () {
     const [currentPage,setCurrentPage] = useState(1);
     const [itemsPerPage,setItemsPerPage] = useState(10);
 
-
-    
-         
-      
    
     useEffect( () => {
-        API.get("reservationapi","/reservations/object/"+reservationno).then( res => {
+        console.log(param);
+        API.get("reservationapi","/reservations/object/"+param).then( res => {
+            setReservationNo(res.reservationno);
             setFirstName(res.firstname);
             setLastName(res.lastname);
             setSchoolID(res.schoolID);
@@ -62,7 +60,8 @@ function Reservation () {
             setStatus (res.status);
             setReturnedItems(res.returneditems);
 
-            if (res.assigneditems.length === 0 && res.status === "Returned") {
+            if (res.assignedItems === undefined) {}
+            else if (res.assigneditems.length === 0 && res.status === "Returned") {
                 setItemListHeader("Returned Items");
                 setItemList(res.returneditems);
             }else{
@@ -137,6 +136,7 @@ function Reservation () {
 
     const addItem = (item) => {
         // console.log(item);
+        console.log(item);
         setAssignedItems([...assignedItems,item]);
         setItemList([...itemList,item]);
         updateList(item);
@@ -190,6 +190,7 @@ function Reservation () {
     }
 
     const AssignItems = (assignedItems) => {
+        console.log(assignedItems)
         API.post("reservationapi","/reservations/", {
             body : {
             firstname :firstName,
@@ -260,7 +261,7 @@ function Reservation () {
                                         </div>
                                     </li>
 
-                                    {reservationCart.map ( (res,index)=> 
+                                    {reservationCart?.map ( (res,index)=> 
                                     <li className="list-group" key={index}>
                                         <div className="row">
                                             <div className="col">
@@ -290,7 +291,7 @@ function Reservation () {
                             </div>
                             <div className="row Assigneditemlist">
                                 <div className="col">
-                                    <ReservationAssignedItemList items={itemList} />
+                                    <ReservationAssignedItemList items={assignedItems} />
                                 </div>
                             </div>
                         </div>

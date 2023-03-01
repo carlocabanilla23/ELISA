@@ -7,7 +7,7 @@ const ReservationCard = ( {reservation,updateList} ) => {
 
         const gotoReservation = (e) => {
                 console.log(e);
-                navigate("/Reservation", {
+                navigate("/Reservation/"+e, {
                         state: {
                                 reservationno : e
                         }

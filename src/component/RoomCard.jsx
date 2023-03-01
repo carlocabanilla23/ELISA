@@ -30,19 +30,21 @@ const RoomCard = ( {item,updateList,itemCount} ) => {
         }
 
         const ViewItems = (roomParam,locationParam) => {
-            let path = "/";
+        //     let path = "/";
             if (locationParam === "Storage") {
-                 path = "/RoomLocation/StorageLocationItem";
+                navigate("/RoomLocation/StorageLocationItem/"+roomParam);
+                //  path = "/RoomLocation/StorageLocationItem";
             } 
             else if (locationParam === "Room") {
-                 path = "/RoomLocation/RoomLocationItem";
+                navigate("/RoomLocation/RoomLocationItem/"+roomParam);
+                //  path = "/RoomLocation/RoomLocationItem";
             }
 
-            navigate(path,{
-                    state: {
-                            roomno : roomParam
-                    }
-            });
+        //     navigate(path,{
+        //             state: {
+        //                     roomno : roomParam
+        //             }
+        //     });
 
         }
 

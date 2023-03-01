@@ -38,8 +38,20 @@ function StorageLocation () {
 
     const sortItems = (items) => {
         const updatedList = items.filter(item => item.location === "Storage" || item.location === "Room");
-
-        const updatedRoomList =  [...new Map(updatedList.map((room) => [room.roomno, room])).values()];
+        let updatedRoomList =  [...new Map(updatedList.map((room) => [room.roomno, room])).values()];
+        updatedRoomList.sort((a,b) => {
+            var tA = Number.parseInt(a.roomno);
+            var tB = Number.parseInt(b.roomno);
+            if(isNaN(tA) && isNaN(tB)){
+                return a.roomno.localeCompare(b.roomno);
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
         setItems(updatedRoomList);
         setUnfilteredItems(updatedRoomList);
     } 
@@ -83,7 +95,7 @@ function StorageLocation () {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
                 <div> 
-                    <span class="material-symbols-outlined">door_open</span>
+                    <span className="material-symbols-outlined">door_open</span>
                     <span>Location</span>
                     <div className="searchBar">
                         <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>

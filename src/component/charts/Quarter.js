@@ -45,7 +45,7 @@ function QuarterReport () {
   
 
 return (
-    <BarChart width={700} height={400} data={data}>
+    <BarChart width={550} height={225} data={data}>
     <CartesianGrid strokeDasharray="4 4" />
       <XAxis dataKey="name" />
       <YAxis />
