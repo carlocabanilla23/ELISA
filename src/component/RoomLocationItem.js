@@ -7,8 +7,10 @@ import Header from "./Header";
 import { useNavigate, useLocation, Link,useParams } from "react-router-dom";
 import Pagination from "./Pagination";
 import ItemList from "./ItemList";
-import OffCanvasCardRoom from "./card/OffCanvasCardRoom";
+import OffCanvasCard from "./card/OffCanvasCard";
 import { GenerateRoomQRCode } from "./code-generator/RoomQRCode";
+import { Generate } from "./code-generator/qrcode";
+import { GenerateBarcode } from "./code-generator/barcode";
 
 function RoomLocationItem () {
     const {param} = useParams();
@@ -17,6 +19,8 @@ function RoomLocationItem () {
     const [currentPage,setCurrentPage] = useState(1);
     const [itemsPerPage,setItemsPerPage] = useState(10);
     const [qrcode,setQRCode] = useState();
+    const [barcode,setBarcode] = useState();
+    const [offCanvasItem, setOffCanvasItem] = useState('');
 
     // let roomnoParam = location.state.roomno;
 
@@ -46,6 +50,19 @@ function RoomLocationItem () {
 
     const sortItems = (items) => {
         const updatedList = items.filter(item => item.roomno === param);
+        updatedList.sort((a,b) => {
+            var tA = Number.parseInt(a.type);
+            var tB = Number.parseInt(b.type);
+            if(isNaN(tA) && isNaN(tB)){
+                return a.type.localeCompare(b.type);
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     } 
@@ -81,8 +98,49 @@ function RoomLocationItem () {
         }
     };
 
+    const ViewInformation = (item) => {
+        setOffCanvasItem(item);
+        document.getElementById("item-info").style.display = "block";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+    }
+
+    const CreateQRCode = (serialno) => {
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "block";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+      
+        console.log(serialno);
+        let svg = Generate(serialno);
+        setQRCode(svg);
+    }
+    const CreateBarcode = (serialno) => {
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "block";
+        document.getElementById("Offstatus").style.display = "none";
+    
+        console.log(serialno);
+        let svg = GenerateBarcode(serialno);
+        setBarcode(svg);
+    }
+
+    const changeStatus = (item) => {
+        setOffCanvasItem(item);
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "block";
+    }
+
     const printQRCode = (roomno) => {
         // document.getElementById("qrcode").style.display = "block";
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "block";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
         let svg = GenerateRoomQRCode(roomno);
         setQRCode(svg);
 
@@ -134,7 +192,12 @@ function RoomLocationItem () {
         </div>
 
         <div className="UserPane">
-            <ItemList items={currentList} updateList={updateList} />
+            <ItemList items={currentList}
+                    ViewInformation={ViewInformation}
+                    updateList={updateList}
+                    CreateQRCode={CreateQRCode}
+                    CreateBarcode={CreateBarcode}
+                    changeStatus={changeStatus} />
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 
@@ -143,7 +206,7 @@ function RoomLocationItem () {
                     />     
 
               {/* OFf canvas */}
-            <OffCanvasCardRoom  qrcode={qrcode}/>
+            <OffCanvasCard item={offCanvasItem} qrcode={qrcode} barcode={barcode} />
         </div>
     </div>    
     )

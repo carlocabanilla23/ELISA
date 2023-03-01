@@ -30,6 +30,19 @@ function AddItemToLocation () {
 
     const sortItems = (items) => { // function to filter the items based on the room number
         const updatedList = items.filter(item => item.roomno !== roomnoParam);
+        updatedList.sort((a,b) => {
+            var tA = Number.parseInt(a.type);
+            var tB = Number.parseInt(b.type);
+            if(isNaN(tA) && isNaN(tB)){
+                return a.type.localeCompare(b.type);
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     }
@@ -76,10 +89,10 @@ function AddItemToLocation () {
     const returnToViewItemLocation = () => { //// function to handle returning to the view item location
         let path = "/";
         if (locationParam === "Storage") {
-             path = "/RoomLocation/StorageLocationItem"; // set the path to the storage location item route
+             path = "/RoomLocation/StorageLocationItem/"+roomnoParam; // set the path to the storage location item route
         } 
         else if (locationParam === "Room") {
-             path = "/RoomLocation/RoomLocationItem"; // set the path to the room location item route
+             path = "/RoomLocation/RoomLocationItem/"+roomnoParam; // set the path to the room location item route
         }
 
         navigate(path,{ //// use the navigate function to go to the specified path

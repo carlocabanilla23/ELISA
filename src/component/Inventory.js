@@ -98,7 +98,6 @@ function Inventory () {
         document.getElementById("qrcode").style.display = "none";
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "block";
-         
     }
 
 
