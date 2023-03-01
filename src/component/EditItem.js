@@ -237,9 +237,6 @@ function EditItem() {
                                         <li><a className="dropdown-item" onClick={(e)=> setStatus ("Used")} > Used
                                             </a>
                                         </li>
-                                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("Broken")} > Broken
-                                            </a>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>                    
