@@ -71,7 +71,6 @@ function Reservation () {
                 setItemList(res.assigneditems);
             }
         })
-   
     },[]);
 
     useEffect(() => {
@@ -206,7 +205,7 @@ function Reservation () {
         // document.getElementById("assignBtn").disabled = true;
         setAssignedItems([]);
     }
-
+   
     const AssignItems = (assignedItems) => {
         console.log(approvedBy);
         API.post("reservationapi","/reservations/", {
@@ -235,16 +234,26 @@ function Reservation () {
 
     }
     const searchUser = (e) => {
-        if (e.length > 0) {
-            const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
-                                                            items.name.toLowerCase().includes(e) || 
-                                                            items.model.toLowerCase().includes(e) || 
-                                                            items.type.includes(e));
-            setItems(searcedhItems);
-        }else{
-            setItems(unfilteredItems);
+        // console.log(e)
+        if (e.length === 9) {
+            const searchItem = unfilteredItems.filter(item => item.serialno.toLowerCase().includes(e))
+                console.log(searchItem.length)
+            if (searchItem.length === 1) { 
+               addItem(searchItem[0])
+               document.getElementById('SearchBarInput').value= " " ;
+            }
         }
-       
+        else {
+            if (e.length > 0) {
+                const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
+                                                                items.name.toLowerCase().includes(e) || 
+                                                                items.model.toLowerCase().includes(e) || 
+                                                                items.type.includes(e));
+                setItems(searcedhItems);
+            }else{
+                setItems(unfilteredItems);
+            }
+        }
     }  
 
     // if (status === "Assigned" || status === "Returned") 
@@ -262,7 +271,7 @@ function Reservation () {
                         <label>{reservationno} - {summary}</label> 
                     </div>
                     <div className="searchBar" id="SearchReservation">
-                        <input type="email" className="form-control" onChange={ (e)=> { searchUser(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Reservation"/>
+                        <input type="email" className="form-control" onChange={ (e)=> { searchUser(e.target.value)} } id="SearchBarInput" placeholder="Search Reservation"/>
                     </div>
             </div>
             <div className="Reservation">
