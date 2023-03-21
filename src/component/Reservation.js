@@ -13,6 +13,7 @@ import ReservationAssignedItemList from "./ReservationAssignedItemList";
 function Reservation () {
     const {param} = useParams();
     const navigate = useNavigate();
+    const accountName = localStorage.getItem('name');
 
     // Reservation Data
     const [firstName,setFirstName] = useState("");
@@ -26,8 +27,10 @@ function Reservation () {
     const [returnDate,setReturnDate] = useState("");
     const [status,setStatus] = useState('');
     const [reservationno,setReservationNo] = useState('');
+    const [approvedBy, setApprovedBy] = useState('');
+    const [addApprovedBy, setAddApprovedBy] = useState('');
 
-    const [reservationCart,setReservationCart] = useState(["sample"]);
+    const [reservationCart,setReservationCart] = useState([]);
 
     // Item List
     const [items, setItems] = useState([]);
@@ -41,7 +44,6 @@ function Reservation () {
     const [currentPage,setCurrentPage] = useState(1);
     const [itemsPerPage,setItemsPerPage] = useState(10);
 
-   
     useEffect( () => {
         console.log(param);
         API.get("reservationapi","/reservations/object/"+param).then( res => {
@@ -59,6 +61,7 @@ function Reservation () {
             setAssignedItems(res.assigneditems);
             setStatus (res.status);
             setReturnedItems(res.returneditems);
+            setApprovedBy(res.approvedby);
 
             if (res.assignedItems === undefined) {}
             else if (res.assigneditems.length === 0 && res.status === "Returned") {
@@ -68,17 +71,35 @@ function Reservation () {
                 setItemList(res.assigneditems);
             }
         })
-
-        API.get("inventory","/items").then( itemRes => {
-            sortItems(itemRes);
-        })
    
     },[]);
 
+    useEffect(() => {
+        setTimeout(() => {},1000);
+        API.get("inventory","/items").then( itemRes => {
+            sortItems(itemRes);
+        });
+    },[reservationCart]);
+
+    useEffect(() => {
+        setApprovedBy(accountName);
+        AssignItems(assignedItems);
+    },[addApprovedBy])
+
     const sortItems = (items) => {
         const updatedList = items.filter(item => item.location !== "Room");
-        setItems(updatedList);
-        setUnfilteredItems(updatedList);
+        var requestedItem;
+        var matchRequested = [];
+        for(var o = 0; o < reservationCart.length; o++){
+            requestedItem = reservationCart[o];
+            for(var i = 0; i < updatedList.length; i++){
+                if(updatedList[i].type === requestedItem.type){
+                    matchRequested.push(updatedList[i]);
+                }
+            }
+        }
+        setItems(matchRequested);
+        setUnfilteredItems(matchRequested);
     } 
    
     const cancelViewReservation = () => {
@@ -140,7 +161,6 @@ function Reservation () {
         setAssignedItems([...assignedItems,item]);
         setItemList([...itemList,item]);
         updateList(item);
-        
     }
 
     const returnItems = (assignedItems) => {
@@ -169,7 +189,7 @@ function Reservation () {
             summary : summary,
             status : "Returned",
             requestby : firstName + " " + lastName,
-            approvedby : "N/A",
+            approvedby : approvedBy,
             requestdate : currentDate,
             returndate : returnDate,
             itemrequested : reservationCart,
@@ -184,13 +204,11 @@ function Reservation () {
         setItemListHeader("Returned Items");
         // document.getElementById("assignBtn").disabled = true;
         // document.getElementById("assignBtn").disabled = true;
-        
         setAssignedItems([]);
-
     }
 
     const AssignItems = (assignedItems) => {
-        console.log(assignedItems)
+        console.log(approvedBy);
         API.post("reservationapi","/reservations/", {
             body : {
             firstname :firstName,
@@ -202,13 +220,12 @@ function Reservation () {
             summary : summary,
             status : "Assigned",
             requestby : firstName + " " + lastName,
-            approvedby : "N/A",
+            approvedby : approvedBy,
             requestdate : currentDate,
             returndate : returnDate,
             itemrequested : reservationCart,
             assigneditems : assignedItems
             }
-
         });
 
         AddItemToLocation(assignedItems,firstName,lastName);
@@ -217,10 +234,21 @@ function Reservation () {
         // document.getElementById("assignBtn").disabled = true;
 
     }
+    const searchUser = (e) => {
+        if (e.length > 0) {
+            const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
+                                                            items.name.toLowerCase().includes(e) || 
+                                                            items.model.toLowerCase().includes(e) || 
+                                                            items.type.includes(e));
+            setItems(searcedhItems);
+        }else{
+            setItems(unfilteredItems);
+        }
+       
+    }  
 
     // if (status === "Assigned" || status === "Returned") 
     // // document.getElementById("assignBtn").disabled = true;
-
  
     return (
         <>            
@@ -232,6 +260,9 @@ function Reservation () {
                             <i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i>
                         </button>
                         <label>{reservationno} - {summary}</label> 
+                    </div>
+                    <div className="searchBar" id="SearchReservation">
+                        <input type="email" className="form-control" onChange={ (e)=> { searchUser(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Reservation"/>
                     </div>
             </div>
             <div className="Reservation">
@@ -347,7 +378,7 @@ function Reservation () {
                             <div className="col">
                                 <label className="fw-bold form-label">Approved By</label>
                                 <br/>
-                                <label className="form-label">N/A</label>
+                                <label id="approvedBy" className="form-label" value="">{approvedBy.length === 0 ? "N/A" : approvedBy}</label>
                             </div>
                         </div>
 
@@ -362,7 +393,7 @@ function Reservation () {
                                 <br/>
                                 <button className="btn btn-light" onClick={ (e) => returnItems(assignedItems)}>Return Items</button>
                                 <br/>
-                                <button className="btn btn-light" id="assignBtn" onClick={ (e) => AssignItems(assignedItems)}>Assign Items</button>
+                                <button className="btn btn-light" id="assignBtn" onClick={ (e) => {setApprovedBy(accountName);setAddApprovedBy(accountName)}}>Assign Items</button>
                             </div>
                         </div>
 
@@ -370,7 +401,6 @@ function Reservation () {
                 </div>
 
                 <div className="ItemList">
-                    
                     <ReservationItemList items={currentList} addItem={addItem} status={status} />
                     <div className="Reservation-Pagination">
                     <Pagination

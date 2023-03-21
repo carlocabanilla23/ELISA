@@ -21,37 +21,65 @@ function Reservations () {
         API.get("reservationapi","/reservations").then( res => {
             // console.log(res);
             let sorted = [];
-            let list = [];
-            let size = res.length;
-            let curLength = 2;
-            while(size > 0){
-                for(let i = 0; i < res.length; i++){
-                    if(res[i].reservationno.length == curLength){
-                        list.push(res[i]);
-                        size--;
+            let openList = [];
+            let assignedList = []
+            let returnList = []
+            for(let i = 0; i < res.length; i++){
+                if(res[i].status == "Open"){
+                    openList.push(res[i]);
+                }else if(res[i].status == "Assigned"){
+                    assignedList.push(res[i]);
+                }else{
+                    returnList.push(res[i]);
+                }
+            }
+            // list.sort((a,b) => {
+            //     var tA = Number.parseInt(a.requestdate);
+            //     var tB = Number.parseInt(b.requestdate);
+            //     if(isNaN(tA) && isNaN(tB)){
+            //         return a.reservationno.localeCompare(b.requestdate);
+            //     }else if(isNaN(tA)){
+            //         return -1;
+            //     }else if(isNaN(tB)){
+            //         return 1;
+            //     }else{
+            //         return Math.sign(tA - tB);
+            //     }
+            // });
+            openList.sort((a,b) => {
+                if(a.requestdate.split('-').at(2) != b.requestdate.split('-').at(2)){
+                    return b.requestdate.split('-').at(2) - a.requestdate.split('-').at(2);
+                }else{
+                    if(a.requestdate.split('-').at(1) != b.requestdate.split('-').at(1)){
+                        return b.requestdate.split('-').at(1) - a.requestdate.split('-').at(1);
+                    }else{
+                        return b.requestdate.split('-').at(0) - a.requestdate.split('-').at(0);
                     }
                 }
-                list.sort((a,b) => {
-                    var tA = Number.parseInt(a.reservationno);
-                    var tB = Number.parseInt(b.reservationno);
-                    if(isNaN(tA) && isNaN(tB)){
-                        return a.reservationno.localeCompare(b.reservationno);
-                    }else if(isNaN(tA)){
-                        return -1;
-                    }else if(isNaN(tB)){
-                        return 1;
-                    }else{
-                        return Math.sign(tA - tB);
-                    }
-                });
-                sorted.push.apply(sorted, list);
-                list = [];
-                curLength++;
-            }
+            });
+            
+            sorted.push.apply(sorted, sortedDate(openList));
+            sorted.push.apply(sorted, sortedDate(assignedList));
+            sorted.push.apply(sorted, sortedDate(returnList));
             setReservations([...reservations,...sorted]);
             setUnfilteredReservations([...reservations,...sorted]);
         })
     },[]);
+
+    const sortedDate = (list) => {
+        list.sort((a,b) => {
+            if(a.requestdate.split('-').at(2) != b.requestdate.split('-').at(2)){
+                return b.requestdate.split('-').at(2) - a.requestdate.split('-').at(2);
+            }else{
+                if(a.requestdate.split('-').at(1) != b.requestdate.split('-').at(1)){
+                    return b.requestdate.split('-').at(1) - a.requestdate.split('-').at(1);
+                }else{
+                    return b.requestdate.split('-').at(0) - a.requestdate.split('-').at(0);
+                }
+            }
+        });
+        return list;
+    }
 
     const navigate = useNavigate();
 

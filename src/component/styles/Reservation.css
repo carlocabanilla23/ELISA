@@ -88,3 +88,10 @@
 .ReservationItemList .row .action {
     text-align: center;
 }
+
+#SearchReservation{
+    position: aboslute;
+        left: 55%;
+        top: 7%;
+    width: 43%;
+}
