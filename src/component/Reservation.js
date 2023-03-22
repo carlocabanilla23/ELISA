@@ -8,6 +8,8 @@ import './styles/Reservation.css';
 import ReservationItemList from "./ReservationItemList";
 import Pagination from "./Pagination";
 import ReservationAssignedItemList from "./ReservationAssignedItemList";
+import SendNotification from "./notification/Notification";
+
 
 
 function Reservation () {
@@ -228,11 +230,27 @@ function Reservation () {
         });
 
         AddItemToLocation(assignedItems,firstName,lastName);
-
+        CheckInventory(assignedItems)
         setStatus("Assigned");
         // document.getElementById("assignBtn").disabled = true;
 
     }
+
+    const CheckInventory = (assignedItems) => {
+        let items = []
+        assignedItems.forEach(item => {
+            items.push(item.type)
+        });
+        items.forEach(item => {
+            const searchItem = unfilteredItems.filter(item => item.serialno.type().includes(item))
+            if (searchItem.length === 0) { 
+                // console.log( item + " is out of stock !!!")
+                SendNotification("OUT_OF_STOCK",item);              
+            }
+        });
+
+    }
+
     const searchUser = (e) => {
         // console.log(e)
         if (e.length === 9) {

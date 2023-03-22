@@ -137,6 +137,7 @@ function Signup () {
                newmember : false,
                outofstock : false,
                reservationrequest : false,
+               email : email,
                emailnotification : false       
             }
         });

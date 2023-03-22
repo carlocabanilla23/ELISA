@@ -103,6 +103,7 @@ function Setting(){
                    newmember : newMemberChecked,
                    outofstock : outOfStockChecked,
                    reservationrequest : reservationRequestChecked,
+                   email : email,
                    emailnotification : emailNotificationChecked       
                 }
             });
