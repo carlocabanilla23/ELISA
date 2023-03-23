@@ -1,4 +1,5 @@
 import { API } from "aws-amplify";
+import { GetDateToday } from "../etc/GetDateToday";
 
 export default function SendNotification (msg_type,data) {
 
@@ -41,8 +42,7 @@ const OUT_OF_STOCK = (item) => {
                             email : user.email,
                             notificationid : crypto.randomUUID(),
                             message: item + " is currently out of stock",
-                            date : Date.now()
-
+                            date : new Date().toISOString().slice(0, 10)
                         }
                   });
               }
@@ -69,7 +69,7 @@ const NEW_RESERVATION = (rid) => {
                             email : user.email,
                             notificationid : crypto.randomUUID(),
                             message: "New reservation available. \n \n https://dev.djno0p84ctg6u.amplifyapp.com/Reservation/"+ rid,
-                            date : Date.now()
+                            date : new Date().toISOString().slice(0, 10)
 
                         }
                     });
@@ -97,7 +97,7 @@ const VERIFIED_USER = (email) => {
                             email : user.email,
                             notificationid : crypto.randomUUID(),
                             message: "New User is waiting for  approval\n \n https://dev.djno0p84ctg6u.amplifyapp.com/Reservation/"+ email,
-                            date : Date.now()
+                            date : new Date().toISOString().slice(0, 10)
 
                         }
                     });
@@ -125,7 +125,7 @@ const NEW_ITEM = (item) => {
                             email : user.email,
                             notificationid : crypto.randomUUID(),
                             message: item + " is added to inventory",
-                            date : Date.now()
+                            date : new Date().toISOString().slice(0, 10)
 
                         }
                     });
