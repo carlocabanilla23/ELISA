@@ -7,8 +7,7 @@ export default function SendNotification (msg_type,data) {
 
         case "NEW_RESERVATION":
             NEW_RESERVATION(data);
-            break;
-        
+            break;      
         case "VERIFIED_USER":
             VERIFIED_USER(data);
             break;
@@ -42,7 +41,7 @@ const OUT_OF_STOCK = (item) => {
                             email : user.email,
                             notificationid : crypto.randomUUID(),
                             message: item + " is currently out of stock",
-                            date : new Date().toISOString().slice(0, 10)
+                            date : GetDateToday()
                         }
                   });
               }
@@ -69,7 +68,7 @@ const NEW_RESERVATION = (rid) => {
                             email : user.email,
                             notificationid : crypto.randomUUID(),
                             message: "New reservation available. \n \n https://dev.djno0p84ctg6u.amplifyapp.com/Reservation/"+ rid,
-                            date : new Date().toISOString().slice(0, 10)
+                            date : GetDateToday()
 
                         }
                     });
@@ -97,7 +96,7 @@ const VERIFIED_USER = (email) => {
                             email : user.email,
                             notificationid : crypto.randomUUID(),
                             message: "New User is waiting for  approval\n \n https://dev.djno0p84ctg6u.amplifyapp.com/Reservation/"+ email,
-                            date : new Date().toISOString().slice(0, 10)
+                            date : GetDateToday()
 
                         }
                     });
@@ -112,20 +111,20 @@ const NEW_ITEM = (item) => {
         res.forEach( user => {
             if (user.emailnotification === true) {
                 if (user.newitem === true) {
-                    // API.post("emailsystem","/email/send", {
-                    //       body : {
-                    //       email : user.email,
-                    //       message: item + " is added to inventory",
-                    //       subject : "New Item Added"
-                    //   }
-                    // });
+                    API.post("emailsystem","/email/send", {
+                          body : {
+                          email : user.email,
+                          message: item + " is added to inventory",
+                          subject : "New Item Added"
+                      }
+                    });
                     
                     API.post("notification","/notification/", {
                         body: {
                             email : user.email,
                             notificationid : crypto.randomUUID(),
                             message: item + " is added to inventory",
-                            date : new Date().toISOString().slice(0, 10)
+                            date : GetDateToday()
 
                         }
                     });
