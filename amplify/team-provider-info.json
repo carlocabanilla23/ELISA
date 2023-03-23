@@ -43,6 +43,10 @@
         "accountapi": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
           "s3Key": "amplify-builds/accountapi-674142485341492b5a4d-build.zip"
+        },
+        "ElisaNotification": {
+          "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
+          "s3Key": "amplify-builds/ElisaNotification-7a4179476f76774b315a-build.zip"
         }
       },
       "storage": {
@@ -53,7 +57,8 @@
         "email": {},
         "emaildb": {},
         "usernotifprofile": {},
-        "accountdb": {}
+        "accountdb": {},
+        "NotificationDB": {}
       },
       "api": {
         "userapi": {},
@@ -62,7 +67,8 @@
         "reservationapi": {},
         "emailsystem": {},
         "notificationapi": {},
-        "useraccounts": {}
+        "useraccounts": {},
+        "notification": {}
       }
     }
   }

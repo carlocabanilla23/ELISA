@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import "./styles/AddItem.css";
-
+import SendNotification from "../Services/notification/Notification";
 Amplify.configure(awsExport);
 
 function AddItem() {
@@ -108,7 +108,8 @@ function AddItem() {
                 image : image
             }
         });
-        ShowAlert(); // call the ShowAlert function to display a success message
+        ShowAlert();
+        SendNotification("NEW_ITEM",type) // call the ShowAlert function to display a success message
     }
         
     const CancelEdit = () => { //// CancelEdit function navigates the user back to the inventory page
@@ -134,8 +135,6 @@ function AddItem() {
 
    
     }
-
-  
 
     return (
         <>

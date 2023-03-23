@@ -11,8 +11,6 @@ import eyeSlashShow from './icons/eye-slash-show.png';
 
 
 function Setting(){
-    const loc = useLocation();
-    // const emailParam = "SPU.Elisa@gmail.com";
     const [fname,setFname] = useState('');
     const [lname,setLname] = useState('');
     const [email,setEmail] = useState('');

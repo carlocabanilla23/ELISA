@@ -29,6 +29,11 @@ export type AmplifyDependentResourcesAttributes = {
             "RootUrl": "string",
             "ApiName": "string",
             "ApiId": "string"
+        },
+        "notification": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
         }
     },
     "function": {
@@ -67,6 +72,12 @@ export type AmplifyDependentResourcesAttributes = {
             "LambdaExecutionRole": "string"
         },
         "accountapi": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "ElisaNotification": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
@@ -120,6 +131,16 @@ export type AmplifyDependentResourcesAttributes = {
             "StreamArn": "string",
             "PartitionKeyName": "string",
             "PartitionKeyType": "string",
+            "Region": "string"
+        },
+        "NotificationDB": {
+            "Name": "string",
+            "Arn": "string",
+            "StreamArn": "string",
+            "PartitionKeyName": "string",
+            "PartitionKeyType": "string",
+            "SortKeyName": "string",
+            "SortKeyType": "string",
             "Region": "string"
         }
     }

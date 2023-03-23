@@ -83,6 +83,20 @@
           ]
         }
       ]
+    },
+    "notification": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "ElisaNotification",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
     }
   },
   "function": {
@@ -189,6 +203,25 @@
         {
           "category": "storage",
           "resourceName": "accountdb",
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "attributeEnvMap": {
+            "Name": "TABLE_NAME",
+            "Arn": "TABLE_ARN"
+          }
+        }
+      ]
+    },
+    "ElisaNotification": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "NotificationDB",
           "attributes": [
             "Name",
             "Arn"
@@ -310,6 +343,10 @@
       "providerPlugin": "awscloudformation"
     },
     "accountdb": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "NotificationDB": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
     }

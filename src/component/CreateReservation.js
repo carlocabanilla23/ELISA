@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import './styles/CreateReservation.css';
 import { useNavigate, useLocation } from "react-router-dom";
-import SendNotification from "./notification/Notification";
+import SendNotification from "../Services/notification/Notification";
 
 function CreateReservation () {
     const location = useLocation();

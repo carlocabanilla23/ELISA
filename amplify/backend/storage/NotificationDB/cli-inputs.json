@@ -1,0 +1,14 @@
+{
+  "resourceName": "NotificationDB",
+  "tableName": "NotificationTable",
+  "partitionKey": {
+    "fieldName": "email",
+    "fieldType": "string"
+  },
+  "sortKey": {
+    "fieldName": "notificationid",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}
