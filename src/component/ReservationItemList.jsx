@@ -3,14 +3,16 @@ import { useState } from "react";
 import { useEffect } from "react";
 import './styles/List.css';
 
-const ReservationItemList = ({items,addItem,status}) => {
-    const [display,setDisplay] = useState("btn btn-dark");
-    useEffect( () => {
-        // if (status !== "Open") setDisplay("btn btn-dark hidden");
-    },[]);
-
+const ReservationItemList = ({items,addItem,status,searchItem}) => {
     return (
         <div className="ReservationItemList">
+            <div className="container-fluid">
+                <div className="row fw-bold bg-grey">
+                    <div className="search-bar" id="unassigned-searchbar">
+                        <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Reservation"/>
+                    </div>
+                </div>
+            </div>
             <ul className="list-group">
                 <li>
                     <div className="container-fluid">
