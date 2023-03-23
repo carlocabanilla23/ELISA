@@ -235,10 +235,12 @@ function Reservation () {
     }
 
     const CheckInventory = (assignedItems) => {
-        let items = []
+        let items = new Set();
+        
         assignedItems.forEach(item => {
-            items.push(item.type)
+            items.add(item.type)
         });
+        console.log(items)
         items.forEach(item => {
             const searchItem = unfilteredItems.filter(item => item.serialno.type().includes(item))
             if (searchItem.length === 0) { 
