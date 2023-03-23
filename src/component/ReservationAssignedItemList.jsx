@@ -1,7 +1,7 @@
 import React from "react";
 import './styles/List.css';
 
-const ReservationAssignedItemList = ({items}) => {
+const ReservationAssignedItemList = ({items,removeItem}) => {
 
     return (
         <div className="ReservationItemList">
@@ -14,7 +14,6 @@ const ReservationAssignedItemList = ({items}) => {
                             <div className="col">Type</div>
                             <div className="col">Model</div>
                             <div className="col">Status</div>
-                            
                         </div>
                     </div>
                 </li>
@@ -28,7 +27,9 @@ const ReservationAssignedItemList = ({items}) => {
                                 <div className="col"> {item.type} </div>
                                 <div className="col"> {item.model} </div>
                                 <div className="col"> {item.status} </div>
-                                
+                                <div className="col action">
+                                    <button className="btn btn-dark" onClick={() => removeItem(item)}>Remove</button>
+                                </div>
                             </div>
                         </div>
                     </li>
