@@ -23,6 +23,15 @@ const OffCanvasCard = ({item,qrcode,barcode}) => {
         window.location.reload(true);
 
     }
+
+    const Print = (e) => {
+        const pContents = document.getElementById(e).innerHTML;
+      
+        const tmpContent = document.body.innerHTML;
+        document.body.innerHTML = pContents;
+        window.print();
+        document.body.innerHTML = tmpContent;
+    }
     return (
         <>
          <div
@@ -109,7 +118,9 @@ const OffCanvasCard = ({item,qrcode,barcode}) => {
             </div>
 
             <div id="qrcode">
-                {qrcode}
+                <p class="h3">QR Code</p>
+                <button id="qrcode-print-btn" onClick={(e)=>Print("qrcode-img")}><i class="fa fa-print" aria-hidden="true"></i></button>
+                <div id="qrcode-img">{qrcode}</div>
             </div>
 
             <div id="barcode">

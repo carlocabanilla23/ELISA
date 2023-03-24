@@ -117,9 +117,7 @@ function CreateReservation () {
             model : model,
             quantity : quantity
         }
-        // console.log(order);
-        // setReservationCart( res => [...res,order] );
-
+    
         setReservationCart([...reservationCart,order]);
         console.log(reservationCart);
        
