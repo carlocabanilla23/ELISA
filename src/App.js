@@ -27,6 +27,7 @@ import AssignedItems from './component/AssignedItems';
 import UnassignedItems from './component/UnassignedItems';
 import ProtectedRoute from './component/Routes/ProtectedRoute';
 import ViewItemInfo from './component/mobile/ViewItemInfo-m';
+import Notification from './pages/Notification';
 import Verify from './component/Verify';
 
 Amplify.configure(awsExport);
@@ -169,6 +170,12 @@ function App() {
         <ProtectedRoute user={user}>
             <Setting />
         </ProtectedRoute> } />
+        
+      <Route path='/Notification'
+        element= {
+        <ProtectedRoute user={user}>
+            <Notification />
+      </ProtectedRoute> } />
 
       <Route path='/ViewItemInfo/:param'
         element= {

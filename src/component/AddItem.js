@@ -6,6 +6,7 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 import "./styles/AddItem.css";
 import SendNotification from "../Services/notification/Notification";
+import { DefaultDeviceLogo } from "../assets/base64imgs";
 Amplify.configure(awsExport);
 
 function AddItem() {
@@ -20,7 +21,7 @@ function AddItem() {
     const [cost, setCost] = React.useState('');
     const [acquiredDate, setAcquiredDate] = useState('');
     const [expiredDate, setExpiredDate] = useState('N/A');
-    const [image, setImage] = useState('');
+    const [image, setImage] = useState(DefaultDeviceLogo());
 
     const [items, setItems] = React.useState([]);
     const [error, setError] = React.useState('');
@@ -33,7 +34,7 @@ function AddItem() {
         setError('');
     }, [name,serialNumber,type,model,location,roomNumber,status,manufacturer,cost])
 
-    useEffect(() => {
+    useEffect(() => {   
         if(error === '1'){
             setErrorMessage('Serial Number is already exist!');
         }else if(error === '2'){

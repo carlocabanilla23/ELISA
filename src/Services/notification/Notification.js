@@ -35,8 +35,8 @@ const OUT_OF_STOCK = (item) => {
                 date : GetDateToday(),
                 subject : "Item Out of Stock!"
             }
-
-            // SendEmail(data);
+            
+            SendEmail(data);
             PostNotification(data);
         })
 
@@ -82,9 +82,11 @@ const VERIFIED_USER = (email) => {
 }
 const NEW_ITEM = (item) => {
     API.get("notificationapi","/sid/").then(res => {
+       
         const subscribeUser = res.filter(user => user.emailnotification === true && user.newitem === true);
 
         subscribeUser.forEach( user => {
+            console.log(user.email)
             let data = {
                 email : user.email,
                 message: item + " is added to inventory",

@@ -161,7 +161,7 @@ function Reservation () {
     
     //Sort item in the item list
     const sortItems = (items) => {
-        const updatedList = items.filter(item => item.location === "Unassigned");
+        const updatedList = items.filter(item => item.location === "Unassigned" || "Room");
         var requestedItem;
         var matchRequested = [];
         for(var o = 0; o < reservationCart.length; o++){
@@ -222,7 +222,6 @@ function Reservation () {
             setCurrentPage(pageNumber);
 
             obj = document.getElementById(pageNumber);
-            obj.style.backgroundColor = "#3E2B2E";
             obj.style.color = "#ffffff";
         }
     };
