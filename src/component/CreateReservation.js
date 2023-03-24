@@ -166,12 +166,8 @@ function CreateReservation () {
             }
         }
 
-        API.post("reservationapi","/reservations/", {
+        API.post("reservation","/reservation", {
             body : {
-            firstname :firstName,
-            lastname : lastName,
-            role : role,
-            schoolID : schoolID,
             email : email,
             reservationno : reservationNo,
             summary : summary,
@@ -180,6 +176,13 @@ function CreateReservation () {
             approvedby : "N/A",
             requestdate : currentDate,
             returndate : returnDate,
+            }
+        });
+
+        API.post("reservationcart","/cart", {
+            body : {
+            reservationno : reservationNo,
+            description : note,
             itemrequested : reservationCart,
             assigneditems : []
             }
@@ -203,7 +206,7 @@ function CreateReservation () {
     
     return (
         <>
-            <div className="alert alert-success" id="alert" role="alert">
+            <div className="alert alert-success alert-popout" id="alert" role="alert">
                 The reservation has been created successfully!
             </div>
             <Sidebar />

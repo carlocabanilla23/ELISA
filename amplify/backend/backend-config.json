@@ -28,7 +28,7 @@
       "providerPlugin": "awscloudformation",
       "service": "API Gateway"
     },
-    "reservationapi": {
+    "notification": {
       "dependsOn": [
         {
           "attributes": [
@@ -36,7 +36,63 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "reservation"
+          "resourceName": "ElisaNotification"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
+    "notificationapi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "notifprofile"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
+    "reservation": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "reservationfunction"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
+    "reservationcart": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "reservationcart"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
+    "useraccounts": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "accountapi"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -55,51 +111,47 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "API Gateway"
-    },
-    "notificationapi": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "notifprofile",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        }
-      ]
-    },
-    "useraccounts": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "accountapi",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        }
-      ]
-    },
-    "notification": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "ElisaNotification",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        }
-      ]
     }
   },
   "function": {
+    "ElisaNotification": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "NotificationDB"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "accountapi": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "accountdb"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "emaillambda": {
       "build": true,
       "dependsOn": [
@@ -138,7 +190,7 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "reservation": {
+    "notifprofile": {
       "build": true,
       "dependsOn": [
         {
@@ -151,7 +203,45 @@
             "Arn"
           ],
           "category": "storage",
-          "resourceName": "reservations"
+          "resourceName": "usernotifprofile"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "reservationcart": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "reservationcart"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "reservationfunction": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "reservation"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -175,67 +265,42 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
-    },
-    "notifprofile": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "usernotifprofile",
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "attributeEnvMap": {
-            "Name": "TABLE_NAME",
-            "Arn": "TABLE_ARN"
-          }
-        }
-      ]
-    },
-    "accountapi": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "accountdb",
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "attributeEnvMap": {
-            "Name": "TABLE_NAME",
-            "Arn": "TABLE_ARN"
-          }
-        }
-      ]
-    },
-    "ElisaNotification": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "NotificationDB",
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "attributeEnvMap": {
-            "Name": "TABLE_NAME",
-            "Arn": "TABLE_ARN"
-          }
-        }
-      ]
     }
   },
   "hosting": {},
   "parameters": {
+    "AMPLIFY_function_ElisaNotification_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ElisaNotification"
+        }
+      ]
+    },
+    "AMPLIFY_function_ElisaNotification_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ElisaNotification"
+        }
+      ]
+    },
+    "AMPLIFY_function_accountapi_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "accountapi"
+        }
+      ]
+    },
+    "AMPLIFY_function_accountapi_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "accountapi"
+        }
+      ]
+    },
     "AMPLIFY_function_emaillambda_deploymentBucketName": {
       "usedBy": [
         {
@@ -284,19 +349,51 @@
         }
       ]
     },
-    "AMPLIFY_function_reservation_deploymentBucketName": {
+    "AMPLIFY_function_notifprofile_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "reservation"
+          "resourceName": "notifprofile"
         }
       ]
     },
-    "AMPLIFY_function_reservation_s3Key": {
+    "AMPLIFY_function_notifprofile_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "reservation"
+          "resourceName": "notifprofile"
+        }
+      ]
+    },
+    "AMPLIFY_function_reservationcart_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reservationcart"
+        }
+      ]
+    },
+    "AMPLIFY_function_reservationcart_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reservationcart"
+        }
+      ]
+    },
+    "AMPLIFY_function_reservationfunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reservationfunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_reservationfunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reservationfunction"
         }
       ]
     },
@@ -318,6 +415,14 @@
     }
   },
   "storage": {
+    "NotificationDB": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "accountdb": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
     "email": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
@@ -330,7 +435,11 @@
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
     },
-    "reservations": {
+    "reservation": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "reservationcart": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
     },
@@ -339,16 +448,8 @@
       "service": "DynamoDB"
     },
     "usernotifprofile": {
-      "service": "DynamoDB",
-      "providerPlugin": "awscloudformation"
-    },
-    "accountdb": {
-      "service": "DynamoDB",
-      "providerPlugin": "awscloudformation"
-    },
-    "NotificationDB": {
-      "service": "DynamoDB",
-      "providerPlugin": "awscloudformation"
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
     }
   }
 }

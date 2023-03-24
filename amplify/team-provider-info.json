@@ -27,10 +27,6 @@
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
           "s3Key": "amplify-builds/inventory-686b47334f7678774875-build.zip"
         },
-        "reservation": {
-          "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/reservation-426f35494d474142756b-build.zip"
-        },
         "qrlambda": {},
         "emaillambda": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
@@ -47,28 +43,38 @@
         "ElisaNotification": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
           "s3Key": "amplify-builds/ElisaNotification-7a4179476f76774b315a-build.zip"
+        },
+        "reservationfunction": {
+          "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
+          "s3Key": "amplify-builds/reservationfunction-2b784b504139584a6c41-build.zip"
+        },
+        "reservationcart": {
+          "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
+          "s3Key": "amplify-builds/reservationcart-6e766438414a39523446-build.zip"
         }
       },
       "storage": {
         "userdb": {},
         "inventorydb": {},
         "inventory": {},
-        "reservations": {},
         "email": {},
         "emaildb": {},
         "usernotifprofile": {},
         "accountdb": {},
-        "NotificationDB": {}
+        "NotificationDB": {},
+        "reservation": {},
+        "reservationcart": {}
       },
       "api": {
         "userapi": {},
         "inventoryapi": {},
         "inventory": {},
-        "reservationapi": {},
         "emailsystem": {},
         "notificationapi": {},
         "useraccounts": {},
-        "notification": {}
+        "notification": {},
+        "reservation": {},
+        "reservationcart": {}
       }
     }
   }

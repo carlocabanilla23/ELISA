@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"10.5.2\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
+  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"11.0.3\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
     "CloudWatchRule": {
       "Type": "String",
@@ -16,13 +16,13 @@
     "s3Key": {
       "Type": "String"
     },
-    "storageNotificationDBName": {
+    "storagereservationName": {
       "Type": "String",
-      "Default": "storageNotificationDBName"
+      "Default": "storagereservationName"
     },
-    "storageNotificationDBArn": {
+    "storagereservationArn": {
       "Type": "String",
-      "Default": "storageNotificationDBArn"
+      "Default": "storagereservationArn"
     }
   },
   "Conditions": {
@@ -55,12 +55,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "ElisaNotification",
+            "reservationfunction",
             {
               "Fn::Join": [
                 "",
                 [
-                  "ElisaNotification",
+                  "reservationfunction",
                   "-",
                   {
                     "Ref": "env"
@@ -86,7 +86,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Layers": [],
         "Timeout": 25
       }
@@ -97,12 +97,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "elisaLambdaRoled213e35b",
+            "elisaLambdaRole10f992f5",
             {
               "Fn::Join": [
                 "",
                 [
-                  "elisaLambdaRoled213e35b",
+                  "elisaLambdaRole10f992f5",
                   "-",
                   {
                     "Ref": "env"
@@ -182,14 +182,14 @@
               ],
               "Resource": [
                 {
-                  "Ref": "storageNotificationDBArn"
+                  "Ref": "storagereservationArn"
                 },
                 {
                   "Fn::Join": [
                     "/",
                     [
                       {
-                        "Ref": "storageNotificationDBArn"
+                        "Ref": "storagereservationArn"
                       },
                       "index/*"
                     ]

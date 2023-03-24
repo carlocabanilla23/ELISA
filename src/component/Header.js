@@ -29,7 +29,7 @@ function Header() {
   }
 
   const gotoNotification = () => {
-    navigate("/Notification", {
+    navigate("/Notification ", {
       state: {
         email: decodeURIComponent(escape(window.atob(localStorage.getItem('email'))))
       },

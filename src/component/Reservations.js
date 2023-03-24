@@ -18,7 +18,7 @@ function Reservations () {
 
 
     useEffect( () => {
-        API.get("reservationapi","/reservations").then( res => {
+        API.get("reservation","/reservation").then( res => {
             // console.log(res);
             let sorted = [];
             let openList = [];

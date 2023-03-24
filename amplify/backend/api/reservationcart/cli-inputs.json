@@ -1,9 +1,9 @@
 {
   "version": 1,
   "paths": {
-    "/reservations": {
-      "name": "/reservations",
-      "lambdaFunction": "reservation",
+    "/cart": {
+      "name": "/cart",
+      "lambdaFunction": "reservationcart",
       "permissions": {
         "setting": "open"
       }

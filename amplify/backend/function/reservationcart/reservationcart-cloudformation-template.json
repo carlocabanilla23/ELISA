@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"10.5.1\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
+  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"11.0.3\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
     "CloudWatchRule": {
       "Type": "String",
@@ -16,13 +16,13 @@
     "s3Key": {
       "Type": "String"
     },
-    "storagereservationsName": {
+    "storagereservationcartName": {
       "Type": "String",
-      "Default": "storagereservationsName"
+      "Default": "storagereservationcartName"
     },
-    "storagereservationsArn": {
+    "storagereservationcartArn": {
       "Type": "String",
-      "Default": "storagereservationsArn"
+      "Default": "storagereservationcartArn"
     }
   },
   "Conditions": {
@@ -55,12 +55,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "reservation",
+            "reservationcart",
             {
               "Fn::Join": [
                 "",
                 [
-                  "reservation",
+                  "reservationcart",
                   "-",
                   {
                     "Ref": "env"
@@ -86,7 +86,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Layers": [],
         "Timeout": 25
       }
@@ -97,12 +97,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "elisaLambdaRole7ec33e70",
+            "elisaLambdaRole6fa16541",
             {
               "Fn::Join": [
                 "",
                 [
-                  "elisaLambdaRole7ec33e70",
+                  "elisaLambdaRole6fa16541",
                   "-",
                   {
                     "Ref": "env"
@@ -182,14 +182,14 @@
               ],
               "Resource": [
                 {
-                  "Ref": "storagereservationsArn"
+                  "Ref": "storagereservationcartArn"
                 },
                 {
                   "Fn::Join": [
                     "/",
                     [
                       {
-                        "Ref": "storagereservationsArn"
+                        "Ref": "storagereservationcartArn"
                       },
                       "index/*"
                     ]

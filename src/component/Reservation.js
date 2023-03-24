@@ -11,7 +11,7 @@ import ReservationAssignedItemList from "./ReservationAssignedItemList";
 import SendNotification from "../Services/notification/Notification";
 
 function Reservation () {
-    const {param} = useParams();
+    const {param,param1} = useParams();
     const navigate = useNavigate();
     const accountName = localStorage.getItem('name');
 
@@ -34,6 +34,7 @@ function Reservation () {
     const [status,setStatus] = useState('');
     const [reservationno,setReservationNo] = useState('');
     const [approvedBy, setApprovedBy] = useState('');
+    const [requestedBy, setRequestedBy] = useState('');
     const [addApprovedBy, setAddApprovedBy] = useState('');
     const [reviewedBy, setReviewedBy] = useState('');
     const [addReviewedBy, setAddReviewedBy] = useState('');
@@ -58,39 +59,50 @@ function Reservation () {
 
     useEffect( () => {
         console.log(param);
-        API.get("reservationapi","/reservations/object/"+param).then( res => {
+        API.get("reservation","/reservation/object/"+param+"/"+param1).then( res => {
+            console.log(res);
             setReservationNo(res.reservationno);
-            setFirstName(res.firstname);
-            setLastName(res.lastname);
-            setSchoolID(res.schoolID);
             setEmail(res.email);
-            setRole(res.role);
+            // setRequestedBy(res.requestby);
             setSummary(res.summary);
             setCurrentDate(res.requestdate);
-            setNote(res.note);
+            setReturnDate(res.returndate);
+            setStatus (res.status);
+            setApprovedBy(res.approvedby);
             if(res.assigndate !== undefined){
                 setAssignedDate(res.assigndate);
             }
-            setReturnDate(res.returndate);
+            setReviewedBy(res.reviewedby);
+        })
+
+        API.get("reservationcart","/cart/object/"+param1).then( res => {
+            console.log(res);
+            setNote(res.note);
             setReservationCart(res.itemrequested);
             setAssignedItems(res.assigneditems);
-            setStatus (res.status);
             setReturnedItems(res.returneditems);
-            setApprovedBy(res.approvedby);
-            setReviewedBy(res.reviewedby);
-            console.log(approvedBy);
+
             if (res.assignedItems === undefined) {}
-            else if (res.assigneditems.length === 0 && res.status === "Returned") {
+            else if (res.assigneditems.length === 0 && status === "Returned") {
                 setItemListHeader("Returned Items");
                 setItemList(res.returneditems);
             }else{
                 setItemList(res.assigneditems);
             }
         })
-           
+
+
+        API.get("userapi","/email/object/"+param).then( res => {
+            console.log(res)
+            setFirstName(res.firstname);
+            setLastName(res.lastname);
+            setSchoolID(res.schoolID);  
+            setRole(res.role);
+        })
+      
     },[]);
 
-    //sorted the item list (right side) base on the item request in reservation cart
+    // //sorted the item list (right side) base on the item request in reservation cart
     useEffect(() => {
         setTimeout(() => {},1000);
         if(status !== "Returned"){
@@ -101,21 +113,21 @@ function Reservation () {
     },[reservationCart]);
 
     //Set approved by after clicking assigned button
-    useEffect(() => {
-        setApprovedBy(accountName);
-        if(addApprovedBy.length > 1){
-            setAssignedDate(`${year}-${month}-${day}`);
-        }
-        AssignItems(assignedItems);
-    },[addApprovedBy])
+    // useEffect(() => {
+    //     setApprovedBy(accountName);
+    //     if(addApprovedBy.length > 1){
+    //         setAssignedDate(`${year}-${month}-${day}`);
+    //     }
+    //     AssignItems(assignedItems);
+    // },[addApprovedBy])
 
-    //Set reviewed by after clicking return button
-    useEffect(() => {
-        if(addReviewedBy === accountName){
-            setReviewedBy(accountName);
-            returnItems(assignedItems);
-        }
-    },[addReviewedBy])
+    // //Set reviewed by after clicking return button
+    // useEffect(() => {
+    //     if(addReviewedBy === accountName){
+    //         setReviewedBy(accountName);
+    //         returnItems(assignedItems);
+    //     }
+    // },[addReviewedBy])
 
     //Change ItemListHeader name and hide assign and retunr button base on reservation status
     useEffect(() => {
@@ -159,7 +171,7 @@ function Reservation () {
         setRemoveAssignedItem('');
     },[removeAssignedItem])
     
-    //Sort item in the item list
+    // Sort item in the item list
     const sortItems = (items) => {
         const updatedList = items.filter(item => item.location === "Unassigned" || "Room");
         var requestedItem;
@@ -259,12 +271,8 @@ function Reservation () {
             });
         })
 
-        API.post("reservationapi","/reservations/", {
+        API.post("reservation","/reservation/", {
             body : {
-            firstname :firstName,
-            lastname : lastName,
-            role : role,
-            schoolID : schoolID,
             email : email,
             reservationno : reservationno,
             summary : summary,
@@ -274,6 +282,13 @@ function Reservation () {
             reviewedby: reviewedBy,
             requestdate : currentDate,
             returndate : returnDate,
+            }
+        });
+
+        API.post("reservationcart","/cart", {
+            body : {
+            reservationno : reservationno,
+            description : note,
             itemrequested : reservationCart,
             assigneditems : [],
             returneditems : assignedItems
@@ -290,26 +305,30 @@ function Reservation () {
     }
    
     const AssignItems = (assignedItems) => {
-        API.post("reservationapi","/reservations/", {
+        API.post("reservation","/reservation/", {
             body : {
-            firstname :firstName,
-            lastname : lastName,
-            role : role,
-            schoolID : schoolID,
-            email : email,
-            reservationno : reservationno,
-            summary : summary,
-            status : "Assigned",
-            requestby : firstName + " " + lastName,
-            approvedby : approvedBy,
-            reviewby: reviewedBy,
-            requestdate : currentDate,
-            assigndate: assignedDate,
-            returndate : returnDate,
-            itemrequested : reservationCart,
-            assigneditems : assignedItems
+                email : email,
+                reservationno : reservationno,
+                summary : summary,
+                status : "Assigned",
+                requestby : firstName + " " + lastName,
+                approvedby : approvedBy,
+                reviewedby: reviewedBy,
+                requestdate : currentDate,
+                returndate : returnDate,
+                itemrequested : reservationCart,
+                assigneditems : assignedItems
             }
         });
+        API.post("reservationcart","/cart", {
+            body : {
+                reservationno : reservationno,
+                description : note,
+                itemrequested : reservationCart,
+                assigneditems : assignedItems,
+            }
+        });
+
         AddItemToLocation(assignedItems,firstName,lastName);
         CheckInventory(assignedItems)
         setStatus("Assigned");
@@ -325,7 +344,7 @@ function Reservation () {
         });
         console.log(items)
         items.forEach(item => {
-            const searchItem = unfilteredItems.filter(item => item.serialno.type().includes(item))
+            const searchItem = unfilteredItems.filter(item => item.type.includes(item))
             if (searchItem.length === 0) { 
                 // console.log( item + " is out of stock !!!")
                 SendNotification("OUT_OF_STOCK",item);              
@@ -497,9 +516,9 @@ function Reservation () {
                             <div className="col">
                                 <label className="fw-bold form-label"></label>
                                 <br/>
-                                <button className="btn btn-light" id="returnBtn" onClick={ (e) => {setReviewedBy(accountName);setAddReviewedBy(accountName);setReturnDate(`${year}-${month}-${day}`)}}>Return Items</button>
+                                <button className="btn btn-light" id="returnBtn" onClick={ (e) => {setReviewedBy(accountName);setAddReviewedBy(accountName);setReturnDate(`${year}-${month}-${day}`);returnItems(assignedItems);}}>Return Items</button>
                                 <br/>
-                                <button className="btn btn-light" id="assignBtn" onClick={ (e) => {setApprovedBy(accountName);setAddApprovedBy(accountName);setAssignedDate(`${year}-${month}-${day}`)}}>Assign Items</button>
+                                <button className="btn btn-light" id="assignBtn" onClick={ (e) => {setApprovedBy(accountName);setAddApprovedBy(accountName);setAssignedDate(`${year}-${month}-${day}`);AssignItems(assignedItems)}}>Assign Items</button>
                             </div>
                         </div>
 
@@ -520,8 +539,8 @@ function Reservation () {
                 </div>
             </div>
         </>
-
     )
+    
 }   
 
 export default Reservation;
