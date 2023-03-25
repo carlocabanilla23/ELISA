@@ -58,9 +58,7 @@ function Reservation () {
     const [itemsPerPage,setItemsPerPage] = useState(10);
 
     useEffect( () => {
-        console.log(param);
         API.get("reservation","/reservation/object/"+param+"/"+param1).then( res => {
-            console.log(res);
             setReservationNo(res.reservationno);
             setEmail(res.email);
             // setRequestedBy(res.requestby);
@@ -76,7 +74,6 @@ function Reservation () {
         })
 
         API.get("reservationcart","/cart/object/"+param1).then( res => {
-            console.log(res);
             setNote(res.note);
             setReservationCart(res.itemrequested);
             setAssignedItems(res.assigneditems);
@@ -107,7 +104,6 @@ function Reservation () {
 
 
         API.get("userapi","/email/object/"+param).then( res => {
-            console.log(res)
             setFirstName(res.firstname);
             setLastName(res.lastname);
             setSchoolID(res.schoolID);  
@@ -203,7 +199,6 @@ function Reservation () {
     } 
    
     const cancelViewReservation = () => {
-        console.log("asbasd");
         navigate('/Reservations');
     }
 
@@ -254,11 +249,9 @@ function Reservation () {
 
     // Add Item
     const addItem = (item) => {
-        console.log(item);
         setAssignedItems([...assignedItems,item]);
         setItemList([...itemList,item]);
         updateList(item);
-        console.log(itemList.length)
     }
     
     //Removing the item and update the assignedItem list
@@ -270,7 +263,6 @@ function Reservation () {
     }
 
     const returnItems = (assignedItems) => {
-        console.log(reviewedBy);
         setAddReviewedBy(accountName);
         assignedItems.map( item => {
             API.post("inventory","/items", {
@@ -310,13 +302,8 @@ function Reservation () {
             }
         });
 
-        // setReturnedItems(assignedItems);
         setStatus("Returned");
-        // setItemList(returnedItems);
         setItemListHeader("Returned Items");
-        // document.getElementById("assignBtn").disabled = true;
-        // document.getElementById("assignBtn").disabled = true;
-        // setAssignedItems([]);
         setReturnedItems(assignedItems);
     }
    
@@ -356,11 +343,9 @@ function Reservation () {
         assignedItems.forEach(item => {
             items.add(item.type)
         });
-        console.log(items)
         items.forEach(item => {
             const searchItem = unfilteredItems.filter(item => item.type.includes(item))
             if (searchItem.length === 0) { 
-                // console.log( item + " is out of stock !!!")
                 SendNotification("OUT_OF_STOCK",item);              
             }
         });
@@ -370,10 +355,8 @@ function Reservation () {
 
     //Searching item
     const searchItem = (e) => {
-        // console.log(e)
         if (e.length === 9) {
             const searchItem = unfilteredItems.filter(item => item.serialno.toLowerCase().includes(e))
-                console.log(searchItem.length)
             if (searchItem.length === 1) { 
                addItem(searchItem[0])
                document.getElementById('SearchBarInput').value= " " ;

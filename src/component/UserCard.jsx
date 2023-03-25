@@ -1,6 +1,7 @@
 import React from "react";
 import './styles/User.css';
 import { useNavigate } from "react-router-dom";
+import { API } from "aws-amplify";
 
 const User = ( {user,updateList} ) => {
         const navigate = useNavigate();
@@ -14,7 +15,6 @@ const User = ( {user,updateList} ) => {
 
         }
         const UserInformation = (e) => {
-                console.log(e);
                 navigate('/UserInformation', {
                         state: {
                                 email: e
@@ -29,6 +29,10 @@ const User = ( {user,updateList} ) => {
                 else if(status === 'inactive') {
                         user.status = 'active';
                 }
+        }
+
+        const ViewOrderHistory = (email) => {
+                navigate('/OrderHistory/'+email)
         }
         
         return (
@@ -55,7 +59,7 @@ const User = ( {user,updateList} ) => {
                                                                 </button>
                                                                 <ul className="dropdown-menu">
                                                                         <li><a className="dropdown-item" onClick={() => UserInformation(user.email)}>View Information</a></li>
-                                                                        <li><a className="dropdown-item" >View History</a></li>
+                                                                        <li><a className="dropdown-item" onClick={ (e)=> ViewOrderHistory(user.email)}>View History</a></li>
                                                                         <li><a className="dropdown-item" >Change Role</a></li>
                                                                         <li><a onClick = { (e) => updateStatus(user.status)}
   className="dropdown-item"

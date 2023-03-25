@@ -173,7 +173,7 @@ const PDF = () => {     // Exporting to pdf
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
                 <div>
-                    <span class="material-symbols-outlined">group</span>
+                    <span className="material-symbols-outlined">group</span>
                     <span>Users</span>
             
                 <div className="searchBar">

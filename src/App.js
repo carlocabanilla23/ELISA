@@ -29,6 +29,7 @@ import ProtectedRoute from './component/Routes/ProtectedRoute';
 import ViewItemInfo from './component/mobile/ViewItemInfo-m';
 import Notification from './pages/Notification';
 import Verify from './component/Verify';
+import OrderHistory from './pages/OrderHistory';
 
 Amplify.configure(awsExport);
 
@@ -182,6 +183,13 @@ function App() {
         <ProtectedRoute user={user}>
             <ViewItemInfo />
         </ProtectedRoute> } />
+
+      <Route path='/OrderHistory/:param'
+        element= {
+        <ProtectedRoute user={user}>
+            < OrderHistory />
+        </ProtectedRoute> } />
+       
     </Routes>
 
     {/* For Testing */}
