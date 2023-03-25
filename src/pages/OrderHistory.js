@@ -44,7 +44,7 @@ function OrderHistory() {
                                     <div className="col col2"> Action </div>
                                 </div>
                             {data.map( (items,index) => (
-                                <div className="row">
+                                <div key={index} className="row">
                                     <div className="col col1"> {items.requestdate} </div>
                                     <div className="col col2"> {items.reservationno} </div>
                                     <div className="col col3"> {items.status} </div>
