@@ -142,7 +142,7 @@ function Reservations () {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
                 <div>
-                    <span class="material-symbols-outlined">receipt_long</span>
+                    <span className="material-symbols-outlined">receipt_long</span>
                     <span>Reservations</span>
                 
                 <div className="searchBar">

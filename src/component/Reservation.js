@@ -8,7 +8,7 @@ import './styles/Reservation.css';
 import ReservationItemList from "./ReservationItemList";
 import Pagination from "./Pagination";
 import ReservationAssignedItemList from "./ReservationAssignedItemList";
-import SendNotification from "../Services/notification/Notification";
+import SendNotification from "../services/notification/Notification";
 
 function Reservation () {
     const {param,param1} = useParams();
@@ -88,6 +88,20 @@ function Reservation () {
                 setItemList(res.returneditems);
             }else{
                 setItemList(res.assigneditems);
+            }
+            
+            if (itemList.length > 0) {
+                var element = document.getElementsByClassName("assignedItemListHeader");
+                element.style.display = 'block';
+            }
+
+            if (assignedItems.length !== 0 || assignedItems !== undefined) {
+                var element = document.getElementsByClassName("assignedItemListRemoveBtn");
+                // element.forEach( e => e.style.display = 'none')
+                var i;
+                for (i = 0; i < element.length; i++) {
+                    element[i].style.display = 'none';
+                }
             }
         })
 
@@ -244,6 +258,7 @@ function Reservation () {
         setAssignedItems([...assignedItems,item]);
         setItemList([...itemList,item]);
         updateList(item);
+        console.log(itemList.length)
     }
     
     //Removing the item and update the assignedItem list
@@ -271,7 +286,7 @@ function Reservation () {
             });
         })
 
-        API.post("reservation","/reservation/", {
+        API.put("reservation","/reservation/", {
             body : {
             email : email,
             reservationno : reservationno,
@@ -285,12 +300,12 @@ function Reservation () {
             }
         });
 
-        API.post("reservationcart","/cart", {
+        API.put("reservationcart","/cart", {
             body : {
             reservationno : reservationno,
             description : note,
             itemrequested : reservationCart,
-            assigneditems : [],
+            assigneditems : assignedItems,
             returneditems : assignedItems
             }
         });
@@ -301,7 +316,8 @@ function Reservation () {
         setItemListHeader("Returned Items");
         // document.getElementById("assignBtn").disabled = true;
         // document.getElementById("assignBtn").disabled = true;
-        setAssignedItems([]);
+        // setAssignedItems([]);
+        setReturnedItems(assignedItems);
     }
    
     const AssignItems = (assignedItems) => {
@@ -316,8 +332,6 @@ function Reservation () {
                 reviewedby: reviewedBy,
                 requestdate : currentDate,
                 returndate : returnDate,
-                itemrequested : reservationCart,
-                assigneditems : assignedItems
             }
         });
         API.post("reservationcart","/cart", {
@@ -446,9 +460,7 @@ function Reservation () {
                                 </div>
                             </div>
                             <div className="row Assigneditemlist">
-                                <div className="col">
                                     <ReservationAssignedItemList items={assignedItems} removeItem={removeItem}/>
-                                </div>
                             </div>
                         </div>
                    

@@ -49,12 +49,16 @@
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
     
 }
-
+.ReservationItemList {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
 
 .row.Assigneditemlist{
     padding-left: 0 !important;
+    padding-right: 0 !important;
     padding-top: 0.1em !important;
-    height: 25vh;
+    height: 33vh;
     overflow: scroll;
     white-space:nowrap;
 }
