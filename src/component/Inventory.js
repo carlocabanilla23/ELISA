@@ -28,6 +28,10 @@ function Inventory () {
     const [qrcode,setQRCode] = useState();
     const [barcode,setBarcode] = useState();
     const [elisaImg,setElisaImage] = useState();
+    const [roomList, setRoomList] = useState([]);
+    const [storageList, setStorageList] = useState([]);
+    const [actionName, setActionName] = useState('');
+    const [refreshvalue, setRefreshValue] = useState('');
 
     const navigate = useNavigate();
 
@@ -53,6 +57,42 @@ function Inventory () {
             });
             setItems([...items,...itemRes]);
             setUnfilteredItems([...items,...itemRes]);
+
+            //Sort room list for change Location function
+            const CurrentRoomList = itemRes.filter(item => item.location === "Room");
+            let updatedRoomList =  [...new Set(CurrentRoomList.map(room => room.roomno))];
+            updatedRoomList.sort((a,b) => {
+                var tA = Number.parseInt(a);
+                var tB = Number.parseInt(b);
+                if(isNaN(tA) && isNaN(tB)){
+                    return a.localeCompare(b);
+                }else if(isNaN(tA)){
+                    return -1;
+                }else if(isNaN(tB)){
+                    return 1;
+                }else{
+                    return Math.sign(tA - tB);
+                }
+            });
+            setRoomList(updatedRoomList);
+
+            //Sort storage list for change Location function
+            const CurrentStorageList = itemRes.filter(item => item.location === "Storage");
+            let updatedStorageList =  [...new Set(CurrentStorageList.map(storage => storage.roomno))];
+            updatedStorageList.sort((a,b) => {
+                var tA = Number.parseInt(a);
+                var tB = Number.parseInt(b);
+                if(isNaN(tA) && isNaN(tB)){
+                    return a.localeCompare(b);
+                }else if(isNaN(tA)){
+                    return -1;
+                }else if(isNaN(tB)){
+                    return 1;
+                }else{
+                    return Math.sign(tA - tB);
+                }
+            });
+            setStorageList(updatedStorageList);
         })
     },[]);
 
@@ -64,28 +104,34 @@ function Inventory () {
     } 
 
     const ViewInformation = (item) => {
+        setActionName("Item Information");
         setOffCanvasItem(item);
         document.getElementById("item-info").style.display = "block";
         document.getElementById("qrcode").style.display = "none";
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
     }
 
     const CreateQRCode = (serialno) => {
+        setActionName("QRCode");
         document.getElementById("item-info").style.display = "none";
         document.getElementById("qrcode").style.display = "block";
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
       
         console.log(serialno);
         let svg = Generate(serialno);
         setQRCode(svg);
     }
     const CreateBarcode = (serialno) => {
+        setActionName("Barcode");
         document.getElementById("item-info").style.display = "none";
         document.getElementById("qrcode").style.display = "none";
         document.getElementById("barcode").style.display = "block";
         document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
     
         console.log(serialno);
         let svg = GenerateBarcode(serialno);
@@ -93,13 +139,26 @@ function Inventory () {
     }
 
     const changeStatus = (item) => {
+        setRefreshValue(Math.random());
+        setActionName("Change Status");
         setOffCanvasItem(item);
         document.getElementById("item-info").style.display = "none";
         document.getElementById("qrcode").style.display = "none";
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "block";
+        document.getElementById("changeLocation").style.display = "none";
     }
 
+    const changeLocation=  (item) => {
+        setRefreshValue(Math.random());
+        setActionName("Change Location");
+        setOffCanvasItem(item);
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "block";
+    }
 
     const searchItem = (e) => {
         if (e.length > 0) {
@@ -220,24 +279,27 @@ function Inventory () {
                       updateList={updateList}
                       CreateQRCode={CreateQRCode} 
                       CreateBarcode={CreateBarcode}
-                      changeStatus={changeStatus} />
+                      changeStatus={changeStatus}
+                      changeLocation={changeLocation} />
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 
                     paginate={paginate}
                     currentPageLocation = {currentPage}
-                    /> 
-          
+                    />
                 {/* {items.map( (itemRes,index) => <Item item={itemRes} key={index} updateList={updateList}/>)} */}
 
         </div>
 
-
-
         {/* OFf canvas */}
-        <OffCanvasCard  item={offCanvasItem} qrcode={qrcode} barcode={barcode} />
-
-       
+        <OffCanvasCard 
+            item={offCanvasItem}
+            qrcode={qrcode}
+            barcode={barcode}
+            roomList={roomList}
+            storageList={storageList}
+            actionName={actionName}
+            refreshvalue={refreshvalue}/>
     </div>    
     )
 }

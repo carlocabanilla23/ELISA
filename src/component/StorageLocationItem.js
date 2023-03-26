@@ -4,11 +4,13 @@ import { API } from 'aws-amplify';
 import "./styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { useNavigate, useLocation, Link,useParams } from "react-router-dom";
 import Pagination from "./Pagination";
 import ItemList from "./ItemList";
-import OffCanvasCardRoom from "./card/OffCanvasCardRoom";
+import OffCanvasCard from "./card/OffCanvasCard";
 import { GenerateRoomQRCode } from "./code-generator/RoomQRCode";
+import { Generate } from "./code-generator/qrcode";
+import { GenerateBarcode } from "./code-generator/barcode";
 
 function StorageLocationItem () {
     const {param} = useParams();
@@ -17,6 +19,13 @@ function StorageLocationItem () {
     const [currentPage,setCurrentPage] = useState(1);
     const [itemsPerPage,setItemsPerPage] = useState(10);
     const [qrcode,setQRCode] = useState();
+    const [barcode,setBarcode] = useState();
+    const [offCanvasItem, setOffCanvasItem] = useState('');
+
+    const [roomList, setRoomList] = useState([]);
+    const [storageList, setStorageList] = useState([]);
+    const [actionName, setActionName] = useState('');
+    const [refreshvalue,setRefreshValue] = useState('')
    
 
     const navigate = useNavigate();
@@ -33,6 +42,7 @@ function StorageLocationItem () {
     useEffect( () => {
         API.get("inventory","/items/").then( itemRes => {
             sortItems(itemRes);
+            sortLocationList(itemRes);
         })
     },[]);
 
@@ -45,9 +55,60 @@ function StorageLocationItem () {
 
     const sortItems = (items) => {
         const updatedList = items.filter(item => item.roomno === param);
+        updatedList.sort((a,b) => {
+            var tA = Number.parseInt(a.type);
+            var tB = Number.parseInt(b.type);
+            if(isNaN(tA) && isNaN(tB)){
+                return a.type.localeCompare(b.type);
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
         setItems(updatedList);
         setUnfilteredItems(updatedList);
-    } 
+    }
+
+    const sortLocationList = (items) => {
+        //Sort room list for change Location function
+        const CurrentRoomList = items.filter(item => item.location === "Room");
+        let updatedRoomList =  [...new Set(CurrentRoomList.map(room => room.roomno))];
+        updatedRoomList.sort((a,b) => {
+            var tA = Number.parseInt(a);
+            var tB = Number.parseInt(b);
+            if(isNaN(tA) && isNaN(tB)){
+                return a.localeCompare(b);
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
+        setRoomList(updatedRoomList);
+        //Sort storage list for change Location function
+        const CurrentStorageList = items.filter(item => item.location === "Storage");
+        let updatedStorageList =  [...new Set(CurrentStorageList.map(storage => storage.roomno))];
+        updatedStorageList.sort((a,b) => {
+            var tA = Number.parseInt(a);
+            var tB = Number.parseInt(b);
+            if(isNaN(tA) && isNaN(tB)){
+                return a.localeCompare(b);
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
+        setStorageList(updatedStorageList);
+    }
+
     const searchItem = (e) => {
         if (e.length > 0) {
             const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
@@ -80,12 +141,75 @@ function StorageLocationItem () {
         }
     };
 
+    const ViewInformation = (item) => {
+        setActionName("Item Information");
+        setOffCanvasItem(item);
+        document.getElementById("item-info").style.display = "block";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
+    }
+
+    const CreateQRCode = (serialno) => {
+        setActionName("QRCode");
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "block";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
+      
+        console.log(serialno);
+        let svg = Generate(serialno);
+        setQRCode(svg);
+    }
+    const CreateBarcode = (serialno) => {
+        setActionName("Barcode");
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "block";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
+    
+        console.log(serialno);
+        let svg = GenerateBarcode(serialno);
+        setBarcode(svg);
+    }
+
+    const changeStatus = (item) => {
+        setRefreshValue(Math.random());
+        setActionName("Change Status");
+        setOffCanvasItem(item);
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "block";
+        document.getElementById("changeLocation").style.display = "none";
+    }
+
     const printQRCode = (roomno) => {
+        setActionName("Room QRCode");
         // document.getElementById("qrcode").style.display = "block";
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "block";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
         let svg = GenerateRoomQRCode(roomno);
         setQRCode(svg);
-
     }
+
+    const changeLocation = (item) => {
+        setRefreshValue(Math.random());
+        setActionName("Change Location");
+        setOffCanvasItem(item);
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "block";
+    }
+
     return (
         <div className="Users">
         <Sidebar />
@@ -133,15 +257,29 @@ function StorageLocationItem () {
         </div>
 
         <div className="UserPane">
-            <ItemList items={currentList} updateList={updateList} />
+            <ItemList items={currentList}
+                    ViewInformation={ViewInformation}
+                    updateList={updateList}
+                    CreateQRCode={CreateQRCode}
+                    CreateBarcode={CreateBarcode}
+                    changeStatus={changeStatus}
+                    changeLocation={changeLocation} />
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 
                     paginate={paginate}
                     currentPageLocation = {currentPage}
                     />     
-            {/* OFf canvas */}
-            <OffCanvasCardRoom  qrcode={qrcode}/>
+
+              {/* OFf canvas */}
+            <OffCanvasCard
+                item={offCanvasItem}
+                qrcode={qrcode}
+                barcode={barcode}
+                roomList={roomList}
+                storageList={storageList}
+                actionName={actionName}
+                refreshvalue={refreshvalue}/>
         </div>
     </div>    
     )

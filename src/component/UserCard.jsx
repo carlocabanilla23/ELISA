@@ -3,7 +3,7 @@ import './styles/User.css';
 import { useNavigate } from "react-router-dom";
 import { API } from "aws-amplify";
 
-const User = ( {user,updateList} ) => {
+const User = ( {user,updateList,ViewInformation,ViewHistory,changeRole,changeStatus} ) => {
         const navigate = useNavigate();
         const EditUser = (e) => {
                 console.log(e);
@@ -58,10 +58,38 @@ const User = ( {user,updateList} ) => {
                                                                         <i className="fa fa-ellipsis-h"></i>
                                                                 </button>
                                                                 <ul className="dropdown-menu">
-                                                                        <li><a className="dropdown-item" onClick={() => UserInformation(user.email)}>View Information</a></li>
-                                                                        <li><a className="dropdown-item" onClick={ (e)=> ViewOrderHistory(user.email)}>View History</a></li>
-                                                                        <li><a className="dropdown-item" >Change Role</a></li>
-                                                                        <li><a className="dropdown-item"onClick = { (e) => updateStatus(user.status)}>Change Status</a></li>
+                                                                        <li><a onClick={ (e) => ViewInformation(user)}
+                                                                                className="dropdown-item"
+                                                                                type="button"
+                                                                                data-bs-toggle="offcanvas"
+                                                                                data-bs-target="#offcanvasRight"
+                                                                                aria-controls="offcanvasRight"
+                                                                                >View Information</a>
+                                                                        </li>
+                                                                        <li><a onClick={ (e) => ViewHistory(user)}
+                                                                                className="dropdown-item"
+                                                                                type="button"
+                                                                                data-bs-toggle="offcanvas"
+                                                                                data-bs-target="#offcanvasRight"
+                                                                                aria-controls="offcanvasRight"
+                                                                                >View History</a>
+                                                                        </li>
+                                                                        <li><a onClick={ (e) => changeRole(user)}
+                                                                                className="dropdown-item"
+                                                                                type="button"
+                                                                                data-bs-toggle="offcanvas"
+                                                                                data-bs-target="#offcanvasRight"
+                                                                                aria-controls="offcanvasRight"
+                                                                                >Change Role</a>
+                                                                        </li>
+                                                                        <li><a onClick = { (e) => changeStatus(user)}
+                                                                                className="dropdown-item"
+                                                                                type="button"
+                                                                                data-bs-toggle="offcanvas"
+                                                                                data-bs-target="#offcanvasRight"
+                                                                                aria-controls="offcanvasRight"
+                                                                                >Change Status</a>
+                                                                        </li>
                                                                 </ul>
                                                         </div>
                                                 </div>

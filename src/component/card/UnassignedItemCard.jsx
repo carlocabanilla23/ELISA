@@ -5,7 +5,7 @@ import { useEffect,useState } from "react";
 import { API } from "aws-amplify";
 
 
-const UnassignedItemCard = ({ item, updateList }) => {
+const UnassignedItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation}) => {
   const navigate = useNavigate();
   const loc = useLocation();
   const [name,setName] = React.useState('');
@@ -55,27 +55,92 @@ const UnassignedItemCard = ({ item, updateList }) => {
           <div className="col"> {item.type} </div>
           <div className="col"> {item.model} </div>
           <div className="col"> {item.assignedto} </div>
-          <div className="col"> {item.assignedate} </div>
-          <div className="col"> {item.returndate} </div>
-          
+          <div className="col"> {item.ordernumber} </div>
+          <div className="col actions rmobile">
+            <div className="row">
+              <div className="col actions-column">
+                <div className="dropdown p-0 m-0 sm">
+                  <button
+                    className="user-dropdown btn"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <i className="fa fa-ellipsis-h"></i>
+                  </button>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a onClick={ (e) => ViewInformation(item)}
+                        className="dropdown-item"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasRight"
+                        aria-controls="offcanvasRight"
+                      >View Information</a>
+                    </li>
+                    <li style={{display: 'none'}} id="mobile">
+                      <a className="dropdown-item" type="button" onClick={() => EditItem(item.serialno)}>Edit</a>
+                    </li>
+                    <li>
+                      <a onClick={ (e) => CreateQRCode(item.serialno)}
+                      className="dropdown-item"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight"
+                      >Print QR Code</a>
+                    </li>
+                    <li>
+                      <a onClick = { (e) => CreateBarcode(item.serialno)}
+                      className="dropdown-item"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight"
+                      >Print Barcode</a>
+                    </li>
+                    <li>           
+                    <a onClick={(e) =>  changeStatus(item)}
+                      className="dropdown-item"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight">
+                      Change Status
+                      </a>
+                    </li>
+                    <li>           
+                    <a onClick={(e) =>  changeLocation(item)}
+                      className="dropdown-item"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight">
+                      Change Location
+                      </a>
+                    </li>
+                    <li style={{display: 'none'}} id="mobile">
+                      <a className="dropdown-item" type="button" onClick={() => updateList(item.serialno)}>Delete</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div id="computer" className="col actions-column">
+                <button className="btn" onClick={() => EditItem(item.serialno)}>
+                  <i className="fa fa-pencil"></i>
+                </button>
+              </div>
+              <div id="computer" className="col actions-column">
+                <button
+                  className="btn"
+                  onClick={() => updateList(item.serialno)}
+                >
+                  <i className="fa fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div
-        className="offcanvas offcanvas-end"
-        tabIndex="-1"
-        id="offcanvasRight"
-        aria-labelledby="offcanvasRightLabel"
-      >
-        <div className="offcanvas-header">
-          <h5 id="offcanvasRightLabel">{item.name}</h5>
-          <button
-            type="button"
-            className="btn-close text-reset"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-        
       </div>
     </div>
   );
