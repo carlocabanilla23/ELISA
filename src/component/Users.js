@@ -11,6 +11,7 @@ import Init from './test/InitUser';
 import Papa from 'papaparse';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import OffCanvasCardUser from './card/OffCanvasCardUser';
 
 
 function Users () {
@@ -20,6 +21,12 @@ function Users () {
     const [unfilteredUsers, setUnfilteredUsers] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
     const [usersPerPage] = useState(15);
+
+    // Offcanvas
+    const [offCanvasUser, setOffCanvasUser] = useState('');
+    const [activityHistory, setActivityHistory] = useState([]);
+    const [actionName, setActionName] = useState('');
+    const [refreshvalue, setRefreshValue] = useState('');
 
     useEffect( () => {
         API.get("userapi","/email").then( res => {
@@ -77,8 +84,50 @@ function Users () {
           setUsers(updatedUsers);
           setUnfilteredUsers(updatedUsers);
         });
-      };
-      
+    };
+
+    // View User Information in OffCanvas
+    const ViewInformation = (user) => {
+        setOffCanvasUser(user);
+        setActionName("User Information");
+        document.getElementById("user-info").style.display = "block";
+        // document.getElementById("user-history").style.display = "none";
+        document.getElementById("changeRole").style.display = "none";
+        document.getElementById("changeStatus").style.display = "none";
+    }
+
+    // View User Activity History in OffCanvas
+    // const ViewHistory = (user) => {
+    //     setOffCanvasUser(user);
+    //     setActionName("User History");
+    //     document.getElementById("user-info").style.display = "none";
+    //     document.getElementById("user-history").style.display = "block";
+    //     document.getElementById("changeRole").style.display = "none";
+    //     document.getElementById("changeStatus").style.display = "none";
+    // }
+
+    // Change user Role in OffCanvas
+    const changeRole = (user) => {
+        setRefreshValue(Math.random());
+        setOffCanvasUser(user);
+        setActionName("Change Role");
+        document.getElementById("user-info").style.display = "none";
+        // document.getElementById("user-history").style.display = "none";
+        document.getElementById("changeRole").style.display = "block";
+        document.getElementById("changeStatus").style.display = "none";
+    }
+
+    // Change user Status in OffCanvas
+    const changeStatus = (user) => {
+        setRefreshValue(Math.random());
+        setOffCanvasUser(user);
+        setActionName("Change Status");
+        document.getElementById("user-info").style.display = "none";
+        // document.getElementById("user-history").style.display = "none";
+        document.getElementById("changeRole").style.display = "none";
+        document.getElementById("changeStatus").style.display = "block";
+    }
+  
     const searchUser = (e) => {
         if (e.length > 0) {
             const searcedhUser = unfilteredUsers.filter((user) => user.email.toLowerCase().includes(e) || 
@@ -215,7 +264,13 @@ const PDF = () => {     // Exporting to pdf
                     </div>
                 </div>
             </div>
-                <UserList users={currentList} updateList={updateList}/>
+                <UserList
+                    users={currentList}
+                    updateList={updateList}
+                    ViewInformation={ViewInformation}
+                    // ViewHistory={ViewHistory}
+                    changeRole={changeRole}
+                    changeStatus={changeStatus} />
                 <Pagination
                     PerPage={usersPerPage} 
                     total={users.length} 
@@ -223,10 +278,9 @@ const PDF = () => {     // Exporting to pdf
                     currentPageLocation = {currentPage}
                     /> 
         </div>
-        {/* <div className="right-sidemenu">
-            aa
-
-        </div> */}
+        
+        {/* OffCanvas */}
+        <OffCanvasCardUser user={offCanvasUser} actionName={actionName} refreshvalue={refreshvalue}/>
     </div>    
     
     )
