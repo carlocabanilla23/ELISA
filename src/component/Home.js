@@ -33,12 +33,12 @@ function Home() {
                   </div>
               </div>
               <div className="Dashboard">
-                <div className="top"> <p className="chartLabel">Inventory Each Quarter</p>  <QuarterReport /> </div>
+                <div className="top"> <p className="chartLabel">Most Requested Items</p>  <QuarterReport /> </div>
                 <div className="top"> <p className="chartLabel">Inventory Summary</p>  <GraphReport /> </div>
                 <div className="center"></div>
                 <div className="bottom">  <p className="chartLabel">Reservation Summary</p>   <BarReport /></div>
                 {/* <div className="top"> <p className="chartLabel">Type of inventory</p>   <PieReport /> </div> */}
-                <div className="bottom">  <p className="chartLabel">Status Summary</p>   <ScatterReport /> </div>
+                <div className="bottom">  <p className="chartLabel">Item Status Summary</p>   <ScatterReport /> </div>
                 <div className="bottom"> <p className="chartLabel">User Summary</p>  <GraphReport2 /> </div>
 
               </div> 

@@ -4,7 +4,8 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Resp
 import '../styles/graph.css';
 // ELISA\src\component\styles\graph.css
 function QuarterReport () {
-  const [label,setLabel] = useState();
+  const [data,setData] = useState([]);
+  const [label,setLabel] = useState([]);
   const lbl1 = useState("thermometer");
 
   useEffect (()=>{
@@ -37,22 +38,22 @@ function QuarterReport () {
       let d = []
       d.push(obj)
       console.log(d);
-      // setData(d)
+      setData(d)
       // tmpMap.forEach(element => console.log(Object.keys()));
      
   });
   },[]);
 
-  const data = [
-    {
-      name: 'Fall',
-      tunew: 34,
-      thermometer: 50,
-      ohmeter: 35,
-      volmeter: 20,
+  // const data = [
+  //   {
+  //     name: 'Fall',
+  //     tunew: 34,
+  //     thermometer: 50,
+  //     ohmeter: 35,
+  //     voltmeter: 20,
   
-    }
-  ];
+  //   }
+  // ];
   
 
 return ( 
@@ -64,19 +65,17 @@ return (
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            {
+          
               
-              console.log(label)
-              // label.forEach( (lbl,index) => {
-              //   <Bar dataKey={lbl} index={index} fill="#E2252B" />
-              // })
-            }
-            {/* <Bar dataKey={lbl1.toString()} fill="#E2252B" /> */}
-            {/* {/* <Bar dataKey="thermometer" fill="#D21502" /> */}
-            <Bar dataKey="tester" fill="#A91B0D" />
-            <Bar dataKey="volmeter" fill="#9C1003" />
+              {label.map( (label,index) => (
+                     <Bar dataKey={label} fill="#9C1003" />  
+            ))}
+ 
+        
+            {/* <Bar dataKey="tester" fill="#A91B0D" />
+          
             <Bar dataKey="lolol" fill="#D0312D" />
-            <Bar dataKey="thermometer" fill="#B80F0A" />
+            <Bar dataKey="thermometer" fill="#B80F0A" /> */}
             </BarChart>
         </ResponsiveContainer>
       </>
