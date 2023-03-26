@@ -1,62 +1,86 @@
-import React, { PureComponent } from 'react';
+import { API } from 'aws-amplify';
+import React, { PureComponent, useEffect, useState } from 'react';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import '../styles/graph.css';
 // ELISA\src\component\styles\graph.css
 function QuarterReport () {
+  const [label,setLabel] = useState();
+  const lbl1 = useState("thermometer");
+
+  useEffect (()=>{
+    API.get("reservationcart","/cart").then(res => {
+      let itemFrequency = new Map();
+      res.forEach(element => {
+        for (let i=0;i<element.itemrequested.length;i++) {
+          if (itemFrequency.has(element.itemrequested[i].type)) {
+            itemFrequency.set(element.itemrequested[i].type, itemFrequency.get(element.itemrequested[i].type) + 1);
+          }
+          else {
+              itemFrequency.set(element.itemrequested[i].type, 1);
+          }
+        } 
+       
+      });
+      const dataframe = new Map([...itemFrequency.entries()].sort((a,b)=> b[1] - a[1]).splice(0,10))
+      const datalabel = [...dataframe.keys()];
+
+   
+      setLabel(datalabel)
+      // setDataFrame(data)
+      let obj = {
+          name : "Item Summary"
+      }
+      
+      datalabel.forEach( e => {
+          obj[e] = dataframe.get(e)
+      })
+      let d = []
+      d.push(obj)
+      console.log(d);
+      // setData(d)
+      // tmpMap.forEach(element => console.log(Object.keys()));
+     
+  });
+  },[]);
+
   const data = [
     {
       name: 'Fall',
-      ohmeter: 34,
+      tunew: 34,
       thermometer: 50,
-      tester: 35,
+      ohmeter: 35,
       volmeter: 20,
-      lolol: 15,
-      tutu: 35,
-    },
-    {
-      name: 'Winter',
-      ohmeter: 34,
-      thermometer: 50,
-      tester: 35,
-      volmeter: 20,
-      lolol: 15,
-      tutu: 35,
-    },
-    {
-      name: 'Spring',
-      ohmeter: 34,
-      thermometer: 50,
-      tester: 35,
-      volmeter: 20,
-      lolol: 15,
-      tutu: 35,
-    },
-    {
-      name: 'Summer',
-      ohmeter: 34,
-      thermometer: 50,
-      tester: 35,
-      volmeter: 20,
-      lolol: 15,
-      tutu: 35,
-    },
-    
+  
+    }
   ];
   
 
-return (
-    <BarChart width={550} height={225} data={data}>
-    <CartesianGrid strokeDasharray="4 4" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Bar dataKey="ohmeter" fill="#E2252B" />
-      <Bar dataKey="thermometer" fill="#D21502" />
-      <Bar dataKey="tester" fill="#A91B0D" />
-      <Bar dataKey="volmeter" fill="#9C1003" />
-      <Bar dataKey="lolol" fill="#D0312D" />
-      <Bar dataKey="tutu" fill="#B80F0A" />
-    </BarChart>
+return ( 
+      <>
+      {console.log(label)}
+        <ResponsiveContainer width="95%" height={450}>
+              <BarChart width={550} height={225} data={data}>
+          <CartesianGrid strokeDasharray="4 4" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            {
+              
+              console.log(label)
+              // label.forEach( (lbl,index) => {
+              //   <Bar dataKey={lbl} index={index} fill="#E2252B" />
+              // })
+            }
+            {/* <Bar dataKey={lbl1.toString()} fill="#E2252B" /> */}
+            {/* {/* <Bar dataKey="thermometer" fill="#D21502" /> */}
+            <Bar dataKey="tester" fill="#A91B0D" />
+            <Bar dataKey="volmeter" fill="#9C1003" />
+            <Bar dataKey="lolol" fill="#D0312D" />
+            <Bar dataKey="thermometer" fill="#B80F0A" />
+            </BarChart>
+        </ResponsiveContainer>
+      </>
+    
 );
 }
 
