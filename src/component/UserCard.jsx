@@ -66,7 +66,7 @@ const User = ( {user,updateList,ViewInformation,ViewHistory,changeRole,changeSta
                                                                                 aria-controls="offcanvasRight"
                                                                                 >View Information</a>
                                                                         </li>
-                                                                        <li><a onClick={ (e) => ViewHistory(user)}
+                                                                        <li><a onClick={ (e) => ViewOrderHistory(user.email)}
                                                                                 className="dropdown-item"
                                                                                 type="button"
                                                                                 data-bs-toggle="offcanvas"
