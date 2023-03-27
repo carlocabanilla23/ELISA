@@ -51,7 +51,7 @@ const OffCanvasCardUser = ({user,actionName,refreshvalue}) => {
         <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div className="offcanvas-header">
                 <h3><strong>{actionName}</strong></h3>
-                <h5 id="offcanvasRightLabel"></h5>
+                {/* <h5 id="offcanvasRightLabel"></h5> */}
                 <button
                     type="button"
                     className="btn-close text-reset"
@@ -63,7 +63,7 @@ const OffCanvasCardUser = ({user,actionName,refreshvalue}) => {
                 <div id="user-info">
                     {/* Photo */}
                     <div className="mb-3 row">
-                        <img src={user.photo} width="150" height="150" alt="Image of the device" />
+                        <img src={user.photo} width="150" height="150" alt="User" />
                     </div>
                     {/* Serial Number */}
                     <div className="mb-3 row">
@@ -119,15 +119,10 @@ const OffCanvasCardUser = ({user,actionName,refreshvalue}) => {
                             {role}
                         </button>
                         <ul className="dropdown-menu">
-                            <li>
-                                <a className="dropdown-item" onClick={(e) => setRole("Professor")}>Professor</a>
-                            </li>
-                            <li>
-                                <a className="dropdown-item" onClick={(e) => setRole("TA")}>TA</a>
-                            </li>
-                            <li>
-                                <a className="dropdown-item" onClick={(e) => setRole("Student")}>Student</a>
-                            </li>
+                            <li className="dropdown-item" onClick={(e) => setRole("Professor")}>Professor</li>
+                            <li className="dropdown-item" onClick={(e) => setRole("TA")}>TA</li>
+                            <li className="dropdown-item" onClick={(e) => setRole("Student")}>Student</li>
+                            <li className="dropdown-item" onClick={(e) => setRole("Admin")}>Admin</li>
                         </ul>
                         <button className="btn btn-secondary" type="button" onClick={(e) => role !== user.role ? setNewRole() : ''}>
                             Save
@@ -142,12 +137,8 @@ const OffCanvasCardUser = ({user,actionName,refreshvalue}) => {
                             {status}
                         </button>
                         <ul className="dropdown-menu">
-                            <li>
-                                <a className="dropdown-item" onClick={(e) => setStatus("Verified")}>Verified</a>
-                            </li>
-                            <li>
-                                <a className="dropdown-item" onClick={(e) => setStatus("Inactive")}>Inactive</a>
-                            </li>
+                            <li className="dropdown-item" onClick={(e) => setStatus("Verified")}>Verified</li>
+                            <li className="dropdown-item" onClick={(e) => setStatus("Inactive")}>Inactive</li>
                         </ul>
                         <button className="btn btn-secondary" type="button" onClick={(e) => status !== user.status ? setNewStatus() : ''}>
                             Save

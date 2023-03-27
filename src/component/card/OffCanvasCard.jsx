@@ -77,10 +77,13 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
     const Print = (e) => {
         const pContents = document.getElementById(e).innerHTML;
       
-        const tmpContent = document.body.innerHTML;
+        // const tmpContent = document.body.innerHTML;
         document.body.innerHTML = pContents;
         window.print();
-        document.body.innerHTML = tmpContent;
+        window.location.reload(true);
+        // document.body.innerHTML = tmpContent;
+        // window.location.reload(true);
+        // document.getElementById("off-canvas-close-btn").style.ariaExpanded = "False"
     }
 
     return (
@@ -88,7 +91,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
         <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div className="offcanvas-header">
                 <h3><strong>{actionName}</strong></h3>
-                <h5 id="offcanvasRightLabel"></h5>
+                {/* <h5 id="offcanvasRightLabel"></h5> */}
                 <button
                     type="button"
                     className="btn-close text-reset"
@@ -100,7 +103,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                 <div id="item-info">
                     {/* Image */}
                     <div className="mb-3 row">
-                        <img src={item.image} width="150" height="150" alt="Image of the device" />
+                        <img src={item.image} width="150" height="150" alt="Device" />
                     </div>
                     {/* Serial Number */}
                     <div className="mb-3 row">
@@ -179,18 +182,10 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                             {status}
                         </button>
                         <ul className="dropdown-menu">
-                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("New")} > New
-                            </a>
-                        </li>
-                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("Old")} > Old
-                            </a>
-                        </li>
-                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("Used")} > Used
-                            </a>
-                        </li>
-                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("Broken")} > Broken
-                            </a>
-                        </li>
+                            <li className="dropdown-item" onClick={(e)=> setStatus ("New")} > New</li>
+                            <li className="dropdown-item" onClick={(e)=> setStatus ("Old")} > Old</li>
+                            <li className="dropdown-item" onClick={(e)=> setStatus ("Used")} > Used</li>
+                            <li className="dropdown-item" onClick={(e)=> setStatus ("Broken")} > Broken</li>
                         </ul>
                         <button  className="btn btn-secondary" type="button" onClick={(e) => status !== item.status ? setNewStatus() : ''}>
                         save
@@ -203,7 +198,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                     </button>
                     <ul className="dropdown-menu">
                         <div id="roomCol">
-                            <a className="dropdown-item fw-bold bg-light" id="itemRoomList" >Room List</a>
+                            <span className="dropdown-item fw-bold bg-light" id="itemRoomList" >Room List</span>
                             {/* Room list */}
                             {roomList.map((room,index) => (
                                 <li key={index} className="dropdown-item" onClick={(e) => {setLocation(room);setLocationType("Room")}}>{room}</li>
@@ -211,7 +206,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                         </div>
                         {/* Storage list */}
                         <div id="storageCol">
-                            <a className="dropdown-item fw-bold bg-light" id="itemStorageList" >Storage List</a>
+                            <span className="dropdown-item fw-bold bg-light" id="itemStorageList" >Storage List</span>
                             {/* Room list */}
                             {storageList.map((storage,index) => (
                                 <li key={index} className="dropdown-item" onClick={(e) => {setLocation(storage);setLocationType("Storage")}}>{storage}</li>
