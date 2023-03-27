@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import "./styles/AddItem.css";
-import SendNotification from "../services/notification/Notification";
+import SendNotification from "../Services/notification/Notification";
 import { DefaultDeviceLogo } from "../assets/base64imgs";
 Amplify.configure(awsExport);
 
