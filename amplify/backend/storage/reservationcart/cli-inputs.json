@@ -1,6 +1,6 @@
 {
-  "resourceName": "reservations",
-  "tableName": "reservations",
+  "resourceName": "reservationcart",
+  "tableName": "reservationcart",
   "partitionKey": {
     "fieldName": "reservationno",
     "fieldType": "string"

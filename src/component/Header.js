@@ -27,6 +27,14 @@ function Header() {
       },
     });
   }
+
+  const gotoNotification = () => {
+    navigate("/Notification ", {
+      state: {
+        email: decodeURIComponent(escape(window.atob(localStorage.getItem('email'))))
+      },
+    });
+  }
   return (
     <div className="navbar">
       <div className="header">
@@ -35,7 +43,7 @@ function Header() {
           <div className="dropdown">
             <button className="btn dropdown-toggle" data-bs-toggle = "dropdown" onClick={toggleDropdownMenu}>{name}</button>
             <ul className="dropdown-menu" ref={dropdownMenu}>
-              <li><Link to="">Notification</Link></li>
+              <li onClick={ (e)=> gotoNotification()}>Notification</li>
               <li onClick={ (e) =>gotoSetting()}>Setting</li>
               <li onClick={ (e) =>Logout()}>Logout</li>
             </ul>
