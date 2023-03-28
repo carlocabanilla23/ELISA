@@ -37,28 +37,17 @@ function QuarterReport () {
       })
       let d = []
       d.push(obj)
-      console.log(d);
+      // console.log(d);
       setData(d)
       // tmpMap.forEach(element => console.log(Object.keys()));
      
   });
   },[]);
 
-  // const data = [
-  //   {
-  //     name: 'Fall',
-  //     tunew: 34,
-  //     thermometer: 50,
-  //     ohmeter: 35,
-  //     voltmeter: 20,
-  
-  //   }
-  // ];
-  
 
 return ( 
       <>
-      {console.log(label)}
+      {/* {console.log(label)} */}
         <ResponsiveContainer width="95%" height={450}>
               <BarChart width={550} height={225} data={data}>
           <CartesianGrid strokeDasharray="4 4" />
@@ -68,14 +57,10 @@ return (
           
               
               {label.map( (label,index) => (
-                     <Bar dataKey={label} fill="#9C1003" />  
+                     <Bar key={index} dataKey={label} fill="#9C1003" />  
             ))}
  
         
-            {/* <Bar dataKey="tester" fill="#A91B0D" />
-          
-            <Bar dataKey="lolol" fill="#D0312D" />
-            <Bar dataKey="thermometer" fill="#B80F0A" /> */}
             </BarChart>
         </ResponsiveContainer>
       </>

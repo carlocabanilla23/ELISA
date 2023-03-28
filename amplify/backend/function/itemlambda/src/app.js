@@ -17,16 +17,16 @@ AWS.config.update({ region: process.env.TABLE_REGION });
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-let tableName = "inventory";
+let tableName = "item";
 if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + '-' + process.env.ENV;
 }
 
 const userIdPresent = false; // TODO: update in case is required to use that definition
-const partitionKeyName = "serialno";
+const partitionKeyName = "type";
 const partitionKeyType = "S";
-const sortKeyName = "";
-const sortKeyType = "";
+const sortKeyName = "serialno";
+const sortKeyType = "S";
 const hasSortKey = sortKeyName !== "";
 const path = "/items";
 const UNAUTH = 'UNAUTH';
@@ -56,10 +56,10 @@ const convertUrlType = (param, type) => {
 }
 
 /********************************
- * HTTP Get method for list objects - All Attributes*
+ * HTTP Get method for list objects *
  ********************************/
 
-app.get(path, function(req, res) {
+app.get(path + hashKeyPath, function(req, res) {
   const condition = {}
   condition[partitionKeyName] = {
     ComparisonOperator: 'EQ'
@@ -81,7 +81,7 @@ app.get(path, function(req, res) {
     KeyConditions: condition
   }
 
-  dynamodb.scan(queryParams, (err, data) => {
+  dynamodb.query(queryParams, (err, data) => {
     if (err) {
       res.statusCode = 500;
       res.json({error: 'Could not load items: ' + err});
@@ -92,33 +92,20 @@ app.get(path, function(req, res) {
 });
 
 /********************************
- * HTTP Get method for list objects - Only Serial Number*
+ * HTTP Get method for list objects * GSI
  ********************************/
 
-app.get(path+"/serialnumber", function(req, res) {
-  const condition = {}
-  condition[partitionKeyName] = {
-    ComparisonOperator: 'EQ'
-  }
-
-  if (userIdPresent && req.apiGateway) {
-    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
-  } else {
-    try {
-      condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
-    } catch(err) {
-      res.statusCode = 500;
-      res.json({error: 'Wrong column type ' + err});
-    }
-  }
+app.post(path +"/roomno/", function(req, res) {
 
   let queryParams = {
     TableName: tableName,
-    KeyConditions: condition,
-    ProjectionExpression: "serialno"
+    IndexName : 'roomno',
+    KeyConditionExpression: '#name = :value',
+    ExpressionAttributeValues: { ':value':  req.body.roomno },
+    ExpressionAttributeNames: { '#name': 'roomno' }
   }
 
-  dynamodb.scan(queryParams, (err, data) => {
+  dynamodb.query(queryParams, (err, data) => {
     if (err) {
       res.statusCode = 500;
       res.json({error: 'Could not load items: ' + err});
@@ -127,6 +114,7 @@ app.get(path+"/serialnumber", function(req, res) {
     }
   });
 });
+
 
 /*****************************************
  * HTTP Get method for get single object *
@@ -173,6 +161,7 @@ app.get(path + '/object' + hashKeyPath + sortKeyPath, function(req, res) {
   });
 });
 
+
 /************************************
 * HTTP put method for insert object *
 *************************************/
@@ -182,7 +171,6 @@ app.put(path, function(req, res) {
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
-
 
   let putItemParams = {
     TableName: tableName,

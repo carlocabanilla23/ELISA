@@ -47,7 +47,7 @@ function ScatterReport () {
   
     return (
       <>
-        {console.log(data)}
+    
         <ResponsiveContainer width="95%" height={450}>
             <PieChart width={350} height={225}>
               <Pie

@@ -25,7 +25,7 @@
         "inventoryfunctions": {},
         "inventory": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/inventory-30636c67726c6e4c5057-build.zip"
+          "s3Key": "amplify-builds/inventory-71734a4b736d77655644-build.zip"
         },
         "qrlambda": {},
         "emaillambda": {
@@ -51,6 +51,10 @@
         "reservationcart": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
           "s3Key": "amplify-builds/reservationcart-64747451655354442b52-build.zip"
+        },
+        "itemlambda": {
+          "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
+          "s3Key": "amplify-builds/itemlambda-3643706249306c684d64-build.zip"
         }
       },
       "storage": {
@@ -63,7 +67,8 @@
         "accountdb": {},
         "NotificationDB": {},
         "reservation": {},
-        "reservationcart": {}
+        "reservationcart": {},
+        "item": {}
       },
       "api": {
         "userapi": {},
@@ -74,7 +79,8 @@
         "useraccounts": {},
         "notification": {},
         "reservation": {},
-        "reservationcart": {}
+        "reservationcart": {},
+        "items": {}
       }
     }
   }

@@ -28,84 +28,22 @@ function GraphReport () {
 
       const datalabel = [...itemFrequency.keys()];
 
-        // console.log(itemFrequency)
         datalabel.forEach(element => {
-        console.log(element);
-        // console.log(itemFrequency[element.key()])
+
           let d = {
             name : element,
             value : itemFrequency.get(element)
           }
         data.push(d);
       });
-        console.log(data)
+
         setData(data)
-        // });
-        // const dt = [
-        //   { name: 'New', value: neww },
-        //   { name: 'Old', value: old },
-        //   { name: 'Broken', value: broken },
-        // ];
-          // setData(dt);
-          
       });
       
   },[]);
 
 
-    // const data = [
-    //     {
-    //       name: 'ECS 201',
-    //       ohmeter: 34,
-    //       thermometer: 50,
-    //       tester: 35,
-    //       volmeter: 20,
-    //     },
-    //     {
-    //       name: 'ECS 202',
-    //       ohmeter: 34,
-    //       thermometer: 49,
-    //       tester: 35,
-    //       volmeter: 20,
-    //     },
-    //     {
-    //       name: 'ECS 203',
-    //       ohmeter: 34,
-    //       thermometer: 49,
-    //       tester: 35,
-    //       volmeter: 20,
-    //     },
-    //     {
-    //       name: 'ECS 204',
-    //       ohmeter: 34,
-    //       thermometer: 49,
-    //       tester: 35,
-    //       volmeter: 20,
-    //     },
-    //     {
-    //       name: 'ECS 205',
-    //       ohmeter: 34,
-    //       thermometer: 49,
-    //       tester: 35,
-    //       volmeter: 20,
-    //     },
-    //     {
-    //       name: 'ECS 206',
-    //       ohmeter: 34,
-    //       thermometer: 49,
-    //       tester: 35,
-    //       volmeter: 20,
-    //     },
-    //     {
-    //       name: 'ECS 207',
-    //       ohmeter: 34,
-    //       thermometer: 49,
-    //       tester: 35,
-    //       volmeter: 20,
-    //     },
-    //   ];
-      
-
+    
     return (
       <>
         <ResponsiveContainer width="95%" height={450}>

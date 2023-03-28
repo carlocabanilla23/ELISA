@@ -16,7 +16,14 @@ function Home() {
   const [inactiveCount,setInactiveCount] = useState(0);
 
   useEffect(()=>{
-    
+
+    API.post('items','/items/roomno/',{
+      body: {
+        roomno : "105"
+      }
+    }).then ( res => {
+      console.log(res.length)
+    })
 
   },[]);
   

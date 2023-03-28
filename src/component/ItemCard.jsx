@@ -138,6 +138,7 @@ const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,
               <div className="col actions-column">
                 <div className="dropdown p-0 m-0 sm">
                   <button
+                    id = "off-canvas-close-btn"
                     className="user-dropdown btn"
                     type="button"
                     data-bs-toggle="dropdown"

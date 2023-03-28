@@ -27,6 +27,7 @@ function UnassignedItems () {
     useEffect( () => {
         API.get("inventory","/items/").then( itemRes => {
             sortItems(itemRes);
+            console.log(itemRes);
         })
     },[]);
 
