@@ -3,7 +3,6 @@ import { API } from 'aws-amplify';
 import "./styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
 import UnassignedItemList from './List/UnassignedItemList';
 import OffCanvasCard from "./card/OffCanvasCard";
@@ -14,7 +13,7 @@ function UnassignedItems () {
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [itemsPerPage,setItemsPerPage] = useState(10);
+    const [itemsPerPage] = useState(10);
 
     //OffCanvas variable
     const [offCanvasItem, setOffCanvasItem] = useState('');
@@ -24,8 +23,6 @@ function UnassignedItems () {
     const [storageList, setStorageList] = useState([]);
     const [actionName, setActionName] = useState('');
     const [refreshvalue, setRefreshValue] = useState('');
-
-    const navigate = useNavigate();
 
     useEffect( () => {
         API.get("inventory","/items/").then( itemRes => {
@@ -171,10 +168,13 @@ function UnassignedItems () {
 
     const searchItem = (e) => {
         if (e.length > 0) {
-            const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
-                                                                    items.name.toLowerCase().includes(e) || 
-                                                                    items.model.toLowerCase().includes(e) || 
-                                                                    items.type.includes(e));
+            const searcedhItems = 
+                unfilteredItems.filter((items) => 
+                    items.serialno.toLowerCase().includes(e) || 
+                    items.name.toLowerCase().includes(e) || 
+                    items.model.toLowerCase().includes(e) || 
+                    items.type.includes(e));
+                    
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);
@@ -222,8 +222,8 @@ function UnassignedItems () {
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#">CSV</a></li>
-                                <li><a className="dropdown-item" href="#">PDF</a></li>
+                                <li>CSV</li>
+                                <li>PDF</li>
                             </ul>
                         </div>
                     </div>

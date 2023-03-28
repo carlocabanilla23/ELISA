@@ -13,8 +13,8 @@ const UnassignedItemList = ({items,updateList,ViewInformation,CreateQRCode,Creat
                             <div className="col"> Name </div>
                             <div className="col"> Type </div>
                             <div className="col"> Model </div>
-                            <div className="col"> Assigned To </div>
-                            <div className="col"> Order Number</div> 
+                            {/* <div className="col"> Assigned To </div>
+                            <div className="col"> Order Number</div>  */}
                             <div className="col"> Actions</div>        
                     </div>
                 </div>
