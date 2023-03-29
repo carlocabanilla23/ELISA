@@ -7,6 +7,7 @@ import iReservations from "./icons/reservation.png";
 import iUsers from './icons/users.png';
 import { Router,Link,Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { API } from 'aws-amplify';
 
 function Sidebar() {
   const access = localStorage.getItem('access');
@@ -20,6 +21,16 @@ function Sidebar() {
     }
   },[]);
 
+  const Transfer = (e) => {
+    API.get("inventory","/items").then( itemRes => {
+      itemRes.forEach(element => {
+        API.post('items','/items',{
+          body : element
+        })
+      });
+    });
+    alert("Transfer Success !!!")
+  }
   return (
     <div className="sidenav">    
         <div className='sidebar'>
@@ -57,6 +68,10 @@ function Sidebar() {
             <li  id="users" className="menu-list">
             <img src={iUsers} className="icon" alt="users icon" />
               <Link to="/Users">Users</Link>
+            </li>
+
+            <li  onClick={e => Transfer()} className="menu-list">
+                Transfer
             </li>
           </ul>
           </div> 

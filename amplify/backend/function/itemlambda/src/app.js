@@ -56,7 +56,46 @@ const convertUrlType = (param, type) => {
 }
 
 /********************************
- * HTTP Get method for list objects *
+ * HTTP Get method for list objects ***
+ ********************************/
+
+app.get(path, function(req, res) {
+  const condition = {}
+  condition[partitionKeyName] = {
+    ComparisonOperator: 'EQ'
+  }
+
+  if (userIdPresent && req.apiGateway) {
+    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
+  } else {
+    try {
+      condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
+    } catch(err) {
+      res.statusCode = 500;
+      res.json({error: 'Wrong column type ' + err});
+    }
+  }
+
+  let queryParams = {
+    TableName: tableName,
+    KeyConditions: condition,
+     ProjectionExpression: "#sn,#n,#t,#m,#l,#rn,#s",
+    ExpressionAttributeNames: { '#n': 'name' ,'#t': 'type', '#l': 'location','#s': 'status', '#sn': 'serialno', '#rn': 'roomno','#m': 'model'}
+  }
+
+  dynamodb.scan(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
+
+/********************************
+ * HTTP Get method for list objects with partition key*
  ********************************/
 
 app.get(path + hashKeyPath, function(req, res) {
