@@ -70,9 +70,9 @@ function Sidebar() {
               <Link to="/Users">Users</Link>
             </li>
 
-            <li  onClick={e => Transfer()} className="menu-list">
+            {/* <li  onClick={e => Transfer()} className="menu-list">
                 Transfer
-            </li>
+            </li> */}
           </ul>
           </div> 
       
