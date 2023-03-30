@@ -8,7 +8,7 @@ import './styles/Reservation.css';
 import ReservationItemList from "./ReservationItemList";
 import Pagination from "./Pagination";
 import ReservationAssignedItemList from "./ReservationAssignedItemList";
-import SendNotification from "../services/notification/Notification";
+import SendNotification from "../Services/notification/Notification";
 
 function Reservation () {
     const {param,param1} = useParams();
