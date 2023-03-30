@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { API } from 'aws-amplify';
 import logo from './icons/elisa_logo.png';
 import elisa from './icons/elisa.png';
-import SendNotification from "./notification/Notification";
+import SendNotification from '../Services/notification/Notification';
 
 
 function Verify() {

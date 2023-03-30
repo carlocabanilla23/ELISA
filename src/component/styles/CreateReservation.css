@@ -54,3 +54,9 @@
     width: 45%;
     float: left;
 }
+
+.alert-popout{
+    position: fixed;
+        top: 0;
+        left: 0;
+}

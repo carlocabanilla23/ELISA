@@ -1,0 +1,14 @@
+{
+  "resourceName": "reservation",
+  "tableName": "reservation",
+  "partitionKey": {
+    "fieldName": "email",
+    "fieldType": "string"
+  },
+  "sortKey": {
+    "fieldName": "reservationno",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

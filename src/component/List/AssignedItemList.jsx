@@ -15,7 +15,7 @@ const AssignedItemList = ({items,updateList}) => {
                             <div className="col"> Model </div>
                             <div className="col"> Assigned To </div>
                             <div className="col"> Date Assigned</div> 
-                            <div className="col"> Return Date</div>        
+                            {/* <div className="col"> Return Date</div>         */}
                     </div>
                 </div>
             </div>

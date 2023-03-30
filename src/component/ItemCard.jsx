@@ -10,7 +10,7 @@ import { GenerateBarcode } from "./code-generator/barcode";
 import OffCanvasCard from "./card/OffCanvasCard";
 
 
-const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus}) => {
+const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation}) => {
   const navigate = useNavigate();
   const loc = useLocation();
   const [name,setName] = React.useState('');
@@ -153,7 +153,6 @@ const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,
                         data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasRight"
                         aria-controls="offcanvasRight"
-                        // onClick={() => ItemInformation(item.serialno)}
                       >View Information</a>
                     </li>
                     <li style={{display: 'none'}} id="mobile">
@@ -185,6 +184,16 @@ const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,
                       data-bs-target="#offcanvasRight"
                       aria-controls="offcanvasRight">
                       Change Status
+                      </a>
+                    </li>
+                    <li>           
+                    <a onClick={(e) =>  changeLocation(item)}
+                      className="dropdown-item"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight">
+                      Change Location
                       </a>
                     </li>
                     <li style={{display: 'none'}} id="mobile">

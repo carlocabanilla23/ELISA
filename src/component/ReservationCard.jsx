@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 const ReservationCard = ( {reservation,updateList} ) => {
         const navigate = useNavigate();
 
-        const gotoReservation = (e) => {
-                console.log(e);
-                navigate("/Reservation/"+e, {
+        const gotoReservation = (email,rid) => {
+                // console.log(e);
+                navigate("/Reservation/"+ email+"/"+rid, {
                         state: {
-                                reservationno : e
+                                email : email
                         }
                 });
             }
@@ -19,7 +19,7 @@ const ReservationCard = ( {reservation,updateList} ) => {
                 <div className="container-fluid">
                         <div className="row ">
                                 <div className="col"> 
-                                        <div onClick={ (e) => gotoReservation(reservation.reservationno)} className="clickableCol"> {reservation.reservationno} </div>
+                                        <div onClick={ (e) => gotoReservation(reservation.email,reservation.reservationno)} className="clickableCol"> {reservation.reservationno} </div>
                                 </div>
                                 <div className="col"> {reservation.summary} </div>
                                 <div className="col"> {reservation.status} </div>

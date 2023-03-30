@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import './styles/CreateReservation.css';
 import { useNavigate, useLocation } from "react-router-dom";
-import SendNotification from "./notification/Notification";
+import SendNotification from "../Services/notification/Notification";
 
 function CreateReservation () {
     const location = useLocation();
@@ -117,9 +117,7 @@ function CreateReservation () {
             model : model,
             quantity : quantity
         }
-        // console.log(order);
-        // setReservationCart( res => [...res,order] );
-
+    
         setReservationCart([...reservationCart,order]);
         console.log(reservationCart);
        
@@ -168,12 +166,8 @@ function CreateReservation () {
             }
         }
 
-        API.post("reservationapi","/reservations/", {
+        API.post("reservation","/reservation", {
             body : {
-            firstname :firstName,
-            lastname : lastName,
-            role : role,
-            schoolID : schoolID,
             email : email,
             reservationno : reservationNo,
             summary : summary,
@@ -182,6 +176,13 @@ function CreateReservation () {
             approvedby : "N/A",
             requestdate : currentDate,
             returndate : returnDate,
+            }
+        });
+
+        API.post("reservationcart","/cart", {
+            body : {
+            reservationno : reservationNo,
+            description : note,
             itemrequested : reservationCart,
             assigneditems : []
             }
@@ -205,7 +206,7 @@ function CreateReservation () {
     
     return (
         <>
-            <div className="alert alert-success" id="alert" role="alert">
+            <div className="alert alert-success alert-popout" id="alert" role="alert">
                 The reservation has been created successfully!
             </div>
             <Sidebar />

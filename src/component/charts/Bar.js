@@ -1,67 +1,47 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useState,useEffect } from 'react';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
+import { API } from 'aws-amplify';
 function BarReport () {
-    const data = [
-        {
-          name: 'ECS 201',
-          new: 50,
-          old: 40,
-          amt: 30,
-        },
-        {
-          name: 'ECS 202',
-          new: 30,
-          old: 45,
-          amt: 25,
-        },
-        {
-          name: 'ECS 203',
-          new: 20,
-          old: 10,
-          amt: 5,
-        },
-        {
-          name: 'ECS 204',
-          new: 15,
-          old: 20,
-          amt: 25,
-        },
-        {
-          name: 'ECS 205',
-          new: 10,
-          old: 20,
-          amt: 30,
-        },
-        {
-          name: 'ECS 206',
-          new: 30,
-          old: 10,
-          amt: 20,
-        },
-        {
-          name: 'ECS 207',
-          new: 20,
-          old: 30,
-          amt: 10,
-        },
-      ];
-      
-       
+  const [data,setData] = useState([]);
+
+  useEffect( ()=>{
+    var oCount = 0;
+    var aCount = 0;
+
+    API.get("reservation","/reservation").then( res => {
+        res.map(element => {
+            if (element.status === "Open") oCount++;
+            else if (element.status === "Assigned") aCount++;
+        });
+        // setOpenCount(oCount);
+        // setAssignCount(aCount);
+
+        const df = [
+          {
+            name: 'Reservation',
+            Open: oCount,
+            Assign: aCount,
+          },
+        ];
+        setData(df);
+    })
+
+  },[]);
           return (
-              <BarChart
-                width={375}
-                height={225}
-                data={data}
-              >
-              <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="old" fill="#8884d8" />
-                <Bar dataKey="new" fill="#82ca9d" />
-              </BarChart>
+            <>
+            <ResponsiveContainer width="95%" height={450}>
+                <BarChart data={data} >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="Open" fill="#8884d8" />
+                    <Bar dataKey="Assign" fill="#82ca9d" />
+                </BarChart>   
+            </ResponsiveContainer>
+             
+            </>
           );
       
 }

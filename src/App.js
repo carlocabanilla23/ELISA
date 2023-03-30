@@ -27,7 +27,9 @@ import AssignedItems from './component/AssignedItems';
 import UnassignedItems from './component/UnassignedItems';
 import ProtectedRoute from './component/Routes/ProtectedRoute';
 import ViewItemInfo from './component/mobile/ViewItemInfo-m';
+import Notification from './pages/Notification';
 import Verify from './component/Verify';
+import OrderHistory from './pages/OrderHistory';
 
 Amplify.configure(awsExport);
 
@@ -105,7 +107,7 @@ function App() {
               <Reservations /> 
           </ProtectedRoute> } />
 
-      <Route path='/Reservation/:param' 
+      <Route path='/Reservation/:param/:param1' 
         element= {
           <ProtectedRoute user={user}>
               <Reservation /> 
@@ -169,12 +171,25 @@ function App() {
         <ProtectedRoute user={user}>
             <Setting />
         </ProtectedRoute> } />
+        
+      <Route path='/Notification'
+        element= {
+        <ProtectedRoute user={user}>
+            <Notification />
+      </ProtectedRoute> } />
 
       <Route path='/ViewItemInfo/:param'
         element= {
         <ProtectedRoute user={user}>
             <ViewItemInfo />
         </ProtectedRoute> } />
+
+      <Route path='/OrderHistory/:param'
+        element= {
+        <ProtectedRoute user={user}>
+            < OrderHistory />
+        </ProtectedRoute> } />
+       
     </Routes>
 
     {/* For Testing */}

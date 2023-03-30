@@ -3,21 +3,29 @@ import { API } from 'aws-amplify';
 import "./styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
 import UnassignedItemList from './List/UnassignedItemList';
+import OffCanvasCard from "./card/OffCanvasCard";
+import { Generate } from "./code-generator/qrcode";
+import { GenerateBarcode } from "./code-generator/barcode";
 
 function UnassignedItems () {
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [itemsPerPage,setItemsPerPage] = useState(10);
+    const [itemsPerPage] = useState(10);
 
-    const navigate = useNavigate();
+    //OffCanvas variable
+    const [offCanvasItem, setOffCanvasItem] = useState('');
+    const [qrcode,setQRCode] = useState();
+    const [barcode,setBarcode] = useState();
+    const [roomList, setRoomList] = useState([]);
+    const [storageList, setStorageList] = useState([]);
+    const [actionName, setActionName] = useState('');
+    const [refreshvalue, setRefreshValue] = useState('');
 
     useEffect( () => {
         API.get("inventory","/items/").then( itemRes => {
-          
             sortItems(itemRes);
         })
     },[]);
@@ -31,7 +39,7 @@ function UnassignedItems () {
     }
 
     const sortItems = (items) => {
-        const updatedList = items.filter(item => item.location === "Unassigned");
+        const updatedList = items.filter(item => item.location === 'Unassgined');
         updatedList.sort((a,b) => {
             var tA = Number.parseInt(a.type);
             var tB = Number.parseInt(b.type);
@@ -45,16 +53,128 @@ function UnassignedItems () {
                 return Math.sign(tA - tB);
             }
         });
-        console.log(updatedList);
         setItems(updatedList);
         setUnfilteredItems(updatedList);
-    } 
+
+        //Sort room list for change Location function
+        const CurrentRoomList = items.filter(item => item.location === "Room");
+        let updatedRoomList =  [...new Set(CurrentRoomList.map(room => room.roomno))];
+        updatedRoomList.sort((a,b) => {
+            var tA = Number.parseInt(a);
+            var tB = Number.parseInt(b);
+            if(isNaN(tA) && isNaN(tB)){
+                return a.localeCompare(b);
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
+        setRoomList(updatedRoomList);
+
+        //Sort storage list for change Location function
+        const CurrentStorageList = items.filter(item => item.location === "Storage");
+        let updatedStorageList =  [...new Set(CurrentStorageList.map(storage => storage.roomno))];
+        updatedStorageList.sort((a,b) => {
+            var tA = Number.parseInt(a);
+            var tB = Number.parseInt(b);
+            if(isNaN(tA) && isNaN(tB)){
+                return a.localeCompare(b);
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
+        setStorageList(updatedStorageList);
+    }
+
+    const ViewInformation = (item) => {
+        setActionName("Item Information");
+        setOffCanvasItem(item);
+        document.getElementById("item-info").style.display = "block";
+        // document.getElementById("item-history").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
+    }
+
+    // const ViewHistory = (item) => {
+    //     setActionName("Item History");
+    //     setOffCanvasItem(item);
+    //     document.getElementById("item-info").style.display = "none";
+    //     document.getElementById("item-history").style.display = "block";
+    //     document.getElementById("qrcode").style.display = "none";
+    //     document.getElementById("barcode").style.display = "none";
+    //     document.getElementById("Offstatus").style.display = "none";
+    //     document.getElementById("changeLocation").style.display = "none";
+    // }
+
+    const CreateQRCode = (serialno) => {
+        setActionName("QRCode");
+        document.getElementById("item-info").style.display = "none";
+        // document.getElementById("item-history").style.display = "none";
+        document.getElementById("qrcode").style.display = "block";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
+      
+        console.log(serialno);
+        let svg = Generate(serialno);
+        setQRCode(svg);
+    }
+    const CreateBarcode = (serialno) => {
+        setActionName("Barcode");
+        document.getElementById("item-info").style.display = "none";
+        // document.getElementById("item-history").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "block";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
+    
+        console.log(serialno);
+        let svg = GenerateBarcode(serialno);
+        setBarcode(svg);
+    }
+
+    const changeStatus = (item) => {
+        setRefreshValue(Math.random());
+        setActionName("Change Status");
+        setOffCanvasItem(item);
+        document.getElementById("item-info").style.display = "none";
+        // document.getElementById("item-history").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "block";
+        document.getElementById("changeLocation").style.display = "none";
+    }
+
+    const changeLocation=  (item) => {
+        setRefreshValue(Math.random());
+        setActionName("Change Location");
+        setOffCanvasItem(item);
+        document.getElementById("item-info").style.display = "none";
+        // document.getElementById("item-history").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "block";
+    }
+
     const searchItem = (e) => {
         if (e.length > 0) {
-            const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
-                                                                    items.name.toLowerCase().includes(e) || 
-                                                                    items.model.toLowerCase().includes(e) || 
-                                                                    items.type.includes(e));
+            const searcedhItems = 
+                unfilteredItems.filter((items) => 
+                    items.serialno.toLowerCase().includes(e) || 
+                    items.name.toLowerCase().includes(e) || 
+                    items.model.toLowerCase().includes(e) || 
+                    items.type.includes(e));
+                    
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);
@@ -102,8 +222,8 @@ function UnassignedItems () {
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#">CSV</a></li>
-                                <li><a className="dropdown-item" href="#">PDF</a></li>
+                                <li>CSV</li>
+                                <li>PDF</li>
                             </ul>
                         </div>
                     </div>
@@ -114,6 +234,11 @@ function UnassignedItems () {
         <div className="UserPane">
             <UnassignedItemList   items={currentList} 
                         updateList={updateList}
+                        ViewInformation={ViewInformation}
+                        CreateQRCode={CreateQRCode} 
+                        CreateBarcode={CreateBarcode}
+                        changeStatus={changeStatus}
+                        changeLocation={changeLocation}
                         />
             <Pagination
                     PerPage={itemsPerPage} 
@@ -122,7 +247,16 @@ function UnassignedItems () {
                     currentPageLocation = {currentPage}
                     />
         </div>
-    </div>    
+        {/* OFf canvas */}
+        <OffCanvasCard 
+            item={offCanvasItem}
+            qrcode={qrcode}
+            barcode={barcode}
+            roomList={roomList}
+            storageList={storageList}
+            actionName={actionName}
+            refreshvalue={refreshvalue}/>
+    </div>
     )
 }
 

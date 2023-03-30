@@ -8,11 +8,17 @@ import './styles/Reservation.css';
 import ReservationItemList from "./ReservationItemList";
 import Pagination from "./Pagination";
 import ReservationAssignedItemList from "./ReservationAssignedItemList";
-
+import SendNotification from "../Services/notification/Notification";
 
 function Reservation () {
-    const {param} = useParams();
+    const {param,param1} = useParams();
     const navigate = useNavigate();
+    const accountName = localStorage.getItem('name');
+
+    const date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
 
     // Reservation Data
     const [firstName,setFirstName] = useState("");
@@ -23,11 +29,20 @@ function Reservation () {
     const [summary,setSummary] = useState("");
     const [currentDate,setCurrentDate] = useState("");
     const [note,setNote] = useState("");
+    const [assignedDate, setAssignedDate] = useState('');
     const [returnDate,setReturnDate] = useState("");
     const [status,setStatus] = useState('');
     const [reservationno,setReservationNo] = useState('');
+    const [approvedBy, setApprovedBy] = useState('');
+    const [requestedBy, setRequestedBy] = useState('');
+    const [addApprovedBy, setAddApprovedBy] = useState('');
+    const [reviewedBy, setReviewedBy] = useState('');
+    const [addReviewedBy, setAddReviewedBy] = useState('');
+    const [reservationCart,setReservationCart] = useState([]);
 
-    const [reservationCart,setReservationCart] = useState(["sample"]);
+    //Addition space for positioning assign and request date and by
+    const [assignedSpace, setAssignedSpace] = useState('');
+    const [approvedSpace, setApprovedSpace] = useState('');
 
     // Item List
     const [items, setItems] = useState([]);
@@ -36,53 +51,154 @@ function Reservation () {
     const [returnedItems,setReturnedItems] = useState([]);
     const [itemList,setItemList] = useState([]);
     const [itemListHeader,setItemListHeader] = useState("Assigned Items");
+    const [removeAssignedItem, setRemoveAssignedItem] = useState('');
 
     // Pagination 
     const [currentPage,setCurrentPage] = useState(1);
     const [itemsPerPage,setItemsPerPage] = useState(10);
 
-   
     useEffect( () => {
-        console.log(param);
-        API.get("reservationapi","/reservations/object/"+param).then( res => {
+        API.get("reservation","/reservation/object/"+param+"/"+param1).then( res => {
             setReservationNo(res.reservationno);
-            setFirstName(res.firstname);
-            setLastName(res.lastname);
-            setSchoolID(res.schoolID);
             setEmail(res.email);
-            setRole(res.role);
+            // setRequestedBy(res.requestby);
             setSummary(res.summary);
             setCurrentDate(res.requestdate);
-            setNote(res.note);
             setReturnDate(res.returndate);
+            setStatus (res.status);
+            setApprovedBy(res.approvedby);
+            if(res.assigndate !== undefined){
+                setAssignedDate(res.assigndate);
+            }
+            setReviewedBy(res.reviewedby);
+        })
+
+        API.get("reservationcart","/cart/object/"+param1).then( res => {
+            setNote(res.note);
             setReservationCart(res.itemrequested);
             setAssignedItems(res.assigneditems);
-            setStatus (res.status);
             setReturnedItems(res.returneditems);
 
             if (res.assignedItems === undefined) {}
-            else if (res.assigneditems.length === 0 && res.status === "Returned") {
+            else if (res.assigneditems.length === 0 && status === "Returned") {
                 setItemListHeader("Returned Items");
                 setItemList(res.returneditems);
             }else{
                 setItemList(res.assigneditems);
             }
+            
+            if (itemList.length > 0) {
+                var element = document.getElementsByClassName("assignedItemListHeader");
+                element.style.display = 'block';
+            }
+
+            if (assignedItems.length !== 0 || assignedItems !== undefined) {
+                var element = document.getElementsByClassName("assignedItemListRemoveBtn");
+                // element.forEach( e => e.style.display = 'none')
+                var i;
+                for (i = 0; i < element.length; i++) {
+                    element[i].style.display = 'none';
+                }
+            }
         })
 
-        API.get("inventory","/items").then( itemRes => {
-            sortItems(itemRes);
+
+        API.get("userapi","/email/object/"+param).then( res => {
+            setFirstName(res.firstname);
+            setLastName(res.lastname);
+            setSchoolID(res.schoolID);  
+            setRole(res.role);
         })
-   
+      
     },[]);
 
+    // //sorted the item list (right side) base on the item request in reservation cart
+    useEffect(() => {
+        setTimeout(() => {},1000);
+        if(status !== "Returned"){
+            API.get("inventory","/items").then( itemRes => {
+                sortItems(itemRes);
+            });
+        }
+    },[reservationCart]);
+
+    //Set approved by after clicking assigned button
+    // useEffect(() => {
+    //     setApprovedBy(accountName);
+    //     if(addApprovedBy.length > 1){
+    //         setAssignedDate(`${year}-${month}-${day}`);
+    //     }
+    //     AssignItems(assignedItems);
+    // },[addApprovedBy])
+
+    // //Set reviewed by after clicking return button
+    // useEffect(() => {
+    //     if(addReviewedBy === accountName){
+    //         setReviewedBy(accountName);
+    //         returnItems(assignedItems);
+    //     }
+    // },[addReviewedBy])
+
+    //Change ItemListHeader name and hide assign and retunr button base on reservation status
+    useEffect(() => {
+        const returnBtn = document.getElementById("returnBtn");
+        const assignBtn = document.getElementById("assignBtn");
+        if(status != "Open"){
+            setItemListHeader(status + " Items");
+            if(status == "Assigned"){
+                assignBtn.style.display = 'inline';
+                returnBtn.style.display = 'inline';
+            }else if(status == "Returned"){
+                returnBtn.style.display = 'none';
+                assignBtn.style.display = 'none';
+            }
+        }else{
+            returnBtn.style.display = 'none';
+            assignBtn.style.display = 'inline';
+        }
+    },[status])
+
+    //Adding additional space to position the return date and review by
+    useEffect(() => {
+        let additionSpace = '';
+        for(let i = 0; i < 21 - assignedDate.length; i++){
+            additionSpace += ' ';
+        }
+        setAssignedSpace(additionSpace);
+        additionSpace = '';
+        for(let o = 0; o < 21 - approvedBy.length; o++){
+            additionSpace += ' ';
+        }
+        setApprovedSpace(additionSpace);
+    },[assignedDate,returnDate])
+
+    //Add the remove item to the unassigned list
+    useEffect(() => {
+        if(removeAssignedItem !== ''){
+            setItems([...items,removeAssignedItem]);
+            setUnfilteredItems([...unfilteredItems,removeAssignedItem]);
+        }
+        setRemoveAssignedItem('');
+    },[removeAssignedItem])
+    
+    // Sort item in the item list
     const sortItems = (items) => {
-        const updatedList = items.filter(item => item.location !== "Room");
-        setItems(updatedList);
-        setUnfilteredItems(updatedList);
+        const updatedList = items.filter(item => item.location === "Unassigned" || "Room");
+        var requestedItem;
+        var matchRequested = [];
+        for(var o = 0; o < reservationCart.length; o++){
+            requestedItem = reservationCart[o];
+            for(var i = 0; i < updatedList.length; i++){//Sort item according to the request type
+                if(updatedList[i].type === requestedItem.type){
+                    matchRequested.push(updatedList[i]);
+                }
+            }
+        }
+        setItems(matchRequested);
+        setUnfilteredItems(matchRequested);
     } 
    
     const cancelViewReservation = () => {
-        console.log("asdsada");
         navigate('/Reservations');
     }
 
@@ -109,7 +225,7 @@ function Reservation () {
         const updatedList = items.filter(itemRes => itemRes.serialno !== item.serialno);
         setItems(updatedList);
         setUnfilteredItems(updatedList);
-    } 
+    }
 
     // Pagination
 
@@ -127,23 +243,27 @@ function Reservation () {
             setCurrentPage(pageNumber);
 
             obj = document.getElementById(pageNumber);
-            obj.style.backgroundColor = "#3E2B2E";
             obj.style.color = "#ffffff";
         }
     };
 
     // Add Item
-
     const addItem = (item) => {
-        // console.log(item);
-        console.log(item);
         setAssignedItems([...assignedItems,item]);
         setItemList([...itemList,item]);
         updateList(item);
-        
+    }
+    
+    //Removing the item and update the assignedItem list
+    const removeItem = (item) => {
+        const updateAssignedList = assignedItems.filter((itemRes) => itemRes.serialno !== item.serialno);
+        setAssignedItems(updateAssignedList);
+        setItemList(updateAssignedList);
+        setRemoveAssignedItem(item);
     }
 
     const returnItems = (assignedItems) => {
+        setAddReviewedBy(accountName);
         assignedItems.map( item => {
             API.post("inventory","/items", {
                 body : {
@@ -158,69 +278,102 @@ function Reservation () {
             });
         })
 
-        API.post("reservationapi","/reservations/", {
+        API.put("reservation","/reservation/", {
             body : {
-            firstname :firstName,
-            lastname : lastName,
-            role : role,
-            schoolID : schoolID,
             email : email,
             reservationno : reservationno,
             summary : summary,
             status : "Returned",
             requestby : firstName + " " + lastName,
-            approvedby : "N/A",
+            approvedby : approvedBy,
+            reviewedby: reviewedBy,
             requestdate : currentDate,
             returndate : returnDate,
+            }
+        });
+
+        API.put("reservationcart","/cart", {
+            body : {
+            reservationno : reservationno,
+            description : note,
             itemrequested : reservationCart,
-            assigneditems : [],
+            assigneditems : assignedItems,
             returneditems : assignedItems
             }
         });
 
-        // setReturnedItems(assignedItems);
         setStatus("Returned");
-        // setItemList(returnedItems);
         setItemListHeader("Returned Items");
-        // document.getElementById("assignBtn").disabled = true;
-        // document.getElementById("assignBtn").disabled = true;
-        
-        setAssignedItems([]);
-
+        setReturnedItems(assignedItems);
     }
-
+   
     const AssignItems = (assignedItems) => {
-        console.log(assignedItems)
-        API.post("reservationapi","/reservations/", {
+        API.post("reservation","/reservation/", {
             body : {
-            firstname :firstName,
-            lastname : lastName,
-            role : role,
-            schoolID : schoolID,
-            email : email,
-            reservationno : reservationno,
-            summary : summary,
-            status : "Assigned",
-            requestby : firstName + " " + lastName,
-            approvedby : "N/A",
-            requestdate : currentDate,
-            returndate : returnDate,
-            itemrequested : reservationCart,
-            assigneditems : assignedItems
+                email : email,
+                reservationno : reservationno,
+                summary : summary,
+                status : "Assigned",
+                requestby : firstName + " " + lastName,
+                approvedby : approvedBy,
+                reviewedby: reviewedBy,
+                requestdate : currentDate,
+                returndate : returnDate,
             }
-
+        });
+        API.post("reservationcart","/cart", {
+            body : {
+                reservationno : reservationno,
+                description : note,
+                itemrequested : reservationCart,
+                assigneditems : assignedItems,
+            }
         });
 
         AddItemToLocation(assignedItems,firstName,lastName);
-
+        CheckInventory(assignedItems)
         setStatus("Assigned");
         // document.getElementById("assignBtn").disabled = true;
 
     }
 
-    // if (status === "Assigned" || status === "Returned") 
-    // // document.getElementById("assignBtn").disabled = true;
+    const CheckInventory = (assignedItems) => {
+        let items = new Set();
+        
+        assignedItems.forEach(item => {
+            items.add(item.type)
+        });
+        items.forEach(item => {
+            const searchItem = unfilteredItems.filter(item => item.type.includes(item))
+            if (searchItem.length === 0) { 
+                SendNotification("OUT_OF_STOCK",item);              
+            }
+        });
 
+    }
+
+
+    //Searching item
+    const searchItem = (e) => {
+        if (e.length === 9) {
+            const searchItem = unfilteredItems.filter(item => item.serialno.toLowerCase().includes(e))
+            if (searchItem.length === 1) { 
+               addItem(searchItem[0])
+               document.getElementById('SearchBarInput').value= " " ;
+            }
+        }
+        else {
+            if (e.length > 0) {
+                const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
+                                                                items.name.toLowerCase().includes(e) || 
+                                                                items.model.toLowerCase().includes(e) || 
+                                                                items.type.includes(e));
+                setItems(searcedhItems);
+            }else{
+                setItems(unfilteredItems);
+            }
+        }
+    }
  
     return (
         <>            
@@ -290,9 +443,7 @@ function Reservation () {
                                 </div>
                             </div>
                             <div className="row Assigneditemlist">
-                                <div className="col">
-                                    <ReservationAssignedItemList items={assignedItems} />
-                                </div>
+                                    <ReservationAssignedItemList items={assignedItems} removeItem={removeItem}/>
                             </div>
                         </div>
                    
@@ -332,9 +483,9 @@ function Reservation () {
                                 <label className="form-label">{schoolID}</label>
                             </div>
                             <div className="col">
-                                <label className="fw-bold form-label">Return Date</label>
+                                <label className="fw-bold form-label">Assign Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return Date</label>
                                 <br/>
-                                <label className="form-label">{returnDate}</label>
+                                <label className="form-label"><pre>{assignedDate.length === 0 ? "N/A                  " : assignedDate+assignedSpace}{returnDate.length === 0 ? "N/A" : returnDate}</pre></label> {/* 20 */}
                             </div>
                         </div>
 
@@ -345,9 +496,9 @@ function Reservation () {
                                 <label className="form-label">{email}</label>
                             </div>
                             <div className="col">
-                                <label className="fw-bold form-label">Approved By</label>
+                                <label className="fw-bold form-label">Approved By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Review By</label>
                                 <br/>
-                                <label className="form-label">N/A</label>
+                                <label id="approvedBy" className="form-label" value=""><pre>{approvedBy.length === 0 ? "N/A                  " : approvedBy+approvedSpace}{reviewedBy === undefined ? "N/A" : reviewedBy}</pre></label>
                             </div>
                         </div>
 
@@ -360,9 +511,9 @@ function Reservation () {
                             <div className="col">
                                 <label className="fw-bold form-label"></label>
                                 <br/>
-                                <button className="btn btn-light" onClick={ (e) => returnItems(assignedItems)}>Return Items</button>
+                                <button className="btn btn-light" id="returnBtn" onClick={ (e) => {setReviewedBy(accountName);setAddReviewedBy(accountName);setReturnDate(`${year}-${month}-${day}`);returnItems(assignedItems);}}>Return Items</button>
                                 <br/>
-                                <button className="btn btn-light" id="assignBtn" onClick={ (e) => AssignItems(assignedItems)}>Assign Items</button>
+                                <button className="btn btn-light" id="assignBtn" onClick={ (e) => {setApprovedBy(accountName);setAddApprovedBy(accountName);setAssignedDate(`${year}-${month}-${day}`);AssignItems(assignedItems)}}>Assign Items</button>
                             </div>
                         </div>
 
@@ -370,8 +521,7 @@ function Reservation () {
                 </div>
 
                 <div className="ItemList">
-                    
-                    <ReservationItemList items={currentList} addItem={addItem} status={status} />
+                    <ReservationItemList items={currentList} addItem={addItem} status={status} searchItem={searchItem}/>
                     <div className="Reservation-Pagination">
                     <Pagination
                         PerPage={itemsPerPage} 
@@ -384,8 +534,8 @@ function Reservation () {
                 </div>
             </div>
         </>
-
     )
+    
 }   
 
 export default Reservation;

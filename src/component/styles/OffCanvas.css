@@ -71,3 +71,13 @@
     font-size: 1em;
     padding-left: 50px;
 }
+#qrcode-print-btn{
+    font-size: 2em;
+    float: right;
+}
+
+@media print {
+    body {
+      zoom: 30%;
+    }
+  }
