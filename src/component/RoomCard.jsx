@@ -5,47 +5,31 @@ import { useEffect,useState } from "react";
 import { API } from "aws-amplify";
 
 
-const RoomCard = ( {item,updateList,itemCount} ) => {
+const RoomCard = ( {item} ) => {
         const navigate = useNavigate();
         const [items, setItems] = useState([]);
-        useEffect( () => {
-                API.get("inventory","/items").then( itemRes => {
-                    sortItems(itemRes);
+      
+        useEffect(()=> {
+                API.post('items','/items/roomno/',{
+                  body: {
+                    roomno : item.roomno
+                  }
+                }).then ( res => {
+                  setItems(res);
                 })
-               
-            },[]);
-    
-        const sortItems = (items) => {
-                let updatedList = items.filter(resItem => resItem.roomno === item.roomno);
-                setItems(updatedList);
-        } 
-       
-        const EditUser = (e) => {
-                console.log(e);
-                navigate('/EditUser',{
-                        state: {
-                                serialno : e
-                        }
-                });
-        }
+        },[]);
 
-        const ViewItems = (roomParam,locationParam) => {
+
+        const ViewItems = () => {
         //     let path = "/";
-            if (locationParam === "Storage") {
-                navigate("/RoomLocation/StorageLocationItem/"+roomParam);
+            if (item.location === "Storage") {
+                navigate("/RoomLocation/StorageLocationItem/"+item.roomno);
                 //  path = "/RoomLocation/StorageLocationItem";
             } 
-            else if (locationParam === "Room") {
-                navigate("/RoomLocation/RoomLocationItem/"+roomParam);
+            else if (item.location === "Room") {
+                navigate("/RoomLocation/RoomLocationItem/"+item.roomno);
                 //  path = "/RoomLocation/RoomLocationItem";
             }
-
-        //     navigate(path,{
-        //             state: {
-        //                     roomno : roomParam
-        //             }
-        //     });
-
         }
 
         return (
@@ -54,12 +38,11 @@ const RoomCard = ( {item,updateList,itemCount} ) => {
                 <div className="container-fluid">
                         <div className="row">
                                 <div className="col">
-                                        <div className="clickableCol" onClick={ () => ViewItems(item.roomno,item.location)}> {item.roomno}</div>
+                                        <div className="clickableCol" onClick={ () => ViewItems()}> {item.roomno}</div>
                                 </div>
-                               
                                 <div className="col"> {item.location} </div>
                                 <div className="col" > Otto Miller </div>
-                                <div className="col" > {itemCount} </div>
+                                <div className="col" > {items.length} </div>
                         </div>
                  </div>
                 

@@ -13,6 +13,7 @@ function EditItem() {
     const loc = useLocation();
     const navigate = useNavigate();
     let serialParam = loc.state.serialno;
+    let typeParam = loc.state.type;
     const [name,setName] = React.useState('');
     const [serialNumber,setSerialNumber] = React.useState('');
     const [type,setType] = React.useState('');
@@ -29,7 +30,8 @@ function EditItem() {
     const [errorMessage, setErrorMessage] = React.useState('');
     const [image,setImage] = useState('');
     useEffect( () => {
-        API.get("inventory","/items/object/"+serialParam).then(res => {
+        API.get("items",'/items/object/'+typeParam + '/' +serialParam).then(res => {
+            console.log(res);
             setName(res.name);
             setSerialNumber(res.serialno);
             setType(res.type);
@@ -43,9 +45,9 @@ function EditItem() {
             setExpiredDate(res.expiredate);
             setImage(res.image);
         })
-        API.get("inventory", "/items").then(res => {
-            setItem([...item,...res]);
-        })
+        // API.get("inventory", "/items").then(res => {
+        //     setItem([...item,...res]);
+        // })
     },[]);
 
     useEffect(() => {
@@ -107,7 +109,7 @@ function EditItem() {
             }
         }
 
-        API.post("inventory","/items/", {
+        API.post("items","/items/", {
             body : {
                 name : name,
                 serialno : serialNumber,
@@ -260,7 +262,7 @@ function EditItem() {
                         <div className="form-input">
                             <label className="input-label" for="photo" >Photo</label>
                             <input type="file" className="text-input" id="photo" 
-                            onChange={(e) => { encodeImage(e)}} required={true} />
+                            onChange={(e) => { encodeImage(e)}} />
                         </div>
                         <img src={image} width="150" height="150" alt="" />
                         {/* <div className="form-input">

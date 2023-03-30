@@ -23,15 +23,17 @@ function StorageLocation () {
     }
 
     useEffect( () => {
-        API.get("inventory","/items/").then( itemRes => {
-            sortItems(itemRes);
-        })
+        // API.get("inventory","/items/").then( itemRes => {
+        //     sortItems(itemRes);
+        // })
+
+        API.get('items','/items/allroom').then(res => sortItems(res))
+       
     },[]);
 
     const updateList = (serialno) => {
         API.del("inventory","/items/object/"+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
-
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     }
@@ -57,15 +59,15 @@ function StorageLocation () {
     } 
     const searchItem = (e) => {
         if (e.length > 0) {
-            const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
-                                                                    items.name.toLowerCase().includes(e) || 
-                                                                    items.model.toLowerCase().includes(e) || 
-                                                                    items.type.includes(e));
+            const searcedhItems = 
+                    unfilteredItems.filter((items) =>   items.serialno.toLowerCase().includes(e) || 
+                                                        items.name.toLowerCase().includes(e) || 
+                                                        items.model.toLowerCase().includes(e) || 
+                                                        items.type.includes(e));
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);
         }
-       
     }
     
     const idxLastItem = currentPage * itemsPerPage;

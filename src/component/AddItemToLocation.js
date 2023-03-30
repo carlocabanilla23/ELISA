@@ -23,7 +23,7 @@ function AddItemToLocation () {
     }
 
     useEffect( () => {
-        API.get("inventory","/items").then( itemRes => {// make a GET request to the "inventory" API to retrieve a list of items
+        API.get("items","/items").then( itemRes => {// make a GET request to the "inventory" API to retrieve a list of items
             sortItems(itemRes); // call the sortItems function and pass in the response from the API
         })
     },[]);

@@ -17,13 +17,7 @@ function Home() {
 
   useEffect(()=>{
 
-    API.post('items','/items/roomno/',{
-      body: {
-        roomno : "105"
-      }
-    }).then ( res => {
-      console.log(res.length)
-    })
+    API.get('items','/items').then( res => console.log(res))
 
   },[]);
   

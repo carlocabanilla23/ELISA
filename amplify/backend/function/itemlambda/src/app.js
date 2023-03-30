@@ -79,8 +79,37 @@ app.get(path, function(req, res) {
   let queryParams = {
     TableName: tableName,
     KeyConditions: condition,
-     ProjectionExpression: "#sn,#n,#t,#m,#l,#rn,#s",
-    ExpressionAttributeNames: { '#n': 'name' ,'#t': 'type', '#l': 'location','#s': 'status', '#sn': 'serialno', '#rn': 'roomno','#m': 'model'}
+    ProjectionExpression: "#sn,#n,#t,#m,#l,#rn",
+    ExpressionAttributeNames: { '#n': 'name' ,'#t': 'type', '#l': 'location', '#sn': 'serialno', '#rn': 'roomno','#m': 'model'}
+  }
+
+  dynamodb.scan(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
+
+
+/********************************
+ * HTTP Get method for list room num of objects ***
+ ********************************/
+
+app.get(path+"/allroom", function(req, res) {
+  const condition = {}
+  condition[partitionKeyName] = {
+    ComparisonOperator: 'EQ'
+  }
+
+  let queryParams = {
+    TableName: tableName,
+    KeyConditions: condition,
+    ProjectionExpression: "#rn,#l",
+    ExpressionAttributeNames: { '#rn': 'roomno','#l': 'location'}
   }
 
   dynamodb.scan(queryParams, (err, data) => {
@@ -131,14 +160,15 @@ app.get(path + hashKeyPath, function(req, res) {
 });
 
 /********************************
- * HTTP Get method for list objects * GSI
+ * HTTP Get method to count the number of items in a room* GSI
  ********************************/
 
-app.post(path +"/roomno/", function(req, res) {
+app.post(path +"/roomno", function(req, res) {
 
   let queryParams = {
     TableName: tableName,
     IndexName : 'roomno',
+    ProjectionExpression: "#name",
     KeyConditionExpression: '#name = :value',
     ExpressionAttributeValues: { ':value':  req.body.roomno },
     ExpressionAttributeNames: { '#name': 'roomno' }
@@ -155,6 +185,31 @@ app.post(path +"/roomno/", function(req, res) {
 });
 
 
+/********************************
+ * HTTP Get method for list objects in a room* GSI
+ ********************************/
+
+app.post(path +"/roomno/items", function(req, res) {
+
+  let queryParams = {
+    TableName: tableName,
+    IndexName : 'roomno',
+    KeyConditionExpression: '#name = :value',
+    ExpressionAttributeValues: { ':value':  req.body.roomno },
+    ExpressionAttributeNames: { '#name': 'roomno' }
+  }
+
+  
+
+  dynamodb.query(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
 /*****************************************
  * HTTP Get method for get single object *
  *****************************************/

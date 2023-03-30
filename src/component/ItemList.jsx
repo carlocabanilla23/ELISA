@@ -16,7 +16,7 @@ const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,c
                             <div id="model" className="col rmobile"> Model </div>
                             <div id="location" className="col rmobile"> Location </div>
                             <div id="roomNumber" className="col rmobile"> Room No </div>
-                            <div id="status" className="col rmobile"> Status </div>
+                            {/* <div id="status" className="col rmobile"> Status </div> */}
                             <div className="col rmobile"> Actions</div>        
                     </div>
                 </div>

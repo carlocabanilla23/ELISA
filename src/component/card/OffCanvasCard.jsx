@@ -168,7 +168,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                 </div>
 
                 <div id="qrcode">
-                    <button id="qrcode-print-btn" onClick={(e)=>Print("qrcode-img")}><i class="fa fa-print" aria-hidden="true"></i></button>
+                    <button id="qrcode-print-btn" onClick={(e)=>Print("qrcode-img")}><i className="fa fa-print" aria-hidden="true"></i></button>
                     <div id="qrcode-img">{qrcode}</div>
                 </div>
 

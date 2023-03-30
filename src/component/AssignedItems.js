@@ -17,8 +17,10 @@ function AssignedItems () {
     const navigate = useNavigate();
 
     useEffect( () => {
-        API.get("inventory","/items/").then( itemRes => {
-            sortItems(itemRes);
+        API.post('items','/items/roomno/items',{
+            body: { roomno : "USER" }
+        }).then ( res => {
+            setItems(res);
         })
     },[]);
 
@@ -89,7 +91,7 @@ function AssignedItems () {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
                 <div> 
-                    <span class="material-symbols-outlined">checklist</span>
+                    <span className="material-symbols-outlined">checklist</span>
                     <span>Assigned Items</span>
 
                     <div className="searchBar">

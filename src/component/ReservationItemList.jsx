@@ -22,7 +22,7 @@ const ReservationItemList = ({items,addItem,status,searchItem}) => {
                             <div className="col">Name</div>
                             <div className="col">Type</div>
                             <div className="col">Model</div>
-                            <div className="col">Status</div>
+                            {/* <div className="col">Status</div> */}
                             
                         </div>
                     </div>
@@ -39,7 +39,7 @@ const ReservationItemList = ({items,addItem,status,searchItem}) => {
                                 <div className="col"> {item.name} </div>
                                 <div className="col"> {item.type} </div>
                                 <div className="col"> {item.model} </div>
-                                <div className="col"> {item.status} </div>
+                                {/* <div className="col"> {item.status} </div> */}
                                 
                             </div>
                         </div>

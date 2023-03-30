@@ -7,7 +7,7 @@ const AddItemToLocationCard = ( {item,updateList,itemCount,roomno,location} ) =>
 
         const AddItemToLocation = (e,serialno) => {
             e.preventDefault();
-            API.put("inventory","/items", {
+            API.put("items","/items", {
                 body : {
                     name : item.name,
                     type : item.type,

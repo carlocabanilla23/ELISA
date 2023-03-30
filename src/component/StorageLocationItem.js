@@ -40,10 +40,16 @@ function StorageLocationItem () {
     }
 
     useEffect( () => {
-        API.get("inventory","/items/").then( itemRes => {
-            sortItems(itemRes);
-            sortLocationList(itemRes);
+        API.post('items','/items/roomno/items',{
+            body: { roomno : param }
+        }).then ( res => {
+            setItems(res);
         })
+
+        // API.get("inventory","/items/").then( itemRes => {
+        //     sortItems(itemRes);
+        //     sortLocationList(itemRes);
+        // })
     },[]);
 
     const updateList = (serialno) => {
@@ -218,11 +224,11 @@ function StorageLocationItem () {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
                 <div>
-                    <span class="material-symbols-outlined" style={{cursor: "pointer"}} onClick={() => navigate('/Location')}>arrow_back</span>
+                    <span className="material-symbols-outlined" style={{cursor: "pointer"}} onClick={() => navigate('/Location')}>arrow_back</span>
                     <Link to="/Location" className="text-dark">
                         <span >Storage Location </span>
                     </Link>
-                    <span class="material-symbols-outlined">arrow_right</span>         
+                    <span className="material-symbols-outlined">arrow_right</span>         
                     <span>{param}</span>
 
                     <div className="searchBar">

@@ -41,7 +41,7 @@ function Inventory () {
     }
 
     useEffect( () => {
-        API.get("inventory","/items").then( itemRes => {
+        API.get("items","/items").then( itemRes => {
             itemRes.sort((a,b) => {
                 var tA = Number.parseInt(a.type);
                 var tB = Number.parseInt(b.type);
@@ -96,16 +96,18 @@ function Inventory () {
         })
     },[]);
 
-    const updateList = (serialno) => {
-        API.del("inventory","/items/object/"+serialno);
+    const updateList = (serialno,type) => {
+        API.del("items","/items/object/"+ type +'/'+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     } 
 
-    const ViewInformation = (item) => {
+    const ViewInformation = async(item) => {
+        let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
+        console.log(data)
         setActionName("Item Information");
-        setOffCanvasItem(item);
+        setOffCanvasItem(data);
         document.getElementById("item-info").style.display = "block";
         document.getElementById("qrcode").style.display = "none";
         document.getElementById("barcode").style.display = "none";
@@ -246,7 +248,7 @@ function Inventory () {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
                 <div>
-                    <span class="material-symbols-outlined">inventory_2</span>
+                    <span className="material-symbols-outlined">inventory_2</span>
                     <span>Inventory</span>
 
                     <div className="searchBar">

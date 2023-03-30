@@ -8,10 +8,10 @@ import './styles/Reservation.css';
 import ReservationItemList from "./ReservationItemList";
 import Pagination from "./Pagination";
 import ReservationAssignedItemList from "./ReservationAssignedItemList";
-import SendNotification from "../services/notification/Notification";
+import SendNotification from "../Services/notification/Notification";
 
 function Reservation () {
-    const {param,param1} = useParams();
+    const {param,param1,param2} = useParams();
     const navigate = useNavigate();
     const accountName = localStorage.getItem('name');
 
@@ -71,10 +71,32 @@ function Reservation () {
                 setAssignedDate(res.assigndate);
             }
             setReviewedBy(res.reviewedby);
+
+           
         })
+
+        
+            // API.get("items","/items").then( res => {
+            //     // setItems(res);
+            //     sortItems(res);
+            // });
+           
+        // }
 
         API.get("reservationcart","/cart/object/"+param1).then( res => {
             setNote(res.note);
+
+
+            if(param2 !== "Returned") {
+                let itm = [...new Set(res.itemrequested.map( item => item.type))]
+                let list = [];
+                itm.forEach( e => {
+                    API.get("items","/items/" +e).then( res => {
+                        list.push(...res);
+                        sortItems(list);
+                    });
+                });
+            }
             setReservationCart(res.itemrequested);
             setAssignedItems(res.assigneditems);
             setReturnedItems(res.returneditems);
@@ -110,92 +132,68 @@ function Reservation () {
             setRole(res.role);
         })
       
-    },[]);
-
-    // //sorted the item list (right side) base on the item request in reservation cart
-    useEffect(() => {
-        setTimeout(() => {},1000);
-        if(status !== "Returned"){
-            API.get("inventory","/items").then( itemRes => {
-                sortItems(itemRes);
-            });
-        }
-    },[reservationCart]);
-
-    //Set approved by after clicking assigned button
-    // useEffect(() => {
-    //     setApprovedBy(accountName);
-    //     if(addApprovedBy.length > 1){
-    //         setAssignedDate(`${year}-${month}-${day}`);
-    //     }
-    //     AssignItems(assignedItems);
-    // },[addApprovedBy])
-
-    // //Set reviewed by after clicking return button
-    // useEffect(() => {
-    //     if(addReviewedBy === accountName){
-    //         setReviewedBy(accountName);
-    //         returnItems(assignedItems);
-    //     }
-    // },[addReviewedBy])
-
+        },[]);
+    //sorted the item list (right side) base on the item request in reservation cart
     //Change ItemListHeader name and hide assign and retunr button base on reservation status
-    useEffect(() => {
-        const returnBtn = document.getElementById("returnBtn");
-        const assignBtn = document.getElementById("assignBtn");
-        if(status != "Open"){
-            setItemListHeader(status + " Items");
-            if(status == "Assigned"){
-                assignBtn.style.display = 'inline';
-                returnBtn.style.display = 'inline';
-            }else if(status == "Returned"){
-                returnBtn.style.display = 'none';
-                assignBtn.style.display = 'none';
-            }
-        }else{
-            returnBtn.style.display = 'none';
-            assignBtn.style.display = 'inline';
-        }
-    },[status])
+    // useEffect(() => {
+    //     const returnBtn = document.getElementById("returnBtn");
+    //     const assignBtn = document.getElementById("assignBtn");
+    //     if(status != "Open"){
+    //         setItemListHeader(status + " Items");
+    //         if(status === "Assigned"){
+    //             assignBtn.style.display = 'inline';
+    //             returnBtn.style.display = 'inline';
+    //         }else if(status === "Returned"){
+    //             returnBtn.style.display = 'none';
+    //             assignBtn.style.display = 'none';
+    //         }
+    //     }else{
+    //         returnBtn.style.display = 'none';
+    //         assignBtn.style.display = 'inline';
+    //     }
+    // },[status])
 
     //Adding additional space to position the return date and review by
-    useEffect(() => {
-        let additionSpace = '';
-        for(let i = 0; i < 21 - assignedDate.length; i++){
-            additionSpace += ' ';
-        }
-        setAssignedSpace(additionSpace);
-        additionSpace = '';
-        for(let o = 0; o < 21 - approvedBy.length; o++){
-            additionSpace += ' ';
-        }
-        setApprovedSpace(additionSpace);
-    },[assignedDate,returnDate])
+    // useEffect(() => {
+    //     let additionSpace = '';
+    //     for(let i = 0; i < 21 - assignedDate.length; i++){
+    //         additionSpace += ' ';
+    //     }
+    //     setAssignedSpace(additionSpace);
+    //     additionSpace = '';
+    //     for(let o = 0; o < 21 - approvedBy.length; o++){
+    //         additionSpace += ' ';
+    //     }
+    //     setApprovedSpace(additionSpace);
+    // },[assignedDate,returnDate])
 
     //Add the remove item to the unassigned list
-    useEffect(() => {
-        if(removeAssignedItem !== ''){
-            setItems([...items,removeAssignedItem]);
-            setUnfilteredItems([...unfilteredItems,removeAssignedItem]);
-        }
-        setRemoveAssignedItem('');
-    },[removeAssignedItem])
+    // useEffect(() => {
+    //     if(removeAssignedItem !== ''){
+    //         setItems([...items,removeAssignedItem]);
+    //         setUnfilteredItems([...unfilteredItems,removeAssignedItem]);
+    //     }
+    //     setRemoveAssignedItem('');
+    // },[removeAssignedItem])
     
     // Sort item in the item list
     const sortItems = (items) => {
+        console.log(items)
         const updatedList = items.filter(item => item.location === "Unassigned" || "Room");
-        var requestedItem;
-        var matchRequested = [];
-        for(var o = 0; o < reservationCart.length; o++){
-            requestedItem = reservationCart[o];
-            for(var i = 0; i < updatedList.length; i++){//Sort item according to the request type
-                if(updatedList[i].type === requestedItem.type){
-                    matchRequested.push(updatedList[i]);
-                }
-            }
-        }
-        setItems(matchRequested);
-        setUnfilteredItems(matchRequested);
+        // var requestedItem;
+        // var matchRequested = [];
+        // for(var o = 0; o < reservationCart.length; o++){
+        //     requestedItem = reservationCart[o];
+        //     for(var i = 0; i < updatedList.length; i++){//Sort item according to the request type
+        //         if(updatedList[i].type === requestedItem.type){
+        //             matchRequested.push(updatedList[i]);
+        //         }
+        //     }
+        // }
+        // // console.log(matchRequested)
+        // console.log(updatedList)
+        setItems(updatedList);
+        setUnfilteredItems(updatedList);
     } 
    
     const cancelViewReservation = () => {
@@ -204,15 +202,15 @@ function Reservation () {
 
     const AddItemToLocation = (items,firstName,lastName) => {
         items.map(item => {
-            API.put("inventory","/items", {
+            API.put("items","/items", {
                 body : {
                     name : item.name,
                     type : item.type,
                     model : item.model,
                     status : item.status, 
                     serialno : item.serialno,
-                    location : "NA",
-                    roomno : "NA",
+                    location : "USER",
+                    roomno : "USER",
                     assignedto : firstName + " " + lastName ,
                     assignedate : currentDate,
                     returndate : returnDate,        
@@ -264,16 +262,16 @@ function Reservation () {
 
     const returnItems = (assignedItems) => {
         setAddReviewedBy(accountName);
-        assignedItems.map( item => {
-            API.post("inventory","/items", {
+        assignedItems.forEach( item => {
+            API.post("items","/items", {
                 body : {
                     name : item.name,
                     type : item.type,
                     model : item.model,
                     status : item.status, 
                     serialno : item.serialno,
-                    location : "Unassgined",
-                    roomno : "N/A",
+                    location : "Unassigned",
+                    roomno : "Unassigned",
                 }
             });
         })

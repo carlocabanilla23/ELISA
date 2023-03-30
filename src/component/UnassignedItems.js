@@ -25,9 +25,10 @@ function UnassignedItems () {
     const [refreshvalue, setRefreshValue] = useState('');
 
     useEffect( () => {
-        API.get("inventory","/items/").then( itemRes => {
-            sortItems(itemRes);
-            console.log(itemRes);
+        API.post('items','/items/roomno/items',{
+            body: { roomno : "Unassigned" }
+        }).then ( res => {
+            setItems(res);
         })
     },[]);
 
@@ -40,7 +41,7 @@ function UnassignedItems () {
     }
 
     const sortItems = (items) => {
-        const updatedList = items.filter(item => item.location === 'Unassgined');
+        const updatedList = items.filter(item => item.location === 'Unassigned');
         updatedList.sort((a,b) => {
             var tA = Number.parseInt(a.type);
             var tB = Number.parseInt(b.type);
@@ -211,7 +212,7 @@ function UnassignedItems () {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
                 <div> 
-                <span class="material-symbols-outlined">devices_other</span>
+                <span className="material-symbols-outlined">devices_other</span>
                     <span>Unassigned Items</span>
 
                     <div className="searchBar">

@@ -6,14 +6,6 @@ import { useState, useEffect } from "react";
 
 const RoomList = ({items,updateList}) => {
 
-    const [allItems, setItems] = useState([]);
-
-    useEffect( () => {
-        API.get("inventory","/items").then( itemRes => {
-            setItems(itemRes);
-        })
-    },[]);
-
     return (
         <>
             <div className="UserRowTitle">
@@ -32,9 +24,7 @@ const RoomList = ({items,updateList}) => {
                     <li key={index}>
                         <RoomCard   item={item} 
                                     key={index} 
-                                    updateList={updateList} 
-                                    itemCount={allItems.filter(e => e.roomno === item.roomno).length}
-                                 
+                                    // updateList={updateList}      
                         />
                     </li>
                 ))}
