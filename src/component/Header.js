@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import './styles/Header.css';
-import avatar from './icons/avatar_test.png';
+import '../assets/styles/Header.css';
+import avatar from '../assets/icons/avatar_test.png';
 import { useNavigate,Link,Route } from 'react-router-dom';
 
 function Header() {

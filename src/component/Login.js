@@ -1,10 +1,10 @@
-import './styles/Login.css';
+import '../assets/styles/Login.css';
 import { useNavigate } from 'react-router-dom';
 import * as ReactDOM from 'react-dom/client';
 import React  from 'react';
 import { API } from 'aws-amplify';
-import logo from './icons/elisa_logo.png';
-import elisa from './icons/elisa.png';
+import logo from '../assets/icons/elisa_logo.png';
+import elisa from '../assets/icons/elisa.png';
 import StartSession from './session/SessionInfo';
 import Hash from './bcrypt/Hash';
 

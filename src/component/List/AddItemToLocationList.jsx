@@ -1,8 +1,6 @@
-import AddItemToLocationCard from "./AddItemToLocationCard";
+import AddItemToLocationCard from "../card/AddItemToLocationCard";
 import React from "react";
-import './styles/List.css';
-import { API } from 'aws-amplify';
-import { useEffect } from "react";
+import '../../assets/styles/List.css';
 import { useLocation } from "react-router-dom";
 
 const AddItemToLocationList = ({items,updateList}) => {

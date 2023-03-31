@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
-import "./styles/Users.css";
+import "../assets/styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useNavigate,useLocation, Link } from "react-router-dom";
-import AddItemToLocationList from './AddItemToLocationList';
+import AddItemToLocationList from './List/AddItemToLocationList';
 import Pagination from "./Pagination";
 
 function AddItemToLocation () {
@@ -104,8 +104,8 @@ function AddItemToLocation () {
 
     return (
         <div className="Users">
-        <Sidebar />
-        <Header />
+        
+        
         <div className="UserHeader">
 
             <div className="row">

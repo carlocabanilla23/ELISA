@@ -5,7 +5,7 @@ import awsExport from '../aws-exports';
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { useLocation,useNavigate } from "react-router-dom";
-import "./styles/EditItem.css"
+import "../assets/styles/EditItem.css"
 
 Amplify.configure(awsExport);
 
@@ -148,8 +148,8 @@ function EditItem() {
                 Your item has been updated successfully!
             </div>
             
-            <Sidebar />
-            <Header />
+            
+            
 
             <div className="UserHeader">
                     <div className="content">

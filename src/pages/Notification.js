@@ -24,8 +24,8 @@ function Notification() {
 
     return (
         <>
-            <Sidebar />
-            <Header />
+            
+            
 
             {/* Previous Page Navigation Bar */}
             <div className="NotificationHeader">

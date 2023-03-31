@@ -1,6 +1,6 @@
 import AssignedItemCard from "../card/AssignedItemCard";
 import React from "react";
-import './../styles/List.css';
+import '../../assets/styles/List.css';
 
 const AssignedItemList = ({items,updateList}) => {
 

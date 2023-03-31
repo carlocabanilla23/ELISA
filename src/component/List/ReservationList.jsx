@@ -1,10 +1,9 @@
-import ReservationCard from "./ReservationCard";
+import ReservationCard from "../card/ReservationCard";
 import React from "react";
-import './styles/List.css';
-import { useNavigate } from "react-router-dom";
-const ReservationList = ({reservations,updateList}) => {
-    const navigate = useNavigate();
+import '../../assets/styles/List.css';
 
+const ReservationList = ({reservations,updateList}) => {
+ 
     return (
         <>
              <div className="UserRowTitle">

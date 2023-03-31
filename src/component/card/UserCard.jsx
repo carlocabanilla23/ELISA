@@ -1,7 +1,6 @@
 import React from "react";
-import './styles/User.css';
+import '../../assets/styles/User.css';
 import { useNavigate } from "react-router-dom";
-import { API } from "aws-amplify";
 
 const User = ( {user,updateList,ViewInformation,ViewHistory,changeRole,changeStatus} ) => {
         const navigate = useNavigate();
@@ -14,23 +13,7 @@ const User = ( {user,updateList,ViewInformation,ViewHistory,changeRole,changeSta
                 });
 
         }
-        const UserInformation = (e) => {
-                navigate('/UserInformation', {
-                        state: {
-                                email: e
-                        }
-                });
-        }
-
-        const updateStatus = (status) => {
-                if(status === 'active') {
-                        user.status = 'inactive';
-                }
-                else if(status === 'inactive') {
-                        user.status = 'active';
-                }
-        }
-
+     
         const ViewOrderHistory = (email) => {
                 navigate('/OrderHistory/'+email)
         }

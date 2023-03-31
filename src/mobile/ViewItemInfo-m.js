@@ -2,13 +2,12 @@ import { API } from "aws-amplify";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import '../styles/ViewItemInfo.css';
-import logo from '../icons/elisa_logo.png';
+import '../assets/styles/ViewItemInfo.css';
+import logo from '../assets/icons/elisa_logo.png';
 
 
 
 function ViewItemInfo () {
-    const [data,setData] = useState();
     const {param} = useParams();
 
     const [name,setName] = useState('');

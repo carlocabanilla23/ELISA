@@ -1,5 +1,5 @@
 import { Amplify, API } from "aws-amplify";
-import "./styles/UserInformation.css";
+import "../assets/styles/UserInformation.css";
 import React from "react";
 import { useEffect } from "react";
 import awsExport from '../aws-exports';
@@ -43,8 +43,8 @@ function UserInformation(e) {
         <div>
             {/* Header and Sidebar */}
             <div className="head">
-                <Sidebar />
-                <Header />
+                
+                
                 <div className="UserHeader">
                     <div className="content">
                         <div>

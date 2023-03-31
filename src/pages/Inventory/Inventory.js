@@ -1,19 +1,18 @@
-import CreateTestEquipment from "./test/CreateTestEquipment";
+import CreateTestEquipment from "../../test/CreateTestEquipment";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
-import "./styles/Users.css";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
+import "../../assets/styles/Users.css";
+import Sidebar from "../../component/Sidebar";
+import Header from "../../component/Header";
 import { useNavigate } from "react-router-dom";
-import ItemList from "./ItemList";
-import Pagination from "./Pagination";
-import iInventory from "./icons/inventory.png";
-import OffCanvasCard from "./card/OffCanvasCard";
+import ItemList from "../../component/List/ItemList";
+import Pagination from "../../component/Pagination";
+import OffCanvasCard from "../../component/card/OffCanvasCard";
 import Papa from 'papaparse';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { Generate } from "./code-generator/qrcode";
-import { GenerateBarcode } from "./code-generator/barcode";
+import { Generate } from "../../Services/code-generator/qrcode";
+import { GenerateBarcode } from "../../Services/code-generator/barcode";
 
 
 
@@ -22,12 +21,10 @@ function Inventory () {
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [itemsPerPage,setItemsPerPage] = useState(10);
-
+    const [itemsPerPage] = useState(10);
     const [offCanvasItem, setOffCanvasItem] = useState('');
     const [qrcode,setQRCode] = useState();
     const [barcode,setBarcode] = useState();
-    const [elisaImg,setElisaImage] = useState();
     const [roomList, setRoomList] = useState([]);
     const [storageList, setStorageList] = useState([]);
     const [actionName, setActionName] = useState('');
@@ -242,8 +239,8 @@ function Inventory () {
 
     return (
         <div className="Users">
-        <Sidebar />
-        <Header />
+        
+        
         <div className="UserHeader">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">

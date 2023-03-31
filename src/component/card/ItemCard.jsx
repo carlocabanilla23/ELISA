@@ -1,16 +1,10 @@
 import React from "react";
-import "./styles/User.css";
-import "./styles/OffCanvas.css";
+import "../../assets/styles/User.css";
+import "../../assets/styles/OffCanvas.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation}) => {
   const navigate = useNavigate();
-  const [status,setStatus] = React.useState('Status');
-  
-  useEffect( () => {
-    setStatus(item.status)
-    },[]);
     
   const EditItem = (s,t) => {
     navigate("/EditItem", {

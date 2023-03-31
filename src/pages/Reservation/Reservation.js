@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
+import Sidebar from "../../component/Sidebar";
+import Header from "../../component/Header";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { API } from "aws-amplify";
-import './styles/Reservation.css';
-import ReservationItemList from "./ReservationItemList";
-import Pagination from "./Pagination";
-import ReservationAssignedItemList from "./ReservationAssignedItemList";
-import SendNotification from "../Services/notification/Notification";
+import '../../assets/styles/Reservation.css';
+import ReservationItemList from "../../component/List/ReservationItemList";
+import Pagination from "../../component/Pagination";
+import ReservationAssignedItemList from "../../component/List/ReservationAssignedItemList";
+import SendNotification from "../../Services/notification/Notification";
 
 function Reservation () {
     const {param,param1,param2} = useParams();
@@ -375,8 +375,8 @@ function Reservation () {
  
     return (
         <>            
-            <Sidebar />
-            <Header />
+            
+            
             <div className="ReservationHeader">
                     <div className="fs-4 ms-5 fw-bold">
                         <button onClick={ (e) => cancelViewReservation() } className="PageHeaderBtn">

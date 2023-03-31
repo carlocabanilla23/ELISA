@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
-import "./styles/Users.css";
+import "../assets/styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useNavigate, useParams } from "react-router-dom";
-import UserList from "./UserList";
+import UserList from "./List/UserList";
 import Pagination from "./Pagination";
-import CreateTestUser from './test/CreateTestUser';
-import Init from './test/InitUser';
 import Papa from 'papaparse';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -24,7 +22,7 @@ function Users () {
 
     // Offcanvas
     const [offCanvasUser, setOffCanvasUser] = useState('');
-    const [activityHistory, setActivityHistory] = useState([]);
+    // const [activityHistory, setActivityHistory] = useState([]);
     const [actionName, setActionName] = useState('');
     const [refreshvalue, setRefreshValue] = useState('');
 
@@ -216,8 +214,8 @@ const PDF = () => {     // Exporting to pdf
 
     return (
     <div className="Users">
-        <Sidebar />
-        <Header />
+        
+        
         <div className="UserHeader">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">

@@ -1,7 +1,6 @@
 import { API } from 'aws-amplify';
-import React, { PureComponent, useEffect, useState } from 'react';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import '../styles/graph.css';
+import React, { useEffect, useState } from 'react';
+import '../../assets/styles/graph.css';
 // ELISA\src\component\styles\graph.css
 
 function GraphReport2 () {

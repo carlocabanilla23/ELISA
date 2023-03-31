@@ -1,6 +1,6 @@
-import UserCard from "./UserCard";
+import UserCard from "../card/UserCard";
 import React from "react";
-import './styles/List.css';
+import '../../assets/styles/List.css';
 
 const UserList = ({users,updateList,ViewInformation,changeRole,changeStatus}) => {
 

@@ -1,23 +1,22 @@
-import CreateTestEquipment from "./test/CreateTestEquipment";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
-import "./styles/Users.css";
+import "../assets/styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { useNavigate, useLocation, Link,useParams } from "react-router-dom";
+import { useNavigate, Link,useParams } from "react-router-dom";
 import Pagination from "./Pagination";
-import ItemList from "./ItemList";
+import ItemList from "./List/ItemList";
 import OffCanvasCard from "./card/OffCanvasCard";
-import { GenerateRoomQRCode } from "./code-generator/RoomQRCode";
-import { Generate } from "./code-generator/qrcode";
-import { GenerateBarcode } from "./code-generator/barcode";
+import { GenerateRoomQRCode } from "../Services/code-generator/RoomQRCode";
+import { Generate } from "../Services/code-generator/qrcode";
+import { GenerateBarcode } from "../Services/code-generator/barcode";
 
 function StorageLocationItem () {
     const {param} = useParams();
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [itemsPerPage,setItemsPerPage] = useState(10);
+    const [itemsPerPage] = useState(10);
     const [qrcode,setQRCode] = useState();
     const [barcode,setBarcode] = useState();
     const [offCanvasItem, setOffCanvasItem] = useState('');
@@ -218,8 +217,8 @@ function StorageLocationItem () {
 
     return (
         <div className="Users">
-        <Sidebar />
-        <Header />
+        
+        
         <div className="UserHeader">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">

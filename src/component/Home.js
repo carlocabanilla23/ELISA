@@ -1,7 +1,7 @@
-import './styles/Home.css';
+import '../assets/styles/Home.css';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import iDashboard from "./icons/dashboard.png";
+import iDashboard from "../assets/icons/dashboard.png";
 import QuarterReport from '../component/charts/Quarter';
 import GraphReport from '../component/charts/Graph';
 import GraphReport2 from '../component/charts/Graph2';
@@ -23,8 +23,6 @@ function Home() {
   
   return (
     <div className="Home">
-              <Sidebar />
-              <Header />
               <div className="HomeHeader">
                   <div className="content">
                   <div>

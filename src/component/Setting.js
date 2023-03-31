@@ -1,13 +1,11 @@
-import './styles/Setting.css';
+import '../assets/styles/Setting.css';
 import { useNavigate } from 'react-router-dom'; 
-import { Router,Link,Route } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import React,{ useState,useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { useLocation } from "react-router-dom";
-import eyeSlashHide from './icons/eye-slash-hide.png';
-import eyeSlashShow from './icons/eye-slash-show.png';
+import eyeSlashHide from '../assets/icons/eye-slash-hide.png';
+import eyeSlashShow from '../assets/icons/eye-slash-show.png';
 
 
 function Setting(){
@@ -184,8 +182,8 @@ function Setting(){
         <div className="alert alert-success" id="alert" role="alert">
                 The setting changed successfully!
             </div>
-            <Sidebar />
-            <Header />
+            
+            
             <div className="UserHeader">
                 <div className="content">
                     <div>

@@ -1,5 +1,5 @@
 import { Amplify, API } from "aws-amplify";
-import "./styles/CreateUser.css";
+import "../assets/styles/CreateUser.css";
 import React from "react";
 import awsExport from '../aws-exports';
 import Sidebar from './Sidebar';
@@ -126,8 +126,8 @@ function CreateUser() {
             <div className="alert alert-success" id="alert" role="alert">
                 The user has been created successfully!
             </div>
-            <Sidebar />
-            <Header />
+            
+            
             {/* Previous Page Navigation Bar */}
             <div className="UserHeader">
                     <div className="content">

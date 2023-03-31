@@ -1,7 +1,7 @@
 import { API } from 'aws-amplify';
 import React, { PureComponent, useEffect, useState } from 'react';
 import { PieChart, Pie, Sector, Cell, Legend , ResponsiveContainer, Tooltip } from 'recharts';
-import '../styles/graph.css';
+import '../../assets/styles/graph.css';
 
 function ScatterReport () {
   const [data,setData] = useState([]);

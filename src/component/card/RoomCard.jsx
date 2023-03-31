@@ -1,5 +1,5 @@
 import React from "react";
-import './styles/User.css';
+import '../../assets/styles/User.css';
 import { useNavigate } from "react-router-dom";
 import { useEffect,useState } from "react";
 import { API } from "aws-amplify";

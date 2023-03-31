@@ -1,8 +1,6 @@
-import RoomCard from "./RoomCard";
+import RoomCard from "../card/RoomCard";
 import React from "react";
-import './styles/List.css';
-import { API } from 'aws-amplify';
-import { useState, useEffect } from "react";
+import '../../assets/styles/List.css';
 
 const RoomList = ({items,updateList}) => {
 

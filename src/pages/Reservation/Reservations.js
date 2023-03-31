@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
-import "./styles/Users.css";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
+import "../../assets/styles/Users.css";
+import Sidebar from "../../component/Sidebar";
+import Header from "../../component/Header";
 import { useNavigate } from "react-router-dom";
-import ReservationList from './ReservationList';
-import Pagination from "./Pagination";
-import CreateTestReservation from './test/CreateTestReservation';
-import iReservations from "./icons/reservation.png";
+import ReservationList from '../../component/List/ReservationList';
+import Pagination from "../../component/Pagination";
 
 function Reservations () {
     // CreateTestReservation(50);
@@ -136,8 +134,8 @@ function Reservations () {
 
     return (
     <div className="Users">
-        <Sidebar />
-        <Header />
+        
+        
         <div className="UserHeader">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">

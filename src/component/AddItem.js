@@ -4,9 +4,9 @@ import awsExport from '../aws-exports';
 import { useNavigate } from 'react-router-dom'; 
 import Sidebar from './Sidebar';
 import Header from './Header';
-import "./styles/AddItem.css";
+import "../assets/styles/AddItem.css";
 import SendNotification from "../Services/notification/Notification";
-import { DefaultDeviceLogo } from "../assets/base64imgs";
+import { DefaultDeviceLogo } from "../assets/base64/base64imgs";
 Amplify.configure(awsExport);
 
 function AddItem() {
@@ -144,8 +144,8 @@ function AddItem() {
                 Your item has been added successfully!
             </div>
 
-            <Sidebar />
-            <Header />
+            
+            
 
             {/* Previous Page Navigation Bar */}
             <div className="UserHeader">

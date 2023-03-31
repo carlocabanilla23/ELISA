@@ -1,7 +1,6 @@
-import ItemCard from "./ItemCard";
+import ItemCard from "../card/ItemCard";
 import React from "react";
-import './styles/List.css';
-import { useEffect } from "react";
+import '../../assets/styles/List.css';
 
 const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation}) => {
 

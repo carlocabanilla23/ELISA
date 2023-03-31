@@ -1,7 +1,7 @@
 import { API } from 'aws-amplify';
 import React, { PureComponent, useEffect, useState } from 'react';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import '../styles/graph.css';
+import '../../assets/styles/graph.css';
 // ELISA\src\component\styles\graph.css
 function QuarterReport () {
   const [data,setData] = useState([]);

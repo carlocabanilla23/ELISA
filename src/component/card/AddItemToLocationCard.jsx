@@ -1,5 +1,5 @@
 import React from "react";
-import './styles/itemcard.css';
+import '../../assets/styles/itemcard.css';
 import { API } from "aws-amplify";
 
 

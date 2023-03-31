@@ -1,5 +1,5 @@
 import { Amplify, API } from "aws-amplify";
-import "./styles/ItemInformation.css";
+import "../assets/styles/ItemInformation.css";
 import React from "react";
 import { useEffect } from "react";
 import awsExport from '../aws-exports';
@@ -49,8 +49,8 @@ function ItemInformation() {
 
     return (
         <>
-        <Sidebar />
-        <Header />
+        
+        
         <div className="UserHeader">
             <div className="fs-4 ms-5 fw-bold">
                 <button onClick={cancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>

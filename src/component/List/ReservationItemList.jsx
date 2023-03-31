@@ -1,7 +1,5 @@
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import './styles/List.css';
+import '../../assets/styles/List.css';
 
 const ReservationItemList = ({items,addItem,status,searchItem}) => {
     return (

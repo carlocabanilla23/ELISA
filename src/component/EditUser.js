@@ -1,5 +1,5 @@
 import { Amplify, API } from "aws-amplify";
-import "./styles/EditUser.css";
+import "../assets/styles/EditUser.css";
 import React from "react";
 import { useEffect } from "react";
 import awsExport from '../aws-exports';
@@ -89,8 +89,8 @@ function EditUser() {
             <div className="alert alert-success" id="alert" role="alert">
                 The user has been updated successfully!
             </div>
-            <Sidebar />
-            <Header />
+            
+            
 
             <div className="UserHeader">
                     <div className="content">

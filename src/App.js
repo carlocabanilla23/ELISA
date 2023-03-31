@@ -11,10 +11,10 @@ import CreateUser from './component/CreateUser';
 import AddItem from './component/AddItem';
 import EditItem from './component/EditItem';
 import EditUser from './component/EditUser';
-import Inventory from './component/Inventory';
+import Inventory from './pages/Inventory/Inventory';
 import Location from './component/Location';
-import Reservations from './component/Reservations';
-import Reservation from './component/Reservation';
+import Reservations from './pages/Reservation/Reservations';
+import Reservation from './pages/Reservation/Reservation';
 import UserInformation from './component/UserInformation';
 import RoomLocationItem from './component/RoomLocationItem';
 import AddItemToLocation from './component/AddItemToLocation';
@@ -25,11 +25,13 @@ import CreateReservation from './component/CreateReservation';
 import Signup from './component/Signup';
 import AssignedItems from './component/AssignedItems';
 import UnassignedItems from './component/UnassignedItems';
-import ProtectedRoute from './component/Routes/ProtectedRoute';
-import ViewItemInfo from './component/mobile/ViewItemInfo-m';
+import ProtectedRoute from './Services/Routes/ProtectedRoute';
+import ViewItemInfo from './mobile/ViewItemInfo-m';
 import Notification from './pages/Notification';
 import Verify from './component/Verify';
 import OrderHistory from './pages/OrderHistory';
+import Sidebar from './component/Sidebar';
+import Header from './component/Header';
 
 Amplify.configure(awsExport);
 
@@ -37,8 +39,10 @@ function App() {
   const [user] = useState(null);
   const [access,setAccess] = useState('');
 
-
   return (
+    <>
+    <Sidebar />
+    <Header />
     <div >
     {/* Master Route */}
 
@@ -198,6 +202,8 @@ function App() {
     {/* < Inventory /> */}
    
     </div>
+
+    </>
   );
 }
 

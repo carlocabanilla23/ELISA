@@ -1,16 +1,15 @@
-import CreateTestEquipment from "./test/CreateTestEquipment";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
-import "./styles/Users.css";
+import "../assets/styles/Users.css";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { useNavigate, useLocation, Link,useParams } from "react-router-dom";
+import { useNavigate, Link,useParams } from "react-router-dom";
 import Pagination from "./Pagination";
-import ItemList from "./ItemList";
+import ItemList from "./List/ItemList";
 import OffCanvasCard from "./card/OffCanvasCard";
-import { GenerateRoomQRCode } from "./code-generator/RoomQRCode";
-import { Generate } from "./code-generator/qrcode";
-import { GenerateBarcode } from "./code-generator/barcode";
+import { GenerateRoomQRCode } from "../Services/code-generator/RoomQRCode";
+import { Generate } from "../Services/code-generator/qrcode";
+import { GenerateBarcode } from "../Services/code-generator/barcode";
 
 function RoomLocationItem () {
     const {param} = useParams();
@@ -214,8 +213,8 @@ function RoomLocationItem () {
 
     return (
         <div className="Users">
-        <Sidebar />
-        <Header />
+        
+        
         <div className="UserHeader">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">

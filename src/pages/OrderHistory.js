@@ -23,8 +23,8 @@ function OrderHistory() {
     const ViewReservation = (email,rid) => navigate('/Reservation/'+email+'/'+rid);
     return (
         <>
-            <Sidebar />
-            <Header />
+            
+            
 
             {/* Previous Page Navigation Bar */}
             <div className="NotificationHeader">
