@@ -1,6 +1,4 @@
 import '../assets/styles/Home.css';
-import Sidebar from './Sidebar';
-import Header from './Header';
 import iDashboard from "../assets/icons/dashboard.png";
 import QuarterReport from '../component/charts/Quarter';
 import GraphReport from '../component/charts/Graph';
@@ -12,12 +10,8 @@ import { API } from 'aws-amplify';
 
 // ELISA\src\component\charts\Pie.js
 function Home() {
-  const [activeCount,setActiveCount] = useState(0);
-  const [inactiveCount,setInactiveCount] = useState(0);
 
   useEffect(()=>{
-
-    API.get('items','/items').then( res => console.log(res))
 
   },[]);
   

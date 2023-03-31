@@ -8,12 +8,10 @@ function GraphReport () {
   const [data,setData] = useState([]);
 
   useEffect (()=>{
-    var neww = 0;
-    var old = 0;
-    var broken = 0;
     let data = [];
 
-    API.get("inventory","/items").then( res => {
+    API.get("items","/items/allroom").then( res => {
+      // console.log(res)
       let itemFrequency = new Map();
       res.forEach(element => {
           if (itemFrequency.has(element.roomno)) {

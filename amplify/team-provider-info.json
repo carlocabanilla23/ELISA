@@ -50,11 +50,11 @@
         },
         "reservationcart": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/reservationcart-3473696c5236765a5336-build.zip"
+          "s3Key": "amplify-builds/reservationcart-5a7464634c777850354b-build.zip"
         },
         "itemlambda": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/itemlambda-722f784f7a327a4c7358-build.zip"
+          "s3Key": "amplify-builds/itemlambda-4c6f583138763149352b-build.zip"
         },
         "item": {}
       },

@@ -124,6 +124,33 @@ app.get(path+"/allroom", function(req, res) {
 
 
 /********************************
+ * HTTP Get method for list status of objects ***
+ ********************************/
+
+app.get(path+"/status", function(req, res) {
+  const condition = {}
+  condition[partitionKeyName] = {
+    ComparisonOperator: 'EQ'
+  }
+
+  let queryParams = {
+    TableName: tableName,
+    KeyConditions: condition,
+    ProjectionExpression: "#s",
+    ExpressionAttributeNames: { '#s': 'status' }
+  }
+
+  dynamodb.scan(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
+/********************************
  * HTTP Get method for list objects with partition key*
  ********************************/
 

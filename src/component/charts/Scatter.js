@@ -12,7 +12,8 @@ function ScatterReport () {
     var broken = 0;
 
 
-    API.get("inventory","/items").then( itemRes => {
+    API.get("items","/items/status").then( itemRes => {
+      // console.log(itemRes)
         itemRes.forEach(element => {
           if (element.status === "New") { neww++ }
           else if (element.status === "Old") { old++ }

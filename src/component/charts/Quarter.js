@@ -1,15 +1,15 @@
 import { API } from 'aws-amplify';
-import React, { PureComponent, useEffect, useState } from 'react';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React, { useEffect, useState } from 'react';
+import { BarChart, Bar,  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import '../../assets/styles/graph.css';
-// ELISA\src\component\styles\graph.css
+
 function QuarterReport () {
   const [data,setData] = useState([]);
   const [label,setLabel] = useState([]);
-  const lbl1 = useState("thermometer");
 
   useEffect (()=>{
-    API.get("reservationcart","/cart").then(res => {
+    API.get("reservationcart","/cart/cart").then(res => {
+      // console.log(res);
       let itemFrequency = new Map();
       res.forEach(element => {
         for (let i=0;i<element.itemrequested.length;i++) {
