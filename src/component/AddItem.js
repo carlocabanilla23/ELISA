@@ -144,8 +144,8 @@ function AddItem() {
                 Your item has been added successfully!
             </div>
 
-            
-            
+            <Sidebar />
+            <Header />
 
             {/* Previous Page Navigation Bar */}
             <div className="UserHeader">

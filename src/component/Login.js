@@ -5,7 +5,7 @@ import React  from 'react';
 import { API } from 'aws-amplify';
 import logo from '../assets/icons/elisa_logo.png';
 import elisa from '../assets/icons/elisa.png';
-import StartSession from './session/SessionInfo';
+import StartSession from '../Services/session/SessionInfo';
 import Hash from './bcrypt/Hash';
 
 function Login() {
@@ -15,7 +15,7 @@ function Login() {
 
     const onSubmit = e => {
     e.preventDefault();
-    console.log(username);
+    
 
     API.get("useraccounts","/email/object/"+username).then( acc => {
         if (acc.email === username && acc.password === password) {  

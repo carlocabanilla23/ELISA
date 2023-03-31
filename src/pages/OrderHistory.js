@@ -1,10 +1,8 @@
 import React, { useEffect,useState } from "react"
 import { Amplify, API } from "aws-amplify";
 import awsExport from '../aws-exports';
-import { useNavigate, useParams } from 'react-router-dom'; 
-import Sidebar from "../component/Sidebar";
-import Header from "../component/Header";
-import "../component/styles/Notification.css"
+import { useNavigate, useParams } from 'react-router-dom';
+import "../assets/styles/Notification.css"
 Amplify.configure(awsExport);
 
 function OrderHistory() {

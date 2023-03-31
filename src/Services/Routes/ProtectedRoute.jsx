@@ -6,8 +6,14 @@ function ProtectedRoute({user,children}) {
 
  
     if (user === null) return <Navigate to="/" replace/>  
-  
-    return children;
+
+    // else{
+    //   if( document.getElementById('navi') ){
+        
+    //   }
+      return children;
+    // }
+   
 
 }
 

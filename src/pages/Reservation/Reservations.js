@@ -87,7 +87,7 @@ function Reservations () {
     }
 
     const updateList = (reservationno) => {
-        API.del("reservationapi","/reservations/object/"+reservationno);
+        API.del("reservation","/reservations/object/"+reservationno);
         const updatedList = reservations.filter(reservation => reservation.reservationno !== reservationno);
         setReservations(updatedList);
         setUnfilteredReservations(updatedList);

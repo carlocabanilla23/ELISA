@@ -17,7 +17,7 @@ function CreateTestReservation (e) {
     ]
 
     for ( let i = 0 ; i < e; i++) {
-        API.post("reservationapi","/reservations/", {
+        API.post("reservation","/reservations/", {
             body : {
             reservationno : "clone"+i,
             summary : "proto"+i,
