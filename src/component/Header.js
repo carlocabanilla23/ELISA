@@ -40,8 +40,8 @@ function Header() {
       <div className="header">
         <div className="headerprofile">
           <img src={avatar} className="avatar" alt="User Avatar" />
-          <div className="dropdown">
-            <button className="btn dropdown-toggle" data-bs-toggle = "dropdown" onClick={toggleDropdownMenu}>{name}</button>
+          <div className="dropdown" onMouseLeave={toggleDropdownMenu}>
+            <button className="btn dropdown-toggle" data-bs-toggle = "dropdown" onClick={toggleDropdownMenu}  >{name}</button>
             <ul className="dropdown-menu" ref={dropdownMenu}>
               <li onClick={ (e)=> gotoNotification()}>Notification</li>
               <li onClick={ (e) =>gotoSetting()}>Setting</li>

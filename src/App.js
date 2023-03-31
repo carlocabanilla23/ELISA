@@ -1,11 +1,12 @@
-import Login from './component/Login';
-import Home from './component/Home';
-import React, { useEffect, useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { Amplify, API } from 'aws-amplify';
 import awsExport from './aws-exports';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Routes, Route } from 'react-router-dom';
+
+import Login from './component/Login';
+import Home from './component/Home';
 import Users from './component/Users';
 import CreateUser from './component/CreateUser';
 import AddItem from './component/AddItem';
@@ -30,8 +31,34 @@ import ViewItemInfo from './mobile/ViewItemInfo-m';
 import Notification from './pages/Notification';
 import Verify from './component/Verify';
 import OrderHistory from './pages/OrderHistory';
-import Sidebar from './component/Sidebar';
-import Header from './component/Header';
+
+// const Login = lazy(() => import( './component/Login'));
+// const Home = lazy(() => import( './component/Home'));
+// const Users = lazy(() => import( './component/Users'));
+// const CreateUser = lazy(() => import( './component/CreateUser'));
+// const AddItem = lazy(() => import( './component/AddItem'));
+// const EditItem = lazy(() => import( './component/EditItem'));
+// const EditUser = lazy(() => import( './component/EditUser'));
+// const Inventory = lazy(() => import( './pages/Inventory/Inventory'));
+// const Location = lazy(() => import( './component/Location'));
+// const Reservations = lazy(() => import( './pages/Reservation/Reservations'));
+// const Reservation = lazy(() => import( './pages/Reservation/Reservation'));
+// const UserInformation = lazy(() => import( './component/UserInformation'));
+// const RoomLocationItem = lazy(() => import( './component/RoomLocationItem'));
+// const AddItemToLocation = lazy(() => import( './component/AddItemToLocation'));
+// const StorageLocationItem = lazy(() => import( './component/StorageLocationItem'));
+// const ItemInformation = lazy(() => import( './component/ItemInformation'));
+// const Setting = lazy(() => import( './component/Setting'));
+// const CreateReservation = lazy(() => import( './component/CreateReservation'));
+// const Signup = lazy(() => import( './component/Signup'));
+// const AssignedItems = lazy(() => import( './component/AssignedItems'));
+// const UnassignedItems = lazy(() => import( './component/UnassignedItems'));
+// const ProtectedRoute = lazy(() => import( './Services/Routes/ProtectedRoute'));
+// const ViewItemInfo = lazy(() => import( './mobile/ViewItemInfo-m'));
+// const Notification = lazy(() => import( './pages/Notification'));
+// const Verify = lazy(() => import( './component/Verify'));
+// const OrderHistory = lazy(() => import( './pages/OrderHistory'));
+
 
 Amplify.configure(awsExport);
 
@@ -48,19 +75,16 @@ function App() {
           {nav}
     </div>
     <Routes>
+      
       {/* Login Page */}
       <Route path='/' element= {<Login /> } />
-
       <Route path='/Verify/:param' element= {<Verify /> } />
       <Route path='/Signup' element= {<Signup /> } />
-
       
       <Route
         path='/Home'
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
             <Home />
           </ProtectedRoute>
       } />
@@ -69,8 +93,6 @@ function App() {
         path='/Inventory'
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
               <Inventory  />
           </ProtectedRoute>
       } />
@@ -78,8 +100,6 @@ function App() {
       <Route path='/RoomLocation/RoomLocationItem/:param'
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
               <RoomLocationItem />
           </ProtectedRoute>
       } />
@@ -87,31 +107,26 @@ function App() {
       <Route path='/Location' 
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
+          
               <Location /> 
           </ProtectedRoute> } />
 
       <Route path='/RoomLocation/StorageLocationItem/:param' 
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
+          
               <StorageLocationItem /> 
           </ProtectedRoute> } />
 
       <Route path='/AssignedItems' 
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
+          
               <AssignedItems /> 
           </ProtectedRoute> } />
       <Route path='/UnassignedItems' 
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
               <UnassignedItems /> 
           </ProtectedRoute> } />
       
@@ -119,127 +134,95 @@ function App() {
       <Route path='/AddItemToLocation' 
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
               <AddItemToLocation /> 
           </ProtectedRoute> } />
   
       <Route path='/Reservations' 
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
               <Reservations /> 
           </ProtectedRoute> } />
 
       <Route path='/Reservation/:param/:param1/:param2' 
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
               <Reservation /> 
           </ProtectedRoute> } />
 
       <Route path='/CreateReservation'
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
               <CreateReservation /> 
           </ProtectedRoute> } />
 
       <Route path='/EditUser'
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
               <EditUser /> 
           </ProtectedRoute> } /> 
 
       <Route path='/Users' 
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
               <Users /> 
           </ProtectedRoute> } />
 
       <Route path='/Users/:param' 
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
               <Users /> 
           </ProtectedRoute> } />
 
       <Route path='/CreateUser' element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
               <CreateUser /> 
           </ProtectedRoute> } />
       
       <Route path='/ItemInformation' 
           element= {
             <ProtectedRoute user={user}>
-              <Sidebar />
-            <Header />
                 <ItemInformation /> 
             </ProtectedRoute> } />
             
       <Route path="/EditItem" 
         element={
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
             <EditItem /> 
           </ProtectedRoute> } />
 
       <Route path='/AddItem' 
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
               <AddItem /> 
           </ProtectedRoute> } />
 
       <Route path='/UserInformation'
         element= {
           <ProtectedRoute user={user}>
-            <Sidebar />
-            <Header />
               <UserInformation /> 
           </ProtectedRoute> } />
 
       <Route path='/Setting'
         element= {
         <ProtectedRoute user={user}>
-          <Sidebar />
-            <Header />
             <Setting />
         </ProtectedRoute> } />
         
       <Route path='/Notification'
         element= {
         <ProtectedRoute user={user}>
-          <Sidebar />
-            <Header />
             <Notification />
       </ProtectedRoute> } />
 
       <Route path='/ViewItemInfo/:param'
         element= {
         <ProtectedRoute user={user}>
-          <Sidebar />
-            <Header />
             <ViewItemInfo />
         </ProtectedRoute> } />
 
       <Route path='/OrderHistory/:param'
         element= {
         <ProtectedRoute user={user}>
-          <Sidebar />
-            <Header />
             < OrderHistory />
         </ProtectedRoute> } />
        

@@ -1,13 +1,17 @@
 
 .ReservationHeader{
     background-color: #ffffff;
-    color: #3E2B2E;
-    width: 85%;
-    margin-left: 15%;
     height: 6vh;
+    width: 85%;
+    color: #7A2036;
+    position: fixed;
+        top: 6vh;
+        left: 15%;
+    /* margin-left: 15%; */
     padding-top: 0.5em;
-    box-shadow: 3px 3px rgba(0, 0, 0, 0.25);
-    border-bottom: 1px solid black;
+    padding-bottom: 1em;
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.25);
+    z-index: -1;
 }
 
 .Reservation{
