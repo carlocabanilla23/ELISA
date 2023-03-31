@@ -13,14 +13,20 @@ function Header() {
   }
   useEffect ( ()=> { 
     // setName(localStorage.getItem('name'));
+
+    
+
   },[]);
-  const Logout = () => {
+  const Logout = (e) => {
     localStorage.clear();
     navigate('/');
 
   }
 
-  const gotoSetting = () => {
+  document.addEventListener("DOMContentLoaded", function () {
+      // your code here
+    });
+  const gotoSetting = (e) => {
     navigate("/Setting", {
       state: {
         email: decodeURIComponent(escape(window.atob(localStorage.getItem('email'))))
@@ -28,7 +34,7 @@ function Header() {
     });
   }
 
-  const gotoNotification = () => {
+  const gotoNotification = (e) => {
     navigate("/Notification ", {
       state: {
         email: decodeURIComponent(escape(window.atob(localStorage.getItem('email'))))

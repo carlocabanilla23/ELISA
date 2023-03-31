@@ -1,7 +1,5 @@
 import '../assets/styles/Setting.css';
 import { useNavigate } from 'react-router-dom'; 
-import Sidebar from './Sidebar';
-import Header from './Header';
 import React,{ useState,useEffect } from 'react';
 import { API } from 'aws-amplify';
 import eyeSlashHide from '../assets/icons/eye-slash-hide.png';
@@ -24,6 +22,7 @@ function Setting(){
     const [emailNotificationChecked,setEmailNotificationChecked] = useState(false);
 
     const navigate = useNavigate();
+ 
 
     const [hidePassword,setHidePassword] = useState(true);
 
@@ -184,7 +183,7 @@ function Setting(){
             </div>
             
             
-            <div className="UserHeader">
+            <div className="SettingsHeader">
                 <div className="content">
                     <div>
                     <button onClick={cancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>

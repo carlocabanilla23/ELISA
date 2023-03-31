@@ -74,13 +74,14 @@ function App() {
     <div className='nav'>
           {nav}
     </div>
+
+
     <Routes>
-      
+
       {/* Login Page */}
       <Route path='/' element= {<Login /> } />
       <Route path='/Verify/:param' element= {<Verify /> } />
       <Route path='/Signup' element= {<Signup /> } />
-      
       <Route
         path='/Home'
         element= {
@@ -227,6 +228,7 @@ function App() {
         </ProtectedRoute> } />
        
     </Routes>
+
 
     {/* For Testing */}
     {/* Comment The Routes on Top in order to run this. Change the component below for the test that you want to run */}
