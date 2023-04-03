@@ -31,6 +31,7 @@ import ViewItemInfo from './mobile/ViewItemInfo-m';
 import Notification from './pages/Notification';
 import Verify from './component/Verify';
 import OrderHistory from './pages/OrderHistory';
+import Reader from './pages/RFID/Reader';
 
 // const Login = lazy(() => import( './component/Login'));
 // const Home = lazy(() => import( './component/Home'));
@@ -82,6 +83,12 @@ function App() {
       <Route path='/' element= {<Login /> } />
       <Route path='/Verify/:param' element= {<Verify /> } />
       <Route path='/Signup' element= {<Signup /> } />
+
+
+      <Route path='/Reader'element= { < Reader /> } />
+   
+
+
       <Route
         path='/Home'
         element= {
@@ -227,6 +234,8 @@ function App() {
             < OrderHistory />
         </ProtectedRoute> } />
        
+
+      
     </Routes>
 
 

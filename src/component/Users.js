@@ -94,16 +94,6 @@ function Users () {
         document.getElementById("changeStatus").style.display = "none";
     }
 
-    // View User Activity History in OffCanvas
-    // const ViewHistory = (user) => {
-    //     setOffCanvasUser(user);
-    //     setActionName("User History");
-    //     document.getElementById("user-info").style.display = "none";
-    //     document.getElementById("user-history").style.display = "block";
-    //     document.getElementById("changeRole").style.display = "none";
-    //     document.getElementById("changeStatus").style.display = "none";
-    // }
-
     // Change user Role in OffCanvas
     const changeRole = (user) => {
         setRefreshValue(Math.random());
