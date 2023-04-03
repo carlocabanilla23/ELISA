@@ -1,9 +1,7 @@
-import CreateTestEquipment from "../../test/CreateTestEquipment";
+// import CreateTestEquipment from "../../test/CreateTestEquipment";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import "../../assets/styles/Users.css";
-import Sidebar from "../../component/Sidebar";
-import Header from "../../component/Header";
 import { useNavigate } from "react-router-dom";
 import ItemList from "../../component/List/ItemList";
 import Pagination from "../../component/Pagination";
@@ -13,8 +11,6 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { Generate } from "../../Services/code-generator/qrcode";
 import { GenerateBarcode } from "../../Services/code-generator/barcode";
-
-
 
 function Inventory () {
     // CreateTestEquipment(5);
@@ -102,7 +98,6 @@ function Inventory () {
 
     const ViewInformation = async(item) => {
         let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
-        console.log(data)
         setActionName("Item Information");
         setOffCanvasItem(data);
         document.getElementById("item-info").style.display = "block";
@@ -137,10 +132,11 @@ function Inventory () {
         setBarcode(svg);
     }
 
-    const changeStatus = (item) => {
+    const changeStatus = async(item) => {
+        let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
         setRefreshValue(Math.random());
         setActionName("Change Status");
-        setOffCanvasItem(item);
+        setOffCanvasItem(data);
         document.getElementById("item-info").style.display = "none";
         document.getElementById("qrcode").style.display = "none";
         document.getElementById("barcode").style.display = "none";
@@ -148,10 +144,11 @@ function Inventory () {
         document.getElementById("changeLocation").style.display = "none";
     }
 
-    const changeLocation=  (item) => {
+    const changeLocation=  async(item) => {
+        let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
         setRefreshValue(Math.random());
         setActionName("Change Location");
-        setOffCanvasItem(item);
+        setOffCanvasItem(data);
         document.getElementById("item-info").style.display = "none";
         document.getElementById("qrcode").style.display = "none";
         document.getElementById("barcode").style.display = "none";
@@ -262,8 +259,8 @@ function Inventory () {
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                            <li><a className="dropdown-item" onClick={CSV} >CSV</a></li> 
-                                <li><a className="dropdown-item" onClick={PDF} >PDF</a></li>
+                            <li><button className="dropdown-item" onClick={CSV} >CSV</button></li> 
+                                <li><button className="dropdown-item" onClick={PDF} >PDF</button></li>
                             </ul>
                         </div>
                     </div>

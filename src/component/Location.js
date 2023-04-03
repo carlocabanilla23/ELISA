@@ -1,32 +1,18 @@
-import CreateTestEquipment from "../test/CreateTestEquipment";
+// import CreateTestEquipment from "../test/CreateTestEquipment";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import "../assets/styles/Users.css";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
-import { useNavigate } from "react-router-dom";
 import RoomList from "./List/RoomList";
 import Pagination from "./Pagination";
 
-function StorageLocation () {
+function Location () {
     // CreateTestEquipment(20);
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [itemsPerPage,setItemsPerPage] = useState(10);
-
-    const navigate = useNavigate();
-
-    const AddItem = e => {
-        e.preventDefault();
-        navigate('/AddItem');
-    }
+    const [itemsPerPage] = useState(10);
 
     useEffect( () => {
-        // API.get("inventory","/items/").then( itemRes => {
-        //     sortItems(itemRes);
-        // })
-
         API.get('items','/items/allroom').then(res => sortItems(res))
        
     },[]);
@@ -91,8 +77,6 @@ function StorageLocation () {
 
     return (
         <div className="Users">
-        
-        
         <div className="UserHeader">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
@@ -108,8 +92,8 @@ function StorageLocation () {
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#">CSV</a></li>
-                                <li><a className="dropdown-item" href="#">PDF</a></li>
+                                <li><button type="button" className="dropdown-item">CSV</button></li>
+                                <li><button type="button" className="dropdown-item">PDF</button></li>
                             </ul>
                         </div>
                     </div>
@@ -130,4 +114,4 @@ function StorageLocation () {
     )
 }
 
-export default StorageLocation;
+export default Location;

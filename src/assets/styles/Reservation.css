@@ -98,8 +98,13 @@
 }
 
 #SearchReservation{
-    position: aboslute;
+    position: absolute;
         left: 55%;
         top: 7%;
     width: 43%;
+}
+
+#reserveInfoCol{
+    position:relative;
+    left: 3%;
 }

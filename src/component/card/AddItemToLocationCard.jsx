@@ -20,9 +20,7 @@ const AddItemToLocationCard = ( {item,updateList,itemCount,roomno,location} ) =>
             });
             updateList(serialno);
         }
-
-        return (
-             
+        return (    
         <div className="UserRowItems">
                 <div className="container-fluid">
                         <div className="row ">

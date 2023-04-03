@@ -23,7 +23,6 @@ function Reservation () {
     const [lastName,setLastName] = useState("");
     const [schoolID,setSchoolID] = useState("");
     const [email,setEmail] = useState("");
-    const [role,setRole] = useState("");
     const [summary,setSummary] = useState("");
     const [currentDate,setCurrentDate] = useState("");
     const [note,setNote] = useState("");
@@ -32,34 +31,24 @@ function Reservation () {
     const [status,setStatus] = useState('');
     const [reservationno,setReservationNo] = useState('');
     const [approvedBy, setApprovedBy] = useState('');
-    const [requestedBy, setRequestedBy] = useState('');
-    const [addApprovedBy, setAddApprovedBy] = useState('');
     const [reviewedBy, setReviewedBy] = useState('');
-    const [addReviewedBy, setAddReviewedBy] = useState('');
     const [reservationCart,setReservationCart] = useState([]);
-
-    //Addition space for positioning assign and request date and by
-    const [assignedSpace, setAssignedSpace] = useState('');
-    const [approvedSpace, setApprovedSpace] = useState('');
 
     // Item List
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [assignedItems,setAssignedItems] = useState([]);
-    const [returnedItems,setReturnedItems] = useState([]);
     const [itemList,setItemList] = useState([]);
     const [itemListHeader,setItemListHeader] = useState("Assigned Items");
-    const [removeAssignedItem, setRemoveAssignedItem] = useState('');
 
     // Pagination 
     const [currentPage,setCurrentPage] = useState(1);
-    const [itemsPerPage,setItemsPerPage] = useState(10);
+    const itemsPerPage = 10;
 
     useEffect( () => {
         API.get("reservation","/reservation/object/"+param+"/"+param1).then( res => {
             setReservationNo(res.reservationno);
             setEmail(res.email);
-            // setRequestedBy(res.requestby);
             setSummary(res.summary);
             setCurrentDate(res.requestdate);
             setReturnDate(res.returndate);
@@ -68,18 +57,10 @@ function Reservation () {
             if(res.assigndate !== undefined){
                 setAssignedDate(res.assigndate);
             }
-            setReviewedBy(res.reviewedby);
-
-           
+            if(res.reviewedby !== undefined){
+                setReviewedBy(res.reviewedby);
+            }
         })
-
-        
-            // API.get("items","/items").then( res => {
-            //     // setItems(res);
-            //     sortItems(res);
-            // });
-           
-        // }
 
         API.get("reservationcart","/cart/object/"+param1).then( res => {
             setNote(res.note);
@@ -97,7 +78,6 @@ function Reservation () {
             }
             setReservationCart(res.itemrequested);
             setAssignedItems(res.assigneditems);
-            setReturnedItems(res.returneditems);
 
             if (res.assignedItems === undefined) {}
             else if (res.assigneditems.length === 0 && status === "Returned") {
@@ -108,13 +88,12 @@ function Reservation () {
             }
             
             if (itemList.length > 0) {
-                var element = document.getElementsByClassName("assignedItemListHeader");
+                let element = document.getElementsByClassName("assignedItemListHeader");
                 element.style.display = 'block';
             }
 
             if (assignedItems.length !== 0 || assignedItems !== undefined) {
                 var element = document.getElementsByClassName("assignedItemListRemoveBtn");
-                // element.forEach( e => e.style.display = 'none')
                 var i;
                 for (i = 0; i < element.length; i++) {
                     element[i].style.display = 'none';
@@ -126,70 +105,14 @@ function Reservation () {
         API.get("userapi","/email/object/"+param).then( res => {
             setFirstName(res.firstname);
             setLastName(res.lastname);
-            setSchoolID(res.schoolID);  
-            setRole(res.role);
+            setSchoolID(res.schoolID);
         })
-      
         },[]);
-    //sorted the item list (right side) base on the item request in reservation cart
-    //Change ItemListHeader name and hide assign and retunr button base on reservation status
-    // useEffect(() => {
-    //     const returnBtn = document.getElementById("returnBtn");
-    //     const assignBtn = document.getElementById("assignBtn");
-    //     if(status != "Open"){
-    //         setItemListHeader(status + " Items");
-    //         if(status === "Assigned"){
-    //             assignBtn.style.display = 'inline';
-    //             returnBtn.style.display = 'inline';
-    //         }else if(status === "Returned"){
-    //             returnBtn.style.display = 'none';
-    //             assignBtn.style.display = 'none';
-    //         }
-    //     }else{
-    //         returnBtn.style.display = 'none';
-    //         assignBtn.style.display = 'inline';
-    //     }
-    // },[status])
-
-    //Adding additional space to position the return date and review by
-    // useEffect(() => {
-    //     let additionSpace = '';
-    //     for(let i = 0; i < 21 - assignedDate.length; i++){
-    //         additionSpace += ' ';
-    //     }
-    //     setAssignedSpace(additionSpace);
-    //     additionSpace = '';
-    //     for(let o = 0; o < 21 - approvedBy.length; o++){
-    //         additionSpace += ' ';
-    //     }
-    //     setApprovedSpace(additionSpace);
-    // },[assignedDate,returnDate])
-
-    //Add the remove item to the unassigned list
-    // useEffect(() => {
-    //     if(removeAssignedItem !== ''){
-    //         setItems([...items,removeAssignedItem]);
-    //         setUnfilteredItems([...unfilteredItems,removeAssignedItem]);
-    //     }
-    //     setRemoveAssignedItem('');
-    // },[removeAssignedItem])
     
     // Sort item in the item list
     const sortItems = (items) => {
         console.log(items)
         const updatedList = items.filter(item => item.location === "Unassigned" || "Room");
-        // var requestedItem;
-        // var matchRequested = [];
-        // for(var o = 0; o < reservationCart.length; o++){
-        //     requestedItem = reservationCart[o];
-        //     for(var i = 0; i < updatedList.length; i++){//Sort item according to the request type
-        //         if(updatedList[i].type === requestedItem.type){
-        //             matchRequested.push(updatedList[i]);
-        //         }
-        //     }
-        // }
-        // // console.log(matchRequested)
-        // console.log(updatedList)
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     } 
@@ -199,7 +122,7 @@ function Reservation () {
     }
 
     const AddItemToLocation = (items,firstName,lastName) => {
-        items.map(item => {
+        items.forEach(item => {
             API.put("items","/items", {
                 body : {
                     name : item.name,
@@ -255,11 +178,9 @@ function Reservation () {
         const updateAssignedList = assignedItems.filter((itemRes) => itemRes.serialno !== item.serialno);
         setAssignedItems(updateAssignedList);
         setItemList(updateAssignedList);
-        setRemoveAssignedItem(item);
     }
 
     const returnItems = (assignedItems) => {
-        setAddReviewedBy(accountName);
         assignedItems.forEach( item => {
             API.post("items","/items", {
                 body : {
@@ -281,6 +202,7 @@ function Reservation () {
             summary : summary,
             status : "Returned",
             requestby : firstName + " " + lastName,
+            assigndate : assignedDate,
             approvedby : approvedBy,
             reviewedby: reviewedBy,
             requestdate : currentDate,
@@ -300,7 +222,6 @@ function Reservation () {
 
         setStatus("Returned");
         setItemListHeader("Returned Items");
-        setReturnedItems(assignedItems);
     }
    
     const AssignItems = (assignedItems) => {
@@ -311,6 +232,7 @@ function Reservation () {
                 summary : summary,
                 status : "Assigned",
                 requestby : firstName + " " + lastName,
+                assigndate : currentDate,
                 approvedby : approvedBy,
                 reviewedby: reviewedBy,
                 requestdate : currentDate,
@@ -329,8 +251,6 @@ function Reservation () {
         AddItemToLocation(assignedItems,firstName,lastName);
         CheckInventory(assignedItems)
         setStatus("Assigned");
-        // document.getElementById("assignBtn").disabled = true;
-
     }
 
     const CheckInventory = (assignedItems) => {
@@ -347,7 +267,6 @@ function Reservation () {
         });
 
     }
-
 
     //Searching item
     const searchItem = (e) => {
@@ -479,9 +398,18 @@ function Reservation () {
                                 <label className="form-label">{schoolID}</label>
                             </div>
                             <div className="col">
-                                <label className="fw-bold form-label">Assign Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return Date</label>
-                                <br/>
-                                <label className="form-label"><pre>{assignedDate.length === 0 ? "N/A                  " : assignedDate+assignedSpace}{returnDate.length === 0 ? "N/A" : returnDate}</pre></label> {/* 20 */}
+                                <div className="row" id="reserveInfoCol">
+                                    <div className="col">
+                                        <label className="fw-bold form-label">Assign Date</label>
+                                        <br/>
+                                        <label className="form-label">{assignedDate.length === 0 ? "N/A" : assignedDate}</label>
+                                    </div>
+                                    <div className="col">
+                                        <label className="fw-bold form-label">Return Date</label>
+                                        <br/>
+                                        <label className="form-label">{returnDate.length === 0 ? "N/A" : returnDate}</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -492,9 +420,18 @@ function Reservation () {
                                 <label className="form-label">{email}</label>
                             </div>
                             <div className="col">
-                                <label className="fw-bold form-label">Approved By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Review By</label>
-                                <br/>
-                                <label id="approvedBy" className="form-label" value=""><pre>{approvedBy.length === 0 ? "N/A                  " : approvedBy+approvedSpace}{reviewedBy === undefined ? "N/A" : reviewedBy}</pre></label>
+                                <div className="row" id="reserveInfoCol">
+                                    <div className="col">
+                                        <label className="fw-bold form-label">Approved By</label>
+                                        <br/>
+                                        <label id="approvedBy" className="form-label">{approvedBy.length === 0 ? "N/A" : approvedBy}</label>
+                                    </div>
+                                    <div className="col">
+                                        <label className="fw-bold form-label">Reviewd By</label>
+                                        <br/>
+                                        <label id="reviewedBy" className="form-label">{reviewedBy.length === 0 ? "N/A" : reviewedBy}</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -507,9 +444,9 @@ function Reservation () {
                             <div className="col">
                                 <label className="fw-bold form-label"></label>
                                 <br/>
-                                <button className="btn btn-light" id="returnBtn" onClick={ (e) => {setReviewedBy(accountName);setAddReviewedBy(accountName);setReturnDate(`${year}-${month}-${day}`);returnItems(assignedItems);}}>Return Items</button>
+                                <button className="btn btn-light" id="returnBtn" onClick={ (e) => {setReviewedBy(accountName);setReturnDate(`${year}-${month}-${day}`);returnItems(assignedItems);}}>Return Items</button>
                                 <br/>
-                                <button className="btn btn-light" id="assignBtn" onClick={ (e) => {setApprovedBy(accountName);setAddApprovedBy(accountName);setAssignedDate(`${year}-${month}-${day}`);AssignItems(assignedItems)}}>Assign Items</button>
+                                <button className="btn btn-light" id="assignBtn" onClick={ (e) => {setApprovedBy(accountName);setAssignedDate(`${year}-${month}-${day}`);AssignItems(assignedItems)}}>Assign Items</button>
                             </div>
                         </div>
 

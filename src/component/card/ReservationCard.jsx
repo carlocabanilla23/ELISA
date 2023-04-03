@@ -6,11 +6,9 @@ const ReservationCard = ( {reservation,updateList} ) => {
         const navigate = useNavigate();
 
         const gotoReservation = (email,rid,status) => {
-                // console.log(e);
                 navigate("/Reservation/"+ email+"/"+rid+"/"+status);
-            }
+        }
         return (
-             
         <div className="UserRowItems">
                 <div className="container-fluid">
                         <div className="row ">

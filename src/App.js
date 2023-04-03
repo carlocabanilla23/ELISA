@@ -1,5 +1,5 @@
-import React, { useState, lazy, Suspense } from 'react';
-import { Amplify, API } from 'aws-amplify';
+import React, { useState, /*lazy, Suspense*/ } from 'react';
+import { Amplify, /* API */ } from 'aws-amplify';
 import awsExport from './aws-exports';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -16,7 +16,6 @@ import Inventory from './pages/Inventory/Inventory';
 import Location from './component/Location';
 import Reservations from './pages/Reservation/Reservations';
 import Reservation from './pages/Reservation/Reservation';
-import UserInformation from './component/UserInformation';
 import RoomLocationItem from './component/RoomLocationItem';
 import AddItemToLocation from './component/AddItemToLocation';
 import StorageLocationItem from './component/StorageLocationItem';
@@ -202,12 +201,6 @@ function App() {
         element= {
           <ProtectedRoute user={user}>
               <AddItem /> 
-          </ProtectedRoute> } />
-
-      <Route path='/UserInformation'
-        element= {
-          <ProtectedRoute user={user}>
-              <UserInformation /> 
           </ProtectedRoute> } />
 
       <Route path='/Setting'

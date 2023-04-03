@@ -41,37 +41,37 @@ const User = ( {user,updateList,ViewInformation,ViewHistory,changeRole,changeSta
                                                                         <i className="fa fa-ellipsis-h"></i>
                                                                 </button>
                                                                 <ul className="dropdown-menu">
-                                                                        <li><a onClick={ (e) => ViewInformation(user)}
+                                                                        <li><button onClick={ (e) => ViewInformation(user)}
                                                                                 className="dropdown-item"
                                                                                 type="button"
                                                                                 data-bs-toggle="offcanvas"
                                                                                 data-bs-target="#offcanvasRight"
                                                                                 aria-controls="offcanvasRight"
-                                                                                >View Information</a>
+                                                                                >View Information</button>
                                                                         </li>
-                                                                        <li><a onClick={ (e) => ViewOrderHistory(user.email)}
+                                                                        <li><button onClick={ (e) => ViewOrderHistory(user.email)}
                                                                                 className="dropdown-item"
                                                                                 type="button"
                                                                                 data-bs-toggle="offcanvas"
                                                                                 data-bs-target="#offcanvasRight"
                                                                                 aria-controls="offcanvasRight"
-                                                                                >View History</a>
+                                                                                >View History</button>
                                                                         </li>
-                                                                        <li><a onClick={ (e) => changeRole(user)}
+                                                                        <li><button onClick={ (e) => changeRole(user)}
                                                                                 className="dropdown-item"
                                                                                 type="button"
                                                                                 data-bs-toggle="offcanvas"
                                                                                 data-bs-target="#offcanvasRight"
                                                                                 aria-controls="offcanvasRight"
-                                                                                >Change Role</a>
+                                                                                >Change Role</button>
                                                                         </li>
-                                                                        <li><a onClick = { (e) => changeStatus(user)}
+                                                                        <li><button onClick = { (e) => changeStatus(user)}
                                                                                 className="dropdown-item"
                                                                                 type="button"
                                                                                 data-bs-toggle="offcanvas"
                                                                                 data-bs-target="#offcanvasRight"
                                                                                 aria-controls="offcanvasRight"
-                                                                                >Change Status</a>
+                                                                                >Change Status</button>
                                                                         </li>
                                                                 </ul>
                                                         </div>

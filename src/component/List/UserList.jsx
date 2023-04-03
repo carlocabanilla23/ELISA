@@ -13,7 +13,6 @@ const UserList = ({users,updateList,ViewInformation,changeRole,changeStatus}) =>
                     key={index}
                     updateList={updateList}
                     ViewInformation={ViewInformation}
-                    // ViewHistory={ViewHistory}
                     changeRole={changeRole}
                     changeStatus={changeStatus} />
                 </li>

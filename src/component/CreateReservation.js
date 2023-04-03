@@ -1,8 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { API } from 'aws-amplify';
-import Sidebar from "./Sidebar";
-import Header from "./Header";
 import '../assets/styles/CreateReservation.css';
 import { useNavigate, useLocation } from "react-router-dom";
 import SendNotification from "../Services/notification/Notification";

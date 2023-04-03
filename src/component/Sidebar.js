@@ -7,7 +7,7 @@ import iReservations from "../assets/icons/reservation.png";
 import iUsers from '../assets/icons/users.png';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
-import { API } from 'aws-amplify';
+// import { API } from 'aws-amplify';
 
 function Sidebar() {
   const access = localStorage.getItem('access');
@@ -21,16 +21,16 @@ function Sidebar() {
     }
   },[]);
 
-  const Transfer = (e) => {
-    API.get("inventory","/items").then( itemRes => {
-      itemRes.forEach(element => {
-        API.post('items','/items',{
-          body : element
-        })
-      });
-    });
-    alert("Transfer Success !!!")
-  }
+  // const Transfer = (e) => {
+  //   API.get("inventory","/items").then( itemRes => {
+  //     itemRes.forEach(element => {
+  //       API.post('items','/items',{
+  //         body : element
+  //       })
+  //     });
+  //   });
+  //   alert("Transfer Success !!!")
+  // }
   return (
     <div className="sidenav">    
         <div className='sidebar'>

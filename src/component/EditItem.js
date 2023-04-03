@@ -2,8 +2,6 @@ import { Amplify, API } from "aws-amplify";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import awsExport from '../aws-exports';
-import Header from "./Header";
-import Sidebar from "./Sidebar";
 import { useLocation,useNavigate } from "react-router-dom";
 import "../assets/styles/EditItem.css"
 
@@ -45,9 +43,9 @@ function EditItem() {
             setExpiredDate(res.expiredate);
             setImage(res.image);
         })
-        // API.get("inventory", "/items").then(res => {
-        //     setItem([...item,...res]);
-        // })
+        API.get("items", "/items").then(res => {
+            setItem([...item,...res]);
+        })
     },[]);
 
     useEffect(() => {
@@ -81,6 +79,9 @@ function EditItem() {
     
     const EditItem = (e) => {
         e.preventDefault();
+        console.log(type);
+        console.log(model);
+        console.log(manufacturer)
 
         //Get the current time
         var date = new Date();
@@ -100,11 +101,11 @@ function EditItem() {
             throw new Error(setError('1'));
         }else if(status === "Status"){
             throw new Error(setError('2'));
-        }else if(location === "Unassigned" && roomNumber != ''){
+        }else if(location === "Unassigned" && roomNumber !== ''){
             throw new Error(setError('3'));
         }
         for(var i = 0; i < item.length; i++){
-            if(item[i].roomno === roomNumber && item[i].location != location){
+            if(item[i].roomno === roomNumber && item[i].location !== location){
                 throw new Error(setError('4'));
             }
         }
@@ -120,7 +121,7 @@ function EditItem() {
                 status : status,
                 manufacturer: manufacturer,
                 cost: cost,
-                lastupdated: date,
+                lastupdated: today,
                 acquiredate: acquiredDate,
                 expiredDate: expiredDate,
                 image : image
@@ -147,9 +148,6 @@ function EditItem() {
             <div className="alert alert-success" id="alert" role="alert">
                 Your item has been updated successfully!
             </div>
-            
-            
-            
 
             <div className="UserHeader">
                     <div className="content">
@@ -202,14 +200,14 @@ function EditItem() {
                                         {location}
                                     </button>
                                     <ul className="dropdown-menu">
-                                        <li><a className="dropdown-item" onClick={(e)=> setLocation ("Room")} > Room
-                                            </a>
+                                        <li>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setLocation("Room")}>Room</button>
                                         </li>
-                                        <li><a className="dropdown-item" onClick={(e)=> setLocation ("Storage")} > Storage
-                                            </a>
+                                        <li>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setLocation("Storage")}>Storage</button>
                                         </li>
-                                        <li><a className="dropdown-item" onClick={(e)=> setLocation ("Unassigned")} > Unassigned
-                                            </a>
+                                        <li>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setLocation("Unassigned")}>Unassigned</button>
                                         </li>
                                     </ul>
                                 </div>
@@ -219,7 +217,7 @@ function EditItem() {
                         <div className="form-input">
                             <label className="input-label" for="roomNumber" >Room/Storage #</label>
                             <input type="text" className="text-input" id="roomNumber" 
-                            value={roomNumber} onChange = {(e) => {setRoom(e.target.value)}} required = {location != "Unassigned"} />
+                            value={roomNumber} onChange = {(e) => {setRoom(e.target.value)}} required = {location !== "Unassigned"} />
                         </div>
                         {/* Status */}
                         <div className="form-input">
@@ -230,14 +228,14 @@ function EditItem() {
                                         {status}
                                     </button>
                                     <ul className="dropdown-menu">
-                                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("New")} > New
-                                            </a>
+                                        <li>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setStatus("New")}>New</button>
                                         </li>
-                                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("Old")} > Old
-                                            </a>
+                                        <li>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setStatus("Old")}>Old</button>
                                         </li>
-                                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("Used")} > Used
-                                            </a>
+                                        <li>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setStatus("Used")}>Used</button>
                                         </li>
                                     </ul>
                                 </div>
@@ -265,10 +263,6 @@ function EditItem() {
                             onChange={(e) => { encodeImage(e)}} />
                         </div>
                         <img src={image} width="150" height="150" alt="" />
-                        {/* <div className="form-input">
-                            <label className="input-label" for="photo" >Photo</label>
-                            <input type="text" className="nameInput" id="name"  />
-                        </div> */}
                         <span className="errormessage">{errorMessage}</span>
                         <div className="button-wrapper">
                             <button className="button" type = "button" onClick={CancelEdit} >Cancel</button>

@@ -11,7 +11,6 @@ function GraphReport () {
     let data = [];
 
     API.get("items","/items/allroom").then( res => {
-      // console.log(res)
       let itemFrequency = new Map();
       res.forEach(element => {
           if (itemFrequency.has(element.roomno)) {
@@ -33,8 +32,7 @@ function GraphReport () {
             value : itemFrequency.get(element)
           }
         data.push(d);
-      });
-
+        });
         setData(data)
       });
       
