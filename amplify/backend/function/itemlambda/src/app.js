@@ -213,6 +213,34 @@ app.post(path +"/roomno", function(req, res) {
 
 
 /********************************
+ * HTTP Get method to RFID the number of items in a RFID* GSI
+ ********************************/
+
+app.post(path +"/rfid", function(req, res) {
+
+  let queryParams = {
+    TableName: tableName,
+    IndexName : 'rfidcode',
+    ProjectionExpression: "#name,#n,#t,#l,#sn,#rn,#m",
+    KeyConditionExpression: '#name = :value',
+    ExpressionAttributeValues: { ':value':  req.body.rfidcode },
+    ExpressionAttributeNames: { '#name': 'rfidcode' ,'#n': 'name' ,
+                                '#t': 'type', '#l': 'location', '#sn': 'serialno',
+                                '#rn': 'roomno','#m': 'model'}
+  }
+
+  dynamodb.query(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
+
+/********************************
  * HTTP Get method for list objects in a room* GSI
  ********************************/
 

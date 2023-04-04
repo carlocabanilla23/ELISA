@@ -20,7 +20,6 @@ function AddItem() {
     const [manufacturer, setManufacturer] = React.useState('');
     const [cost, setCost] = React.useState('');
     const [acquiredDate, setAcquiredDate] = useState('');
-    const [expiredDate, setExpiredDate] = useState('N/A');
     const [image, setImage] = useState(DefaultDeviceLogo());
 
     const [items, setItems] = React.useState([]);
@@ -85,9 +84,9 @@ function AddItem() {
                 throw new Error(setError('2'));
             }else if(status === "Status"){
                 throw new Error(setError('3'));
-            }else if(location === "Unassigned" && roomNumber != ''){
+            }else if(location === "Unassigned" && roomNumber !== ''){
                 throw new Error(setError('4'));
-            }else if(items[i].roomno === roomNumber && items[i].location != location){
+            }else if(items[i].roomno === roomNumber && items[i].location !== location){
                 throw new Error(setError('5'));
             }
         }
@@ -106,7 +105,6 @@ function AddItem() {
                 createdate: today,
                 lastupdated: today,
                 acquiredate: acquiredDate,
-                expiredate: expiredDate,
                 image : image
             }
         });
@@ -199,14 +197,14 @@ function AddItem() {
                                         {location}
                                     </button>
                                     <ul className="dropdown-menu">
-                                        <li><a className="dropdown-item" onClick={(e)=> setLocation ("Room")} > Room
-                                            </a>
+                                        <li>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setLocation("Room")}>Room</button>
                                         </li>
-                                        <li><a className="dropdown-item" onClick={(e)=> setLocation ("Storage")} > Storage
-                                            </a>
+                                        <li>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setLocation("Storage")}>Storage</button>
                                         </li>
-                                        <li><a className="dropdown-item" onClick={(e)=> setLocation ("Unassigned")} > Unassigned
-                                            </a>
+                                        <li>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setLocation("Unassigned")}>Unassigned</button>
                                         </li>
                                     </ul>
                                 </div>
@@ -227,14 +225,14 @@ function AddItem() {
                                         {status}
                                     </button>
                                     <ul className="dropdown-menu">
-                                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("New")} > New
-                                            </a>
+                                        <li>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setStatus("New")}>New</button>
                                         </li>
-                                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("Old")} > Old
-                                            </a>
+                                        <li>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setStatus("Old")}>Old</button>
                                         </li>
-                                        <li><a className="dropdown-item" onClick={(e)=> setStatus ("Used")} > Used
-                                            </a>
+                                        <li>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setStatus("Used")}>Used</button>
                                         </li>
                                     </ul>
                                 </div>

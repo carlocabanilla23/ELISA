@@ -1,5 +1,5 @@
-import React, { PureComponent, useState,useEffect } from 'react';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React, { useState,useEffect } from 'react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { API } from 'aws-amplify';
 function BarReport () {
   const [data,setData] = useState([]);
@@ -9,12 +9,10 @@ function BarReport () {
     var aCount = 0;
 
     API.get("reservation","/reservation").then( res => {
-        res.map(element => {
+        res.forEach(element => {
             if (element.status === "Open") oCount++;
             else if (element.status === "Assigned") aCount++;
         });
-        // setOpenCount(oCount);
-        // setAssignCount(aCount);
 
         const df = [
           {

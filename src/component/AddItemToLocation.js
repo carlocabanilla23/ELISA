@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import "../assets/styles/Users.css";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
-import { useNavigate,useLocation, Link } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import AddItemToLocationList from './List/AddItemToLocationList';
 import Pagination from "./Pagination";
 
@@ -12,7 +10,7 @@ function AddItemToLocation () {
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [itemsPerPage,setItemsPerPage] = useState(10);
+    const [itemsPerPage] = useState(10);
     const locationParam = location.state.location;
     const roomnoParam = location.state.roomno;
     const navigate = useNavigate();
@@ -132,8 +130,8 @@ function AddItemToLocation () {
                             Export
                         </button>
                         <ul className="dropdown-menu">
-                            <li><a className="dropdown-item" href="#">CSV</a></li>
-                            <li><a className="dropdown-item" href="#">PDF</a></li>
+                            <li><button type="button" className="dropdown-item">CSV</button></li>
+                            <li><button type="button" className="dropdown-item">PDF</button></li>
                         </ul>
                     </div>
                 </div>

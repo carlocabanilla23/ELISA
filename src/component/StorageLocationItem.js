@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import "../assets/styles/Users.css";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
 import { useNavigate, Link,useParams } from "react-router-dom";
 import Pagination from "./Pagination";
 import ItemList from "./List/ItemList";
@@ -43,12 +41,11 @@ function StorageLocationItem () {
             body: { roomno : param }
         }).then ( res => {
             setItems(res);
+            setUnfilteredItems(res);
         })
-
-        // API.get("inventory","/items/").then( itemRes => {
-        //     sortItems(itemRes);
-        //     sortLocationList(itemRes);
-        // })
+        API.get("items","/items").then(itemRes => {
+            sortLocationList(itemRes);
+        });
     },[]);
 
     const updateList = (serialno) => {
@@ -57,26 +54,6 @@ function StorageLocationItem () {
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     }
-
-    const sortItems = (items) => {
-        const updatedList = items.filter(item => item.roomno === param);
-        updatedList.sort((a,b) => {
-            var tA = Number.parseInt(a.type);
-            var tB = Number.parseInt(b.type);
-            if(isNaN(tA) && isNaN(tB)){
-                return a.type.localeCompare(b.type);
-            }else if(isNaN(tA)){
-                return -1;
-            }else if(isNaN(tB)){
-                return 1;
-            }else{
-                return Math.sign(tA - tB);
-            }
-        });
-        setItems(updatedList);
-        setUnfilteredItems(updatedList);
-    }
-
     const sortLocationList = (items) => {
         //Sort room list for change Location function
         const CurrentRoomList = items.filter(item => item.location === "Room");
@@ -252,8 +229,8 @@ function StorageLocationItem () {
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#">CSV</a></li>
-                                <li><a className="dropdown-item" href="#">PDF</a></li>
+                                <li><button type="button" className="dropdown-item">CSV</button></li>
+                                <li><button type="button" className="dropdown-item">PDF</button></li>
                             </ul>
                         </div>
                     </div>

@@ -247,22 +247,19 @@ function Signup () {
                                 </button>
                                 <ul className="dropdown-menu">
                                     <li>
-                                        <a className = "dropdown-item"
-                                        onClick={(e)=> setRole("Student")}>
-                                        Student
-                                        </a>
+                                        <button type="button" className="dropdown-item" onClick={(e) => setRole("Student")}>
+                                            Student
+                                        </button>
                                     </li>
                                     <li>
-                                        <a className = "dropdown-item"
-                                        onClick={(e)=> setRole("TA")}>
-                                        TA
-                                        </a>
+                                        <button type="button" className="dropdown-item" onClick={(e) => setRole("TA")}>
+                                            TA
+                                        </button>
                                     </li>
                                     <li>
-                                        <a className = "dropdown-item"
-                                        onClick={(e)=> setRole("Professor")}>
-                                        Professor
-                                        </a>
+                                        <button type="button" className="dropdown-item" onClick={(e) => setRole("Professor")}>
+                                            Professor
+                                        </button>
                                     </li>
                                 </ul>
                                 </div>

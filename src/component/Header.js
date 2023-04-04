@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../assets/styles/Header.css';
 import avatar from '../assets/icons/avatar_test.png';
-import { useNavigate,Link,Route } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
   const dropdownMenu = React.useRef(null);

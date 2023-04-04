@@ -13,7 +13,6 @@ const AssignedItemCard = ({ item, updateList }) => {
           <div className="col"> {item.model} </div>
           <div className="col"> {item.assignedto} </div>
           <div className="col"> {item.assignedate} </div>
-          {/* <div className="col"> {item.returndate} </div> */}
         </div>
       </div>
       <div

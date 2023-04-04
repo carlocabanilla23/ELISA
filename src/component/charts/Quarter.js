@@ -9,7 +9,6 @@ function QuarterReport () {
 
   useEffect (()=>{
     API.get("reservationcart","/cart/cart").then(res => {
-      // console.log(res);
       let itemFrequency = new Map();
       res.forEach(element => {
         for (let i=0;i<element.itemrequested.length;i++) {

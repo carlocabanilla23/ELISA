@@ -8,7 +8,7 @@ import { API } from "aws-amplify";
 const RoomCard = ( {item} ) => {
         const navigate = useNavigate();
         const [items, setItems] = useState([]);
-      
+
         useEffect(()=> {
                 API.post('items','/items/roomno/',{
                   body: {
@@ -19,21 +19,16 @@ const RoomCard = ( {item} ) => {
                 })
         },[]);
 
-
         const ViewItems = () => {
-        //     let path = "/";
             if (item.location === "Storage") {
                 navigate("/RoomLocation/StorageLocationItem/"+item.roomno);
-                //  path = "/RoomLocation/StorageLocationItem";
             } 
             else if (item.location === "Room") {
                 navigate("/RoomLocation/RoomLocationItem/"+item.roomno);
-                //  path = "/RoomLocation/RoomLocationItem";
             }
         }
 
         return (
-             
         <div className="UserRowItems">
                 <div className="container-fluid">
                         <div className="row">
@@ -45,12 +40,8 @@ const RoomCard = ( {item} ) => {
                                 <div className="col" > {items.length} </div>
                         </div>
                  </div>
-                
         </div>    
     );
-
-    
-
 }
 
 export default RoomCard;

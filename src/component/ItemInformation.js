@@ -3,8 +3,6 @@ import "../assets/styles/ItemInformation.css";
 import React from "react";
 import { useEffect } from "react";
 import awsExport from '../aws-exports';
-import Header from "./Header";
-import Sidebar from "./Sidebar";
 import { useLocation,useNavigate } from "react-router-dom";
 
 Amplify.configure(awsExport);

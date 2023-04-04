@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import "../assets/styles/Users.css";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
-import { useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
 import AssignedItemList from './List/AssignedItemList';
 
@@ -12,9 +9,7 @@ function AssignedItems () {
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [itemsPerPage,setItemsPerPage] = useState(10);
-
-    const navigate = useNavigate();
+    const [itemsPerPage] = useState(10);
 
     useEffect( () => {
         API.post('items','/items/roomno/items',{
@@ -31,26 +26,6 @@ function AssignedItems () {
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     }
-
-    const sortItems = (items) => {
-        const updatedList = items.filter(item => item.location === "NA");
-        updatedList.sort((a,b) => {
-            var tA = Number.parseInt(a.assignedto);
-            var tB = Number.parseInt(b.assignedto);
-            if(isNaN(tA) && isNaN(tB)){
-                return a.assignedto.localeCompare(b.assignedto);
-            }else if(isNaN(tA)){
-                return -1;
-            }else if(isNaN(tB)){
-                return 1;
-            }else{
-                return Math.sign(tA - tB);
-            }
-        });
-        console.log(updatedList);
-        setItems(updatedList);
-        setUnfilteredItems(updatedList);
-    } 
     const searchItem = (e) => {
         if (e.length > 0) {
             const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
@@ -103,8 +78,8 @@ function AssignedItems () {
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#">CSV</a></li>
-                                <li><a className="dropdown-item" href="#">PDF</a></li>
+                                <li><button type="button" className="dropdown-item">CSV</button></li>
+                                <li><button type="button" className="dropdown-item">PDF</button></li>
                             </ul>
                         </div>
                     </div>

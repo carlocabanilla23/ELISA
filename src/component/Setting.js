@@ -25,9 +25,15 @@ function Setting(){
  
 
     const [hidePassword,setHidePassword] = useState(true);
+    const [hideNewPassword,setHideNewPassword] = useState(true);
+    const [hideRNewPassword,setHideRNewPassword] = useState(true);
 
     const eyeShow = document.getElementById('eye-slash-show');
     const eyeHide = document.getElementById('eye-slash-hide');
+    const eyeShow2 = document.getElementById('eye-slash-show2');
+    const eyeHide2 = document.getElementById('eye-slash-hide2');
+    const eyeShow3 = document.getElementById('eye-slash-show3');
+    const eyeHide3 = document.getElementById('eye-slash-hide3');
 
     useEffect( () => {
         let emailParam = decodeURIComponent(escape(window.atob( localStorage.getItem('email'))));
@@ -113,7 +119,6 @@ function Setting(){
         e.preventDefault();
         // setEmail(emailParam);
         console.log(email);
-        console.log(email);
         API.get("userapi","/email/object/" + email).then( res => {
             API.put("userapi","/email/", {
                 body : {
@@ -130,7 +135,6 @@ function Setting(){
         localStorage.setItem('name',fname);
         ShowAlert();
         window.location.reload(true);
-
     }
     const UpdatePassword = (e) => {
         e.preventDefault();
@@ -153,9 +157,7 @@ function Setting(){
                 }
             }
         })
-    
     }
-
     const ShowAlert = () => {
         var alert = document.getElementById("alert");
         alert.style.display = "block";
@@ -175,14 +177,37 @@ function Setting(){
             setHidePassword(!hidePassword);
         }
     }
+
+    const toggleNewPassword = (e) => {
+        if(hideNewPassword === false){
+            eyeShow2.style.display = 'none';
+            eyeHide2.style.display = 'block';
+            setHideNewPassword(!hideNewPassword);
+        }else if(hideNewPassword === true){
+            eyeShow2.style.display = 'block';
+            eyeHide2.style.display = 'none';
+            setHideNewPassword(!hideNewPassword);
+        }
+    }
+
+    const toggleRNewPassword = (e) => {
+        if(hideRNewPassword === false){
+            eyeShow3.style.display = 'none';
+            eyeHide3.style.display = 'block';
+            setHideRNewPassword(!hideRNewPassword);
+        }else if(hideRNewPassword === true){
+            eyeShow3.style.display = 'block';
+            eyeHide3.style.display = 'none';
+            setHideRNewPassword(!hideRNewPassword);
+        }
+    }
     
     return(
         <>
         <div className="alert alert-success" id="alert" role="alert">
                 The setting changed successfully!
             </div>
-            
-            
+
             <div className="SettingsHeader">
                 <div className="content">
                     <div>
@@ -206,10 +231,6 @@ function Setting(){
                                 <label className = "input-label" htmlFor = "last-name">Last Name</label>
                                 <input className = "input-field" onChange={ (e) => setLname(e.target.value)} type = "text" id = "last-name" value={lname}/>
                             </div>
-                            {/* <div className="form-input">
-                                <label className = "input-label">Email</label>
-                                <label className="input-label" type = "text" id = "email"> {email} </label>
-                            </div> */}
 
                             <div className="settings-button-wrapper">
                                 <button className="button" type = "submit" >Save</button>
@@ -230,19 +251,19 @@ function Setting(){
                                     </div>
                                 </div>
                                 <div className="form-input">
-                                    <label className = "input-label" htmlFor = "current-password">Current Password</label>
+                                    <label className = "input-label" htmlFor = "current-password">New Password</label>
                                     <div className="position-relative">
-                                        <input className = "input-field" type={hidePassword ? 'password' : 'text'} id = "current-password" defaultValue={npass} onChange={ (e) => setNpass(e.target.value)}/>
-                                        <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide" alt="Hide" onClick={togglePassword} />
-                                        <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show" style={{display: 'none'}} alt="Show" onClick={togglePassword} />
+                                        <input className = "input-field" type={hideNewPassword ? 'password' : 'text'} id = "current-password" defaultValue={npass} onChange={ (e) => setNpass(e.target.value)}/>
+                                        <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide2" alt="Hide" onClick={toggleNewPassword} />
+                                        <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show2" style={{display: 'none'}} alt="Show" onClick={toggleNewPassword} />
                                     </div>
                                 </div>
                                 <div className="form-input">
-                                    <label className = "input-label" htmlFor = "current-password">Current Password</label>
+                                    <label className = "input-label" htmlFor = "current-password">Rewrite New Password</label>
                                     <div className="position-relative">
-                                        <input className = "input-field" type={hidePassword ? 'password' : 'text'} id = "current-password" defaultValue={rnpass} onChange={ (e) => setRnpass(e.target.value)}/>
-                                        <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide" alt="Hide" onClick={togglePassword} />
-                                        <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show" style={{display: 'none'}} alt="Show" onClick={togglePassword} />
+                                        <input className = "input-field" type={hideRNewPassword ? 'password' : 'text'} id = "current-password" defaultValue={rnpass} onChange={ (e) => setRnpass(e.target.value)}/>
+                                        <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide3" alt="Hide" onClick={toggleRNewPassword} />
+                                        <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show3" style={{display: 'none'}} alt="Show" onClick={toggleRNewPassword} />
                                     </div>
                                 </div>
                                 
@@ -258,7 +279,7 @@ function Setting(){
                             <div className="form-input">
                                 <label className = "input-label" >New Item Added</label>
                                 <label className = "switch">
-                                    <input type="checkbox" 
+                                    <input type="checkbox"
                                         // value={newItemChecked}
                                         checked={newItemChecked}
                                         onChange={ (e) => handleChangeNewItem()}
@@ -272,7 +293,7 @@ function Setting(){
                             <div className="form-input">
                                 <label className = "input-label" >New Member Added</label>
                                 <label className = "switch">
-                                    <input type="checkbox" 
+                                    <input type="checkbox"
                                           checked={newMemberChecked}
                                           onChange={handleChangeNewMember}
                                     />
@@ -336,18 +357,7 @@ function Setting(){
                             </div>
                         </form>
                     </div>
-            
-
                 </div>
-               
-                            
-                       
-
-                        {/* <div className = "right-col">
-                            
-                         */}
-                   
-               
           </div>
         </>
     )

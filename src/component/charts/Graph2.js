@@ -19,7 +19,7 @@ function GraphReport2 () {
     var tacount = 0;
     var admCount = 0;
     API.get("userapi","/email").then( res => {
-        res.map(element => {
+        res.forEach(element => {
             if (element.status === "active" || element.status === "verified") {
                 acount++;
             } else {

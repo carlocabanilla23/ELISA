@@ -1,5 +1,5 @@
-import React, { useState, lazy, Suspense } from 'react';
-import { Amplify, API } from 'aws-amplify';
+import React, { useState, /*lazy, Suspense*/ } from 'react';
+import { Amplify, /* API */ } from 'aws-amplify';
 import awsExport from './aws-exports';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -16,7 +16,6 @@ import Inventory from './pages/Inventory/Inventory';
 import Location from './component/Location';
 import Reservations from './pages/Reservation/Reservations';
 import Reservation from './pages/Reservation/Reservation';
-import UserInformation from './component/UserInformation';
 import RoomLocationItem from './component/RoomLocationItem';
 import AddItemToLocation from './component/AddItemToLocation';
 import StorageLocationItem from './component/StorageLocationItem';
@@ -31,6 +30,7 @@ import ViewItemInfo from './mobile/ViewItemInfo-m';
 import Notification from './pages/Notification';
 import Verify from './component/Verify';
 import OrderHistory from './pages/OrderHistory';
+import Reader from './pages/RFID/Reader';
 
 // const Login = lazy(() => import( './component/Login'));
 // const Home = lazy(() => import( './component/Home'));
@@ -82,6 +82,12 @@ function App() {
       <Route path='/' element= {<Login /> } />
       <Route path='/Verify/:param' element= {<Verify /> } />
       <Route path='/Signup' element= {<Signup /> } />
+
+
+      <Route path='/Reader'element= { < Reader /> } />
+   
+
+
       <Route
         path='/Home'
         element= {
@@ -197,12 +203,6 @@ function App() {
               <AddItem /> 
           </ProtectedRoute> } />
 
-      <Route path='/UserInformation'
-        element= {
-          <ProtectedRoute user={user}>
-              <UserInformation /> 
-          </ProtectedRoute> } />
-
       <Route path='/Setting'
         element= {
         <ProtectedRoute user={user}>
@@ -227,6 +227,8 @@ function App() {
             < OrderHistory />
         </ProtectedRoute> } />
        
+
+      
     </Routes>
 
 
