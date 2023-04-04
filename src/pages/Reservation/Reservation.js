@@ -448,68 +448,72 @@ function Reservation () {
                     <div className="UserInfo">
                         <div className="row">
                             <div className="col">
-                                <label className="fw-bold form-label">Reservation No</label>
+                                <label className="userinfo-form-label fw-bold form-label">Reservation No</label>
                                 <br/>
-                                <label className="form-label">{reservationno}</label>
+                                <label className="userinfo-form-label form-label">{reservationno}</label>
                             </div>
                             <div className="col">
-                                <label className="fw-bold form-label">Status</label>
+                                <label className="userinfo-form-label fw-bold form-label">Status</label>
                                 <br/>
-                                <label className="form-label">{status}</label>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="col">
-                                <label className="fw-bold form-label">Requested By</label>
-                                <br/>
-                                <label className="form-label">{firstName + " " + lastName}</label>
-                            </div>
-                            <div className="col">
-                                <label className="fw-bold form-label">Requested Date</label>
-                                <br/>
-                                <label className="form-label">{currentDate}</label>
+                                <label className="userinfo-form-label form-label">{status}</label>
                             </div>
                         </div>
 
                         <div className="row">
                             <div className="col">
-                                <label className="fw-bold form-label">School Id</label>
+                                <label className="userinfo-form-label fw-bold form-label">Requested By</label>
                                 <br/>
-                                <label className="form-label">{schoolID}</label>
+                                <label className="userinfo-form-label form-label">{firstName + " " + lastName}</label>
                             </div>
                             <div className="col">
-                                <label className="fw-bold form-label">Assign Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return Date</label>
+                                <label className="userinfo-form-label fw-bold form-label">Requested Date</label>
                                 <br/>
-                                <label className="form-label"><pre>{assignedDate.length === 0 ? "N/A                  " : assignedDate+assignedSpace}{returnDate.length === 0 ? "N/A" : returnDate}</pre></label> {/* 20 */}
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="col">
-                                <label className="fw-bold form-label">Email</label>
-                                <br/>
-                                <label className="form-label">{email}</label>
-                            </div>
-                            <div className="col">
-                                <label className="fw-bold form-label">Approved By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Review By</label>
-                                <br/>
-                                <label id="approvedBy" className="form-label" value=""><pre>{approvedBy.length === 0 ? "N/A                  " : approvedBy+approvedSpace}{reviewedBy === undefined ? "N/A" : reviewedBy}</pre></label>
+                                <label className="userinfo-form-label form-label">{currentDate}</label>
                             </div>
                         </div>
 
                         <div className="row">
                             <div className="col">
-                                <label className="fw-bold form-label"></label>
+                                <label className="userinfo-form-label fw-bold form-label">School Id</label>
                                 <br/>
-                                <label className="form-label"></label>
+                                <label className="userinfo-form-label form-label">{schoolID}</label>
                             </div>
                             <div className="col">
-                                <label className="fw-bold form-label"></label>
+                                <label className="userinfo-form-label fw-bold form-label">Assign Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return Date</label>
                                 <br/>
-                                <button className="btn btn-light" id="returnBtn" onClick={ (e) => {setReviewedBy(accountName);setAddReviewedBy(accountName);setReturnDate(`${year}-${month}-${day}`);returnItems(assignedItems);}}>Return Items</button>
+                                <label className="userinfo-form-label form-label"><pre>{assignedDate.length === 0 ? "N/A                  " : assignedDate+assignedSpace}{returnDate.length === 0 ? "N/A" : returnDate}</pre></label> {/* 20 */}
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col">
+                                <label className="userinfo-form-label fw-bold form-label">Email</label>
                                 <br/>
-                                <button className="btn btn-light" id="assignBtn" onClick={ (e) => {setApprovedBy(accountName);setAddApprovedBy(accountName);setAssignedDate(`${year}-${month}-${day}`);AssignItems(assignedItems)}}>Assign Items</button>
+                                <label className="userinfo-form-label form-label">{email}</label>
+                            </div>
+                            <div className="col">
+                                <label className="userinfo-form-label fw-bold form-label">Approved By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Review By</label>
+                                <br/>
+                                <label id="approvedBy" className="userinfo-form-label form-label" value=""><pre>{approvedBy.length === 0 ? "N/A                  " : approvedBy+approvedSpace}{reviewedBy === undefined ? "N/A" : reviewedBy}</pre></label>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col">
+                                <label className="userinfo-form-label fw-bold form-label"></label>
+                                <br/>
+                                <label className="userinfo-form-label form-label"></label>
+                            </div>
+                            <div className="col">
+                                <label className="userinfo-form-label fw-bold form-label"></label>
+                                <div className="row">
+                                    <div className="col">
+                                        <button className="btn btn-light" id="returnBtn" onClick={ (e) => {setReviewedBy(accountName);setAddReviewedBy(accountName);setReturnDate(`${year}-${month}-${day}`);returnItems(assignedItems);}}>Return Items</button>
+                                    </div>
+                                    <div className="col">
+                                        <button className="btn btn-light" id="assignBtn" onClick={ (e) => {setApprovedBy(accountName);setAddApprovedBy(accountName);setAssignedDate(`${year}-${month}-${day}`);AssignItems(assignedItems)}}>Assign Items</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

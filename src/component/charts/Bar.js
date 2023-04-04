@@ -29,7 +29,7 @@ function BarReport () {
   },[]);
           return (
             <>
-            <ResponsiveContainer width="95%" height={450}>
+            <ResponsiveContainer width="95%" height="80%">
                 <BarChart data={data} >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />

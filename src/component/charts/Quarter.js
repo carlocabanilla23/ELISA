@@ -48,7 +48,7 @@ function QuarterReport () {
 return ( 
       <>
       {/* {console.log(label)} */}
-        <ResponsiveContainer width="95%" height={450}>
+        <ResponsiveContainer width="95%" height="80%">
               <BarChart width={550} height={225} data={data}>
           <CartesianGrid strokeDasharray="4 4" />
             <XAxis dataKey="name" />

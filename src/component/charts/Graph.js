@@ -44,13 +44,12 @@ function GraphReport () {
     
     return (
       <>
-        <ResponsiveContainer width="95%" height={450}>
+        <ResponsiveContainer width="95%" height="80%">
             <BarChart width={550} height={225} data={data}>
               <CartesianGrid  />
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Legend />
                 <Bar dataKey="value" fill="#910D09" />
             </BarChart>
         </ResponsiveContainer>

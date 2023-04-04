@@ -103,3 +103,45 @@
         top: 7%;
     width: 43%;
 }
+
+@media screen and (max-width: 1920px) {
+    
+    .ReservationItemList .row{
+        padding-top: 2px;
+        padding-bottom: 2px;
+        font-size: 1em;
+    }
+    .btn.btn-dark {
+        font-size: 0.7em;
+        margin: 0.3em;
+    }
+
+    
+    .OrderList > .row.header {
+        margin: 0;
+        padding: 20px;
+        font-size: 1.2em;
+    }
+
+    
+    .row.Assigneditemlist{
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        padding-top: 0.1em !important;
+        height: 10vh;
+        overflow: scroll;
+        white-space:nowrap;
+    }
+
+    .UserInfo {
+        min-height: 5vh;
+        font-size: 0.9em;
+        padding-top: 1px;
+    }
+
+    .userinfo-form-label{
+        margin: 0;
+    }
+
+
+}

@@ -32,7 +32,7 @@
 /* Media queries */
 @media screen and (max-width: 1920px) {
     .summaryItem{
-        padding: 10px 0px;
+        padding: 6px 0px;
 
     }
     .summaryCount {
