@@ -1,12 +1,12 @@
 import { API } from "aws-amplify";
 import React, { useEffect, useState } from "react";
 import '../../assets/styles/Reader.css';
-
+import SendNotification from '../../Services/notification/Notification';
 
 
 function Reader () {
     const [data,setData] = useState();
-    const [locRoomNo] = useState("2011");
+    const [locRoomNo] = useState("2010");
 
         const ReadData = (e) => {
               if (e.length === 32) {
@@ -23,6 +23,14 @@ function Reader () {
                                         console.log(element.name + " is found in location " + locRoomNo);
                                         // element.roomno = locRoomNo;
                                         UpdateRoomLocation(element,locRoomNo);
+
+                                        let item = {
+                                            name : element.name,
+                                            roomno : locRoomNo
+                                        }
+                                        console.log(element);   
+
+                                        SendNotification("ITEM_MOVE",item)
                                         console.log(element);   
                                     }
                                     

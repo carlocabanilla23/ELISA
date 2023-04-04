@@ -12,10 +12,15 @@ function Notification() {
         let emailParam = decodeURIComponent(escape(window.atob( localStorage.getItem('email'))));
         API.get("notification","/notification/" + emailParam).then( resEmail => {
             console.log(resEmail)
-            setData(resEmail);
+            sortData(resEmail);
         });
     },[]);
 
+    const sortData = (data) => {
+        let sortedData = data.sort((p1, p2) => (p1.date < p2.date) ? 1 : (p1.date > p2.date) ? -1 : 0);
+        setData(sortedData);
+
+    }
     const gotoDashboard = () => {
         navigate('/Home')
     }

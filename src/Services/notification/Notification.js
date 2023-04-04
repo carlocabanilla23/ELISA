@@ -18,10 +18,34 @@ export default function SendNotification (msg_type,data) {
             break;    
         case "NEW_ITEM":
             NEW_ITEM(data);
+            break;
+        case "ITEM_MOVE":
+            ITEM_MOVE(data);
             break; 
         default:
-                break;
+            break;
     }
+
+}
+
+const ITEM_MOVE = (item) => {
+    API.get("notificationapi","/sid/").then(res => {
+        const subscribeUser = res.filter(user => user.emailnotification === true && user.itemmovement === true);
+
+        subscribeUser.forEach( user => {
+            let data = {
+                email : user.email,
+                message: item.name + " is found in room " + item.roomno,
+                notificationid : crypto.randomUUID(),
+                date : GetDateToday(),
+                subject : "Item Movement Detected!"
+            }
+            
+            SendEmail(data);
+            PostNotification(data);
+        })
+
+    });
 
 }
 const OUT_OF_STOCK = (item) => {
