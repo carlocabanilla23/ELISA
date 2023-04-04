@@ -6,36 +6,7 @@ import '../../assets/styles/Reader.css';
 
 function Reader () {
     const [data,setData] = useState();
-   
-
-    // useEffect( () => {
-
-    //     const reader = document.getElementById('reader')
-
-    //     if (reader) {
-    //         reader.addEventListener("keyup", function(event) {
-    //             if (event.key === "Enter") {
-    //                 let str = data.slice(data.length-2);
-    //                 console.log(str.length)
-    //                 // if (reader.value.length === 32) {
-    //                 //     console.log(reader.value)
-    //                 //     API.post("items","/items/rfid",{
-    //                 //         body: {
-    //                 //             rfidcode : reader.value
-    //                 //         }
-    //                 //     })
-    //                 //     .then (res => {
-    //                 //         console.log(res);
-    //                 //     })
-                       
-    //                 // }
-    //                 document.getElementById('reader').value= " " ;
-    //             }
-    //         })
-    
-    //     }
-
-    // });
+    const [locRoomNo] = useState("2011");
 
         const ReadData = (e) => {
               if (e.length === 32) {
@@ -46,8 +17,18 @@ function Reader () {
                             }
                         })
                         .then (res => {
-                            console.log(res);
-                            
+                            if (res.length > 0) {
+                                res.forEach(element => {
+                                    if (element.roomno !== locRoomNo ) {
+                                        console.log(element.name + " is found in location " + locRoomNo);
+                                        // element.roomno = locRoomNo;
+                                        UpdateRoomLocation(element,locRoomNo);
+                                        console.log(element);   
+                                    }
+                                    
+                                });
+                               
+                            }
                             // window.location.reload(true);
 
                         })
@@ -58,7 +39,24 @@ function Reader () {
 
         }
     
-
+    const UpdateRoomLocation = (item,roomno) => {
+        // item.roomno = roomno;
+        API.post("items","/items/", {
+            body : {
+                name : item.name,
+                serialno : item.serialno,
+                type : item.type,
+                model : item.model,
+                location : item.location,
+                roomno :locRoomNo,
+                status : item.status,
+                manufacturer: item.manufacturer,
+                cost: item.cost,
+                lastupdated: item.lastupdated,
+                rfidcode : item.rfidcode
+            }
+        });
+    }
    
 
     const searchItem = (e) => {
