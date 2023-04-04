@@ -400,7 +400,7 @@ function Reservation () {
                             <div className="col">
                                 <label className="userinfo-form-label fw-bold form-label">Assign Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return Date</label>
                                 <br/>
-                                <label className="userinfo-form-label form-label"><pre>{assignedDate.length === 0 ? "N/A                  " : assignedDate+assignedSpace}{returnDate.length === 0 ? "N/A" : returnDate}</pre></label> {/* 20 */}
+                                <label className="userinfo-form-label form-label"><pre>{assignedDate.length === 0 ? "N/A                  " : assignedDate}{returnDate.length === 0 ? "N/A" : returnDate}</pre></label> {/* 20 */}
                                 <div className="row" id="reserveInfoCol">
                                     <div className="col">
                                         <label className="fw-bold form-label">Assign Date</label>
@@ -425,7 +425,7 @@ function Reservation () {
                             <div className="col">
                                 <label className="userinfo-form-label fw-bold form-label">Approved By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Review By</label>
                                 <br/>
-                                <label id="approvedBy" className="userinfo-form-label form-label" value=""><pre>{approvedBy.length === 0 ? "N/A                  " : approvedBy+approvedSpace}{reviewedBy === undefined ? "N/A" : reviewedBy}</pre></label>
+                                <label id="approvedBy" className="userinfo-form-label form-label" value=""><pre>{approvedBy.length === 0 ? "N/A                  " : approvedBy}{reviewedBy === undefined ? "N/A" : reviewedBy}</pre></label>
                                 <div className="row" id="reserveInfoCol">
                                     <div className="col">
                                         <label className="fw-bold form-label">Approved By</label>
@@ -451,10 +451,10 @@ function Reservation () {
                                 <label className="userinfo-form-label fw-bold form-label"></label>
                                 <div className="row">
                                     <div className="col">
-                                        <button className="btn btn-light" id="returnBtn" onClick={ (e) => {setReviewedBy(accountName);setAddReviewedBy(accountName);setReturnDate(`${year}-${month}-${day}`);returnItems(assignedItems);}}>Return Items</button>
+                                        <button className="btn btn-light" id="returnBtn" onClick={ (e) => {setReturnDate(`${year}-${month}-${day}`);returnItems(assignedItems);}}>Return Items</button>
                                     </div>
                                     <div className="col">
-                                        <button className="btn btn-light" id="assignBtn" onClick={ (e) => {setApprovedBy(accountName);setAddApprovedBy(accountName);setAssignedDate(`${year}-${month}-${day}`);AssignItems(assignedItems)}}>Assign Items</button>
+                                        <button className="btn btn-light" id="assignBtn" onClick={ (e) => {setApprovedBy(accountName);setAssignedDate(`${year}-${month}-${day}`);AssignItems(assignedItems)}}>Assign Items</button>
                                     </div>
                                 </div>
                                 <label className="fw-bold form-label"></label>

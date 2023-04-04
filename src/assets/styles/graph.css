@@ -37,6 +37,11 @@
     }
     .summaryCount {
         font-size: 18px;
+        padding: 0;
       }
-  }
+    .summaryTitle {
+        font-size: 18px;
+        padding: 0;
+    }
+}
   

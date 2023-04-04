@@ -36,7 +36,6 @@ function ScatterReport () {
     // const y = cy + radius * Math.sin(-midAngle * RADIAN);
   }
 
-<<<<<<< HEAD
   
     return (
       <>
@@ -63,30 +62,5 @@ function ScatterReport () {
         </ResponsiveContainer>
         </>
     );
-=======
-  return (
-    <>
-      <ResponsiveContainer width="95%" height={450}>
-          <PieChart width={350} height={225}>
-            <Pie
-              data={data}
-              labelLine={false}
-              label={renderCustomizedLabel}
-              fill="#8884d8"
-              dataKey="value"
-              nameKey="name"
-              legendType="circle"
-            >
-              {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip />
-            <Legend />
-          </PieChart>
-      </ResponsiveContainer>
-    </>
-  );
->>>>>>> d1e42c0ab63247d86d7dad3c5cde051b71da3af9
 }
 export default ScatterReport;
