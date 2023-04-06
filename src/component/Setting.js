@@ -20,10 +20,10 @@ function Setting(){
     const [outOfStockChecked,setOutOfStockChecked] = useState(false);
     const [reservationRequestChecked,setReservationRequestChecked] = useState(false);
     const [emailNotificationChecked,setEmailNotificationChecked] = useState(false);
+    const [itemMovementChecked,setItemMovementChecked] = useState(false);
 
     const navigate = useNavigate();
  
-
     const [hidePassword,setHidePassword] = useState(true);
     const [hideNewPassword,setHideNewPassword] = useState(true);
     const [hideRNewPassword,setHideRNewPassword] = useState(true);
@@ -44,6 +44,7 @@ function Setting(){
                 setOutOfStockChecked(resNotif.outofstock);
                 setReservationRequestChecked(resNotif.reservationrequest);
                 setEmailNotificationChecked(resNotif.emailnotification);
+                setItemMovementChecked(resNotif.itemmovement);
             });
 
             setEmail(res.email);
@@ -53,46 +54,13 @@ function Setting(){
         })
     },[]);
 
-    const handleChangeNewItem = () => {
-        if (newItemChecked === true)
-            setNewItemChecked(false);
-        else
-            setNewItemChecked(true)
-        // console.log(checked);
-    };
+    const handleChangeNewItem = () => newItemChecked === true ? setNewItemChecked(false) : setNewItemChecked(true)
+    const handleChangeItemMovement = () => itemMovementChecked === true ? setItemMovementChecked(false) : setItemMovementChecked(true)
+    const handleChangeNewMember = () =>  (newMemberChecked === true) ? setNewMemberChecked(false) : setNewMemberChecked(true)
+    const handleChangeOutOfStock = () => (outOfStockChecked === true) ? setOutOfStockChecked(false) : setOutOfStockChecked(true)
+    const handleChangeReservationRequest = () => (reservationRequestChecked === true) ? setReservationRequestChecked(false) : setReservationRequestChecked(true)
+    const handleChangeEmailNotification = () => (emailNotificationChecked === true) ? setEmailNotificationChecked(false) : setEmailNotificationChecked(true)
 
-    const handleChangeNewMember = () => {
-        if (newMemberChecked === true)
-            setNewMemberChecked(false);
-        else
-            setNewMemberChecked(true)
-        // console.log(checked);
-    };
-    
-    const handleChangeOutOfStock = () => {
-        if (outOfStockChecked === true)
-            setOutOfStockChecked(false);
-        else
-            setOutOfStockChecked(true)
-        // console.log(checked);
-    };
-
-    const handleChangeReservationRequest = () => {
-        if (reservationRequestChecked === true)
-            setReservationRequestChecked(false);
-        else
-            setReservationRequestChecked(true)
-        // console.log(checked);
-    };
-
-    const handleChangeEmailNotification = () => {
-        if (emailNotificationChecked === true)
-            setEmailNotificationChecked(false);
-        else
-            setEmailNotificationChecked(true)
-        // console.log(checked);
-    };
-   
     const UpdateNotification = (e) => {
         e.preventDefault();
         API.get("userapi","/email/object/" + email).then( res => {
@@ -105,7 +73,8 @@ function Setting(){
                    outofstock : outOfStockChecked,
                    reservationrequest : reservationRequestChecked,
                    email : email,
-                   emailnotification : emailNotificationChecked       
+                   emailnotification : emailNotificationChecked,
+                   itemmovement : itemMovementChecked       
                 }
             });
         })
@@ -165,7 +134,6 @@ function Setting(){
              navigate("/Reservations");
         },1500);
     }
-
     const togglePassword = (e) => {
         if(hidePassword === false){
             eyeShow.style.display = 'none';
@@ -177,7 +145,6 @@ function Setting(){
             setHidePassword(!hidePassword);
         }
     }
-
     const toggleNewPassword = (e) => {
         if(hideNewPassword === false){
             eyeShow2.style.display = 'none';
@@ -189,7 +156,6 @@ function Setting(){
             setHideNewPassword(!hideNewPassword);
         }
     }
-
     const toggleRNewPassword = (e) => {
         if(hideRNewPassword === false){
             eyeShow3.style.display = 'none';
@@ -200,8 +166,7 @@ function Setting(){
             eyeHide3.style.display = 'none';
             setHideRNewPassword(!hideRNewPassword);
         }
-    }
-    
+    } 
     return(
         <>
         <div className="alert alert-success" id="alert" role="alert">
@@ -329,6 +294,20 @@ function Setting(){
                                     </span> 
                                 </label>
                             </div>
+                            <div className="form-input">
+                                <label className = "input-label" >Item Movement</label>
+                                <label className = "switch">
+                                    <input type="checkbox" 
+                                        checked={itemMovementChecked}
+                                        onChange={handleChangeItemMovement}
+                                    />
+                                    <span className="slider round">
+                                        <span className="on">On</span>
+                                        <span className="off">Off</span>
+                                    </span> 
+                                </label>
+                            </div>
+
                             <div className="form-input">
                                 <label className = "input-label" >Send Notification to Email</label>
                                 <label className = "switch">

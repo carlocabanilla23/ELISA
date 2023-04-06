@@ -5,7 +5,6 @@ import SendNotification from '../../Services/notification/Notification';
 
 
 function Reader () {
-    const [data,setData] = useState();
     const [locRoomNo] = useState("2010");
 
         const ReadData = (e) => {
@@ -23,15 +22,11 @@ function Reader () {
                                         console.log(element.name + " is found in location " + locRoomNo);
                                         // element.roomno = locRoomNo;
                                         UpdateRoomLocation(element,locRoomNo);
-
                                         let item = {
                                             name : element.name,
                                             roomno : locRoomNo
                                         }
-                                        console.log(element);   
-
                                         SendNotification("ITEM_MOVE",item)
-                                        console.log(element);   
                                     }
                                     
                                 });
