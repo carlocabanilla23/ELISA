@@ -1,21 +1,21 @@
-import Login from './component/Login';
-import Home from './component/Home';
-import React, { useEffect, useState } from 'react';
-import { Amplify, API } from 'aws-amplify';
+import React, { useState, /*lazy, Suspense*/ } from 'react';
+import { Amplify, /* API */ } from 'aws-amplify';
 import awsExport from './aws-exports';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Routes, Route } from 'react-router-dom';
+
+import Login from './component/Login';
+import Home from './component/Home';
 import Users from './component/Users';
 import CreateUser from './component/CreateUser';
 import AddItem from './component/AddItem';
 import EditItem from './component/EditItem';
 import EditUser from './component/EditUser';
-import Inventory from './component/Inventory';
+import Inventory from './pages/Inventory/Inventory';
 import Location from './component/Location';
-import Reservations from './component/Reservations';
-import Reservation from './component/Reservation';
-import UserInformation from './component/UserInformation';
+import Reservations from './pages/Reservation/Reservations';
+import Reservation from './pages/Reservation/Reservation';
 import RoomLocationItem from './component/RoomLocationItem';
 import AddItemToLocation from './component/AddItemToLocation';
 import StorageLocationItem from './component/StorageLocationItem';
@@ -25,29 +25,69 @@ import CreateReservation from './component/CreateReservation';
 import Signup from './component/Signup';
 import AssignedItems from './component/AssignedItems';
 import UnassignedItems from './component/UnassignedItems';
-import ProtectedRoute from './component/Routes/ProtectedRoute';
-import ViewItemInfo from './component/mobile/ViewItemInfo-m';
+import ProtectedRoute from './Services/Routes/ProtectedRoute';
+import ViewItemInfo from './mobile/ViewItemInfo-m';
 import Notification from './pages/Notification';
 import Verify from './component/Verify';
 import OrderHistory from './pages/OrderHistory';
+import Reader from './pages/RFID/Reader';
+
+// const Login = lazy(() => import( './component/Login'));
+// const Home = lazy(() => import( './component/Home'));
+// const Users = lazy(() => import( './component/Users'));
+// const CreateUser = lazy(() => import( './component/CreateUser'));
+// const AddItem = lazy(() => import( './component/AddItem'));
+// const EditItem = lazy(() => import( './component/EditItem'));
+// const EditUser = lazy(() => import( './component/EditUser'));
+// const Inventory = lazy(() => import( './pages/Inventory/Inventory'));
+// const Location = lazy(() => import( './component/Location'));
+// const Reservations = lazy(() => import( './pages/Reservation/Reservations'));
+// const Reservation = lazy(() => import( './pages/Reservation/Reservation'));
+// const UserInformation = lazy(() => import( './component/UserInformation'));
+// const RoomLocationItem = lazy(() => import( './component/RoomLocationItem'));
+// const AddItemToLocation = lazy(() => import( './component/AddItemToLocation'));
+// const StorageLocationItem = lazy(() => import( './component/StorageLocationItem'));
+// const ItemInformation = lazy(() => import( './component/ItemInformation'));
+// const Setting = lazy(() => import( './component/Setting'));
+// const CreateReservation = lazy(() => import( './component/CreateReservation'));
+// const Signup = lazy(() => import( './component/Signup'));
+// const AssignedItems = lazy(() => import( './component/AssignedItems'));
+// const UnassignedItems = lazy(() => import( './component/UnassignedItems'));
+// const ProtectedRoute = lazy(() => import( './Services/Routes/ProtectedRoute'));
+// const ViewItemInfo = lazy(() => import( './mobile/ViewItemInfo-m'));
+// const Notification = lazy(() => import( './pages/Notification'));
+// const Verify = lazy(() => import( './component/Verify'));
+// const OrderHistory = lazy(() => import( './pages/OrderHistory'));
+
 
 Amplify.configure(awsExport);
 
 function App() {
   const [user] = useState(null);
-  const [access,setAccess] = useState('');
+  const [nav,setNav] = useState();
 
-
+  
   return (
+    <>
     <div >
     {/* Master Route */}
+    <div className='nav'>
+          {nav}
+    </div>
+
 
     <Routes>
+
       {/* Login Page */}
       <Route path='/' element= {<Login /> } />
-
       <Route path='/Verify/:param' element= {<Verify /> } />
       <Route path='/Signup' element= {<Signup /> } />
+
+
+      <Route path='/Reader'element= { < Reader /> } />
+   
+
+
       <Route
         path='/Home'
         element= {
@@ -55,7 +95,7 @@ function App() {
             <Home />
           </ProtectedRoute>
       } />
-
+      
       <Route
         path='/Inventory'
         element= {
@@ -74,18 +114,21 @@ function App() {
       <Route path='/Location' 
         element= {
           <ProtectedRoute user={user}>
+          
               <Location /> 
           </ProtectedRoute> } />
 
       <Route path='/RoomLocation/StorageLocationItem/:param' 
         element= {
           <ProtectedRoute user={user}>
+          
               <StorageLocationItem /> 
           </ProtectedRoute> } />
 
       <Route path='/AssignedItems' 
         element= {
           <ProtectedRoute user={user}>
+          
               <AssignedItems /> 
           </ProtectedRoute> } />
       <Route path='/UnassignedItems' 
@@ -107,7 +150,7 @@ function App() {
               <Reservations /> 
           </ProtectedRoute> } />
 
-      <Route path='/Reservation/:param/:param1' 
+      <Route path='/Reservation/:param/:param1/:param2' 
         element= {
           <ProtectedRoute user={user}>
               <Reservation /> 
@@ -160,12 +203,6 @@ function App() {
               <AddItem /> 
           </ProtectedRoute> } />
 
-      <Route path='/UserInformation'
-        element= {
-          <ProtectedRoute user={user}>
-              <UserInformation /> 
-          </ProtectedRoute> } />
-
       <Route path='/Setting'
         element= {
         <ProtectedRoute user={user}>
@@ -190,7 +227,10 @@ function App() {
             < OrderHistory />
         </ProtectedRoute> } />
        
+
+      
     </Routes>
+
 
     {/* For Testing */}
     {/* Comment The Routes on Top in order to run this. Change the component below for the test that you want to run */}
@@ -198,6 +238,8 @@ function App() {
     {/* < Inventory /> */}
    
     </div>
+
+    </>
   );
 }
 

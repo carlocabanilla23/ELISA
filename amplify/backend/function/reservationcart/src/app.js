@@ -91,6 +91,34 @@ app.get(path, function(req, res) {
   });
 });
 
+
+/********************************
+ * HTTP Get method for list objects -- Cart Only *
+ ********************************/
+
+app.get(path+"/cart", function(req, res) {
+  const condition = {}
+  condition[partitionKeyName] = {
+    ComparisonOperator: 'EQ'
+  }
+
+  let queryParams = {
+    TableName: tableName,
+    KeyConditions: condition,
+    ProjectionExpression: "#n",
+    ExpressionAttributeNames: { '#n': 'itemrequested' }
+  }
+  
+  dynamodb.scan(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
 /*****************************************
  * HTTP Get method for get single object *
  *****************************************/

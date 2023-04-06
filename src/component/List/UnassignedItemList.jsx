@@ -1,6 +1,6 @@
 import UnassignedItemCard from "../card/UnassignedItemCard";
 import React from "react";
-import './../styles/List.css';
+import '../../assets/styles/List.css';
 
 const UnassignedItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation}) => {
 

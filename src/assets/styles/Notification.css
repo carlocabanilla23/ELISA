@@ -1,0 +1,41 @@
+.NotificationHeader{
+    background-color: #ffffff;
+    height: 6vh;
+    width: 85%;
+    color: #7A2036;
+    position: fixed;
+        top: 6vh;
+        left: 15%;
+    /* margin-left: 15%; */
+    padding-top: 0.5em;
+    padding-bottom: 1em;
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.25);
+    z-index: -1;
+}
+
+.NotificationContent{
+    background-color: #F0F0EB;
+    width: 85%;
+    height: 100%;
+    position: fixed;
+        top: 12vh;
+        left: 15%;
+    padding-top: 5em;
+    padding-left: 10%;
+}
+
+
+.col1{
+    font-size: 1.6em;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+    width: 20%;
+    float: left;
+}
+.col2{
+    font-size: 1.6em;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+    float: left;
+    width: 80%;
+}

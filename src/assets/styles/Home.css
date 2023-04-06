@@ -1,0 +1,154 @@
+.HomeHeader{
+    background-color: #ffffff;
+    color: #7A2036;
+    height: 6vh;
+    width: 85%;
+    position: fixed;
+        top: 6vh;
+        left: 15%;
+    padding-top: 0.5em;
+    padding-bottom: 1em;
+    box-shadow: (0px 4px 4px rgba(0, 0, 0, 0.25));
+    z-index: -1;
+}
+.content{
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    padding: 10px;
+}
+.content > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 20px;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 1em;
+}
+.Dashboard {
+    background-color: #EEEEEE;
+    width: 85%;
+    height: 100vh;
+    position: fixed;
+        top: 12vh;
+        left: 15%;
+    z-index: -1;
+    box-shadow: inset 0 0 10px gray;
+    padding-left: 2%;
+}
+.top{
+    margin-top: 2em;
+    margin-bottom: 2em;
+    margin-right: 1%;
+    padding: 1em;
+    width: 48.5%;
+    height: 40vh;
+    float: left;
+    background: white;
+    box-shadow: 0 0 10px gray;
+    border-radius: 10px;
+}
+.center{
+    clear: both;
+}
+.bottom{
+    margin-bottom: 1em;
+    margin-right: 1%;
+    padding: 0.5em;
+    width: 32%;
+    height: 38vh;
+    float: left;
+    background: white;
+    box-shadow: 0 0 10px gray;
+    border-radius: 10px;
+}
+
+.scatter {
+    margin-top: 12em;
+   
+}
+.insights > div:hover {
+    box-shadow: none;
+}
+.Itemcards > div span {
+    background: #e1b5c0;
+    padding: 0.8rem;
+    border-radius: 20px;
+    color: #7A2036;
+    font-size: 2rem;
+}
+.Itemcards > div.returnItems span {
+    background: #ffd0bc;
+    color: #D97044;
+}
+.UserCards > div span {
+    color: #254392;
+    font-size: 2rem;
+}
+.UserCards > div.ActiveUsers span {
+    color: #3A634E;
+}
+.number {
+    font-weight: bolder;
+    font-size: 1.6rem;
+}
+.mutedText {
+    color: #757575;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.TitleText {
+    margin-top: 20px;
+    margin-left: 30px;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+}
+.UserCards {
+    padding-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.UserCards > div {
+    background: #F6F6F6;
+    padding: 1rem;
+    border-radius: 25px;
+    margin: auto;
+    
+}
+.InventoryOverview {
+    display: flex;
+    flex-direction: column;
+}
+.InventorySections{
+    padding-top: 1.2rem;
+}
+.InventorySections > div  {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.Itemcards > div {
+    padding-top: 3rem;
+    padding-left: 1.2rem;
+    display: flex;
+    flex-direction: row;
+}
+.Itemcards > div .right {
+    padding-left: 1.2rem;
+}
+.chartLabel {
+    font-weight: 500;
+    font-size: 18px;
+    color: #000000;
+    margin: 15px 0px 20px 20px; 
+}
+@media screen and (max-width: 1920px) {
+    .chartLabel {
+    margin: 15px 0px 10px 20px; 
+    }
+}

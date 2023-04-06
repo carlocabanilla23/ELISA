@@ -2,11 +2,9 @@ import React, { useState, useEffect} from 'react';
 import {API, Amplify} from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 import awsExport from '../aws-exports';
-import './styles/Signup.css';
-import eyeSlashHide from './icons/eye-slash-hide.png';
-import eyeSlashShow from './icons/eye-slash-show.png';
-import Hash from './bcrypt/Hash';
-
+import '../assets/styles/Signup.css';
+import eyeSlashHide from '../assets/icons/eye-slash-hide.png';
+import eyeSlashShow from '../assets/icons/eye-slash-show.png';
 
 Amplify.configure(awsExport);
 
@@ -249,22 +247,19 @@ function Signup () {
                                 </button>
                                 <ul className="dropdown-menu">
                                     <li>
-                                        <a className = "dropdown-item"
-                                        onClick={(e)=> setRole("Student")}>
-                                        Student
-                                        </a>
+                                        <button type="button" className="dropdown-item" onClick={(e) => setRole("Student")}>
+                                            Student
+                                        </button>
                                     </li>
                                     <li>
-                                        <a className = "dropdown-item"
-                                        onClick={(e)=> setRole("TA")}>
-                                        TA
-                                        </a>
+                                        <button type="button" className="dropdown-item" onClick={(e) => setRole("TA")}>
+                                            TA
+                                        </button>
                                     </li>
                                     <li>
-                                        <a className = "dropdown-item"
-                                        onClick={(e)=> setRole("Professor")}>
-                                        Professor
-                                        </a>
+                                        <button type="button" className="dropdown-item" onClick={(e) => setRole("Professor")}>
+                                            Professor
+                                        </button>
                                     </li>
                                 </ul>
                                 </div>

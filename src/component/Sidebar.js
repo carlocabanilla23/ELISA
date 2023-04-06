@@ -1,13 +1,13 @@
-import './styles/Sidebar.css';
-import logo from './icons/elisa_logo.png';
-import elisa from './icons/elisa.png';
-import iDashboard from "./icons/dashboard.png";
-import iInventory from "./icons/inventory.png";
-import iReservations from "./icons/reservation.png";
-import iUsers from './icons/users.png';
-import { Router,Link,Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-
+import '../assets/styles/Sidebar.css';
+import logo from '../assets/icons/elisa_logo.png';
+import elisa from '../assets/icons/elisa.png';
+import iDashboard from "../assets/icons/dashboard.png";
+import iInventory from "../assets/icons/inventory.png";
+import iReservations from "../assets/icons/reservation.png";
+import iUsers from '../assets/icons/users.png';
+import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+// import { API } from 'aws-amplify';
 
 function Sidebar() {
   const access = localStorage.getItem('access');
@@ -21,6 +21,16 @@ function Sidebar() {
     }
   },[]);
 
+  // const Transfer = (e) => {
+  //   API.get("inventory","/items").then( itemRes => {
+  //     itemRes.forEach(element => {
+  //       API.post('items','/items',{
+  //         body : element
+  //       })
+  //     });
+  //   });
+  //   alert("Transfer Success !!!")
+  // }
   return (
     <div className="sidenav">    
         <div className='sidebar'>
@@ -59,6 +69,10 @@ function Sidebar() {
             <img src={iUsers} className="icon" alt="users icon" />
               <Link to="/Users">Users</Link>
             </li>
+
+            {/* <li  onClick={e => Transfer()} className="menu-list">
+                Transfer
+            </li> */}
           </ul>
           </div> 
       

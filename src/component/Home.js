@@ -1,29 +1,22 @@
-import './styles/Home.css';
-import Sidebar from './Sidebar';
-import Header from './Header';
-import iDashboard from "./icons/dashboard.png";
+import '../assets/styles/Home.css';
+import iDashboard from "../assets/icons/dashboard.png";
 import QuarterReport from '../component/charts/Quarter';
 import GraphReport from '../component/charts/Graph';
 import GraphReport2 from '../component/charts/Graph2';
 import BarReport from '../component/charts/Bar';
 import ScatterReport from '../component/charts/Scatter';
-import { useEffect, useState } from 'react';
-import { API } from 'aws-amplify';
+import { useEffect } from 'react';
+// import { API } from 'aws-amplify';
 
 // ELISA\src\component\charts\Pie.js
 function Home() {
-  const [activeCount,setActiveCount] = useState(0);
-  const [inactiveCount,setInactiveCount] = useState(0);
 
   useEffect(()=>{
-    
 
   },[]);
   
   return (
     <div className="Home">
-              <Sidebar />
-              <Header />
               <div className="HomeHeader">
                   <div className="content">
                   <div>

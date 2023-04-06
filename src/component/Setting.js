@@ -1,13 +1,9 @@
-import './styles/Setting.css';
+import '../assets/styles/Setting.css';
 import { useNavigate } from 'react-router-dom'; 
-import { Router,Link,Route } from 'react-router-dom';
-import Sidebar from './Sidebar';
-import Header from './Header';
 import React,{ useState,useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { useLocation } from "react-router-dom";
-import eyeSlashHide from './icons/eye-slash-hide.png';
-import eyeSlashShow from './icons/eye-slash-show.png';
+import eyeSlashHide from '../assets/icons/eye-slash-hide.png';
+import eyeSlashShow from '../assets/icons/eye-slash-show.png';
 
 
 function Setting(){
@@ -24,13 +20,20 @@ function Setting(){
     const [outOfStockChecked,setOutOfStockChecked] = useState(false);
     const [reservationRequestChecked,setReservationRequestChecked] = useState(false);
     const [emailNotificationChecked,setEmailNotificationChecked] = useState(false);
+    const [itemMovementChecked,setItemMovementChecked] = useState(false);
 
     const navigate = useNavigate();
-
+ 
     const [hidePassword,setHidePassword] = useState(true);
+    const [hideNewPassword,setHideNewPassword] = useState(true);
+    const [hideRNewPassword,setHideRNewPassword] = useState(true);
 
     const eyeShow = document.getElementById('eye-slash-show');
     const eyeHide = document.getElementById('eye-slash-hide');
+    const eyeShow2 = document.getElementById('eye-slash-show2');
+    const eyeHide2 = document.getElementById('eye-slash-hide2');
+    const eyeShow3 = document.getElementById('eye-slash-show3');
+    const eyeHide3 = document.getElementById('eye-slash-hide3');
 
     useEffect( () => {
         let emailParam = decodeURIComponent(escape(window.atob( localStorage.getItem('email'))));
@@ -41,6 +44,7 @@ function Setting(){
                 setOutOfStockChecked(resNotif.outofstock);
                 setReservationRequestChecked(resNotif.reservationrequest);
                 setEmailNotificationChecked(resNotif.emailnotification);
+                setItemMovementChecked(resNotif.itemmovement);
             });
 
             setEmail(res.email);
@@ -50,46 +54,13 @@ function Setting(){
         })
     },[]);
 
-    const handleChangeNewItem = () => {
-        if (newItemChecked === true)
-            setNewItemChecked(false);
-        else
-            setNewItemChecked(true)
-        // console.log(checked);
-    };
+    const handleChangeNewItem = () => newItemChecked === true ? setNewItemChecked(false) : setNewItemChecked(true)
+    const handleChangeItemMovement = () => itemMovementChecked === true ? setItemMovementChecked(false) : setItemMovementChecked(true)
+    const handleChangeNewMember = () =>  (newMemberChecked === true) ? setNewMemberChecked(false) : setNewMemberChecked(true)
+    const handleChangeOutOfStock = () => (outOfStockChecked === true) ? setOutOfStockChecked(false) : setOutOfStockChecked(true)
+    const handleChangeReservationRequest = () => (reservationRequestChecked === true) ? setReservationRequestChecked(false) : setReservationRequestChecked(true)
+    const handleChangeEmailNotification = () => (emailNotificationChecked === true) ? setEmailNotificationChecked(false) : setEmailNotificationChecked(true)
 
-    const handleChangeNewMember = () => {
-        if (newMemberChecked === true)
-            setNewMemberChecked(false);
-        else
-            setNewMemberChecked(true)
-        // console.log(checked);
-    };
-    
-    const handleChangeOutOfStock = () => {
-        if (outOfStockChecked === true)
-            setOutOfStockChecked(false);
-        else
-            setOutOfStockChecked(true)
-        // console.log(checked);
-    };
-
-    const handleChangeReservationRequest = () => {
-        if (reservationRequestChecked === true)
-            setReservationRequestChecked(false);
-        else
-            setReservationRequestChecked(true)
-        // console.log(checked);
-    };
-
-    const handleChangeEmailNotification = () => {
-        if (emailNotificationChecked === true)
-            setEmailNotificationChecked(false);
-        else
-            setEmailNotificationChecked(true)
-        // console.log(checked);
-    };
-   
     const UpdateNotification = (e) => {
         e.preventDefault();
         API.get("userapi","/email/object/" + email).then( res => {
@@ -102,7 +73,8 @@ function Setting(){
                    outofstock : outOfStockChecked,
                    reservationrequest : reservationRequestChecked,
                    email : email,
-                   emailnotification : emailNotificationChecked       
+                   emailnotification : emailNotificationChecked,
+                   itemmovement : itemMovementChecked       
                 }
             });
         })
@@ -115,7 +87,6 @@ function Setting(){
     const UpdateInfo = (e) => {
         e.preventDefault();
         // setEmail(emailParam);
-        console.log(email);
         console.log(email);
         API.get("userapi","/email/object/" + email).then( res => {
             API.put("userapi","/email/", {
@@ -133,7 +104,6 @@ function Setting(){
         localStorage.setItem('name',fname);
         ShowAlert();
         window.location.reload(true);
-
     }
     const UpdatePassword = (e) => {
         e.preventDefault();
@@ -156,9 +126,7 @@ function Setting(){
                 }
             }
         })
-    
     }
-
     const ShowAlert = () => {
         var alert = document.getElementById("alert");
         alert.style.display = "block";
@@ -166,7 +134,6 @@ function Setting(){
              navigate("/Reservations");
         },1500);
     }
-
     const togglePassword = (e) => {
         if(hidePassword === false){
             eyeShow.style.display = 'none';
@@ -178,15 +145,35 @@ function Setting(){
             setHidePassword(!hidePassword);
         }
     }
-    
+    const toggleNewPassword = (e) => {
+        if(hideNewPassword === false){
+            eyeShow2.style.display = 'none';
+            eyeHide2.style.display = 'block';
+            setHideNewPassword(!hideNewPassword);
+        }else if(hideNewPassword === true){
+            eyeShow2.style.display = 'block';
+            eyeHide2.style.display = 'none';
+            setHideNewPassword(!hideNewPassword);
+        }
+    }
+    const toggleRNewPassword = (e) => {
+        if(hideRNewPassword === false){
+            eyeShow3.style.display = 'none';
+            eyeHide3.style.display = 'block';
+            setHideRNewPassword(!hideRNewPassword);
+        }else if(hideRNewPassword === true){
+            eyeShow3.style.display = 'block';
+            eyeHide3.style.display = 'none';
+            setHideRNewPassword(!hideRNewPassword);
+        }
+    } 
     return(
         <>
         <div className="alert alert-success" id="alert" role="alert">
                 The setting changed successfully!
             </div>
-            <Sidebar />
-            <Header />
-            <div className="UserHeader">
+
+            <div className="SettingsHeader">
                 <div className="content">
                     <div>
                     <button onClick={cancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
@@ -209,10 +196,6 @@ function Setting(){
                                 <label className = "input-label" htmlFor = "last-name">Last Name</label>
                                 <input className = "input-field" onChange={ (e) => setLname(e.target.value)} type = "text" id = "last-name" value={lname}/>
                             </div>
-                            {/* <div className="form-input">
-                                <label className = "input-label">Email</label>
-                                <label className="input-label" type = "text" id = "email"> {email} </label>
-                            </div> */}
 
                             <div className="settings-button-wrapper">
                                 <button className="button" type = "submit" >Save</button>
@@ -233,19 +216,19 @@ function Setting(){
                                     </div>
                                 </div>
                                 <div className="form-input">
-                                    <label className = "input-label" htmlFor = "current-password">Current Password</label>
+                                    <label className = "input-label" htmlFor = "current-password">New Password</label>
                                     <div className="position-relative">
-                                        <input className = "input-field" type={hidePassword ? 'password' : 'text'} id = "current-password" defaultValue={npass} onChange={ (e) => setNpass(e.target.value)}/>
-                                        <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide" alt="Hide" onClick={togglePassword} />
-                                        <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show" style={{display: 'none'}} alt="Show" onClick={togglePassword} />
+                                        <input className = "input-field" type={hideNewPassword ? 'password' : 'text'} id = "current-password" defaultValue={npass} onChange={ (e) => setNpass(e.target.value)}/>
+                                        <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide2" alt="Hide" onClick={toggleNewPassword} />
+                                        <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show2" style={{display: 'none'}} alt="Show" onClick={toggleNewPassword} />
                                     </div>
                                 </div>
                                 <div className="form-input">
-                                    <label className = "input-label" htmlFor = "current-password">Current Password</label>
+                                    <label className = "input-label" htmlFor = "current-password">Rewrite New Password</label>
                                     <div className="position-relative">
-                                        <input className = "input-field" type={hidePassword ? 'password' : 'text'} id = "current-password" defaultValue={rnpass} onChange={ (e) => setRnpass(e.target.value)}/>
-                                        <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide" alt="Hide" onClick={togglePassword} />
-                                        <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show" style={{display: 'none'}} alt="Show" onClick={togglePassword} />
+                                        <input className = "input-field" type={hideRNewPassword ? 'password' : 'text'} id = "current-password" defaultValue={rnpass} onChange={ (e) => setRnpass(e.target.value)}/>
+                                        <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide3" alt="Hide" onClick={toggleRNewPassword} />
+                                        <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show3" style={{display: 'none'}} alt="Show" onClick={toggleRNewPassword} />
                                     </div>
                                 </div>
                                 
@@ -261,7 +244,7 @@ function Setting(){
                             <div className="form-input">
                                 <label className = "input-label" >New Item Added</label>
                                 <label className = "switch">
-                                    <input type="checkbox" 
+                                    <input type="checkbox"
                                         // value={newItemChecked}
                                         checked={newItemChecked}
                                         onChange={ (e) => handleChangeNewItem()}
@@ -275,7 +258,7 @@ function Setting(){
                             <div className="form-input">
                                 <label className = "input-label" >New Member Added</label>
                                 <label className = "switch">
-                                    <input type="checkbox" 
+                                    <input type="checkbox"
                                           checked={newMemberChecked}
                                           onChange={handleChangeNewMember}
                                     />
@@ -312,6 +295,20 @@ function Setting(){
                                 </label>
                             </div>
                             <div className="form-input">
+                                <label className = "input-label" >Item Movement</label>
+                                <label className = "switch">
+                                    <input type="checkbox" 
+                                        checked={itemMovementChecked}
+                                        onChange={handleChangeItemMovement}
+                                    />
+                                    <span className="slider round">
+                                        <span className="on">On</span>
+                                        <span className="off">Off</span>
+                                    </span> 
+                                </label>
+                            </div>
+
+                            <div className="form-input">
                                 <label className = "input-label" >Send Notification to Email</label>
                                 <label className = "switch">
                                     <input type="checkbox" 
@@ -339,18 +336,7 @@ function Setting(){
                             </div>
                         </form>
                     </div>
-            
-
                 </div>
-               
-                            
-                       
-
-                        {/* <div className = "right-col">
-                            
-                         */}
-                   
-               
           </div>
         </>
     )

@@ -1,0 +1,22 @@
+{
+  "resourceName": "item",
+  "tableName": "item",
+  "partitionKey": {
+    "fieldName": "type",
+    "fieldType": "string"
+  },
+  "sortKey": {
+    "fieldName": "serialno",
+    "fieldType": "string"
+  },
+  "gsi": [
+    {
+      "name": "roomno",
+      "partitionKey": {
+        "fieldName": "roomno",
+        "fieldType": "string"
+      }
+    }
+  ],
+  "triggerFunctions": []
+}

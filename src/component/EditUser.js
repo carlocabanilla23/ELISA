@@ -1,10 +1,8 @@
 import { Amplify, API } from "aws-amplify";
-import "./styles/EditUser.css";
+import "../assets/styles/EditUser.css";
 import React from "react";
 import { useEffect } from "react";
 import awsExport from '../aws-exports';
-import Header from "./Header";
-import Sidebar from "./Sidebar";
 import { useLocation,useNavigate } from "react-router-dom";
 
 Amplify.configure(awsExport);
@@ -63,10 +61,10 @@ function EditUser() {
     const EditUser = (e) => {
         e.preventDefault();
         for(var i = 0; i < users.length; i++){
-            if(users[i].firstName == studentFirstName && users[i].lastName == studentLastName){
+            if(users[i].firstName === studentFirstName && users[i].lastName === studentLastName){
                 continue;
             }
-            if(users[i].schoolID == schoolID){
+            if(users[i].schoolID === schoolID){
                 throw new Error(setError('1'));
             }
         }
@@ -89,8 +87,8 @@ function EditUser() {
             <div className="alert alert-success" id="alert" role="alert">
                 The user has been updated successfully!
             </div>
-            <Sidebar />
-            <Header />
+            
+            
 
             <div className="UserHeader">
                     <div className="content">
@@ -151,22 +149,19 @@ function EditUser() {
                                 </button>
                                 <ul className="dropdown-menu">
                                     <li>
-                                        <a className = "dropdown-item"
-                                        onClick={(e)=> setRole("Student")}>
-                                        Student
-                                        </a>
+                                        <button type="button" className="dropdown-item" onClick={(e) => setRole("Student")}>
+                                            Student
+                                        </button>
                                     </li>
                                     <li>
-                                        <a className = "dropdown-item"
-                                        onClick={(e)=> setRole("TA")}>
-                                        TA
-                                        </a>
+                                        <button type="button" className="dropdown-item" onClick={(e) => setRole("TA")}>
+                                            TA
+                                        </button>
                                     </li>
                                     <li>
-                                        <a className = "dropdown-item"
-                                        onClick={(e)=> setRole("Professor")}>
-                                        Professor
-                                        </a>
+                                        <button type="button" className="dropdown-item" onClick={(e) => setRole("Professor")}>
+                                            Professor
+                                        </button>
                                     </li>
                                 </ul>
                                 </div>
@@ -192,13 +187,6 @@ function EditUser() {
                         <label for = "inputEmail" className = "col-sm-2 col-form-label">Email</label>
                         <div className = "col-sm-10">
                             <div className = "emailInfo">{email}</div>
-                            {/* <input type = "text"
-                            className = "form-control"
-                            value = {email}
-                            onChange = {(e) => setEmail(e.target.value)}
-                            id = "inputEmail"
-                            required = {true}
-                            pattern = '^([a-z0-9]{1,})@spu\.edu$' /> */}
                         </div>
                     </div>
                     {/* Phone */}

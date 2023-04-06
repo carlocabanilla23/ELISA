@@ -1,9 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { API } from 'aws-amplify';
-import Sidebar from "./Sidebar";
-import Header from "./Header";
-import './styles/CreateReservation.css';
+import '../assets/styles/CreateReservation.css';
 import { useNavigate, useLocation } from "react-router-dom";
 import SendNotification from "../Services/notification/Notification";
 
@@ -209,8 +207,8 @@ function CreateReservation () {
             <div className="alert alert-success alert-popout" id="alert" role="alert">
                 The reservation has been created successfully!
             </div>
-            <Sidebar />
-            <Header />
+            
+            
             <div className="CreateReservationHeader">
                     <div className="content">
                         <div>

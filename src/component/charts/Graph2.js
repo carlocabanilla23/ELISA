@@ -1,7 +1,6 @@
 import { API } from 'aws-amplify';
-import React, { PureComponent, useEffect, useState } from 'react';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import '../styles/graph.css';
+import React, { useEffect, useState } from 'react';
+import '../../assets/styles/graph.css';
 // ELISA\src\component\styles\graph.css
 
 function GraphReport2 () {
@@ -20,7 +19,7 @@ function GraphReport2 () {
     var tacount = 0;
     var admCount = 0;
     API.get("userapi","/email").then( res => {
-        res.map(element => {
+        res.forEach(element => {
             if (element.status === "active" || element.status === "verified") {
                 acount++;
             } else {

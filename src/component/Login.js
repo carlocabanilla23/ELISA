@@ -1,12 +1,12 @@
-import './styles/Login.css';
+import '../assets/styles/Login.css';
 import { useNavigate } from 'react-router-dom';
 import * as ReactDOM from 'react-dom/client';
 import React  from 'react';
 import { API } from 'aws-amplify';
-import logo from './icons/elisa_logo.png';
-import elisa from './icons/elisa.png';
-import StartSession from './session/SessionInfo';
-import Hash from './bcrypt/Hash';
+import logo from '../assets/icons/elisa_logo.png';
+import elisa from '../assets/icons/elisa.png';
+import StartSession from '../Services/session/SessionInfo';
+// import Hash from './bcrypt/Hash';
 
 function Login() {
     const [username,setUsername] = React.useState('');
@@ -15,7 +15,7 @@ function Login() {
 
     const onSubmit = e => {
     e.preventDefault();
-    console.log(username);
+    
 
     API.get("useraccounts","/email/object/"+username).then( acc => {
         if (acc.email === username && acc.password === password) {  

@@ -6,10 +6,25 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
     const [location, setLocation] = useState('');
     const [locationType, setLocationType] = useState('');
 
+    //Get the current time
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = date.getMonth()+1;
+    var day = date.getDate();
+    var hour = date.getHours();
+    var minutes = date.getMinutes();
+
+    var today = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;
+    if(hour >= 12){
+        today += 'PM';
+    }else{
+        today += 'AM';
+    }
+
     useEffect(() => {
         setStatus(item.status);
         setLocation(item.roomno);
-        setLocationType(item.location)
+        setLocationType(item.location);
     },[item,qrcode,barcode,refreshvalue])
 
     useEffect(() => {
@@ -27,14 +42,8 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
         }
     })
 
-    const date = new Date();
-    // const year = date.getFullYear();
-    // const month = date.getMonth()+1;
-    // const day = date.getDate();
-
     const setNewStatus = () => {
-        console.log(item);
-        API.post("inventory","/items/", {
+        API.post("items","/items/", {
         body : {
             name : item.name,
             serialno : item.serialno,
@@ -45,7 +54,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
             status : status,
             manufacturer: item.manufacturer,
             cost: item.cost,
-            lastupdated: date,
+            lastupdated: today,
             }});
         setTimeout(() => {
             window.location.reload(true);
@@ -53,10 +62,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
     }
 
     const setNewLocation = () => {
-        console.log(item);
-        console.log(location);
-        console.log(locationType);
-        API.post("inventory","/items/", {
+        API.post("items","/items/", {
             body : {
                 name : item.name,
                 serialno : item.serialno,
@@ -67,7 +73,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                 status : item.status,
                 manufacturer: item.manufacturer,
                 cost: item.cost,
-                lastupdated: date,
+                lastupdated: today,
                 }});
         setTimeout(() => {
             window.location.reload(true);
@@ -91,7 +97,6 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
         <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div className="offcanvas-header">
                 <h3><strong>{actionName}</strong></h3>
-                {/* <h5 id="offcanvasRightLabel"></h5> */}
                 <button
                     type="button"
                     className="btn-close text-reset"
@@ -168,7 +173,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                 </div>
 
                 <div id="qrcode">
-                    <button id="qrcode-print-btn" onClick={(e)=>Print("qrcode-img")}><i class="fa fa-print" aria-hidden="true"></i></button>
+                    <button id="qrcode-print-btn" onClick={(e)=>Print("qrcode-img")}><i className="fa fa-print" aria-hidden="true"></i></button>
                     <div id="qrcode-img">{qrcode}</div>
                 </div>
 

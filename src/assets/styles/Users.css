@@ -1,0 +1,125 @@
+.UserHeader{
+    background-color: #ffffff;
+    height: 6vh;
+    width: 85%;
+    color: #7A2036;
+    position: fixed;
+        top: 6vh;
+        left: 15%;
+    /* margin-left: 15%; */
+    padding-top: 0.5em;
+    padding-bottom: 1em;
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.25);
+    z-index: -1;
+}
+.content{
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    padding: 10px;
+    width: 100%;
+}
+.content > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 20px;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 1em;
+
+    display: flex;
+    flex-direction: row;
+}
+.col-auto-dropdown {
+    position: fixed;
+        right: 25px;
+}
+.reserve {
+    position: fixed;
+        right: 25px;
+}
+.searchBar {
+    position: fixed;
+    left: 350px;
+    width: 45%;
+}
+.AddUser {
+    position: fixed;
+    right: 15%;
+}
+.PrintQRCode{
+    position: fixed;
+    right: 8%;
+}
+.UserPane{
+    background-color: #F0F0EB;
+    width: 85%;
+    height: 100vh;
+    position: fixed;
+        top: 12vh;
+        left: 15%;
+    z-index: -1;
+}
+.UserRowTitle{
+    color: #3E2B2E;
+    font-weight: bold;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    text-align: center;
+    background-color: #F0F0EB;
+    margin-bottom: 3px;
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.25);
+    padding-left: 3em;
+    padding-right: 3em;
+}
+
+#AddUser{
+    background-color: #3E2B2E;
+    color: #ffffff;
+}
+
+.right-sidemenu{
+    width: 20%;
+    height: 100vh;
+    position: fixed;
+        right: 0;
+        top: 0;
+    background-color: #ffffff;
+}
+
+@media only screen 
+and (min-device-width: 375px)
+and (max-device-width: 812px)
+and (-webkit-min-device-pixel-ratio: 3) {
+    .sidenav { display: none;}
+    .navbar { display: none;}
+    .UserPane {
+        position: fixed;
+            top: 0;
+            left: 0;
+        width: 100vh;
+    }
+    .UserRowItems,.UserRowTitle {
+        padding: 0 !important;
+        margin: 0 !important;
+        margin: 0 !important;
+        width: 47vh;
+    }
+    .row {
+        font-size: 1em;
+        margin: 0.1em;
+    }
+    .col{
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .UserHeader { display: none;}
+
+    .rmobile {display: none;}
+    .list-pagination {
+        position: fixed;
+        left: 9%;
+    }
+
+}

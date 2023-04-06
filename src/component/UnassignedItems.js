@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
-import "./styles/Users.css";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
+import "../assets/styles/Users.css";
 import Pagination from "./Pagination";
 import UnassignedItemList from './List/UnassignedItemList';
 import OffCanvasCard from "./card/OffCanvasCard";
-import { Generate } from "./code-generator/qrcode";
-import { GenerateBarcode } from "./code-generator/barcode";
+import { Generate } from "../Services/code-generator/qrcode";
+import { GenerateBarcode } from "../Services/code-generator/barcode";
 
 function UnassignedItems () {
     const [items, setItems] = useState([]);
@@ -25,9 +23,14 @@ function UnassignedItems () {
     const [refreshvalue, setRefreshValue] = useState('');
 
     useEffect( () => {
-        API.get("inventory","/items/").then( itemRes => {
-            sortItems(itemRes);
+        API.post('items','/items/roomno/items',{
+            body: { roomno : "Unassigned" }
+        }).then ( res => {
+            setItems(res);
         })
+        API.get("items","/items").then(itemRes => {
+            sortLocationList(itemRes);
+        });
     },[]);
 
     const updateList = (serialno) => {
@@ -38,24 +41,7 @@ function UnassignedItems () {
         setUnfilteredItems(updatedList);
     }
 
-    const sortItems = (items) => {
-        const updatedList = items.filter(item => item.location === 'Unassgined');
-        updatedList.sort((a,b) => {
-            var tA = Number.parseInt(a.type);
-            var tB = Number.parseInt(b.type);
-            if(isNaN(tA) && isNaN(tB)){
-                return a.type.localeCompare(b.type);
-            }else if(isNaN(tA)){
-                return -1;
-            }else if(isNaN(tB)){
-                return 1;
-            }else{
-                return Math.sign(tA - tB);
-            }
-        });
-        setItems(updatedList);
-        setUnfilteredItems(updatedList);
-
+    const sortLocationList = (items) => {
         //Sort room list for change Location function
         const CurrentRoomList = items.filter(item => item.location === "Room");
         let updatedRoomList =  [...new Set(CurrentRoomList.map(room => room.roomno))];
@@ -93,32 +79,20 @@ function UnassignedItems () {
         setStorageList(updatedStorageList);
     }
 
-    const ViewInformation = (item) => {
+    const ViewInformation = async(item) => {
+        let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
         setActionName("Item Information");
-        setOffCanvasItem(item);
+        setOffCanvasItem(data);
         document.getElementById("item-info").style.display = "block";
-        // document.getElementById("item-history").style.display = "none";
         document.getElementById("qrcode").style.display = "none";
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
     }
 
-    // const ViewHistory = (item) => {
-    //     setActionName("Item History");
-    //     setOffCanvasItem(item);
-    //     document.getElementById("item-info").style.display = "none";
-    //     document.getElementById("item-history").style.display = "block";
-    //     document.getElementById("qrcode").style.display = "none";
-    //     document.getElementById("barcode").style.display = "none";
-    //     document.getElementById("Offstatus").style.display = "none";
-    //     document.getElementById("changeLocation").style.display = "none";
-    // }
-
     const CreateQRCode = (serialno) => {
         setActionName("QRCode");
         document.getElementById("item-info").style.display = "none";
-        // document.getElementById("item-history").style.display = "none";
         document.getElementById("qrcode").style.display = "block";
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
@@ -131,35 +105,34 @@ function UnassignedItems () {
     const CreateBarcode = (serialno) => {
         setActionName("Barcode");
         document.getElementById("item-info").style.display = "none";
-        // document.getElementById("item-history").style.display = "none";
         document.getElementById("qrcode").style.display = "none";
         document.getElementById("barcode").style.display = "block";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
-    
+
         console.log(serialno);
         let svg = GenerateBarcode(serialno);
         setBarcode(svg);
     }
 
-    const changeStatus = (item) => {
+    const changeStatus = async(item) => {
+        let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
         setRefreshValue(Math.random());
         setActionName("Change Status");
-        setOffCanvasItem(item);
+        setOffCanvasItem(data);
         document.getElementById("item-info").style.display = "none";
-        // document.getElementById("item-history").style.display = "none";
         document.getElementById("qrcode").style.display = "none";
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "block";
         document.getElementById("changeLocation").style.display = "none";
     }
 
-    const changeLocation=  (item) => {
+    const changeLocation=  async(item) => {
+        let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
         setRefreshValue(Math.random());
         setActionName("Change Location");
-        setOffCanvasItem(item);
+        setOffCanvasItem(data);
         document.getElementById("item-info").style.display = "none";
-        // document.getElementById("item-history").style.display = "none";
         document.getElementById("qrcode").style.display = "none";
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
@@ -203,14 +176,14 @@ function UnassignedItems () {
 
     return (
         <div className="Users">
-        <Sidebar />
-        <Header />
+        
+        
         <div className="UserHeader">
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
                 <div> 
-                <span class="material-symbols-outlined">devices_other</span>
+                <span className="material-symbols-outlined">devices_other</span>
                     <span>Unassigned Items</span>
 
                     <div className="searchBar">

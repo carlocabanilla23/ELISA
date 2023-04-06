@@ -56,7 +56,7 @@ const convertUrlType = (param, type) => {
 }
 
 /********************************
- * HTTP Get method for list objects *
+ * HTTP Get method for list objects - All Attributes*
  ********************************/
 
 app.get(path, function(req, res) {
@@ -79,6 +79,43 @@ app.get(path, function(req, res) {
   let queryParams = {
     TableName: tableName,
     KeyConditions: condition
+  }
+
+  dynamodb.scan(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
+/********************************
+ * HTTP Get method for list objects - Only Serial Number*
+ ********************************/
+
+app.get(path+"/serialnumber", function(req, res) {
+  const condition = {}
+  condition[partitionKeyName] = {
+    ComparisonOperator: 'EQ'
+  }
+
+  if (userIdPresent && req.apiGateway) {
+    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
+  } else {
+    try {
+      condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
+    } catch(err) {
+      res.statusCode = 500;
+      res.json({error: 'Wrong column type ' + err});
+    }
+  }
+
+  let queryParams = {
+    TableName: tableName,
+    KeyConditions: condition,
+    ProjectionExpression: "serialno"
   }
 
   dynamodb.scan(queryParams, (err, data) => {

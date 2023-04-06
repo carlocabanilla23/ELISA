@@ -1,9 +1,7 @@
 import { Amplify, API } from "aws-amplify";
-import "./styles/CreateUser.css";
+import "../assets/styles/CreateUser.css";
 import React from "react";
 import awsExport from '../aws-exports';
-import Sidebar from './Sidebar';
-import Header from './Header';
 import { useNavigate } from 'react-router-dom'; 
 
 Amplify.configure(awsExport);
@@ -16,7 +14,6 @@ function CreateUser() {
     const [schoolID,setSchoolID] = React.useState('');
     const [email,setEmail] = React.useState('');
     const [phone,setPhone] = React.useState('');
-    const [password,setPassword] = React.useState('');
 
     /* 
         These useState is for checking the uniqueness of the input information
@@ -83,6 +80,7 @@ function CreateUser() {
             schoolID : schoolID,
             email : email,
             phone : phone,
+            status : "inactive",
             }
         });
 
@@ -101,7 +99,7 @@ function CreateUser() {
         API.post("useraccounts","/email/",{
             body:{
                 email:email,
-                password:password
+                password:''
             }
         });
 
@@ -126,8 +124,8 @@ function CreateUser() {
             <div className="alert alert-success" id="alert" role="alert">
                 The user has been created successfully!
             </div>
-            <Sidebar />
-            <Header />
+            
+            
             {/* Previous Page Navigation Bar */}
             <div className="UserHeader">
                     <div className="content">
@@ -186,22 +184,19 @@ function CreateUser() {
                                 </button>
                                 <ul className="dropdown-menu">
                                     <li>
-                                        <a className = "dropdown-item"
-                                        onClick={(e)=> setRole("Student")}>
-                                        Student
-                                        </a>
+                                        <button type="button" className="dropdown-item" onClick={(e) => setRole("Student")}>
+                                            Student
+                                        </button>
                                     </li>
                                     <li>
-                                        <a className = "dropdown-item"
-                                        onClick={(e)=> setRole("TA")}>
-                                        TA
-                                        </a>
+                                        <button type="button" className="dropdown-item" onClick={(e) => setRole("TA")}>
+                                            TA
+                                        </button>
                                     </li>
                                     <li>
-                                        <a className = "dropdown-item"
-                                        onClick={(e)=> setRole("Professor")}>
-                                        Professor
-                                        </a>
+                                        <button type="button" className="dropdown-item" onClick={(e) => setRole("Professor")}>
+                                            Professor
+                                        </button>
                                     </li>
                                 </ul>
                                 </div>

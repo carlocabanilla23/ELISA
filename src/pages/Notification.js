@@ -2,9 +2,7 @@ import React, { useEffect,useState } from "react"
 import { Amplify, API } from "aws-amplify";
 import awsExport from '../aws-exports';
 import { useNavigate } from 'react-router-dom'; 
-import Sidebar from "../component/Sidebar";
-import Header from "../component/Header";
-import "../component/styles/Notification.css"
+import "../assets/styles/Notification.css"
 Amplify.configure(awsExport);
 
 function Notification() {
@@ -14,18 +12,23 @@ function Notification() {
         let emailParam = decodeURIComponent(escape(window.atob( localStorage.getItem('email'))));
         API.get("notification","/notification/" + emailParam).then( resEmail => {
             console.log(resEmail)
-            setData(resEmail);
+            sortData(resEmail);
         });
     },[]);
 
+    const sortData = (data) => {
+        let sortedData = data.sort((p1, p2) => (p1.date < p2.date) ? 1 : (p1.date > p2.date) ? -1 : 0);
+        setData(sortedData);
+
+    }
     const gotoDashboard = () => {
         navigate('/Home')
     }
 
     return (
         <>
-            <Sidebar />
-            <Header />
+            
+            
 
             {/* Previous Page Navigation Bar */}
             <div className="NotificationHeader">

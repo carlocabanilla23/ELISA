@@ -1,5 +1,5 @@
 import React from "react";
-import './styles/Pagination.css';
+import '../assets/styles/Pagination.css';
 
 const Pagination = ({ PerPage, total, paginate,currentPageLocation}) => {
     const pageNumbers = [];
@@ -13,15 +13,15 @@ const Pagination = ({ PerPage, total, paginate,currentPageLocation}) => {
             <nav>
                 <ul className="pagination justify-content-center">
                     <li className="page-item">
-                            <a onClick={() =>paginate(currentPageLocation-1)} className="page-link">prev</a>        
+                            <button onClick={() =>paginate(currentPageLocation-1)} className="page-link">prev</button>        
                     </li>
                     {pageNumbers.map ( num => (
                         <li key={num} className={"page-item obj" + num} >
-                            <a onClick={() =>paginate(num)} id={num} className="page-link">{num}</a>        
+                            <button onClick={() =>paginate(num)} id={num} className="page-link">{num}</button>        
                         </li>
                     ))}
                     <li className="page-item">
-                            <a onClick={() =>paginate(currentPageLocation+1)}className="page-link">next</a>        
+                            <button onClick={() =>paginate(currentPageLocation+1)}className="page-link">next</button>        
                     </li>
                 </ul>
             </nav>

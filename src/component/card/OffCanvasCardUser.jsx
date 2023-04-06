@@ -10,8 +10,7 @@ const OffCanvasCardUser = ({user,actionName,refreshvalue}) => {
         setStatus(user.status);
     },[user,actionName,refreshvalue])
 
-    const setNewRole = () => {
-        console.log(user);
+    const setNewRole = () => {            
         API.post("userapi","/email/", {
             body : {
             firstname : user.firstname,
@@ -29,18 +28,10 @@ const OffCanvasCardUser = ({user,actionName,refreshvalue}) => {
     }
 
     const setNewStatus = () => {
-        console.log(user);
+        user.status = status;
         API.post("userapi","/email/", {
-            body : {
-            firstname : user.firstname,
-            lastname : user.lastname,
-            role : user.role,
-            schoolID : user.schoolID,
-            email : user.email,
-            phone : user.phone,
-            password : user.password,
-            status: status
-        }});
+            body : user 
+        });
         setTimeout(() => {
             window.location.reload(true);
         },400)

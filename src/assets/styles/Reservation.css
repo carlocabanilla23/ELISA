@@ -1,0 +1,150 @@
+
+.ReservationHeader{
+    background-color: #ffffff;
+    height: 6vh;
+    width: 85%;
+    color: #7A2036;
+    position: fixed;
+        top: 6vh;
+        left: 15%;
+    /* margin-left: 15%; */
+    padding-top: 0.5em;
+    padding-bottom: 1em;
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.25);
+    z-index: -1;
+}
+
+.Reservation{
+    background-color: #F0F0EB;
+    width: 85%;
+    height: 100vh;
+    position: fixed;
+        top: 12vh;
+        left: 15%;
+   
+    margin-bottom: 0 !important;
+}
+
+.ReservationSummary{
+    float: left;
+    width: 45%;
+}
+
+.OrderList{
+    min-height: 55vh;
+    border-bottom: 3px solid black;
+    border-right: 3px solid black;
+
+}
+.OrderList .row{
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 1em;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    
+}
+.OrderList .header{
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    font-weight: bolder;
+    background-color: #ffffff;
+    font-size: 1.4em;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+    
+}
+.ReservationItemList {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.row.Assigneditemlist{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0.1em !important;
+    height: 33vh;
+    overflow: scroll;
+    white-space:nowrap;
+}
+.row.Assigneditemlist > col{
+    padding-left: 0 !important;
+    padding-top: 0.1em !important;
+}
+
+.UserInfo{
+    padding-top: 2em;
+    padding-left: 5%;
+    border-right: 3px solid black;
+    height: 50%;
+    min-height: 33vh;
+}
+
+.ItemList {
+    float: left;
+    width: 55%;
+}
+.Reservation-Pagination > .list-pagination nav {
+    width: 50%;
+}
+
+.ReservationItemList .row{
+    padding-top: 1em;
+    padding-bottom: 1em;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.ReservationItemList .row .action {
+    text-align: center;
+}
+
+#SearchReservation{
+    position: absolute;
+        left: 55%;
+        top: 7%;
+    width: 43%;
+}
+
+@media screen and (max-width: 1920px) {
+    
+    .ReservationItemList .row{
+        padding-top: 2px;
+        padding-bottom: 2px;
+        font-size: 1em;
+    }
+    .btn.btn-dark {
+        font-size: 0.7em;
+        margin: 0.3em;
+    }
+
+    
+    .OrderList > .row.header {
+        margin: 0;
+        padding: 20px;
+        font-size: 1.2em;
+    }
+
+    
+    .row.Assigneditemlist{
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        padding-top: 0.1em !important;
+        height: 10vh;
+        overflow: scroll;
+        white-space:nowrap;
+    }
+
+    .UserInfo {
+        min-height: 5vh;
+        font-size: 0.9em;
+        padding-top: 1px;
+    }
+
+    .userinfo-form-label{
+        margin: 0;
+    }
+}
+
+#reserveInfoCol{
+    position:relative;
+    left: 3%;
+}

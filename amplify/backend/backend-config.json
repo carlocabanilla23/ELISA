@@ -28,6 +28,20 @@
       "providerPlugin": "awscloudformation",
       "service": "API Gateway"
     },
+    "items": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "itemlambda"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "notification": {
       "dependsOn": [
         {
@@ -185,6 +199,25 @@
           ],
           "category": "storage",
           "resourceName": "inventory"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "itemlambda": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "item"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -349,6 +382,22 @@
         }
       ]
     },
+    "AMPLIFY_function_itemlambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "itemlambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_itemlambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "itemlambda"
+        }
+      ]
+    },
     "AMPLIFY_function_notifprofile_deploymentBucketName": {
       "usedBy": [
         {
@@ -432,6 +481,10 @@
       "service": "DynamoDB"
     },
     "inventory": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "item": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
     },

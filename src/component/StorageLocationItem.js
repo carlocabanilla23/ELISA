@@ -1,23 +1,20 @@
-import CreateTestEquipment from "./test/CreateTestEquipment";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
-import "./styles/Users.css";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
-import { useNavigate, useLocation, Link,useParams } from "react-router-dom";
+import "../assets/styles/Users.css";
+import { useNavigate, Link,useParams } from "react-router-dom";
 import Pagination from "./Pagination";
-import ItemList from "./ItemList";
+import ItemList from "./List/ItemList";
 import OffCanvasCard from "./card/OffCanvasCard";
-import { GenerateRoomQRCode } from "./code-generator/RoomQRCode";
-import { Generate } from "./code-generator/qrcode";
-import { GenerateBarcode } from "./code-generator/barcode";
+import { GenerateRoomQRCode } from "../Services/code-generator/RoomQRCode";
+import { Generate } from "../Services/code-generator/qrcode";
+import { GenerateBarcode } from "../Services/code-generator/barcode";
 
 function StorageLocationItem () {
     const {param} = useParams();
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
-    const [itemsPerPage,setItemsPerPage] = useState(10);
+    const [itemsPerPage] = useState(10);
     const [qrcode,setQRCode] = useState();
     const [barcode,setBarcode] = useState();
     const [offCanvasItem, setOffCanvasItem] = useState('');
@@ -40,10 +37,15 @@ function StorageLocationItem () {
     }
 
     useEffect( () => {
-        API.get("inventory","/items/").then( itemRes => {
-            sortItems(itemRes);
-            sortLocationList(itemRes);
+        API.post('items','/items/roomno/items',{
+            body: { roomno : param }
+        }).then ( res => {
+            setItems(res);
+            setUnfilteredItems(res);
         })
+        API.get("items","/items").then(itemRes => {
+            sortLocationList(itemRes);
+        });
     },[]);
 
     const updateList = (serialno) => {
@@ -52,26 +54,6 @@ function StorageLocationItem () {
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     }
-
-    const sortItems = (items) => {
-        const updatedList = items.filter(item => item.roomno === param);
-        updatedList.sort((a,b) => {
-            var tA = Number.parseInt(a.type);
-            var tB = Number.parseInt(b.type);
-            if(isNaN(tA) && isNaN(tB)){
-                return a.type.localeCompare(b.type);
-            }else if(isNaN(tA)){
-                return -1;
-            }else if(isNaN(tB)){
-                return 1;
-            }else{
-                return Math.sign(tA - tB);
-            }
-        });
-        setItems(updatedList);
-        setUnfilteredItems(updatedList);
-    }
-
     const sortLocationList = (items) => {
         //Sort room list for change Location function
         const CurrentRoomList = items.filter(item => item.location === "Room");
@@ -212,17 +194,17 @@ function StorageLocationItem () {
 
     return (
         <div className="Users">
-        <Sidebar />
-        <Header />
+        
+        
         <div className="UserHeader">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
                 <div>
-                    <span class="material-symbols-outlined" style={{cursor: "pointer"}} onClick={() => navigate('/Location')}>arrow_back</span>
+                    <span className="material-symbols-outlined" style={{cursor: "pointer"}} onClick={() => navigate('/Location')}>arrow_back</span>
                     <Link to="/Location" className="text-dark">
                         <span >Storage Location </span>
                     </Link>
-                    <span class="material-symbols-outlined">arrow_right</span>         
+                    <span className="material-symbols-outlined">arrow_right</span>         
                     <span>{param}</span>
 
                     <div className="searchBar">
@@ -247,8 +229,8 @@ function StorageLocationItem () {
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#">CSV</a></li>
-                                <li><a className="dropdown-item" href="#">PDF</a></li>
+                                <li><button type="button" className="dropdown-item">CSV</button></li>
+                                <li><button type="button" className="dropdown-item">PDF</button></li>
                             </ul>
                         </div>
                     </div>

@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
-import "./styles/Users.css";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
+import "../assets/styles/Users.css";
 import { useNavigate, useParams } from "react-router-dom";
-import UserList from "./UserList";
+import UserList from "./List/UserList";
 import Pagination from "./Pagination";
-import CreateTestUser from './test/CreateTestUser';
-import Init from './test/InitUser';
 import Papa from 'papaparse';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -24,7 +20,7 @@ function Users () {
 
     // Offcanvas
     const [offCanvasUser, setOffCanvasUser] = useState('');
-    const [activityHistory, setActivityHistory] = useState([]);
+    // const [activityHistory, setActivityHistory] = useState([]);
     const [actionName, setActionName] = useState('');
     const [refreshvalue, setRefreshValue] = useState('');
 
@@ -69,42 +65,14 @@ function Users () {
         setUnfilteredUsers(updatedList);
     }
 
-    const updateStatus = (email, status) => {
-        // make an API call to update the user's status in the database
-        API.put("userapi", "/email/object/" + email, {
-          body: { status }
-        }).then(() => {
-          // update the status of the user 
-          const updatedUsers = users.map(user => {
-            if (user.email === email) {
-              return { ...user, status };
-            }
-            return user;
-          });
-          setUsers(updatedUsers);
-          setUnfilteredUsers(updatedUsers);
-        });
-    };
-
     // View User Information in OffCanvas
     const ViewInformation = (user) => {
         setOffCanvasUser(user);
         setActionName("User Information");
         document.getElementById("user-info").style.display = "block";
-        // document.getElementById("user-history").style.display = "none";
         document.getElementById("changeRole").style.display = "none";
         document.getElementById("changeStatus").style.display = "none";
     }
-
-    // View User Activity History in OffCanvas
-    // const ViewHistory = (user) => {
-    //     setOffCanvasUser(user);
-    //     setActionName("User History");
-    //     document.getElementById("user-info").style.display = "none";
-    //     document.getElementById("user-history").style.display = "block";
-    //     document.getElementById("changeRole").style.display = "none";
-    //     document.getElementById("changeStatus").style.display = "none";
-    // }
 
     // Change user Role in OffCanvas
     const changeRole = (user) => {
@@ -112,7 +80,6 @@ function Users () {
         setOffCanvasUser(user);
         setActionName("Change Role");
         document.getElementById("user-info").style.display = "none";
-        // document.getElementById("user-history").style.display = "none";
         document.getElementById("changeRole").style.display = "block";
         document.getElementById("changeStatus").style.display = "none";
     }
@@ -123,7 +90,6 @@ function Users () {
         setOffCanvasUser(user);
         setActionName("Change Status");
         document.getElementById("user-info").style.display = "none";
-        // document.getElementById("user-history").style.display = "none";
         document.getElementById("changeRole").style.display = "none";
         document.getElementById("changeStatus").style.display = "block";
     }
@@ -216,8 +182,8 @@ const PDF = () => {     // Exporting to pdf
 
     return (
     <div className="Users">
-        <Sidebar />
-        <Header />
+        
+        
         <div className="UserHeader">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
@@ -240,8 +206,8 @@ const PDF = () => {     // Exporting to pdf
                             Export
                         </button>
                         <ul className="dropdown-menu">
-                        <li><a className="dropdown-item" onClick={CSV} >CSV</a></li>
-                        <li><a className="dropdown-item" onClick={PDF} >PDF</a></li>
+                        <li><button type="button" className="dropdown-item" onClick={CSV} >CSV</button></li>
+                        <li><button type="button" className="dropdown-item" onClick={PDF} >PDF</button></li>
                         </ul>
                     </div>
                 </div>
