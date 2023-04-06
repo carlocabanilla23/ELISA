@@ -15,7 +15,7 @@
       "function": {
         "userlambda": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/userlambda-4b4a7379714d4f567048-build.zip"
+          "s3Key": "amplify-builds/userlambda-784e5a75505844585838-build.zip"
         },
         "equipmentapi": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
@@ -25,36 +25,36 @@
         "inventoryfunctions": {},
         "inventory": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/inventory-5a686452413256797651-build.zip"
+          "s3Key": "amplify-builds/inventory-2b6c6d446b385674374d-build.zip"
         },
         "qrlambda": {},
         "emaillambda": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/emaillambda-494a79612b74784f6548-build.zip"
+          "s3Key": "amplify-builds/emaillambda-755835435062535a4e47-build.zip"
         },
         "notifprofile": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/notifprofile-3638552f46612b6c7636-build.zip"
+          "s3Key": "amplify-builds/notifprofile-3642754638546e393865-build.zip"
         },
         "accountapi": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/accountapi-36394c7476647870564b-build.zip"
+          "s3Key": "amplify-builds/accountapi-75507576562f65586b51-build.zip"
         },
         "ElisaNotification": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/ElisaNotification-4a78657874526c353365-build.zip"
+          "s3Key": "amplify-builds/ElisaNotification-4f445272487145366170-build.zip"
         },
         "reservationfunction": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/reservationfunction-734263334d357a647241-build.zip"
+          "s3Key": "amplify-builds/reservationfunction-4f4547317751597a4775-build.zip"
         },
         "reservationcart": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/reservationcart-5a7464634c777850354b-build.zip"
+          "s3Key": "amplify-builds/reservationcart-3973314d77697a643939-build.zip"
         },
         "itemlambda": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/itemlambda-52324b6b337563573249-build.zip"
+          "s3Key": "amplify-builds/itemlambda-5667484436453933624f-build.zip"
         },
         "item": {}
       },
