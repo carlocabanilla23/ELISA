@@ -20,9 +20,20 @@ function Login() {
     API.get("useraccounts","/email/object/"+username).then( acc => {
         if (acc.email === username && acc.password === password) {  
             API.get("userapi","/email/object/"+acc.email).then( res => {
-                StartSession(res);
-                console.log(res); 
-                navigate('/Home'); 
+                console.log(res.status);
+                if (res.status !== "Verified") {
+                    const err = ReactDOM.createRoot(
+                        document.getElementById('prompt')
+                    );
+                    const element = <p className='text-danger'>Your Accout is not active please contact administrator</p>;
+                      err.render(element);
+                    
+                } else {
+                    StartSession(res);
+                    console.log(res); 
+                    navigate('/Home');
+                }
+                 
             });  
         }else{
             const err = ReactDOM.createRoot(
