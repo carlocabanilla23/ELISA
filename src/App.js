@@ -21,7 +21,7 @@ import AddItemToLocation from './component/AddItemToLocation';
 import StorageLocationItem from './component/StorageLocationItem';
 import ItemInformation from './component/ItemInformation';
 import Setting from './component/Setting';
-import CreateReservation from './component/CreateReservation';
+import CreateReservation from './pages/Reservation/CreateReservation';
 import Signup from './component/Signup';
 import AssignedItems from './component/AssignedItems';
 import UnassignedItems from './component/UnassignedItems';
