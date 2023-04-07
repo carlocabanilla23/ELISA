@@ -224,7 +224,7 @@ function CreateUser() {
                             <input type = "text"
                             className = "form-control"
                             value = {email}
-                            onChange = {(e) => {setEmail(e.target.value)}}
+                            onChange = {(e) => {setEmail(e.target.value.toLowerCase())}}
                             id = "inputEmail"
                             required={true}
                             pattern='^([a-z0-9]{1,})@spu\.edu$'

@@ -287,7 +287,7 @@ function Signup () {
                             <input type = "text"
                             className = "email form-control"
                             value = {email}
-                            onChange = {(e) => {setEmail(e.target.value); setErrorMessage(''); setError('')}}
+                            onChange = {(e) => {setEmail(e.target.value.toLowerCase()); setErrorMessage(''); setError('')}}
                             id = "inputEmail"
                             required={true}
                             pattern='^([a-zA-Z0-9]{1,})@spu\.edu$'
