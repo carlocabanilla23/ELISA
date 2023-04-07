@@ -24,7 +24,7 @@ function CreateReservation () {
 
     const [type, setType] = useState('Type');
     const [model,setModel] = useState('Model');
-    const [returnDate,setReturnDate] = useState("N/A");
+    const [returnDate,setReturnDate] = useState();
     const [quantity,setQuantity] = useState(0);
     const [reservationCart,setReservationCart] = useState([]);
     const navigate = useNavigate();
@@ -33,12 +33,22 @@ function CreateReservation () {
     const [errorMessage, setErrorMessage] = useState('');
 
     const date = new Date();
-    let day = date.getDate();
+    let day;
     let month = date.getMonth() + 1;
+    let monthPlus3;
+    (date.getMonth() + 4 < 10) ?  monthPlus3 = "0" + (date.getMonth() + 4) :  monthPlus3 = date.getMonth();
+    (date.getDate() < 10) ?  day = "0" + date.getDate().toString() :  day = date.getDate();
+
     let year = date.getFullYear();
+    
 
     useEffect( () => {
-        console.log(location.state.reservationCount);
+        setSummary("Reservation " + location.state.reservationCount);
+        setReturnDate(year+"-"+monthPlus3.toString()+"-"+day);
+        setNote("I would like to borrow an equipment. Thank you");
+
+
+        // console.log(location.state.reservationCount);
         API.get("inventory","/items/").then( itemRes => {
             sortItems(itemRes);
             setItems(itemRes);
@@ -133,42 +143,42 @@ function CreateReservation () {
         if(reservationCart.length === 0){
             throw new Error(setError(5));
         }
-        //Check return date if it is in range of two months from request date
-        let returnDay = '';
-        let returnMonth = '';
-        let returnYear = returnDate.substring(0,4);
+        // //Check return date if it is in range of two months from request date
+        // let returnDay = '';
+        // let returnMonth = '';
+        // let returnYear = returnDate.substring(0,4);
 
-        if(returnDate[8] === '0'){
-            returnDay = returnDate[9];
-        }else{
-            returnDay = returnDate.substring(8,10);
-        }
-        if(returnDate[5] === '0'){
-            returnMonth = returnDate[6];
-        }else{
-            returnMonth = returnDate.substring(5,7);
-        }
-        //Comparing request date and return date
-        if(parseInt(returnYear, 10) > (year + 1) || parseInt(returnYear, 10) < year){
-            throw new Error(setError(6));
-        }else{
-            if(parseInt(returnYear, 10) === (year + 1)){
-                if((parseInt(returnMonth, 10) + 12 - month) > 2){
-                    throw new Error(setError(6));
-                }else if((parseInt(returnMonth, 10) + 12 - month) === 2){
-                    if(parseInt(returnDay, 10) > day){
-                        throw new Error(setError(6));
-                    }
-                }
-            }else if((parseInt(returnYear, 10) === year) && ((parseInt(returnMonth, 10) - month) > 2 ||
-            (parseInt(returnMonth, 10) - month) < 0)){
-                throw new Error(setError(6));
-            }
-            if((parseInt(returnMonth, 10) === month && parseInt(returnDay, 10) < day) ||
-            (parseInt(returnMonth, 10) - month === 2 && parseInt(returnDay, 10) > day)){
-                throw new Error(setError(6));
-            }
-        }
+        // if(returnDate[8] === '0'){
+        //     returnDay = returnDate[9];
+        // }else{
+        //     returnDay = returnDate.substring(8,10);
+        // }
+        // if(returnDate[5] === '0'){
+        //     returnMonth = returnDate[6];
+        // }else{
+        //     returnMonth = returnDate.substring(5,7);
+        // }
+        // //Comparing request date and return date
+        // if(parseInt(returnYear, 10) > (year + 1) || parseInt(returnYear, 10) < year){
+        //     throw new Error(setError(6));
+        // }else{
+        //     if(parseInt(returnYear, 10) === (year + 1)){
+        //         if((parseInt(returnMonth, 10) + 12 - month) > 2){
+        //             throw new Error(setError(6));
+        //         }else if((parseInt(returnMonth, 10) + 12 - month) === 2){
+        //             if(parseInt(returnDay, 10) > day){
+        //                 throw new Error(setError(6));
+        //             }
+        //         }
+        //     }else if((parseInt(returnYear, 10) === year) && ((parseInt(returnMonth, 10) - month) > 2 ||
+        //     (parseInt(returnMonth, 10) - month) < 0)){
+        //         throw new Error(setError(6));
+        //     }
+        //     if((parseInt(returnMonth, 10) === month && parseInt(returnDay, 10) < day) ||
+        //     (parseInt(returnMonth, 10) - month === 2 && parseInt(returnDay, 10) > day)){
+        //         throw new Error(setError(6));
+        //     }
+        // }
 
         API.post("reservation","/reservation", {
             body : {
@@ -290,7 +300,6 @@ function CreateReservation () {
                                     className="form-control"
                                     value={summary}
                                     onChange={ (e) => {setSummary(e.target.value); setError(''); setErrorMessage('')}}
-                                    pattern='^([a-zA-Z0-9]{1,})$'
                                     onInvalid={(event) => {event.target.setCustomValidity('Please write a summary for your reservation purpose')}}
                                     onInput={(e) => e.target.setCustomValidity('')}
                                     required={true} />
@@ -304,10 +313,13 @@ function CreateReservation () {
                                     <label className="form-label">Return Date</label>
                                     <input className="form-control dateInput"
                                     type="date"
+                                    input="date"
                                     onChange={ (e) => {setReturnDate(e.target.value); setError(''); setErrorMessage('')}}
                                     onInvalid={(event) => {event.target.setCustomValidity('You can only reserve for two months at most')}}
                                     onInput={(e) => e.target.setCustomValidity('')}
+                                    value={returnDate}
                                     required={true} />
+                                    
                                 </div>
                             </div>
                         </div>
@@ -324,7 +336,8 @@ function CreateReservation () {
                                     pattern='^([a-zA-Z0-9]{1,})$'
                                     onInvalid={(event) => {event.target.setCustomValidity('Write a short note or "None" before submit the reservation form')}}
                                     onInput={(e) => e.target.setCustomValidity('')} 
-                                    required={true} />
+                                    required={true}
+                                    value={note} />
                                 </div>
                             </div>
                         </div>

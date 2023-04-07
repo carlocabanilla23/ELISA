@@ -6,6 +6,7 @@
         top: 12vh;
         left: 15%;
     padding-top: 2em;
+    z-index: -2;
 }
 .CreateReservationHeader {
     background-color: #ffffff;
@@ -19,7 +20,7 @@
     padding-top: 0.5em;
     padding-bottom: 1em;
     box-shadow: 1px 1px rgba(0, 0, 0, 0.25);
-    z-index: -3;
+    z-index: -1;
 }
 .content{
     position: absolute;
