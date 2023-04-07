@@ -39,7 +39,7 @@ function ScatterReport () {
   
     return (
       <>
-    
+        <div className="bottom">  <p className="chartLabel">Item Status Summary</p>   
         <ResponsiveContainer width="95%" height="80%">
             <PieChart width={350} height={225}>
               <Pie
@@ -60,6 +60,7 @@ function ScatterReport () {
               <Legend />
             </PieChart>
         </ResponsiveContainer>
+        </div>
         </>
     );
 }

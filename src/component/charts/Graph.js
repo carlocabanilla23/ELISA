@@ -42,6 +42,7 @@ function GraphReport () {
     
     return (
       <>
+      <div className="top"> <p className="chartLabel">Inventory Summary</p>  
         <ResponsiveContainer width="95%" height="80%">
             <BarChart width={550} height={225} data={data}>
               <CartesianGrid  />
@@ -51,6 +52,7 @@ function GraphReport () {
                 <Bar dataKey="value" fill="#910D09" />
             </BarChart>
         </ResponsiveContainer>
+        </div>
         </>
       
     );

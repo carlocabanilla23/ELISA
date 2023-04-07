@@ -5,13 +5,35 @@ import GraphReport from '../component/charts/Graph';
 import GraphReport2 from '../component/charts/Graph2';
 import BarReport from '../component/charts/Bar';
 import ScatterReport from '../component/charts/Scatter';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import UserReservationGraph from './charts/UserReservationGraph';
 // import { API } from 'aws-amplify';
 
 // ELISA\src\component\charts\Pie.js
 function Home() {
+  const access = localStorage.getItem('access');
+  const [board,setBoard] = useState();
+
 
   useEffect(()=>{
+    if (access === 'Admin') { 
+      setBoard(
+      <>
+      <QuarterReport />
+      <GraphReport />
+      <div className="center">
+      </div><BarReport />
+      <ScatterReport />
+      <GraphReport2 />
+      </>
+      )
+    } else (
+      setBoard(
+        <>
+          <UserReservationGraph />
+        </>
+      )
+    )
 
   },[]);
   
@@ -26,14 +48,8 @@ function Home() {
                   </div>
               </div>
               <div className="Dashboard">
-                <div className="top"> <p className="chartLabel">Most Requested Items</p>  <QuarterReport /> </div>
-                <div className="top"> <p className="chartLabel">Inventory Summary</p>  <GraphReport /> </div>
-                <div className="center"></div>
-                <div className="bottom">  <p className="chartLabel">Reservation Summary</p>   <BarReport /></div>
-                {/* <div className="top"> <p className="chartLabel">Type of inventory</p>   <PieReport /> </div> */}
-                <div className="bottom">  <p className="chartLabel">Item Status Summary</p>   <ScatterReport /> </div>
-                <div className="bottom"> <p className="chartLabel">User Summary</p>  <GraphReport2 /> </div>
-
+                {board}
+                
               </div> 
     </div>
   );

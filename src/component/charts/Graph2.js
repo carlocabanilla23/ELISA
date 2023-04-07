@@ -44,6 +44,7 @@ function GraphReport2 () {
     
 
     return (
+      <div className="bottom"> <p className="chartLabel">User Summary</p> 
         <div className="summary">
             <div className="summaryItem">
               <span className="summaryTitle">Active Users</span>
@@ -69,6 +70,7 @@ function GraphReport2 () {
               <span className="summaryTitle">Admin</span>
               <span className="summaryCount">{admin}</span>
             </div>
+          </div>
           </div>
     );
 }
