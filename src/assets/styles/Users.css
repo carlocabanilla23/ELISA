@@ -59,7 +59,7 @@
     position: fixed;
         top: 12vh;
         left: 15%;
-    z-index: -1;
+    z-index: -2;
 }
 .UserRowTitle{
     color: #3E2B2E;

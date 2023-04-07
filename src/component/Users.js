@@ -205,7 +205,7 @@ const PDF = () => {     // Exporting to pdf
                             type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Export
                         </button>
-                        <ul className="dropdown-menu">
+                        <ul className="exports dropdown-menu">
                         <li><button type="button" className="dropdown-item" onClick={CSV} >CSV</button></li>
                         <li><button type="button" className="dropdown-item" onClick={PDF} >PDF</button></li>
                         </ul>
