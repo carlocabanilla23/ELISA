@@ -7,6 +7,7 @@ import Header from './Header';
 import "../assets/styles/AddItem.css";
 import SendNotification from "../Services/notification/Notification";
 import { DefaultDeviceLogo } from "../assets/base64/base64imgs";
+import useItems from "../hooks/useItems";
 Amplify.configure(awsExport);
 
 function AddItem() {
@@ -22,13 +23,17 @@ function AddItem() {
     const [acquiredDate, setAcquiredDate] = useState('');
     const [image, setImage] = useState(DefaultDeviceLogo());
 
-    const [items, setItems] = React.useState([]);
+    // const [items, setItems] = React.useState([]);
     const [error, setError] = React.useState('');
     const [errorMessage, setErrorMessage] = React.useState('');
 
+    const { items } = useItems();
+
     const navigate = useNavigate();
+    console.log(items);
 
     useEffect(() => {
+
         setErrorMessage('');
         setError('');
     }, [name,serialNumber,type,model,location,roomNumber,status,manufacturer,cost])
@@ -47,11 +52,11 @@ function AddItem() {
         }
     },[error])
     
-    useEffect(() => {
-        API.get("items", "/items").then(res => {
-            setItems([...items,...res]);
-        })
-    }, []);
+    // useEffect(() => {
+    //     API.get("items", "/items").then(res => {
+    //         setItems([...items,...res]);
+    //     })
+    // }, []);
 
     const AddItem = (e) => { //// AddItem function is called when the form is submitted
         e.preventDefault();
@@ -127,10 +132,8 @@ function AddItem() {
     const encodeImage = (e) => {
         var reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
-
         reader.onload = () => {
             setImage(reader.result);
-        console.log(reader.result); //base64encoded string
         };
 
    
@@ -142,8 +145,7 @@ function AddItem() {
                 Your item has been added successfully!
             </div>
 
-            <Sidebar />
-            <Header />
+          
 
             {/* Previous Page Navigation Bar */}
             <div className="UserHeader">

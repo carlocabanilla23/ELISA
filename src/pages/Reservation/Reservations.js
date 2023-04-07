@@ -12,9 +12,50 @@ function Reservations () {
     const [currentPage,setCurrentPage] = useState(1);
     const [reservationsPerPage] = useState(10);
 
+    const loggedUser = decodeURIComponent(escape(window.atob(localStorage.getItem('email'))));
+    const access = localStorage.getItem('access');
+
 
     useEffect( () => {
-        API.get("reservation","/reservation").then( res => {
+
+        if (access === "Student") {
+            API.get("reservation","/reservation/"+ loggedUser).then( res => {
+
+                let sorted = [];
+                let openList = [];
+                let assignedList = []
+                let returnList = []
+                for(let i = 0; i < res.length; i++){
+                    if(res[i].status === "Open"){
+                        openList.push(res[i]);
+                    }else if(res[i].status === "Assigned"){
+                        assignedList.push(res[i]);
+                    }else{
+                        returnList.push(res[i]);
+                    }
+                }
+                openList.sort((a,b) => {
+                    if(a.requestdate.split('-').at(2) !== b.requestdate.split('-').at(2)){
+                        return b.requestdate.split('-').at(2) - a.requestdate.split('-').at(2);
+                    }else{
+                        if(a.requestdate.split('-').at(1) !== b.requestdate.split('-').at(1)){
+                            return b.requestdate.split('-').at(1) - a.requestdate.split('-').at(1);
+                        }else{
+                            return b.requestdate.split('-').at(0) - a.requestdate.split('-').at(0);
+                        }
+                    }
+                });
+                sorted.push.apply(sorted, sortedDate(openList));
+                sorted.push.apply(sorted, sortedDate(assignedList));
+                sorted.push.apply(sorted, sortedDate(returnList));
+                setReservations([...reservations,...sorted]);
+                // setUnfilteredReservations([...reservations,...sorted]);
+            })
+
+        } else {
+            API.get("reservation","/reservation").then( res => {
+
+            
             let sorted = [];
             let openList = [];
             let assignedList = []
@@ -45,6 +86,11 @@ function Reservations () {
             setReservations([...reservations,...sorted]);
             // setUnfilteredReservations([...reservations,...sorted]);
         })
+
+        }
+        
+
+        
     },[]);
 
     const sortedDate = (list) => {

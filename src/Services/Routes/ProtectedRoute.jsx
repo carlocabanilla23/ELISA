@@ -7,9 +7,10 @@ import '../../assets/styles/Header.css';
 function ProtectedRoute({user,children}) {
   
   user = localStorage.getItem('user');
+  
+  if (user === null) return <Navigate to="/" replace/>  
 
-    if (user === null) return <Navigate to="/" replace/>  
-
+    
       return  (
       <>
           <Sidebar /> 

@@ -1,9 +1,9 @@
 import ItemCard from "../card/ItemCard";
-import React from "react";
+import React, { useEffect } from "react";
 import '../../assets/styles/List.css';
 
 const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation}) => {
-
+    
     return (
         <>
             <div className="UserRowTitle">
@@ -16,7 +16,7 @@ const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,c
                             <div id="location" className="col rmobile"> Location </div>
                             <div id="roomNumber" className="col rmobile"> Room No </div>
                             {/* <div id="status" className="col rmobile"> Status </div> */}
-                            <div className="col rmobile"> Actions</div>        
+                            <div className="col actions rmobile"> Actions</div>        
                     </div>
                 </div>
             </div>

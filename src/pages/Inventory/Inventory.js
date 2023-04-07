@@ -26,6 +26,9 @@ function Inventory () {
     const [actionName, setActionName] = useState('');
     const [refreshvalue, setRefreshValue] = useState('');
 
+    const loggedUser = decodeURIComponent(escape(window.atob(localStorage.getItem('email'))));
+    const access = localStorage.getItem('access');
+
     const navigate = useNavigate();
 
     const AddItem = e => {
@@ -48,8 +51,24 @@ function Inventory () {
                     return Math.sign(tA - tB);
                 }
             });
-            setItems([...items,...itemRes]);
-            setUnfilteredItems([...items,...itemRes]);
+/**Change later to item status */
+            if ( access !== "Admin") {
+                document.getElementById('AddUser').style.display = "none";
+                const nonAdminList = itemRes.filter(item => item.location === "Room");
+
+                let e = document.getElementsByClassName('actions');
+
+                for(var i = 0; i < e.length; i++) {
+                  e[i].style.display = "none";
+                }
+
+                setItems([...items,...nonAdminList]);
+                setUnfilteredItems([...items,...nonAdminList]);
+            } else {
+                setItems([...items,...itemRes]);
+                setUnfilteredItems([...items,...itemRes]);
+            }
+            
 
             //Sort room list for change Location function
             const CurrentRoomList = itemRes.filter(item => item.location === "Room");
@@ -190,9 +209,6 @@ function Inventory () {
                 document.body.appendChild(a);
                 a.click();
     }
-
- 
-
     const PDF = () => {     // Exporting to pdf 
         const doc = new jsPDF('p', 'mm', 'a4');
         
@@ -236,7 +252,6 @@ function Inventory () {
 
     return (
         <div className="Users">
-        
         
         <div className="UserHeader">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
