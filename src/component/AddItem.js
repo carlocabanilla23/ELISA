@@ -8,49 +8,50 @@ import "../assets/styles/AddItem.css";
 import SendNotification from "../Services/notification/Notification";
 import { DefaultDeviceLogo } from "../assets/base64/base64imgs";
 import useItems from "../hooks/useItems";
+import { GetDateToday } from "../Services/etc/GetDateToday";
+import Validate from "../Services/form-validation/error-codes";
 Amplify.configure(awsExport);
 
 function AddItem() {
-    const [name,setName] = React.useState('');
-    const [serialNumber,setSerialNumber] = React.useState('');
-    const [type,setType] = React.useState('');
-    const [model,setModel] = React.useState('');
-    const [location,setLocation] = React.useState('Location');
-    const [roomNumber,setRoom] = React.useState('');
-    const [status,setStatus] = React.useState('Status');
-    const [manufacturer, setManufacturer] = React.useState('');
-    const [cost, setCost] = React.useState('');
+    const [name,setName] = useState('');
+    const [serialNumber,setSerialNumber] = useState('');
+    const [type,setType] = useState('');
+    const [model,setModel] = useState('');
+    const [location,setLocation] = useState('Location');
+    const [roomNumber,setRoom] = useState('');
+    const [status,setStatus] = useState('Status');
+    const [manufacturer, setManufacturer] = useState('');
+    const [cost, setCost] = useState('');
     const [acquiredDate, setAcquiredDate] = useState('');
     const [image, setImage] = useState(DefaultDeviceLogo());
-
-    // const [items, setItems] = React.useState([]);
-    const [error, setError] = React.useState('');
-    const [errorMessage, setErrorMessage] = React.useState('');
+    const today = GetDateToday();
+    // const [items, setItems] = useState([]);
+    // const [error, setError] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const { items } = useItems();
 
     const navigate = useNavigate();
-    console.log(items);
+    // console.log(items);
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     setErrorMessage('');
+    //     setError('');
+    // }, [name,serialNumber,type,model,location,roomNumber,status,manufacturer,cost])
 
-        setErrorMessage('');
-        setError('');
-    }, [name,serialNumber,type,model,location,roomNumber,status,manufacturer,cost])
-
-    useEffect(() => {   
-        if(error === '1'){
-            setErrorMessage('Serial Number is already exist!');
-        }else if(error === '2'){
-            setErrorMessage('Please choose a Location!');
-        }else if(error === '3'){
-            setErrorMessage('Please choose a Status!');
-        }else if(error === '4'){
-            setErrorMessage('Unassigned item has no room number!');
-        }else if(error === '5'){
-            setErrorMessage('Room number is associated with different location type!');
-        }
-    },[error])
+    // useEffect(() => {   
+    //     if(error === '1'){
+    //         setErrorMessage('Serial Number is already exist!');
+    //     }else if(error === '2'){
+    //         setErrorMessage('');
+    //     }else if(error === '3'){
+    //         setErrorMessage('');
+    //     }else if(error === '4'){
+    //         setErrorMessage('');
+    //     }else if(error === '5'){
+    //         setErrorMessage('');
+    //     }
+    // },[error])
     
     // useEffect(() => {
     //     API.get("items", "/items").then(res => {
@@ -58,22 +59,22 @@ function AddItem() {
     //     })
     // }, []);
 
-    const AddItem = (e) => { //// AddItem function is called when the form is submitted
+    const AddItem = (e) => { // AddItem function is called when the form is submitted
         e.preventDefault();
 
         //Get the current time the item is add
-        var date = new Date();
-        var year = date.getFullYear();
-        var month = date.getMonth()+1;
-        var day = date.getDate();
-        var hour = date.getHours();
-        var minutes = date.getMinutes();
-        var today = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;
-        if(hour >= 12){
-            today += 'PM';
-        }else{
-            today += 'AM';
-        }
+        // var date = new Date();
+        // var year = date.getFullYear();
+        // var month = date.getMonth()+1;
+        // var day = date.getDate();
+        // var hour = date.getHours();
+        // var minutes = date.getMinutes();
+        // var today = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;
+        // if(hour >= 12){
+        //     today += 'PM';
+        // }else{
+        //     today += 'AM';
+        // }
 
         /*
             Validation check for the new item:
@@ -82,39 +83,61 @@ function AddItem() {
             4. Check if user set a room for the unassigned item. Unassigned item will have no room
             5. Check if the room number is already exist as a different location type
         */
-        for(var i = 0; i < items.length; i++){
-            if(items[i].serialno === serialNumber){
-                throw new Error(setError('1'));
-            }else if(location === "Location"){
-                throw new Error(setError('2'));
-            }else if(status === "Status"){
-                throw new Error(setError('3'));
-            }else if(location === "Unassigned" && roomNumber !== ''){
-                throw new Error(setError('4'));
-            }else if(items[i].roomno === roomNumber && items[i].location !== location){
-                throw new Error(setError('5'));
-            }
+        // for(var i = 0; i < items.length; i++){
+        //     if(items[i].serialno === serialNumber){
+        //         throw new Error(setError('1'));
+        //     }else if(location === "Location"){
+        //         throw new Error(setError('2'));
+        //     }else if(status === "Status"){
+        //         throw new Error(setError('3'));
+        //     }else if(location === "Unassigned" && roomNumber !== ''){
+        //         throw new Error(setError('4'));
+        //     }else if(items[i].roomno === roomNumber && items[i].location !== location){
+        //         throw new Error(setError('5'));
+        //     }
+        // }
+
+        let data = {
+            serialNumber,
+            location,
+            status,
+            roomNumber
         }
 
-        API.post("items","/items/", {  // call the API to post the item's information to the inventory
-            body : {
-                name : name,
-                serialno : serialNumber,
-                type : type,
-                model : model,
-                manufacturer: manufacturer,
-                location : location,
-                roomno : roomNumber,
-                status : status,
-                cost: cost,
-                createdate: today,
-                lastupdated: today,
-                acquiredate: acquiredDate,
-                image : image
-            }
-        });
-        ShowAlert();
-        SendNotification("NEW_ITEM",type) // call the ShowAlert function to display a success message
+        let err = Validate(items,data);
+
+        let rm;
+        if (location === "Unassigned") {
+            rm = "NA";
+        }else {
+            rm = roomNumber;
+        }
+        if (err.length > 0) {
+            setErrorMessage(err);
+        } else {
+            API.post("items","/items/", {  // call the API to post the item's information to the inventory
+                body : {
+                    name : name,
+                    serialno : serialNumber,
+                    type : type,
+                    model : model,
+                    manufacturer: manufacturer,
+                    location : location,
+                    roomno : rm,
+                    status : status,
+                    cost: cost,
+                    createdate: today,
+                    lastupdated: today,
+                    acquiredate: acquiredDate,
+                    image : image
+                }
+            });
+            // call the ShowAlert function to display a success message
+            ShowAlert();
+            SendNotification("NEW_ITEM",type) 
+        }
+
+        
     }
         
     const CancelEdit = () => { //// CancelEdit function navigates the user back to the inventory page
@@ -206,7 +229,7 @@ function AddItem() {
                                             <button type="button" className="dropdown-item" onClick={(e) => setLocation("Storage")}>Storage</button>
                                         </li>
                                         <li>
-                                            <button type="button" className="dropdown-item" onClick={(e) => setLocation("Unassigned")}>Unassigned</button>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setLocation("Unassigned") }>Unassigned</button>
                                         </li>
                                     </ul>
                                 </div>
@@ -259,7 +282,7 @@ function AddItem() {
                         <div className="form-input">
                             <label className="input-label" for="photo" >Photo</label>
                             <input type="file" className="text-input" id="photo" 
-                            onChange={(e) => { encodeImage(e)}} required={true} />
+                            onChange={(e) => { encodeImage(e)}} />
                         </div>
                         <img src={image} width="150" height="150" alt="" />
                         {/* <div className="form-input">
