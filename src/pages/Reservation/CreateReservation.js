@@ -277,11 +277,15 @@ function CreateReservation () {
                                     <input className="form-control"
                                     type="text"
                                     placeholder="Amount"
-                                    onChange={ (e) => {setQuantity(e.target.value); setError(''); setErrorMessage('')}}
+                                    onChange={ (e) => {
+                                        setQuantity(e.target.value);
+                                        setError('');
+                                        setErrorMessage('');
+                                        e.target.validity.patternMismatch || e.target.value === '' ? e.target.setCustomValidity('Input amount of item you want to reserve') : e.target.setCustomValidity('')
+                                    }}
                                     aria-describedby="inputGroup-sizing-default"
                                     pattern='^([0-9]{1,})$'
                                     onInvalid={(event) => {event.target.setCustomValidity('Input amount of item you want to reserve')}}
-                                    onInput={(e) => e.target.setCustomValidity('')}
                                     required={true} />
                                 </div>
                             </div>

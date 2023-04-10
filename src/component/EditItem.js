@@ -26,6 +26,8 @@ function EditItem() {
     const [item, setItem] = React.useState([]);
     const [error, setError] = React.useState('');
     const [errorMessage, setErrorMessage] = React.useState('');
+    const [RFIDCode, setRFIDCode] = useState('');
+    const [RFIDCode2, setRFIDCode2] = useState('');
     const [image,setImage] = useState('');
     useEffect( () => {
         API.get("items",'/items/object/'+typeParam + '/' +serialParam).then(res => {
@@ -41,6 +43,9 @@ function EditItem() {
             setCost(res.cost);
             setAcquiredDate(res.acquiredate);
             setExpiredDate(res.expiredate);
+            if(res.rfidcode){
+                setRFIDCode(res.rfidcode);
+            }
             setImage(res.image);
         })
         API.get("items", "/items").then(res => {
@@ -55,6 +60,8 @@ function EditItem() {
             setErrorMessage('Please choose a Status!');
         }else if(error === '3'){
             setErrorMessage('Unassigned item has no room number!');
+        }else if(RFIDCode !== RFIDCode2){
+            setErrorMessage('Re-enter RFID Code does not match RFID Code');
         }else if(error === '4'){
             setErrorMessage('Room number is associated with different location type!');
         }
@@ -103,10 +110,12 @@ function EditItem() {
             throw new Error(setError('2'));
         }else if(location === "Unassigned" && roomNumber !== ''){
             throw new Error(setError('3'));
+        }else if(RFIDCode !== RFIDCode2){
+            throw new Error(setError('4'));
         }
         for(var i = 0; i < item.length; i++){
             if(item[i].roomno === roomNumber && item[i].location !== location){
-                throw new Error(setError('4'));
+                throw new Error(setError('5'));
             }
         }
 
@@ -124,6 +133,7 @@ function EditItem() {
                 lastupdated: today,
                 acquiredate: acquiredDate,
                 expiredDate: expiredDate,
+                rfidcode: RFIDCode,
                 image : image
         }});
 
@@ -255,6 +265,18 @@ function EditItem() {
                             <label className="input-label" for="dateAcquried" >Date Acquired</label>
                             <input type="date" className="text-input" id="dateAcquired" 
                             value={acquiredDate} onChange = {(e) => {setAcquiredDate(e.target.value)}} required={true} />
+                        </div>
+                        {/* RFID Code */}
+                        <div className="form-input">
+                            <label className="input-label" for="RFIDCode" >RFID Code</label>
+                            <input type="text" className="text-input" id="RFIDCode" 
+                            value={RFIDCode} onChange={(e) => {setRFIDCode(e.target.value)}}/>
+                        </div>
+                        {/* Re-enter RFID Code */}
+                        <div className="form-input">
+                            <label className="input-label" for="RFIDCode2" style={{"fontSize":"10.8pt"}}>Re-enter RFID Code</label>
+                            <input type="text" className="text-input" id="RFIDCode2" 
+                            value={RFIDCode2} onChange={(e) => {setRFIDCode2(e.target.value)}}/>
                         </div>
                         {/* Image */}
                         <div className="form-input">

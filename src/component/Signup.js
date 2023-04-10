@@ -272,12 +272,16 @@ function Signup () {
                             <input type = "text"
                             className = "form-control"
                             value = {schoolID}
-                            onChange = {(e) => {setSchoolID(e.target.value); setErrorMessage(''); setError('')}}
+                            onChange = {(e) => {
+                                setSchoolID(e.target.value);
+                                setErrorMessage('');
+                                setError('');
+                                e.target.validity.patternMismatch || e.target.value === '' ? e.target.setCustomValidity('schoolID must be 9 digits and unique') : e.target.setCustomValidity('')
+                            }}
                             id="schoolID"
                             required={true}
                             pattern='^([0-9]{9})$'
-                            onInvalid={e => e.target.setCustomValidity('schoolID must be 9 digits and unique')} 
-                            onInput={e => e.target.setCustomValidity('')} />
+                            onInvalid={e => e.target.setCustomValidity('schoolID must be 9 digits and unique')} />
                         </div>
                     </div>
                     {/* Email */}
@@ -287,12 +291,16 @@ function Signup () {
                             <input type = "text"
                             className = "email form-control"
                             value = {email}
-                            onChange = {(e) => {setEmail(e.target.value.toLowerCase()); setErrorMessage(''); setError('')}}
+                            onChange = {(e) => {
+                                setEmail(e.target.value.toLowerCase());
+                                setErrorMessage('');
+                                setError('');
+                                e.target.validity.patternMismatch || e.target.value === '' ? e.target.setCustomValidity('Email must end with @spu.edu and unique') : e.target.setCustomValidity('')
+                            }}
                             id = "inputEmail"
                             required={true}
                             pattern='^([a-zA-Z0-9]{1,})@spu\.edu$'
                             onInvalid={(event) => {event.target.setCustomValidity('Email must end with @spu.edu and unique')}}
-                            onInput={e => e.target.setCustomValidity('')}
                             />
                         </div>
                     </div>      
@@ -303,12 +311,16 @@ function Signup () {
                             <input type = "text" 
                             className = "form-control" 
                             value = {phone}
-                            onChange = {(e) => {setPhone(e.target.value); setErrorMessage(''); setError('')}}
+                            onChange = {(e) => {
+                                setPhone(e.target.value);
+                                setErrorMessage('');
+                                setError('');
+                                e.target.validity.patternMismatch || e.target.value == '' ? e.target.setCustomValidity('Phone number must have 10 digits: ##########') : e.target.setCustomValidity('')
+                            }}
                             id = "inputPhone" 
                             required={true}
                             pattern='^([0-9]{10})$' 
-                            onInvalid={(event) => {event.target.setCustomValidity('Phone number must have 10 digits: #########')}}
-                            onInput={e => e.target.setCustomValidity('')} />
+                            onInvalid={(event) => {event.target.setCustomValidity('Phone number must have 10 digits: ##########')}}/>
                         </div>
                     </div>
                     {/* Password */}
@@ -318,12 +330,16 @@ function Signup () {
                             <input type={hidePassword ? 'password' : 'text'}
                             className="form-control"
                             value={password}
-                            onChange={(e) => {setPassword(e.target.value); setErrorMessage(''); setError('')}}
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                                setErrorMessage('');
+                                setError('');
+                                e.target.validity.patternMismatch || e.target.value === '' ? e.target.setCustomValidity('Password must have at least 8 characters') : e.target.setCustomValidity('')
+                            }}
                             id="inputPassword"
                             required={true}
                             pattern='^(.{8,})$'
-                            onInvalid={(event) => {event.target.setCustomValidity('Password must have at least 8 characters')}}
-                            onInput={e => e.target.setCustomValidity('')} />
+                            onInvalid={(event) => {event.target.setCustomValidity('Password must have at least 8 characters')}}/>
                             <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide" alt="Hide" onClick={togglePassword} />
                             <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show" style={{display: 'none'}} alt="Show" onClick={togglePassword} />
                         </div>

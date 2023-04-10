@@ -12,9 +12,11 @@ function Location () {
     const [currentPage,setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
 
+    const [allRoom, setAllRoom] = useState([]);
+    const [roomItems, setRoomItems] = useState([]);
+
     useEffect( () => {
-        API.get('items','/items/allroom').then(res => sortItems(res))
-       
+        API.get('items','/items/allroom').then(res => sortItems(res));
     },[]);
 
     const updateList = (serialno) => {
@@ -75,6 +77,86 @@ function Location () {
         }
     };
 
+    const ResortedList = (title, filtered) => {
+        let curList = items;
+        let curNum = 1;
+        let nextNum = true;
+        if(title === 'amount'){
+            let newList = [];
+            curList.map((item) => (
+                API.post('items','/items/roomno/',{
+                    body: {
+                      roomno : item.roomno
+                    }
+                  }).then ( res => {
+                    console.log(res);
+                    setAllRoom([...allRoom,res[0].roomno]);
+                    setRoomItems([...roomItems,res.length]);
+                  })
+            ));
+            console.log(allRoom);
+            console.log(roomItems);
+            while(nextNum){
+                nextNum = false;
+                for(let i = 0; i < allRoom.length; i++){
+                    if(roomItems[i] === curNum){
+                        for(let o = 0; o < curList.length; o++){
+                            if(allRoom[i] === curList[o]){
+                                nextNum = true;
+                                newList.push(curList[o]);
+                                break;
+                            }
+                        }
+                    }
+                }
+                if(nextNum){
+                    curNum++;
+                }
+            }
+            console.log(newList);
+            newList = newList.reverse();
+            console.log(newList);
+        }else{
+            curList.sort((a,b) => {
+                var tA = Number.parseInt(a.title);
+                var tB = Number.parseInt(b.title);
+                if(isNaN(tA) && isNaN(tB)){
+                    if(title === 'location'){
+                        if(a.location.length > b.location.length){
+                            return 1;
+                        }else if(a.location.length < b.location.length){
+                            return -1;
+                        }else{
+                            return a.location.localeCompare(b.location);
+                        }
+                    }else if(title === 'roomno'){
+                        if(a.roomno.length > b.roomno.length){
+                            return 1;
+                        }else if(a.roomno.length < b.roomno.length){
+                            return -1;
+                        }else{
+                            return a.roomno.localeCompare(b.roomno);
+                        }
+                    }
+                }else if(isNaN(tA)){
+                    return -1;
+                }else if(isNaN(tB)){
+                    return 1;
+                }else{
+                    return Math.sign(tA - tB);
+                }
+            });
+            if(filtered){
+                setItems([...curList]);
+                setUnfilteredItems([...curList]);
+            }else{
+                curList = curList.reverse();
+                setItems([...curList]);
+                setUnfilteredItems([...curList]);
+            }
+        }
+    }
+
     return (
         <div className="Users">
         <div className="UserHeader">
@@ -102,7 +184,7 @@ function Location () {
         </div>
 
         <div className="UserPane">
-            <RoomList items={currentList} updateList={updateList}/>
+            <RoomList items={currentList} updateList={updateList} ResortedList={ResortedList}/>
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 

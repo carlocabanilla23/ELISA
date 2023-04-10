@@ -17,7 +17,6 @@ function Reservations () {
 
 
     useEffect( () => {
-
         if (access === "Student") {
             API.get("reservation","/reservation/"+ loggedUser).then( res => {
 
@@ -54,43 +53,37 @@ function Reservations () {
 
         } else {
             API.get("reservation","/reservation").then( res => {
-
-            
-            let sorted = [];
-            let openList = [];
-            let assignedList = []
-            let returnList = []
-            for(let i = 0; i < res.length; i++){
-                if(res[i].status === "Open"){
-                    openList.push(res[i]);
-                }else if(res[i].status === "Assigned"){
-                    assignedList.push(res[i]);
-                }else{
-                    returnList.push(res[i]);
-                }
-            }
-            openList.sort((a,b) => {
-                if(a.requestdate.split('-').at(2) !== b.requestdate.split('-').at(2)){
-                    return b.requestdate.split('-').at(2) - a.requestdate.split('-').at(2);
-                }else{
-                    if(a.requestdate.split('-').at(1) !== b.requestdate.split('-').at(1)){
-                        return b.requestdate.split('-').at(1) - a.requestdate.split('-').at(1);
+                let sorted = [];
+                let openList = [];
+                let assignedList = []
+                let returnList = []
+                for(let i = 0; i < res.length; i++){
+                    if(res[i].status === "Open"){
+                        openList.push(res[i]);
+                    }else if(res[i].status === "Assigned"){
+                        assignedList.push(res[i]);
                     }else{
-                        return b.requestdate.split('-').at(0) - a.requestdate.split('-').at(0);
+                        returnList.push(res[i]);
                     }
                 }
-            });
-            sorted.push.apply(sorted, sortedDate(openList));
-            sorted.push.apply(sorted, sortedDate(assignedList));
-            sorted.push.apply(sorted, sortedDate(returnList));
-            setReservations([...reservations,...sorted]);
-            // setUnfilteredReservations([...reservations,...sorted]);
-        })
-
-        }
-        
-
-        
+                openList.sort((a,b) => {
+                    if(a.requestdate.split('-').at(2) !== b.requestdate.split('-').at(2)){
+                        return b.requestdate.split('-').at(2) - a.requestdate.split('-').at(2);
+                    }else{
+                        if(a.requestdate.split('-').at(1) !== b.requestdate.split('-').at(1)){
+                            return b.requestdate.split('-').at(1) - a.requestdate.split('-').at(1);
+                        }else{
+                            return b.requestdate.split('-').at(0) - a.requestdate.split('-').at(0);
+                        }
+                    }
+                });
+                sorted.push.apply(sorted, sortedDate(openList));
+                sorted.push.apply(sorted, sortedDate(assignedList));
+                sorted.push.apply(sorted, sortedDate(returnList));
+                setReservations([...reservations,...sorted]);
+                // setUnfilteredReservations([...reservations,...sorted]);
+            })
+        }   
     },[]);
 
     const sortedDate = (list) => {
@@ -155,6 +148,95 @@ function Reservations () {
         }
     };
 
+    const ResortedList = (title, filtered) => {
+        let curList = reservations;
+        if(title === 'returndate'){
+            curList.sort((a,b) => {
+                if(a.returndate.split('-').at(0) !== b.returndate.split('-').at(0)){
+                    return b.returndate.split('-').at(0) - a.returndate.split('-').at(0);
+                }else{
+                    if(a.returndate.split('-').at(1) !== b.returndate.split('-').at(1)){
+                        return b.returndate.split('-').at(1) - a.returndate.split('-').at(1);
+                    }else{
+                        return b.returndate.split('-').at(2) - a.returndate.split('-').at(2);
+                    }
+                }
+            })
+        }else if(title === 'requestdate'){
+            curList.sort((a,b) => {
+                if(a.requestdate.split('-').at(2) !== b.requestdate.split('-').at(2)){
+                    return b.requestdate.split('-').at(2) - a.requestdate.split('-').at(2);
+                }else{
+                    if(a.requestdate.split('-').at(1) !== b.requestdate.split('-').at(1)){
+                        return b.requestdate.split('-').at(1) - a.requestdate.split('-').at(1);
+                    }else{
+                        return b.requestdate.split('-').at(0) - a.requestdate.split('-').at(0);
+                    }
+                }
+            })
+        }else {
+            curList.sort((a,b) => {
+                var tA = Number.parseInt(a.title);
+                var tB = Number.parseInt(b.title);
+                if(isNaN(tA) && isNaN(tB)){
+                    if(title === 'reservationno'){
+                        if(a.reservationno.length > b.reservationno.length){
+                            return 1;
+                        }else if(a.reservationno.length < b.reservationno.length){
+                            return -1;
+                        }else{
+                            return a.reservationno.localeCompare(b.reservationno);
+                        }
+                    }else if(title === 'summary'){
+                        if(a.summary.length > b.summary.length){
+                            return 1;
+                        }else if(a.summary.length < b.summary.length){
+                            return -1;
+                        }else{
+                            return a.summary.localeCompare(b.summary);
+                        }
+                    }else if(title === 'status'){
+                        if(a.status.length > b.status.length){
+                            return 1;
+                        }else if(a.status.length < b.status.length){
+                            return -1;
+                        }else{
+                            return a.status.localeCompare(b.status);
+                        }
+                    }else if(title === 'requestby'){
+                        if(a.requestby.length > b.requestby.length){
+                            return 1;
+                        }else if(a.requestby.length < b.requestby.length){
+                            return -1;
+                        }else{
+                            return a.requestby.localeCompare(b.requestby);
+                        }
+                    }else if(title === 'approvedby'){
+                        if(a.approvedby.length > b.approvedby.length){
+                            return 1;
+                        }else if(a.approvedby.length < b.approvedby.length){
+                            return -1;
+                        }else{
+                            return a.approvedby.localeCompare(b.approvedby);
+                        }
+                    }
+                }else if(isNaN(tA)){
+                    return -1;
+                }else if(isNaN(tB)){
+                    return 1;
+                }else{
+                    return Math.sign(tA - tB);
+                }
+            });
+        }
+        if(filtered){
+            setReservations([...curList]);
+        }else{
+            curList = curList.reverse();
+            setReservations([...curList]);
+        }
+    }
+
     return (
     <div className="Users">
         
@@ -178,7 +260,7 @@ function Reservations () {
         </div>
 
         <div className="UserPane">
-                <ReservationList reservations={currentList} updateList={updateList}/>
+                <ReservationList reservations={currentList} updateList={updateList} ResortedList={ResortedList}/>
                 <Pagination
                     PerPage={reservationsPerPage} 
                     total={reservations.length} 

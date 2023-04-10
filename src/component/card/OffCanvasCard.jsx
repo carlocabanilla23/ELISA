@@ -5,6 +5,10 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
     const [status,setStatus] = useState('');
     const [location, setLocation] = useState('');
     const [locationType, setLocationType] = useState('');
+    const [RFIDCode, setRFIDCode] = useState('');
+    const [RFIDCode2, setRFIDCode2] = useState('');
+    const [error, setError] = useState('');
+    const [errorMessage, setErrorMessage] = useState('')
 
     //Get the current time
     var date = new Date();
@@ -25,7 +29,19 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
         setStatus(item.status);
         setLocation(item.roomno);
         setLocationType(item.location);
-    },[item,qrcode,barcode,refreshvalue])
+        if(item.rfidcode){
+            setRFIDCode(item.rfidcode);
+        }else{
+            setRFIDCode('');
+        }
+        setRFIDCode2('');
+    },[refreshvalue])
+
+    useEffect(() => {
+        if(error === '1'){
+            setErrorMessage("Re-enter RFID Code does not match RFID Code");
+        }
+    },[error])
 
     useEffect(() => {
         const roomCol =  document.getElementById("roomCol");
@@ -40,6 +56,21 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
         }else{
             storageCol.style.borderLeft = '1px solid grey';
         }
+
+        // Change RFID Code Style
+        const RFIDCol1 = document.getElementById("RFIDCode");
+        const RFIDCol2 = document.getElementById("RFIDCode2");
+
+        RFIDCol1.style.minWidth = "220px";
+        RFIDCol1.style.maxWidth = "220px";
+        RFIDCol1.style.margin = "0";
+        RFIDCol1.style.fontFamily = "inherit";
+        RFIDCol1.style.fontSize = "inherit";
+        RFIDCol1.style.lineHeight = "inherit";
+        RFIDCol1.style.marginBottom = "20px";
+
+        RFIDCol2.style.minWidth = "220px";
+        RFIDCol2.style.maxWidth = "220px";
     })
 
     const setNewStatus = () => {
@@ -54,6 +85,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
             status : status,
             manufacturer: item.manufacturer,
             cost: item.cost,
+            rfidcode: item.rfidcode,
             lastupdated: today,
             }});
         setTimeout(() => {
@@ -73,6 +105,30 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                 status : item.status,
                 manufacturer: item.manufacturer,
                 cost: item.cost,
+                rfidcode: item.rfidcode,
+                lastupdated: today,
+                }});
+        setTimeout(() => {
+            window.location.reload(true);
+        },400)
+    }
+
+    const setNewRFIDCode = () => {
+        if(RFIDCode !== RFIDCode2){
+            throw new Error(setError('1'));
+        }
+        API.post("items","/items/", {
+            body : {
+                name : item.name,
+                serialno : item.serialno,
+                type : item.type,
+                model : item.model,
+                location : item.location,
+                roomno : item.roomno,
+                status : item.status,
+                manufacturer: item.manufacturer,
+                cost: item.cost,
+                rfidcode: RFIDCode,
                 lastupdated: today,
                 }});
         setTimeout(() => {
@@ -171,16 +227,16 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                         <div className = "Information col-sm-8">{item.expiredate}</div>
                     </div>
                 </div>
-
+                {/* Print QRCode */}
                 <div id="qrcode">
                     <button id="qrcode-print-btn" onClick={(e)=>Print("qrcode-img")}><i className="fa fa-print" aria-hidden="true"></i></button>
                     <div id="qrcode-img">{qrcode}</div>
                 </div>
-
+                {/* Print Barcode */}
                 <div id="barcode">
                     {barcode}
                 </div>
-
+                {/* Change status */}
                 <div id="Offstatus">
                     <div className="dropdown">
                         <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -197,6 +253,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                         </button>
                     </div>
                 </div>
+                {/* Change Location */}
                 <div id="changeLocation">
                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         {locationType}  {locationType !== "Room" && locationType !== "Storage" ? '' : location}
@@ -221,6 +278,29 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                     <button  className="btn btn-secondary" type="button" onClick={(e)=> location !== item.roomno ? setNewLocation() : ''}>
                     save
                     </button>
+                </div>
+                {/* Change RFID Code */}
+                <div id="changeRFIDCode">
+                    {/* RFID Code */}
+                    <div className="">
+                        <label className="input-label" for="RFIDCode" >RFID Code</label>
+                        <input type="text" className="text-input" id="RFIDCode" 
+                        value={RFIDCode} onChange={(e) => {setRFIDCode(e.target.value);setErrorMessage(''); setError('')}}/>
+                    </div>
+                    {/* Re-enter RFID Code */}
+                    <div className="">
+                        <label className="input-label" for="RFIDCode2" style={{"fontSize":"10.8pt"}}>Re-enter RFID Code</label>
+                        <input type="text" className="text-input" id="RFIDCode2" 
+                        value={RFIDCode2} onChange={(e) => {setRFIDCode2(e.target.value); setErrorMessage(''); setError('')}}/>
+                    </div>
+                    <br />
+                    <div className="col">
+                        <button  className="btn btn-secondary" id="RFIDButton" type="button" onClick={setNewRFIDCode}>
+                            save
+                        </button>
+                        <br />
+                        <span className="input-label">{errorMessage}</span>
+                    </div>
                 </div>
             </div>
         </div> 

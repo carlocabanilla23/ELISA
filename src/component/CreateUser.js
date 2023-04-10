@@ -209,12 +209,16 @@ function CreateUser() {
                             <input type = "text"
                             className = "form-control"
                             value = {schoolID}
-                            onChange = {(e) => {setSchoolID(e.target.value)}}
+                            onChange = {(e) => {
+                                setSchoolID(e.target.value);
+                                setErrorMessage('');
+                                setError('');
+                                e.target.validity.patternMismatch || e.target.value === '' ? e.target.setCustomValidity('schoolID must be 9 digits and unique') : e.target.setCustomValidity('')
+                            }}
                             id="schoolID"
                             required={true}
                             pattern='^([0-9]{9})$'
-                            onInvalid={e => e.target.setCustomValidity('schoolID must be 9 digits and unique')} 
-                            onInput={e => e.target.setCustomValidity('')} />
+                            onInvalid={e => e.target.setCustomValidity('schoolID must be 9 digits and unique')} />
                         </div>
                     </div>
                     {/* Email */}
@@ -224,12 +228,16 @@ function CreateUser() {
                             <input type = "text"
                             className = "form-control"
                             value = {email}
-                            onChange = {(e) => {setEmail(e.target.value.toLowerCase())}}
+                            onChange = {(e) => {
+                                setEmail(e.target.value.toLowerCase());
+                                setErrorMessage('');
+                                setError('');
+                                e.target.validity.patternMismatch || e.target.value === '' ? e.target.setCustomValidity('Email must end with @spu.edu and unique') : e.target.setCustomValidity('')
+                            }}
                             id = "inputEmail"
                             required={true}
                             pattern='^([a-z0-9]{1,})@spu\.edu$'
-                            onInvalid={(event) => {event.target.setCustomValidity('Email must end with @spu.edu and unique')}}
-                            onInput={e => e.target.setCustomValidity('')} />
+                            onInvalid={(event) => {event.target.setCustomValidity('Email must end with @spu.edu and unique')}} />
                         </div>
                     </div>
                     {/* Phone */}
@@ -239,12 +247,16 @@ function CreateUser() {
                             <input type = "text"
                             className = "form-control"
                             value = {phone}
-                            onChange = {(e) => {setPhone(e.target.value)}}
+                            onChange = {(e) => {
+                                setPhone(e.target.value);
+                                setErrorMessage('');
+                                setError('');
+                                e.target.validity.patternMismatch || e.target.value === '' ? e.target.setCustomValidity('Phone number must have 10 digits: #########') : e.target.setCustomValidity('')
+                            }}
                             id = "inputPhone"
                             required={true}
                             pattern='^([0-9]{10})$'
-                            onInvalid={(event) => {event.target.setCustomValidity('Phone number must have 10 digits: #########')}}
-                            onInput={e => e.target.setCustomValidity('')} />
+                            onInvalid={(event) => {event.target.setCustomValidity('Phone number must have 10 digits: #########')}} />
                         </div>
                     </div>
                     {/* Submit Button */}
