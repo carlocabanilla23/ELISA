@@ -23,6 +23,8 @@ function AddItem() {
     const [manufacturer, setManufacturer] = useState('');
     const [cost, setCost] = useState('');
     const [acquiredDate, setAcquiredDate] = useState('');
+    const [RFIDCode, setRFIDCode] = useState('');
+    const [RFIDCode2, setRFIDCode2] = useState('');
     const [image, setImage] = useState(DefaultDeviceLogo());
     const today = GetDateToday();
     // const [items, setItems] = useState([]);
@@ -101,7 +103,9 @@ function AddItem() {
             serialNumber,
             location,
             status,
-            roomNumber
+            roomNumber,
+            RFIDCode,
+            RFIDCode2
         }
 
         let err = Validate(items,data);
@@ -129,6 +133,7 @@ function AddItem() {
                     createdate: today,
                     lastupdated: today,
                     acquiredate: acquiredDate,
+                    rfidcode: RFIDCode,
                     image : image
                 }
             });
@@ -277,6 +282,18 @@ function AddItem() {
                             <label className="input-label" for="dateAcquried" >Date Acquired</label>
                             <input type="date" className="text-input" id="dateAcquired" 
                             value={acquiredDate} onChange={(e) => {setAcquiredDate(e.target.value)}} required={true} />
+                        </div>
+                        {/* RFID Code */}
+                        <div className="form-input">
+                            <label className="input-label" for="RFIDCode" >RFID Code</label>
+                            <input type="text" className="text-input" id="RFIDCode" 
+                            value={RFIDCode} onChange={(e) => {setRFIDCode(e.target.value)}}/>
+                        </div>
+                        {/* Re-enter RFID Code */}
+                        <div className="form-input">
+                            <label className="input-label" for="RFIDCode2" style={{"fontSize":"10.8pt"}}>Re-enter RFID Code</label>
+                            <input type="text" className="text-input" id="RFIDCode2" 
+                            value={RFIDCode2} onChange={(e) => {setRFIDCode2(e.target.value)}}/>
                         </div>
                         {/* Image */}
                         <div className="form-input">

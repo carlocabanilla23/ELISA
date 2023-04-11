@@ -31,6 +31,8 @@ import Notification from './pages/Notification';
 import Verify from './component/Verify';
 import OrderHistory from './pages/OrderHistory';
 import Reader from './pages/RFID/Reader';
+import ForgotPassword from './component/ForgotPassword';
+import ResetPassword from './component/ResetPassword'
 
 // const Login = lazy(() => import( './component/Login'));
 // const Home = lazy(() => import( './component/Home'));
@@ -82,11 +84,13 @@ function App() {
       <Route path='/' element= {<Login /> } />
       <Route path='/Verify/:param' element= {<Verify /> } />
       <Route path='/Signup' element= {<Signup /> } />
+      <Route path='/ForgotPassword' element= {<ForgotPassword /> } />
+      <Route path='/ResetPassword/:param' element= {<ResetPassword /> } />
 
+      {/* Route below for testing */}
+      {/* <Route path='/ResetPassword' element= {<ResetPassword /> } /> */}
 
       <Route path='/Reader'element= { < Reader /> } />
-   
-
 
       <Route
         path='/Home'

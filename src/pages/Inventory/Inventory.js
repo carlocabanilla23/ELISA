@@ -124,6 +124,7 @@ function Inventory () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
     }
 
     const CreateQRCode = (serialno) => {
@@ -133,6 +134,7 @@ function Inventory () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
       
         console.log(serialno);
         let svg = Generate(serialno);
@@ -145,6 +147,7 @@ function Inventory () {
         document.getElementById("barcode").style.display = "block";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
     
         console.log(serialno);
         let svg = GenerateBarcode(serialno);
@@ -161,6 +164,7 @@ function Inventory () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "block";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
     }
 
     const changeLocation=  async(item) => {
@@ -173,6 +177,20 @@ function Inventory () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "block";
+        document.getElementById("changeRFIDCode").style.display = "none";
+    }
+
+    const changeRFIDCode = async(item) => {
+        let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
+        setRefreshValue(Math.random());
+        setActionName("Change RFID Code");
+        setOffCanvasItem(data);
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "block";
     }
 
     const searchItem = (e) => {
@@ -250,6 +268,79 @@ function Inventory () {
         }
     };
 
+    const ResortedList = (title, filtered) => {
+        let curList = items;
+        curList.sort((a,b) => {
+            var tA = Number.parseInt(a.title);
+            var tB = Number.parseInt(b.title);
+            if(isNaN(tA) && isNaN(tB)){
+                if(title === 'serialno'){
+                    if(a.serialno.length > b.serialno.length){
+                        return 1;
+                    }else if(a.serialno.length < b.serialno.length){
+                        return -1;
+                    }else{
+                        return a.serialno.localeCompare(b.serialno);
+                    }
+                }else if(title === 'name'){
+                    if(a.name.length > b.name.length){
+                        return 1;
+                    }else if(a.name.length < b.name.length){
+                        return -1;
+                    }else{
+                        return a.name.localeCompare(b.name);
+                    }
+                }else if(title === 'type'){
+                    if(a.type.length > b.type.length){
+                        return 1;
+                    }else if(a.type.length < b.type.length){
+                        return -1;
+                    }else{
+                        return a.type.localeCompare(b.type);
+                    }
+                }else if(title === 'model'){
+                    if(a.model.length > b.model.length){
+                        return 1;
+                    }else if(a.model.length < b.model.length){
+                        return -1;
+                    }else{
+                        return a.model.localeCompare(b.model);
+                    }
+                }else if(title === 'location'){
+                    if(a.location.length > b.location.length){
+                        return 1;
+                    }else if(a.location.length < b.location.length){
+                        return -1;
+                    }else{
+                        return a.location.localeCompare(b.location);
+                    }
+                }else{
+                    if(a.roomno.length > b.roomno.length){
+                        return 1;
+                    }else if(a.roomno.length < b.roomno.length){
+                        return -1;
+                    }else{
+                        return a.roomno.localeCompare(b.roomno);
+                    }
+                }
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
+        if(filtered){
+            setItems([...curList]);
+            setUnfilteredItems([...curList]);
+        }else{
+            curList = curList.reverse();
+            setItems([...curList]);
+            setUnfilteredItems([...curList]);
+        }
+    }
+
     return (
         <div className="Users">
         
@@ -291,7 +382,9 @@ function Inventory () {
                       CreateQRCode={CreateQRCode} 
                       CreateBarcode={CreateBarcode}
                       changeStatus={changeStatus}
-                      changeLocation={changeLocation} />
+                      changeLocation={changeLocation}
+                      changeRFIDCode={changeRFIDCode}
+                      ResortedList={ResortedList} />
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 

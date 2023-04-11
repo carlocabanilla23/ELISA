@@ -73,8 +73,8 @@ function Login() {
                 </div>
                 <div className="col">
                     <label  className="col col-form-label" id="create-account" onClick={() => navigate('/Signup')}>create account?</label>
-                    <label  className="col col-form-label" id="forgot-pass">Forgot my password?</label>
-                </div>    
+                    <label  className="col col-form-label" id="forgot-pass" onClick={() => navigate('/ResetPassword')}>Forgot my password?</label>
+                </div>
             </div>
             <div className="mb-3 row">
                 <button type="submit" className="btn btn-secondary mb-3">Login</button>

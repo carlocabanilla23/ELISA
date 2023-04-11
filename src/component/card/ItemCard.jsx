@@ -3,7 +3,7 @@ import "../../assets/styles/User.css";
 import "../../assets/styles/OffCanvas.css";
 import { useNavigate } from "react-router-dom";
 
-const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation}) => {
+const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation,changeRFIDCode}) => {
   const navigate = useNavigate();
     
   const EditItem = (s,t) => {
@@ -85,6 +85,14 @@ const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,
                         data-bs-target="#offcanvasRight"
                         aria-controls="offcanvasRight">
                         Change Location
+                    </li>
+                    <li onClick={(e) =>  changeRFIDCode(item)}
+                        className="dropdown-item"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasRight"
+                        aria-controls="offcanvasRight">
+                        Change RFID Code
                     </li>
                     <li style={{display: 'none'}} 
                         id="mobile"

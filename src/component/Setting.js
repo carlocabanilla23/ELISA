@@ -109,7 +109,7 @@ function Setting(){
         e.preventDefault();
         API.get("useraccounts","/email/object/" + email).then( res => {
             if (cpass !== res.password) {
-                setError("Wrong passowrd");
+                setError("Wrong password");
             }else if (npass.length === 0  || rnpass.length === 0  ) {
                 setError("Input a new password !");
             }else {

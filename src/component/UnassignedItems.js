@@ -174,6 +174,63 @@ function UnassignedItems () {
         }
     };
 
+    const ResortedList= (title, filtered) => {
+        let curList = items;
+        curList.sort((a,b) => {
+            var tA = Number.parseInt(a.title);
+            var tB = Number.parseInt(b.title);
+            if(isNaN(tA) && isNaN(tB)){
+                if(title === 'serialno'){
+                    if(a.serialno.length > b.serialno.length){
+                        return 1;
+                    }else if(a.serialno.length < b.serialno.length){
+                        return -1;
+                    }else{
+                        return a.serialno.localeCompare(b.serialno);
+                    }
+                }else if(title === 'name'){
+                    if(a.name.length > b.name.length){
+                        return 1;
+                    }else if(a.name.length < b.name.length){
+                        return -1;
+                    }else{
+                        return a.name.localeCompare(b.name);
+                    }
+                }else if(title === 'type'){
+                    if(a.type.length > b.type.length){
+                        return 1;
+                    }else if(a.type.length < b.type.length){
+                        return -1;
+                    }else{
+                        return a.type.localeCompare(b.type);
+                    }
+                }else if(title === 'model'){
+                    if(a.model.length > b.model.length){
+                        return 1;
+                    }else if(a.model.length < b.model.length){
+                        return -1;
+                    }else{
+                        return a.model.localeCompare(b.model);
+                    }
+                }
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
+        if(filtered){
+            setItems([...curList]);
+            setUnfilteredItems([...curList]);
+        }else{
+            curList = curList.reverse();
+            setItems([...curList]);
+            setUnfilteredItems([...curList]);
+        }
+    }
+
     return (
         <div className="Users">
         
@@ -212,6 +269,7 @@ function UnassignedItems () {
                         CreateBarcode={CreateBarcode}
                         changeStatus={changeStatus}
                         changeLocation={changeLocation}
+                        ResortedList={ResortedList}
                         />
             <Pagination
                     PerPage={itemsPerPage} 
