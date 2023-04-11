@@ -398,20 +398,17 @@ function Reservation () {
                                 <label className="userinfo-form-label form-label">{schoolID}</label>
                             </div>
                             <div className="col">
-                                <label className="userinfo-form-label fw-bold form-label">Assign Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return Date</label>
-                                <br/>
-                                <label className="userinfo-form-label form-label"><pre>{assignedDate.length === 0 ? "N/A                  " : assignedDate}{returnDate.length === 0 ? "N/A" : returnDate}</pre></label> {/* 20 */}
                                 <div className="row" id="reserveInfoCol">
                                     <div className="col">
                                         <label className="fw-bold form-label">Assign Date</label>
                                         <br/>
                                         <label className="form-label">{assignedDate.length === 0 ? "N/A" : assignedDate}</label>
                                     </div>
-                                    <div className="col">
+                                    {/* <div className="col">
                                         <label className="fw-bold form-label">Return Date</label>
                                         <br/>
                                         <label className="form-label">{returnDate.length === 0 ? "N/A" : returnDate}</label>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
@@ -423,20 +420,17 @@ function Reservation () {
                                 <label className="userinfo-form-label form-label">{email}</label>
                             </div>
                             <div className="col">
-                                <label className="userinfo-form-label fw-bold form-label">Approved By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Review By</label>
-                                <br/>
-                                <label id="approvedBy" className="userinfo-form-label form-label" value=""><pre>{approvedBy.length === 0 ? "N/A                  " : approvedBy}{reviewedBy === undefined ? "N/A" : reviewedBy}</pre></label>
                                 <div className="row" id="reserveInfoCol">
                                     <div className="col">
                                         <label className="fw-bold form-label">Approved By</label>
                                         <br/>
                                         <label id="approvedBy" className="form-label">{approvedBy.length === 0 ? "N/A" : approvedBy}</label>
                                     </div>
-                                    <div className="col">
+                                    {/* <div className="col">
                                         <label className="fw-bold form-label">Reviewd By</label>
                                         <br/>
                                         <label id="reviewedBy" className="form-label">{reviewedBy.length === 0 ? "N/A" : reviewedBy}</label>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
@@ -457,11 +451,6 @@ function Reservation () {
                                         <button className="btn btn-light" id="assignBtn" onClick={ (e) => {setApprovedBy(accountName);setAssignedDate(`${year}-${month}-${day}`);AssignItems(assignedItems)}}>Assign Items</button>
                                     </div>
                                 </div>
-                                <label className="fw-bold form-label"></label>
-                                <br/>
-                                <button className="btn btn-light" id="returnBtn" onClick={ (e) => {setReviewedBy(accountName);setReturnDate(`${year}-${month}-${day}`);returnItems(assignedItems);}}>Return Items</button>
-                                <br/>
-                                <button className="btn btn-light" id="assignBtn" onClick={ (e) => {setApprovedBy(accountName);setAssignedDate(`${year}-${month}-${day}`);AssignItems(assignedItems)}}>Assign Items</button>
                             </div>
                         </div>
 
