@@ -108,7 +108,7 @@ function App() {
           </ProtectedRoute>
       } />
 
-      <Route path='/RoomLocation/RoomLocationItem/:param'
+      <Route path='/Location/:param'
         element= {
           <ProtectedRoute user={user}>
               <RoomLocationItem />

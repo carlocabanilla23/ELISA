@@ -274,10 +274,10 @@ function RoomLocationItem () {
             <div className="content">
                 <div className="header-menu">
                     <span className="material-symbols-outlined" style={{cursor: "pointer"}} onClick={() => navigate('/Location')}>arrow_back</span>
-                    <Link to="/Location" className="text-dark">
+                    {/* <Link to="/Location" className="text-dark">
                         <span>Room Location</span>
-                    </Link>  
-                    <span className="material-symbols-outlined">arrow_right</span>  
+                    </Link>   */}
+                    {/* <span className="material-symbols-outlined">arrow_right</span>   */}
                     <span>{param}</span>          
                        
                 <div className="searchBar">

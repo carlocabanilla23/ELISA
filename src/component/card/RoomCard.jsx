@@ -20,12 +20,14 @@ const RoomCard = ( {item} ) => {
         },[]);
 
         const ViewItems = () => {
-            if (item.location === "Storage") {
-                navigate("/RoomLocation/StorageLocationItem/"+item.roomno);
-            } 
-            else if (item.location === "Room") {
-                navigate("/RoomLocation/RoomLocationItem/"+item.roomno);
-            }
+                navigate("/Location/"+item.roomno);
+
+        //     if (item.location === "Storage") {
+        //         navigate("/RoomLocation/StorageLocationItem/"+item.roomno);
+        //     } 
+        //     else if (item.location === "Room") {
+        //         navigate("/RoomLocation/RoomLocationItem/"+item.roomno);
+        //     }
         }
 
         return (
