@@ -9,7 +9,7 @@ import ReservationAssignedItemList from "../../component/List/ReservationAssigne
 import SendNotification from "../../Services/notification/Notification";
 
 function Reservation () {
-    const {param,param1,param2} = useParams();
+    const {emailParam,reservationnoParam,statusParam} = useParams();
     const navigate = useNavigate();
     const accountName = localStorage.getItem('name');
 
@@ -46,7 +46,7 @@ function Reservation () {
     const itemsPerPage = 10;
 
     useEffect( () => {
-        API.get("reservation","/reservation/object/"+param+"/"+param1).then( res => {
+        API.get("reservation","/reservation/object/"+emailParam+"/"+reservationnoParam).then( res => {
             setReservationNo(res.reservationno);
             setEmail(res.email);
             setSummary(res.summary);
@@ -62,11 +62,11 @@ function Reservation () {
             }
         })
 
-        API.get("reservationcart","/cart/object/"+param1).then( res => {
+        API.get("reservationcart","/cart/object/"+reservationnoParam).then( res => {
             setNote(res.note);
 
 
-            if(param2 !== "Returned") {
+            if(statusParam !== "Returned") {
                 let itm = [...new Set(res.itemrequested.map( item => item.type))]
                 let list = [];
                 itm.forEach( e => {
@@ -102,7 +102,7 @@ function Reservation () {
         })
 
 
-        API.get("userapi","/email/object/"+param).then( res => {
+        API.get("userapi","/email/object/"+emailParam).then( res => {
             setFirstName(res.firstname);
             setLastName(res.lastname);
             setSchoolID(res.schoolID);

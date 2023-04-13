@@ -154,7 +154,13 @@ function App() {
               <Reservations /> 
           </ProtectedRoute> } />
 
-      <Route path='/Reservation/:param/:param1/:param2' 
+      <Route path='/Reservation/:emailParam/:reservationnoParam/' 
+        element= {
+          <ProtectedRoute user={user}>
+              <Reservation /> 
+          </ProtectedRoute> } />
+
+      <Route path='/Reservation/:emailParam/:reservationnoParam/:statusParam' 
         element= {
           <ProtectedRoute user={user}>
               <Reservation /> 
