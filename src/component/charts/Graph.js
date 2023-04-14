@@ -43,7 +43,14 @@ function GraphReport () {
 
     const goToR = (locationno) => {
       // console.log(locationno.name);
-      navigate('/Location/' + locationno.name );
+      if (locationno === "USER") {
+        navigate('/AssignedItems');
+      } else if (locationno === "N/A" || locationno === "NA" || locationno === "Unassigned") {
+        navigate('/UnassignedItems');
+      } else{
+        navigate('/Location/' + locationno.name );
+      }
+    
     }
     return (
       <>

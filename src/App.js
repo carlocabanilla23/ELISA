@@ -172,6 +172,12 @@ function App() {
               <CreateReservation /> 
           </ProtectedRoute> } />
 
+      <Route path='/CreateReservation/:typeParam/:itemNoParam'
+        element= {
+          <ProtectedRoute user={user}>
+              <CreateReservation /> 
+          </ProtectedRoute> } />
+
       <Route path='/EditUser'
         element= {
           <ProtectedRoute user={user}>

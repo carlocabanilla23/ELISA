@@ -1,5 +1,6 @@
 import { API } from 'aws-amplify';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refreshvalue}) => {
     const [status,setStatus] = useState('');
@@ -9,6 +10,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
     const [RFIDCode2, setRFIDCode2] = useState('');
     const [error, setError] = useState('');
     const [errorMessage, setErrorMessage] = useState('')
+    const navigate = useNavigate();
 
     //Get the current time
     var date = new Date();
@@ -148,6 +150,10 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
         // document.getElementById("off-canvas-close-btn").style.ariaExpanded = "False"
     }
 
+    const reserveItem = () => {
+        navigate("/CreateReservation/"+item.type +"/"+item.serialno);
+    }
+
     return (
         <>
         <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
@@ -226,6 +232,8 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                         <label  className = "Attribute col-sm-4">Expired:</label>
                         <div className = "Information col-sm-8">{item.expiredate}</div>
                     </div>
+
+                    <button onClick={ e=> { reserveItem()}} className='btn btn-dark'>Reserve Item</button>
                 </div>
                 {/* Print QRCode */}
                 <div id="qrcode">

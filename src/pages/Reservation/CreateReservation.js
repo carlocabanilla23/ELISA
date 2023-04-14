@@ -2,15 +2,18 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { API } from 'aws-amplify';
 import '../../assets/styles/CreateReservation.css';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import SendNotification from "../../Services/notification/Notification";
+import ItemRequestDropDown from "../../component/others/ItemRequestDropDown";
+import ItemRequestAuto from "../../component/others/ItemRequestAuto";
 
 function CreateReservation () {
+    const {typeParam,itemNoParam} = useParams();
     const location = useLocation();
-    const reservationNo = "R"+location.state.reservationCount;
-    const [models,setModels] = useState([]);
-    const [types,setTypes] = useState([]);
+    const [reservationNo,setReservationNo] = useState();
+    // const [types,setTypes] = useState([]);
     const [items,setItems] = useState([]);
+    const [requestItemMenu,setRequestItemMenu] = useState();
 
 
     const [firstName,setFirstName] = useState("");
@@ -22,10 +25,7 @@ function CreateReservation () {
     const [currentDate,setCurrentDate] = useState("");
     const [note,setNote] = useState("N/A");
 
-    const [type, setType] = useState('Type');
-    const [model,setModel] = useState('Model');
     const [returnDate,setReturnDate] = useState();
-    const [quantity,setQuantity] = useState(0);
     const [reservationCart,setReservationCart] = useState([]);
     const navigate = useNavigate();
 
@@ -43,16 +43,51 @@ function CreateReservation () {
     
 
     useEffect( () => {
-        setSummary("Reservation " + location.state.reservationCount);
+       
         setReturnDate(year+"-"+monthPlus3.toString()+"-"+day);
         setNote("I would like to borrow an equipment. Thank you");
+        
+        API.get("reservation","/reservation/count").then( rno => { 
+            setReservationNo(rno)
+            setSummary("Reservation " + rno);
+        });
 
+        if (typeParam === undefined || itemNoParam === undefined) {
+            API.get("items","/items").then( itemRes => {
+                // console.log(itemRes);
+                // sortItems(itemRes);
+                // setItems(itemRes);
+            })
+            
+            setRequestItemMenu(
+                <>
+                 <ItemRequestDropDown
+                            setReservationCart={setReservationCart}
+                            // types={types}
+                            setError={setError}
+                            setErrorMessage={setErrorMessage}
+                            reservationCart={reservationCart}
+                            // setModelList={setModelList}
+                        />
+                </>
+            );
 
+            
+        } else {
+            API.get("items","/items/object/" + typeParam +"/"+itemNoParam).then( itemRes => {
+                console.log(itemRes);
+
+                setRequestItemMenu(
+                   <ItemRequestAuto item={itemRes} />
+                );
+                // sortItems(itemRes);
+                // setItems(itemRes);
+            })
+            
+        }
+        
         // console.log(location.state.reservationCount);
-        API.get("inventory","/items/").then( itemRes => {
-            sortItems(itemRes);
-            setItems(itemRes);
-        })
+        
 
         setCurrentDate(`${day}-${month}-${year}`);
 
@@ -80,6 +115,8 @@ function CreateReservation () {
             setErrorMessage('Please add items to your reservation');
         }else if(error === 6){
             setErrorMessage('Return date is invalid')
+        }else if(error === 7){
+            setErrorMessage('Your exceed the maximum item request')
         }
     },[error])
 
@@ -95,48 +132,6 @@ function CreateReservation () {
         }
     },[reservationCart, note])
 
-    const setModelList = (typeParam) => {
-        setType(typeParam);
-        const filterItems = items.filter(item => item.type !== typeParam);
-        const updatedModel =  [...new Set(filterItems.map( item => item.model))];
-        setModels(updatedModel);
-      
-    }
-
-    const sortItems = (items) => {
-        const updatedTypes =  [...new Set(items.map( item => item.type))];
-        setTypes(updatedTypes);
-    }
-
-
-    const addItem = (e) => {
-        e.preventDefault();
-        if(type === 'Type' && model === 'Model'){
-            setError(1);
-            // throw new Error(setError(1));
-        }else if(type === 'Type'){
-            setError(2);
-            // throw new Error(setError(2));
-        }else if (model === 'Model'){
-            setError(3);
-            // throw new Error(setError(3));
-        }else if(quantity < 1 || quantity.length === 0){
-            // throw new Error(setError(4));
-            setError(4);
-        }else {
-            const order = {
-                type : type,
-                model : model,
-                quantity : quantity
-            }
-            // console.log(order);
-            setReservationCart([...reservationCart,order]);
-            // console.log(reservationCart);
-           
-        }
-        
-    }
-
     const submitOrder = (e) => {
         e.preventDefault();
         console.log(reservationCart);
@@ -144,41 +139,6 @@ function CreateReservation () {
             throw new Error(setError(5));
         }
         // //Check return date if it is in range of two months from request date
-        // let returnDay = '';
-        // let returnMonth = '';
-        // let returnYear = returnDate.substring(0,4);
-
-        // if(returnDate[8] === '0'){
-        //     returnDay = returnDate[9];
-        // }else{
-        //     returnDay = returnDate.substring(8,10);
-        // }
-        // if(returnDate[5] === '0'){
-        //     returnMonth = returnDate[6];
-        // }else{
-        //     returnMonth = returnDate.substring(5,7);
-        // }
-        // //Comparing request date and return date
-        // if(parseInt(returnYear, 10) > (year + 1) || parseInt(returnYear, 10) < year){
-        //     throw new Error(setError(6));
-        // }else{
-        //     if(parseInt(returnYear, 10) === (year + 1)){
-        //         if((parseInt(returnMonth, 10) + 12 - month) > 2){
-        //             throw new Error(setError(6));
-        //         }else if((parseInt(returnMonth, 10) + 12 - month) === 2){
-        //             if(parseInt(returnDay, 10) > day){
-        //                 throw new Error(setError(6));
-        //             }
-        //         }
-        //     }else if((parseInt(returnYear, 10) === year) && ((parseInt(returnMonth, 10) - month) > 2 ||
-        //     (parseInt(returnMonth, 10) - month) < 0)){
-        //         throw new Error(setError(6));
-        //     }
-        //     if((parseInt(returnMonth, 10) === month && parseInt(returnDay, 10) < day) ||
-        //     (parseInt(returnMonth, 10) - month === 2 && parseInt(returnDay, 10) > day)){
-        //         throw new Error(setError(6));
-        //     }
-        // }
 
         API.post("reservation","/reservation", {
             body : {
@@ -207,7 +167,7 @@ function CreateReservation () {
         // navigate('/Reservations')
     }
     const cancelEdit = () => {
-        navigate('/Reservations');
+        navigate(-1);
     }
 
     const ShowAlert = () => {
@@ -237,64 +197,21 @@ function CreateReservation () {
                 <div className="container ReservationForm">
                     <div className="row">
                         <div className="col">
-                            <h1>Reservation</h1>
+                            <h1>Request Item</h1>
                         </div>
                     </div>
                     <form onSubmit={submitOrder}>
                         {/* Requests */}
-                        <div className="row">
+                        {/* <div className="row">
                             <div className="col">
-                                <label className="form-label">Request</label>
+                                <label className="form-label">Request Item</label>
                             </div>
-                        </div>            
-                        <div className="row">
-                            <div className="col type">
-                                <div className="dropdown">
-                                    <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {type}
-                                    </button>
-                                    <ul className="dropdown-menu">
-                                        {types.map( (typeRes,index) => (
-                                            <li key={index} className="dropdown-item" onClick={(e)=> {setModelList(typeRes); setError(''); setErrorMessage('')}}>{typeRes}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="col model">
-                                <div className="dropdown">
-                                    <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {model}
-                                    </button>
-                                    <ul className="dropdown-menu">
-                                        {models.map( (modelRes,index) => (
-                                            <li key={index} className="dropdown-item" onClick={(e)=> {setModel(modelRes); setError(''); setErrorMessage('')}}>{modelRes}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="col quantity">
-                                <div className="dropdown">
-                                    <input className="form-control"
-                                    type="text"
-                                    placeholder="Amount"
-                                    onChange={ (e) => {
-                                        setQuantity(e.target.value);
-                                        setError('');
-                                        setErrorMessage('');
-                                        e.target.validity.patternMismatch || e.target.value === '' ? e.target.setCustomValidity('Input amount of item you want to reserve') : e.target.setCustomValidity('')
-                                    }}
-                                    aria-describedby="inputGroup-sizing-default"
-                                    pattern='^([0-9]{1,})$'
-                                    onInvalid={(event) => {event.target.setCustomValidity('Input amount of item you want to reserve')}}
-                                    required={true} />
-                                </div>
-                            </div>
-                            <div className="col submit">
-                                <button className="btn AddItemBtn" onClick={ (e) => addItem(e)}>
-                                    <i className="fa fa-plus-circle" aria-hidden="true"> Add Item</i>
-                                </button>
-                            </div>
-                        </div> 
+                        </div>         */}
+                        {/* { console.log(types)} */}
+                        {requestItemMenu}
+
+                       
+                       
                         {/* Summary */}
                         <div className="row">
                             <div className="col">

@@ -46,7 +46,7 @@
         },
         "reservationfunction": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/reservationfunction-4f4547317751597a4775-build.zip"
+          "s3Key": "amplify-builds/reservationfunction-7159397054422b2f6378-build.zip"
         },
         "reservationcart": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",

@@ -67,6 +67,10 @@
     align-items: flex-start; */
 
 }
+
+.room-item {
+  border : 0.5px solid black;
+}
 .Information {
     font-size: 1em;
     padding-left: 50px;

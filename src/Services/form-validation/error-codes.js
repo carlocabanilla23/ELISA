@@ -7,7 +7,7 @@ const ERROR_MSG = {
     NO_STATUS : "Please choose a Status!",
     UA_NO_ROOMNO : "Unassigned item has no room number!",
     RM_WRONG_LOC : "Room number is associated with different location type!",
-    RFID_No_Match : "Re-enter RFID Code doesn't match with RFID Code"
+    RFID_No_MATCH : "Re-enter RFID Code doesn't match with RFID Code"
 }
 
 const Validate = (table,data) => {
@@ -34,7 +34,7 @@ const Validate = (table,data) => {
         }else if(data.location === "Unassigned" && data.roomNumber !== ''){
             return ERROR_MSG.UA_NO_ROOMNO;
         }else if(data.RFIDCode !== data.RFIDCode2){
-            return ERROR_MSG.RFID_No_Match;
+            return ERROR_MSG.RFID_No_MATCH;
         }
 
     return ERROR_MSG.NONE;

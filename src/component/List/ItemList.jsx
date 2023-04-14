@@ -2,7 +2,9 @@ import ItemCard from "../card/ItemCard";
 import React, { useState,useEffect } from "react";
 import '../../assets/styles/List.css';
 
-const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation,changeRFIDCode,ResortedList}) => {
+const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,
+                        changeStatus,changeLocation,changeRFIDCode,ResortedList}) => {
+                            
     const [serial, setSerial] = useState(true);
     const [name, setName] = useState(true);
     const [type, setType] = useState(true);
