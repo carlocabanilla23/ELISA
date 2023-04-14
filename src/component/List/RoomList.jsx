@@ -1,7 +1,6 @@
 import RoomCard from "../card/RoomCard";
 import React, { useState } from "react";
 import '../../assets/styles/List.css';
-import { NULL } from "mysql/lib/protocol/constants/types";
 
 const RoomList = ({items,updateList,ResortedList,sortAmountItem}) => {
     const [location, setLocation] = useState(true);
