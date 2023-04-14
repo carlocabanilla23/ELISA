@@ -202,30 +202,31 @@ function Inventory () {
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);
-        }
-       
-    }  
+        }  
+    }
+
     const CSV = () => {      
         // the data that you want to write to the CSV file
         const data = [];
         items.forEach(items => {
+            // console.log(items.serialno);
             data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
         });
   
 
-    // generate the CSV file
-    const csv = Papa.unparse({
-        fields: ['SERIALNO', 'NAME', 'STATUS', 'ROOM NO'],
-        data: data
-    });
+        // generate the CSV file
+        const csv = Papa.unparse({
+            fields: ['SERIALNO', 'NAME', 'STATUS', 'ROOM NO'],
+            data: data
+        });
 
-    // the CSV file
-                const a = document.createElement('a');
-                a.href = 'data:attachment/csv,' + csv;
-                a.target = '_blank';
-                a.download = 'output.csv';
-                document.body.appendChild(a);
-                a.click();
+        // the CSV file
+        const a = document.createElement('a');
+        a.href = 'data:attachment/csv,' + csv;
+        a.target = '_blank';
+        a.download = 'output.csv';
+        document.body.appendChild(a);
+        a.click();
     }
     const PDF = () => {     // Exporting to pdf 
         const doc = new jsPDF('p', 'mm', 'a4');
@@ -275,53 +276,17 @@ function Inventory () {
             var tB = Number.parseInt(b.title);
             if(isNaN(tA) && isNaN(tB)){
                 if(title === 'serialno'){
-                    if(a.serialno.length > b.serialno.length){
-                        return 1;
-                    }else if(a.serialno.length < b.serialno.length){
-                        return -1;
-                    }else{
-                        return a.serialno.localeCompare(b.serialno);
-                    }
+                    return a.serialno.localeCompare(b.serialno);
                 }else if(title === 'name'){
-                    if(a.name.length > b.name.length){
-                        return 1;
-                    }else if(a.name.length < b.name.length){
-                        return -1;
-                    }else{
-                        return a.name.localeCompare(b.name);
-                    }
+                    return a.name.localeCompare(b.name);
                 }else if(title === 'type'){
-                    if(a.type.length > b.type.length){
-                        return 1;
-                    }else if(a.type.length < b.type.length){
-                        return -1;
-                    }else{
-                        return a.type.localeCompare(b.type);
-                    }
+                    return a.type.localeCompare(b.type);
                 }else if(title === 'model'){
-                    if(a.model.length > b.model.length){
-                        return 1;
-                    }else if(a.model.length < b.model.length){
-                        return -1;
-                    }else{
-                        return a.model.localeCompare(b.model);
-                    }
+                    return a.model.localeCompare(b.model);
                 }else if(title === 'location'){
-                    if(a.location.length > b.location.length){
-                        return 1;
-                    }else if(a.location.length < b.location.length){
-                        return -1;
-                    }else{
-                        return a.location.localeCompare(b.location);
-                    }
+                    return a.location.localeCompare(b.location);
                 }else{
-                    if(a.roomno.length > b.roomno.length){
-                        return 1;
-                    }else if(a.roomno.length < b.roomno.length){
-                        return -1;
-                    }else{
-                        return a.roomno.localeCompare(b.roomno);
-                    }
+                    return a.roomno.localeCompare(b.roomno);
                 }
             }else if(isNaN(tA)){
                 return -1;

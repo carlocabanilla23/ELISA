@@ -188,37 +188,13 @@ function Reservations () {
                             return a.reservationno.localeCompare(b.reservationno);
                         }
                     }else if(title === 'summary'){
-                        if(a.summary.length > b.summary.length){
-                            return 1;
-                        }else if(a.summary.length < b.summary.length){
-                            return -1;
-                        }else{
-                            return a.summary.localeCompare(b.summary);
-                        }
+                        return a.summary.localeCompare(b.summary);
                     }else if(title === 'status'){
-                        if(a.status.length > b.status.length){
-                            return 1;
-                        }else if(a.status.length < b.status.length){
-                            return -1;
-                        }else{
-                            return a.status.localeCompare(b.status);
-                        }
+                        return a.status.localeCompare(b.status);
                     }else if(title === 'requestby'){
-                        if(a.requestby.length > b.requestby.length){
-                            return 1;
-                        }else if(a.requestby.length < b.requestby.length){
-                            return -1;
-                        }else{
-                            return a.requestby.localeCompare(b.requestby);
-                        }
+                        return a.requestby.localeCompare(b.requestby);
                     }else if(title === 'approvedby'){
-                        if(a.approvedby.length > b.approvedby.length){
-                            return 1;
-                        }else if(a.approvedby.length < b.approvedby.length){
-                            return -1;
-                        }else{
-                            return a.approvedby.localeCompare(b.approvedby);
-                        }
+                        return a.approvedby.localeCompare(b.approvedby);
                     }
                 }else if(isNaN(tA)){
                     return -1;

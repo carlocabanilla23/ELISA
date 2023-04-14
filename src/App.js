@@ -32,7 +32,8 @@ import Verify from './component/Verify';
 import OrderHistory from './pages/OrderHistory';
 import Reader from './pages/RFID/Reader';
 import ForgotPassword from './component/ForgotPassword';
-import ResetPassword from './component/ResetPassword'
+import ResetPassword from './component/ResetPassword';
+import SetNewPassword from './component/SetNewPassword';
 
 // const Login = lazy(() => import( './component/Login'));
 // const Home = lazy(() => import( './component/Home'));
@@ -86,9 +87,11 @@ function App() {
       <Route path='/Signup' element= {<Signup /> } />
       <Route path='/ForgotPassword' element= {<ForgotPassword /> } />
       <Route path='/ResetPassword/:param' element= {<ResetPassword /> } />
+      <Route path='/SetNewPassword/:param' element= {<SetNewPassword /> } />
 
       {/* Route below for testing */}
       {/* <Route path='/ResetPassword' element= {<ResetPassword /> } /> */}
+      <Route path='/SetNewPassword/' element= {<SetNewPassword /> } />
 
       <Route path='/Reader'element= { < Reader /> } />
 

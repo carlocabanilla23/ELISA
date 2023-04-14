@@ -3,6 +3,9 @@ import { API } from 'aws-amplify';
 import "../assets/styles/Users.css";
 import Pagination from "./Pagination";
 import AssignedItemList from './List/AssignedItemList';
+import Papa from 'papaparse';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 function AssignedItems () {
     // CreateTestEquipment(20);
@@ -35,8 +38,52 @@ function AssignedItems () {
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);
-        }
-       
+        }  
+    }
+
+    const CSV = () => {      
+        // the data that you want to write to the CSV file
+        const data = [];
+        items.forEach(items => {
+            // console.log(items.serialno);
+            data.push([items.serialno, items.name, items.type,items.model, items.assignedto, items.assignedate ]);
+        });
+  
+
+        // generate the CSV file
+        const csv = Papa.unparse({
+            fields: ['SERIALNO', 'NAME', 'TYPE', 'MODEL', 'ASSIGNED TO', 'DATE ASSIGNED'],
+            data: data
+        });
+
+        // the CSV file
+        const a = document.createElement('a');
+        a.href = 'data:attachment/csv,' + csv;
+        a.target = '_blank';
+        a.download = 'AssignedItemList.csv';
+        document.body.appendChild(a);
+        a.click();
+    }
+    const PDF = () => {     // Exporting to pdf 
+        const doc = new jsPDF('p', 'mm', 'a4');
+        
+        const data = [['SERIALNO', 'NAME', 'TYPE', 'MODEL', 'ASSIGNED TO', 'DATE ASSIGNED']];
+        items.forEach(items => {
+            data.push([items.serialno, items.name, items.type,items.model, items.assignedto, items.assignedate ]);
+        });
+
+        doc.autoTable({
+         //   head: [['firstName', 'lastName', 'schoolID', 'role']],
+            body: data
+        });
+        
+        const pdf = doc.output();
+        const link = document.createElement('a');
+        link.href = 'data:application/pdf;base64,' + btoa(pdf);
+        link.download = 'AssignedItemList.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
     
     const idxLastItem = currentPage * itemsPerPage;
@@ -78,45 +125,15 @@ function AssignedItems () {
                 var tB = Number.parseInt(b.title);
                 if(isNaN(tA) && isNaN(tB)){
                     if(title === 'serialno'){
-                        if(a.serialno.length > b.serialno.length){
-                            return 1;
-                        }else if(a.serialno.length < b.serialno.length){
-                            return -1;
-                        }else{
-                            return a.serialno.localeCompare(b.serialno);
-                        }
+                        return a.serialno.localeCompare(b.serialno);
                     }else if(title === 'name'){
-                        if(a.name.length > b.name.length){
-                            return 1;
-                        }else if(a.name.length < b.name.length){
-                            return -1;
-                        }else{
-                            return a.name.localeCompare(b.name);
-                        }
+                        return a.name.localeCompare(b.name);
                     }else if(title === 'type'){
-                        if(a.type.length > b.type.length){
-                            return 1;
-                        }else if(a.type.length < b.type.length){
-                            return -1;
-                        }else{
-                            return a.type.localeCompare(b.type);
-                        }
+                        return a.type.localeCompare(b.type);
                     }else if(title === 'model'){
-                        if(a.model.length > b.model.length){
-                            return 1;
-                        }else if(a.model.length < b.model.length){
-                            return -1;
-                        }else{
-                            return a.model.localeCompare(b.model);
-                        }
+                        return a.model.localeCompare(b.model);
                     }else if(title === 'assignto'){
-                        if(a.assignto.length > b.assignto.length){
-                            return 1;
-                        }else if(a.assignto.length < b.assignto.length){
-                            return -1;
-                        }else{
-                            return a.assignto.localeCompare(b.assignto);
-                        }
+                        return a.assignto.localeCompare(b.assignto);
                     }
                 }else if(isNaN(tA)){
                     return -1;
@@ -157,8 +174,8 @@ function AssignedItems () {
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                                <li><button type="button" className="dropdown-item">CSV</button></li>
-                                <li><button type="button" className="dropdown-item">PDF</button></li>
+                                <li><button className="dropdown-item" onClick={CSV} >CSV</button></li>
+                                <li><button className="dropdown-item" onClick={PDF} >PDF</button></li>
                             </ul>
                         </div>
                     </div>

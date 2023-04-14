@@ -116,7 +116,7 @@ function Users () {
     }  
 
     // code to generate the CSV file and download it to the local machine
-        const CSV = () => {      
+    const CSV = () => {      
         // the data that you want to write to the CSV file
         const data = [];
         users.forEach(user => {
@@ -124,19 +124,19 @@ function Users () {
         });
   
 
-    // generate the CSV file
-    const csv = Papa.unparse({
-        fields: ['firstName', 'lastName', 'schoolID', 'role'],
-        data: data
-    });
+        // generate the CSV file
+        const csv = Papa.unparse({
+            fields: ['FIRSTNAME', 'LASTNAME', 'EMAIL', 'ROLE','SCHOOLID'],
+            data: data
+        });
 
-    // the CSV file
-                const a = document.createElement('a');
-                a.href = 'data:attachment/csv,' + csv;
-                a.target = '_blank';
-                a.download = 'output.csv';
-                document.body.appendChild(a);
-                a.click();
+        // the CSV file
+        const a = document.createElement('a');
+        a.href = 'data:attachment/csv,' + csv;
+        a.target = '_blank';
+        a.download = 'UserList.csv';
+        document.body.appendChild(a);
+        a.click();
     }
 
     const PDF = () => {     // Exporting to pdf 
@@ -145,7 +145,7 @@ function Users () {
     //   { firstName: 'John', lastName: 'Patrick', schoolID: '474593', role: 'student'}
     //   { firstName: 'Jane', lastName: 'Doe', schoolID: '987654', role: 'teacher' }
     //  ];
-        const data = [['FIRST NAME', 'LAST NAME', 'EMAIL', 'ROLE']];
+        const data = [['FIRSTNAME', 'LASTNAME', 'EMAIL', 'ROLE','SCHOOLID']];
         users.forEach(user => {
             data.push([user.firstname, user.lastname, user.email, user.role, user.schoolID]);
         });
@@ -157,7 +157,7 @@ function Users () {
         const pdf = doc.output();
         const link = document.createElement('a');
         link.href = 'data:application/pdf;base64,' + btoa(pdf);
-        link.download = 'users.pdf';
+        link.download = 'UserList.pdf';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -199,61 +199,19 @@ function Users () {
             var tB = Number.parseInt(b.title);
             if(isNaN(tA) && isNaN(tB)){
                 if(title === 'schoolID'){
-                    if(a.schoolID.length > b.schoolID.length){
-                        return 1;
-                    }else if(a.schoolID.length < b.schoolID.length){
-                        return -1;
-                    }else{
-                        return a.schoolID.localeCompare(b.schoolID);
-                    }
+                    return a.schoolID.localeCompare(b.schoolID);
                 }else if(title === 'firstname'){
-                    if(a.firstname.length > b.firstname.length){
-                        return 1;
-                    }else if(a.firstname.length < b.firstname.length){
-                        return -1;
-                    }else{
-                        return a.firstname.localeCompare(b.firstname);
-                    }
+                    return a.firstname.localeCompare(b.firstname);
                 }else if(title === 'lastname'){
-                    if(a.lastname.length > b.lastname.length){
-                        return 1;
-                    }else if(a.lastname.length < b.lastname.length){
-                        return -1;
-                    }else{
-                        return a.lastname.localeCompare(b.lastname);
-                    }
+                    return a.lastname.localeCompare(b.lastname);
                 }else if(title === 'role'){
-                    if(a.role.length > b.role.length){
-                        return 1;
-                    }else if(a.role.length < b.role.length){
-                        return -1;
-                    }else{
-                        return a.role.localeCompare(b.role);
-                    }
+                    return a.role.localeCompare(b.role);
                 }else if(title === 'email'){
-                    if(a.email.length > b.email.length){
-                        return 1;
-                    }else if(a.email.length < b.email.length){
-                        return -1;
-                    }else{
-                        return a.email.localeCompare(b.email);
-                    }
+                    return a.email.localeCompare(b.email);
                 }else if(title === 'phone'){
-                    if(a.phone.length > b.phone.length){
-                        return 1;
-                    }else if(a.phone.length < b.phone.length){
-                        return -1;
-                    }else{
-                        return a.phone.localeCompare(b.phone);
-                    }
+                    return a.phone.localeCompare(b.phone);
                 }else{
-                    if(a.status.length > b.status.length){
-                        return 1;
-                    }else if(a.status.length < b.status.length){
-                        return -1;
-                    }else{
-                        return a.status.localeCompare(b.status);
-                    }
+                    return a.status.localeCompare(b.status);
                 }
             }else if(isNaN(tA)){
                 return -1;
@@ -299,8 +257,8 @@ function Users () {
                             Export
                         </button>
                         <ul className="exports dropdown-menu">
-                        <li><button type="button" className="dropdown-item" onClick={CSV} >CSV</button></li>
-                        <li><button type="button" className="dropdown-item" onClick={PDF} >PDF</button></li>
+                        <li><button className="dropdown-item" onClick={CSV} >CSV</button></li>
+                        <li><button className="dropdown-item" onClick={PDF} >PDF</button></li>
                         </ul>
                     </div>
                 </div>

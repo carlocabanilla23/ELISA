@@ -6,6 +6,9 @@ import UnassignedItemList from './List/UnassignedItemList';
 import OffCanvasCard from "./card/OffCanvasCard";
 import { Generate } from "../Services/code-generator/qrcode";
 import { GenerateBarcode } from "../Services/code-generator/barcode";
+import Papa from 'papaparse';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 function UnassignedItems () {
     const [items, setItems] = useState([]);
@@ -151,8 +154,52 @@ function UnassignedItems () {
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);
-        }
-       
+        }  
+    }
+
+    const CSV = () => {      
+        // the data that you want to write to the CSV file
+        const data = [];
+        items.forEach(items => {
+            // console.log(items.serialno);
+            data.push([items.serialno, items.name, items.type,items.model]);
+        });
+  
+
+        // generate the CSV file
+        const csv = Papa.unparse({
+            fields: ['SERIALNO', 'NAME', 'TYPE', 'MODEL'],
+            data: data
+        });
+
+        // the CSV file
+        const a = document.createElement('a');
+        a.href = 'data:attachment/csv,' + csv;
+        a.target = '_blank';
+        a.download = 'UnassignedItemList.csv';
+        document.body.appendChild(a);
+        a.click();
+    }
+    const PDF = () => {     // Exporting to pdf 
+        const doc = new jsPDF('p', 'mm', 'a4');
+        
+        const data = [['SERIALNO', 'NAME', 'TYPE', 'MODEL']];
+        items.forEach(items => {
+            data.push([items.serialno, items.name, items.type,items.model]);
+        });
+
+        doc.autoTable({
+         //   head: [['firstName', 'lastName', 'schoolID', 'role']],
+            body: data
+        });
+        
+        const pdf = doc.output();
+        const link = document.createElement('a');
+        link.href = 'data:application/pdf;base64,' + btoa(pdf);
+        link.download = 'UnassignedItemList.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
     
     const idxLastItem = currentPage * itemsPerPage;
@@ -181,37 +228,13 @@ function UnassignedItems () {
             var tB = Number.parseInt(b.title);
             if(isNaN(tA) && isNaN(tB)){
                 if(title === 'serialno'){
-                    if(a.serialno.length > b.serialno.length){
-                        return 1;
-                    }else if(a.serialno.length < b.serialno.length){
-                        return -1;
-                    }else{
-                        return a.serialno.localeCompare(b.serialno);
-                    }
+                    return a.serialno.localeCompare(b.serialno);
                 }else if(title === 'name'){
-                    if(a.name.length > b.name.length){
-                        return 1;
-                    }else if(a.name.length < b.name.length){
-                        return -1;
-                    }else{
-                        return a.name.localeCompare(b.name);
-                    }
+                    return a.name.localeCompare(b.name);
                 }else if(title === 'type'){
-                    if(a.type.length > b.type.length){
-                        return 1;
-                    }else if(a.type.length < b.type.length){
-                        return -1;
-                    }else{
-                        return a.type.localeCompare(b.type);
-                    }
+                    return a.type.localeCompare(b.type);
                 }else if(title === 'model'){
-                    if(a.model.length > b.model.length){
-                        return 1;
-                    }else if(a.model.length < b.model.length){
-                        return -1;
-                    }else{
-                        return a.model.localeCompare(b.model);
-                    }
+                    return a.model.localeCompare(b.model);
                 }
             }else if(isNaN(tA)){
                 return -1;
@@ -252,8 +275,8 @@ function UnassignedItems () {
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                                <li>CSV</li>
-                                <li>PDF</li>
+                                <li><button className="dropdown-item" onClick={CSV} >CSV</button></li>
+                                <li><button className="dropdown-item" onClick={PDF} >PDF</button></li>
                             </ul>
                         </div>
                     </div>

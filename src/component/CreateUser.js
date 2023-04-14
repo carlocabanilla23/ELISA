@@ -48,15 +48,6 @@ function CreateUser() {
 
     const AddUser = (e) => {
         e.preventDefault();
-        /* validate:
-            if school ID and email are already exist, the useEffect will catch the type of error and display it to the user
-            
-            For the pattern error of schoolID, email, and phone, 
-            I use the onInvalid and onInput to customize the default error message of incorrect pattern.
-
-            The back arrow is implemented using fa fa-back-arrow as you mentioned, and all button will direct
-            back to the Users page if you click it (for create button if successfully pass all validations).
-        */
         console.log(users);
         for(var i = 0; i < users.length; i++){
             if(users[i].email === email && users[i].schoolID === schoolID){
@@ -100,6 +91,22 @@ function CreateUser() {
             body:{
                 email:email,
                 password:''
+            }
+        });
+
+        let id = crypto.randomUUID();
+        e.preventDefault();
+        API.post("emailsystem","/email/send", {
+            body : {
+            email : email,
+            message: "Click here to reset your password \n \n https://dev.djno0p84ctg6u.amplifyapp.com/SetNewPassword/"+email
+            }
+        });
+
+        API.post("emailsystem","/email", {
+            body : {
+            id : id,
+            email : email
             }
         });
 

@@ -5,6 +5,9 @@ import { useNavigate, Link,useParams } from "react-router-dom";
 import Pagination from "./Pagination";
 import ItemList from "./List/ItemList";
 import OffCanvasCard from "./card/OffCanvasCard";
+import Papa from 'papaparse';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import { GenerateRoomQRCode } from "../Services/code-generator/RoomQRCode";
 import { Generate } from "../Services/code-generator/qrcode";
 import { GenerateBarcode } from "../Services/code-generator/barcode";
@@ -101,7 +104,52 @@ function StorageLocationItem () {
         }else{
             setItems(unfilteredItems);
         }
-       
+    }
+
+    const CSV = () => {
+        const roomType = items[0].location; 
+        // the data that you want to write to the CSV file
+        const data = [];
+        items.forEach(items => {
+            data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
+        });
+  
+
+        // generate the CSV file
+        const csv = Papa.unparse({
+            fields: ['SERIALNO', 'NAME', 'STATUS', 'ROOM NO'],
+            data: data
+        });
+
+        // the CSV file
+        const a = document.createElement('a');
+        a.href = 'data:attachment/csv,' + csv;
+        a.target = '_blank';
+        a.download = roomType + ' ' + param + '.csv';
+        document.body.appendChild(a);
+        a.click();
+    }
+    const PDF = () => {     // Exporting to pdf 
+        const doc = new jsPDF('p', 'mm', 'a4');
+        const roomType = items[0].location;
+        
+        const data = [['SERIALNO', 'NAME', 'STATUS', 'ROOM NO']];
+        items.forEach(items => {
+            data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
+        });
+
+        doc.autoTable({
+         //   head: [['firstName', 'lastName', 'schoolID', 'role']],
+            body: data
+        });
+        
+        const pdf = doc.output();
+        const link = document.createElement('a');
+        link.href = 'data:application/pdf;base64,' + btoa(pdf);
+        link.download = roomType + ' ' + param + '.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
     
     const idxLastItem = currentPage * itemsPerPage;
@@ -131,6 +179,7 @@ function StorageLocationItem () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
     }
 
     const CreateQRCode = (serialno) => {
@@ -140,6 +189,7 @@ function StorageLocationItem () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
       
         console.log(serialno);
         let svg = Generate(serialno);
@@ -152,6 +202,7 @@ function StorageLocationItem () {
         document.getElementById("barcode").style.display = "block";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
     
         console.log(serialno);
         let svg = GenerateBarcode(serialno);
@@ -167,6 +218,7 @@ function StorageLocationItem () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "block";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
     }
 
     const printQRCode = (roomno) => {
@@ -177,6 +229,7 @@ function StorageLocationItem () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
         let svg = GenerateRoomQRCode(roomno);
         setQRCode(svg);
     }
@@ -190,6 +243,20 @@ function StorageLocationItem () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "block";
+        document.getElementById("changeRFIDCode").style.display = "none";
+    }
+
+    const changeRFIDCode = async(item) => {
+        let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
+        setRefreshValue(Math.random());
+        setActionName("Change RFID Code");
+        setOffCanvasItem(data);
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "block";
     }
     
     const ResortedList = (title, filtered) => {
@@ -199,53 +266,17 @@ function StorageLocationItem () {
             var tB = Number.parseInt(b.title);
             if(isNaN(tA) && isNaN(tB)){
                 if(title === 'serialno'){
-                    if(a.serialno.length > b.serialno.length){
-                        return 1;
-                    }else if(a.serialno.length < b.serialno.length){
-                        return -1;
-                    }else{
-                        return a.serialno.localeCompare(b.serialno);
-                    }
+                    return a.serialno.localeCompare(b.serialno);
                 }else if(title === 'name'){
-                    if(a.name.length > b.name.length){
-                        return 1;
-                    }else if(a.name.length < b.name.length){
-                        return -1;
-                    }else{
-                        return a.name.localeCompare(b.name);
-                    }
+                    return a.name.localeCompare(b.name);
                 }else if(title === 'type'){
-                    if(a.type.length > b.type.length){
-                        return 1;
-                    }else if(a.type.length < b.type.length){
-                        return -1;
-                    }else{
-                        return a.type.localeCompare(b.type);
-                    }
+                    return a.type.localeCompare(b.type);
                 }else if(title === 'model'){
-                    if(a.model.length > b.model.length){
-                        return 1;
-                    }else if(a.model.length < b.model.length){
-                        return -1;
-                    }else{
-                        return a.model.localeCompare(b.model);
-                    }
+                    return a.model.localeCompare(b.model);
                 }else if(title === 'location'){
-                    if(a.location.length > b.location.length){
-                        return 1;
-                    }else if(a.location.length < b.location.length){
-                        return -1;
-                    }else{
-                        return a.location.localeCompare(b.location);
-                    }
+                    return a.location.localeCompare(b.location);
                 }else{
-                    if(a.roomno.length > b.roomno.length){
-                        return 1;
-                    }else if(a.roomno.length < b.roomno.length){
-                        return -1;
-                    }else{
-                        return a.roomno.localeCompare(b.roomno);
-                    }
+                    return a.roomno.localeCompare(b.roomno);
                 }
             }else if(isNaN(tA)){
                 return -1;
@@ -302,8 +333,8 @@ function StorageLocationItem () {
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                                <li><button type="button" className="dropdown-item">CSV</button></li>
-                                <li><button type="button" className="dropdown-item">PDF</button></li>
+                                <li><button className="dropdown-item" onClick={CSV} >CSV</button></li>
+                                <li><button className="dropdown-item" onClick={PDF} >PDF</button></li>
                             </ul>
                         </div>
                     </div>
@@ -318,7 +349,8 @@ function StorageLocationItem () {
                     CreateQRCode={CreateQRCode}
                     CreateBarcode={CreateBarcode}
                     changeStatus={changeStatus}
-                    changeLocation={changeLocation} 
+                    changeLocation={changeLocation}
+                    changeRFIDCode={changeRFIDCode} 
                     ResortedList={ResortedList} />
             <Pagination
                     PerPage={itemsPerPage} 
