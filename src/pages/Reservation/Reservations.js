@@ -17,9 +17,8 @@ function Reservations () {
 
 
     useEffect( () => {
-        if (access === "Student") {
+        if (access !== "Admin") {
             API.get("reservation","/reservation/"+ loggedUser).then( res => {
-
                 let sorted = [];
                 let openList = [];
                 let assignedList = []

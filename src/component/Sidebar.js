@@ -15,12 +15,11 @@ function Sidebar() {
 
   
   useEffect( () => {
-    if (access === "Student") {
+    if (access !== "Admin") {
       
       let hide = document.getElementById("users");
       hide.style.display = "none";
-    }
-    if (access === "Admin") {
+    }else{
       setAdminInventoryDropdown(
         <div className="inventory-dropdown">
         <ul>
