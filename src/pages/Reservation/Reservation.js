@@ -33,6 +33,8 @@ function Reservation () {
     const [approvedBy, setApprovedBy] = useState('');
     const [reviewedBy, setReviewedBy] = useState('');
     const [reservationCart,setReservationCart] = useState([]);
+    const [error, setError] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     // Item List
     const [items, setItems] = useState([]);
@@ -64,20 +66,19 @@ function Reservation () {
 
         API.get("reservationcart","/cart/object/"+reservationnoParam).then( res => {
             setNote(res.note);
-
-
+            setReservationCart(res.itemrequested);
+            setAssignedItems(res.assigneditems);
+            const requestList = res.itemrequested;
             if(statusParam !== "Returned") {
                 let itm = [...new Set(res.itemrequested.map( item => item.type))]
                 let list = [];
                 itm.forEach( e => {
                     API.get("items","/items/" +e).then( res => {
                         list.push(...res);
-                        sortItems(list);
+                        sortItems(list, requestList);
                     });
                 });
             }
-            setReservationCart(res.itemrequested);
-            setAssignedItems(res.assigneditems);
 
             if (res.assignedItems === undefined) {}
             else if (res.assigneditems.length === 0 && status === "Returned") {
@@ -101,18 +102,24 @@ function Reservation () {
             }
         })
 
-
         API.get("userapi","/email/object/"+emailParam).then( res => {
             setFirstName(res.firstname);
             setLastName(res.lastname);
             setSchoolID(res.schoolID);
         })
-        },[]);
+    },[]);
+
+    useEffect(() => {
+        if(error === '1'){
+            setErrorMessage('You have reach the requested quantity');
+        }
+    },[error])
     
     // Sort item in the item list
     const sortItems = (items) => {
-        console.log(items)
-        const updatedList = items.filter(item => item.location === "Unassigned" || "Room");
+        console.log(items);
+        let updatedList = items.filter(item => item.location === "Unassigned" || "Room");
+        updatedList = updatedList.filter(item => item.location !== "USER");
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     } 
@@ -168,6 +175,15 @@ function Reservation () {
 
     // Add Item
     const addItem = (item) => {
+        const requestInfo = reservationCart.filter((request) => request.type === item.type);
+        const assignedAmount = assignedItems.filter((assigned) => assigned.type === item.type);
+        let max = 0;
+        requestInfo.forEach((request) => {
+            max += Number(request.quantity);
+        });
+        if(max === assignedAmount.length){
+            throw new Error(setError('1'));
+        }
         setAssignedItems([...assignedItems,item]);
         setItemList([...itemList,item]);
         updateList(item);
@@ -289,6 +305,21 @@ function Reservation () {
             }
         }
     }
+
+    const assignItemBtn = (e) => {
+        setApprovedBy(accountName);
+        setAssignedDate(`${year}-${month}-${day}`);
+        AssignItems(assignedItems);
+        setError('');
+        setErrorMessage('');
+    }
+
+    const returnItemBtn = (e) => {
+        setReturnDate(`${year}-${month}-${day}`);
+        returnItems(assignedItems);
+        setError('');
+        setErrorMessage('');
+    }
  
     return (
         <>            
@@ -356,9 +387,12 @@ function Reservation () {
                                 <div className="col">
                                     {itemListHeader}
                                 </div>
+                                <div className="col">
+                                    <div id="ERRMessage">{errorMessage}</div>
+                                </div>
                             </div>
                             <div className="row Assigneditemlist">
-                                    <ReservationAssignedItemList items={assignedItems} removeItem={removeItem}/>
+                                <ReservationAssignedItemList items={assignedItems} removeItem={removeItem}/>
                             </div>
                         </div>
                    
@@ -445,15 +479,14 @@ function Reservation () {
                                 <label className="userinfo-form-label fw-bold form-label"></label>
                                 <div className="row">
                                     <div className="col">
-                                        <button className="btn btn-light" id="returnBtn" onClick={ (e) => {setReturnDate(`${year}-${month}-${day}`);returnItems(assignedItems);}}>Return Items</button>
+                                        <button className="btn btn-light" id="returnBtn" onClick={ (e) => {returnItemBtn(e)}}>Return Items</button>
                                     </div>
                                     <div className="col">
-                                        <button className="btn btn-light" id="assignBtn" onClick={ (e) => {setApprovedBy(accountName);setAssignedDate(`${year}-${month}-${day}`);AssignItems(assignedItems)}}>Assign Items</button>
+                                        <button className="btn btn-light" id="assignBtn" onClick={ (e) => {assignItemBtn(e)}}>Assign Items</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
