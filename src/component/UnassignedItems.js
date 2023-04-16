@@ -30,6 +30,7 @@ function UnassignedItems () {
             body: { roomno : "Unassigned" }
         }).then ( res => {
             setItems(res);
+            setUnfilteredItems(res);
         })
         API.get("items","/items").then(itemRes => {
             sortLocationList(itemRes);
@@ -39,7 +40,10 @@ function UnassignedItems () {
     const updateList = (serialno) => {
         API.del("inventory","/items/object/"+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
-     
+        const curPage = currentPage;
+        if(updatedList.length % itemsPerPage === 0 && curPage > 1){
+            paginate(curPage - 1);
+        }
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     }
@@ -91,6 +95,7 @@ function UnassignedItems () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
     }
 
     const CreateQRCode = (serialno) => {
@@ -100,6 +105,7 @@ function UnassignedItems () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
       
         console.log(serialno);
         let svg = Generate(serialno);
@@ -112,6 +118,7 @@ function UnassignedItems () {
         document.getElementById("barcode").style.display = "block";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
 
         console.log(serialno);
         let svg = GenerateBarcode(serialno);
@@ -128,6 +135,7 @@ function UnassignedItems () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "block";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
     }
 
     const changeLocation=  async(item) => {
@@ -140,6 +148,20 @@ function UnassignedItems () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "block";
+        document.getElementById("changeRFIDCode").style.display = "none";
+    }
+
+    const changeRFIDCode = async(item) => {
+        let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
+        setRefreshValue(Math.random());
+        setActionName("Change RFID Code");
+        setOffCanvasItem(data);
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "block";
     }
 
     const searchItem = (e) => {
@@ -150,7 +172,9 @@ function UnassignedItems () {
                     items.name.toLowerCase().includes(e) || 
                     items.model.toLowerCase().includes(e) || 
                     items.type.includes(e));
-                    
+            if(searcedhItems.length < unfilteredItems.length){
+                paginate(1);
+            }
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);
@@ -235,6 +259,8 @@ function UnassignedItems () {
                     return a.type.localeCompare(b.type);
                 }else if(title === 'model'){
                     return a.model.localeCompare(b.model);
+                }else if(title === 'status'){
+                    return a.status.localeCompare(b.status);
                 }
             }else if(isNaN(tA)){
                 return -1;
@@ -292,6 +318,7 @@ function UnassignedItems () {
                         CreateBarcode={CreateBarcode}
                         changeStatus={changeStatus}
                         changeLocation={changeLocation}
+                        changeRFIDCode={changeRFIDCode}
                         ResortedList={ResortedList}
                         />
             <Pagination

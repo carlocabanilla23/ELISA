@@ -1,9 +1,7 @@
 import React, { useEffect,useState } from "react"
 import { Amplify, API } from "aws-amplify";
 import awsExport from '../aws-exports';
-import { useNavigate } from 'react-router-dom'; 
-import Sidebar from './Sidebar';
-import Header from './Header';
+import { useNavigate } from 'react-router-dom';
 import "../assets/styles/AddItem.css";
 import SendNotification from "../Services/notification/Notification";
 import { DefaultDeviceLogo } from "../assets/base64/base64imgs";
@@ -39,7 +37,7 @@ function AddItem() {
 
     const AddItem = (e) => { // AddItem function is called when the form is submitted
         e.preventDefault();
-    
+        console.log(items)
         let param = { RFIDCode2 }
         let err = Validate(items,data,param);
         let rm;
@@ -231,7 +229,7 @@ function AddItem() {
                         {/* RFID Code */}
                         <div className="form-input">
                             <label className="input-label" for="RFIDCode" >RFID Code</label>
-                            <input type="text" className="text-input" id="RFIDCode" name="rfidcode"
+                            <input type="text" className="text-input" id="RFIDCode1" name="rfidcode"
                             value={data.rfidcode} onChange={ e => ChangeData(e)}/>
                         </div>
                         {/* Re-enter RFID Code */}

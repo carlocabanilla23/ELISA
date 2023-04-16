@@ -111,6 +111,10 @@ function Inventory () {
     const updateList = (serialno,type) => {
         API.del("items","/items/object/"+ type +'/'+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
+        const curPage = currentPage;
+        if(updatedList.length % itemsPerPage === 0 && curPage > 1){
+            paginate(curPage - 1);
+        }
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     } 
@@ -199,6 +203,9 @@ function Inventory () {
                                                             items.name.toLowerCase().includes(e) || 
                                                             items.model.toLowerCase().includes(e) || 
                                                             items.type.includes(e));
+            if(searcedhItems.length < unfilteredItems.length){
+                paginate(1);
+            }
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);

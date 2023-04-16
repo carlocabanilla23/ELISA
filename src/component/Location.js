@@ -68,10 +68,8 @@ function Location () {
     const searchItem = (e) => {
         if (e.length > 0) {
             const searcedhItems = 
-                    unfilteredItems.filter((items) =>   items.serialno.toLowerCase().includes(e) || 
-                                                        items.name.toLowerCase().includes(e) || 
-                                                        items.model.toLowerCase().includes(e) || 
-                                                        items.type.includes(e));
+                    unfilteredItems.filter((items) =>   items.roomno.toLowerCase().includes(e) || 
+                                                        items.location.toLowerCase().includes(e));
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);

@@ -2,7 +2,7 @@ import React from "react";
 import '../../assets/styles/User.css';
 import { useNavigate } from "react-router-dom";
 
-const UnassignedItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation}) => {
+const UnassignedItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation,changeRFIDCode}) => {
   const navigate = useNavigate();
 
   const EditItem = (e) => {
@@ -22,6 +22,7 @@ const UnassignedItemCard = ({ item, updateList,ViewInformation,CreateQRCode,Crea
           <div className="col"> {item.name} </div>
           <div className="col"> {item.type} </div>
           <div className="col"> {item.model} </div>
+          <div className="col"> {item.status} </div>
           {/* <div className="col"> {item.assignedto} </div>
           <div className="col"> {item.ordernumber} </div> */}
           <div className="col actions rmobile">
@@ -75,7 +76,6 @@ const UnassignedItemCard = ({ item, updateList,ViewInformation,CreateQRCode,Crea
                       data-bs-target="#offcanvasRight"
                       aria-controls="offcanvasRight">
                       Change Status
-                     
                     </li>
                     <li onClick={(e) =>  changeLocation(item)}
                       className="dropdown-item"
@@ -84,6 +84,14 @@ const UnassignedItemCard = ({ item, updateList,ViewInformation,CreateQRCode,Crea
                       data-bs-target="#offcanvasRight"
                       aria-controls="offcanvasRight">
                       Change Location
+                    </li>
+                    <li onClick={(e) =>  changeRFIDCode(item)}
+                      className="dropdown-item"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight">
+                      Change RFID Code
                     </li>
                     <li onClick={() => updateList(item.serialno)}
                       style={{display: 'none'}} 

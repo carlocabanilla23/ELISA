@@ -8,7 +8,7 @@ import Pagination from "../../component/Pagination";
 function Reservations () {
     // CreateTestReservation(50);
     const [reservations, setReservations] = useState([]);
-    // const [unfilteredReservations, setUnfilteredReservations] = useState([]);
+    const [unfilteredReservations, setUnfilteredReservations] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
     const [reservationsPerPage] = useState(10);
 
@@ -47,7 +47,7 @@ function Reservations () {
                 sorted.push.apply(sorted, sortedDate(assignedList));
                 sorted.push.apply(sorted, sortedDate(returnList));
                 setReservations([...reservations,...sorted]);
-                // setUnfilteredReservations([...reservations,...sorted]);
+                setUnfilteredReservations([...reservations,...sorted]);
             })
 
         } else {
@@ -80,7 +80,7 @@ function Reservations () {
                 sorted.push.apply(sorted, sortedDate(assignedList));
                 sorted.push.apply(sorted, sortedDate(returnList));
                 setReservations([...reservations,...sorted]);
-                // setUnfilteredReservations([...reservations,...sorted]);
+                setUnfilteredReservations([...reservations,...sorted]);
             })
         }   
     },[]);
@@ -106,19 +106,25 @@ function Reservations () {
         API.del("reservation","/reservations/object/"+reservationno);
         const updatedList = reservations.filter(reservation => reservation.reservationno !== reservationno);
         setReservations(updatedList);
-        // setUnfilteredReservations(updatedList);
+        setUnfilteredReservations(updatedList);
     }
 
-    const searchUser = (e) => {
-        // if (e.length > 0) {
-        //     const searcedhUser = unfilteredUsers.filter((reservation) => reservation.email.toLowerCase().includes(e) || 
-        //                                                     reservation.firstname.toLowerCase().includes(e) || 
-        //                                                     user.lastname.toLowerCase().includes(e) || 
-        //                                                     user.schoolID.includes(e));
-        //     setUsers(searcedhUser);
-        // }else{
-        //     setUsers(unfilteredUsers);
-        // } 
+    const searchReservation = (e) => {
+        if (e.length > 0) {
+            const searcedhReservation = unfilteredReservations.filter((reservation) => reservation.reservationno.toLowerCase().includes(e) || 
+                                                            reservation.summary.toLowerCase().includes(e) || 
+                                                            reservation.status.toLowerCase().includes(e) || 
+                                                            reservation.requestby.toLowerCase().includes(e) ||
+                                                            reservation.approvedby.toLowerCase().includes(e) ||
+                                                            reservation.requestdate.toLowerCase().includes(e) ||
+                                                            reservation.returndate.toLowerCase().includes(e));
+            if(searcedhReservation.length < unfilteredReservations.length){
+                paginate(1);
+            }
+            setReservations(searcedhReservation);
+        }else{
+            setReservations(unfilteredReservations);
+        } 
     }
 
     const makeReservation = () => {
@@ -224,7 +230,7 @@ function Reservations () {
                     <span>Reservations</span>
                 
                 <div className="searchBar">
-                    <input type="email" className="form-control" onChange={ (e)=> { searchUser(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Reservation"/>
+                    <input type="email" className="form-control" onChange={ (e)=> { searchReservation(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Reservation"/>
                 </div>
 
                 <div className="reserve">

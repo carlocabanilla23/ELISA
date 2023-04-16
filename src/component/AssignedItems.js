@@ -19,6 +19,7 @@ function AssignedItems () {
             body: { roomno : "USER" }
         }).then ( res => {
             setItems(res);
+            setUnfilteredItems(res);
         })
     },[]);
 
@@ -35,6 +36,9 @@ function AssignedItems () {
                                                                     items.name.toLowerCase().includes(e) || 
                                                                     items.model.toLowerCase().includes(e) || 
                                                                     items.type.includes(e));
+            if(searcedhItems.length < unfilteredItems.length){
+                paginate(1);
+            }
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);
@@ -107,15 +111,15 @@ function AssignedItems () {
 
     const ResortedList = (title, filtered) => {
         let curList = items;
-        if(title === 'assigndate'){
+        if(title === 'assignedate'){
             curList.sort((a,b) => {
-                if(a.assigndate.split('-').at(2) !== b.assigndate.split('-').at(2)){
-                    return b.assigndate.split('-').at(2) - a.assigndate.split('-').at(2);
+                if(a.assignedate.split('-').at(2) !== b.assignedate.split('-').at(2)){
+                    return b.assignedate.split('-').at(2) - a.assignedate.split('-').at(2);
                 }else{
-                    if(a.assigndate.split('-').at(1) !== b.assigndate.split('-').at(1)){
-                        return b.assigndate.split('-').at(1) - a.assigndate.split('-').at(1);
+                    if(a.assignedate.split('-').at(1) !== b.assignedate.split('-').at(1)){
+                        return b.assignedate.split('-').at(1) - a.assignedate.split('-').at(1);
                     }else{
-                        return b.assigndate.split('-').at(0) - a.assigndate.split('-').at(0);
+                        return b.assignedate.split('-').at(0) - a.assignedate.split('-').at(0);
                     }
                 }
             })
@@ -132,8 +136,10 @@ function AssignedItems () {
                         return a.type.localeCompare(b.type);
                     }else if(title === 'model'){
                         return a.model.localeCompare(b.model);
-                    }else if(title === 'assignto'){
-                        return a.assignto.localeCompare(b.assignto);
+                    }else if(title === 'status'){
+                        return a.status.localeCompare(b.status);
+                    }else if(title === 'assignedto'){
+                        return a.assignedto.localeCompare(b.assignedto);
                     }
                 }else if(isNaN(tA)){
                     return -1;
