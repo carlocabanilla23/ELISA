@@ -106,14 +106,7 @@ and (-webkit-min-device-pixel-ratio: 3) {
         margin: 0 !important;
         width: 47vh;
     }
-    .row {
-        font-size: 1em;
-        margin: 0.1em;
-    }
-    .col{
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+ 
     .UserHeader { display: none;}
 
     .rmobile {display: none;}

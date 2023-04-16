@@ -57,10 +57,10 @@ function Login() {
 
             <form onSubmit={onSubmit}>
             <div className="mb-3 row">
-                <input className="form-control" onChange={ (e)=> setUsername(e.target.value.toLowerCase())} id="exampleFormControlInput1" placeholder="name@example.com" />
+                <input className="login-form-control form-control" onChange={ (e)=> setUsername(e.target.value.toLowerCase())} id="exampleFormControlInput1" placeholder="name@example.com" />
             </div>
             <div className="mb-3 row">
-                <input type="password" className="form-control" onChange={ (e)=> setPassword(e.target.value)} placeholder="Password" autoComplete="password" id="inputPassword" />
+                <input type="password" className="login-form-control form-control" onChange={ (e)=> setPassword(e.target.value)} placeholder="Password" autoComplete="password" id="inputPassword" />
             </div>
             <div className="mb-3 row" id="row-3">
             
