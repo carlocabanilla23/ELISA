@@ -69,6 +69,10 @@ function Users () {
     const updateList = (email) => {
         API.del("userapi","/email/object/"+email);
         const updatedList = users.filter(user => user.email !== email);
+        const curPage = currentPage;
+        if(updatedList.length % usersPerPage === 0 && curPage > 1){
+            paginate(curPage - 1);
+        }
         setUsers(updatedList);
         setUnfilteredUsers(updatedList);
     }
@@ -109,6 +113,9 @@ function Users () {
                                                             user.lastname.toLowerCase().includes(e) || 
                                                             user.schoolID.includes(e));
                                                             // user.status.includes(e));
+            if(searcedhUser.length < unfilteredUsers.length){
+                paginate(1);
+            }
             setUsers(searcedhUser);
         }else{
             setUsers(unfilteredUsers);

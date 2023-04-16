@@ -45,36 +45,6 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
         }
     },[error])
 
-    useEffect(() => {
-        const roomCol =  document.getElementById("roomCol");
-        const storageCol =  document.getElementById("storageCol");
-        roomCol.style.float = 'left';
-        storageCol.style.position = 'relative';
-        storageCol.style.float = 'right';
-        storageCol.style.borderBottom = '1px solid lightgrey'
-        roomCol.style.borderBottom = '1px solid lightgrey';
-        if(roomList.length >= storageList.length){
-            roomCol.style.borderRight = '1px solid grey';
-        }else{
-            storageCol.style.borderLeft = '1px solid grey';
-        }
-
-        // Change RFID Code Style
-        const RFIDCol1 = document.getElementById("RFIDCode");
-        const RFIDCol2 = document.getElementById("RFIDCode2");
-
-        RFIDCol1.style.minWidth = "220px";
-        RFIDCol1.style.maxWidth = "220px";
-        RFIDCol1.style.margin = "0";
-        RFIDCol1.style.fontFamily = "inherit";
-        RFIDCol1.style.fontSize = "inherit";
-        RFIDCol1.style.lineHeight = "inherit";
-        RFIDCol1.style.marginBottom = "20px";
-
-        RFIDCol2.style.minWidth = "220px";
-        RFIDCol2.style.maxWidth = "220px";
-    })
-
     const setNewStatus = () => {
         API.post("items","/items/", {
         body : {
@@ -267,7 +237,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                         {locationType}  {locationType !== "Room" && locationType !== "Storage" ? '' : location}
                     </button>
                     <ul className="dropdown-menu">
-                        <div id="roomCol">
+                        <div id="roomList">
                             <span className="dropdown-item fw-bold bg-light" id="itemRoomList" >Room List</span>
                             {/* Room list */}
                             {roomList.map((room,index) => (
@@ -275,7 +245,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                             ))}
                         </div>
                         {/* Storage list */}
-                        <div id="storageCol">
+                        <div id="roomList">
                             <span className="dropdown-item fw-bold bg-light" id="itemStorageList" >Storage List</span>
                             {/* Room list */}
                             {storageList.map((storage,index) => (
@@ -298,7 +268,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                     {/* Re-enter RFID Code */}
                     <div className="">
                         <label className="input-label" for="RFIDCode2" style={{"fontSize":"10.8pt"}}>Re-enter RFID Code</label>
-                        <input type="text" className="text-input" id="RFIDCode2" 
+                        <input type="text" className="text-input" id="RFIDCode" 
                         value={RFIDCode2} onChange={(e) => {setRFIDCode2(e.target.value); setErrorMessage(''); setError('')}}/>
                     </div>
                     <br />

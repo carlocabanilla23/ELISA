@@ -11,6 +11,7 @@ const AssignedItemCard = ({ item, updateList }) => {
           <div className="col"> {item.name} </div>
           <div className="col"> {item.type} </div>
           <div className="col"> {item.model} </div>
+          <div className="col"> {item.status} </div>
           <div className="col"> {item.assignedto} </div>
           <div className="col"> {item.assignedate} </div>
         </div>
