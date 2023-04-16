@@ -10,7 +10,7 @@ const ERROR_MSG = {
     RFID_No_MATCH : "Re-enter RFID Code doesn't match with RFID Code"
 }
 
-const Validate = (table,data) => {
+const Validate = (table,data,params) => {
     /*
             Validation check for the new item:
             1. Check if serialNumber is already exist
@@ -18,12 +18,12 @@ const Validate = (table,data) => {
             4. Check if user set a room for the unassigned item. Unassigned item will have no room
             5. Check if the room number is already exist as a different location type
         */
-        console.log(table)
+        // console.log(table)
         for(var i = 0; i < table.length; i++){
-            if(table[i].serialno === data.serialNumber){
+            if(table[i].serialno === data.serialno){
                 return ERROR_MSG.SN_ERR;
             }
-            else if(table[i].roomno === data.roomNumber && table[i].location !== data.location){
+            else if(table[i].roomno === data.roomno && table[i].location !== data.location){
                 return ERROR_MSG.RM_WRONG_LOC;
             }
         }
@@ -33,7 +33,7 @@ const Validate = (table,data) => {
             return ERROR_MSG.NO_STATUS;
         }else if(data.location === "Unassigned" && data.roomNumber !== ''){
             return ERROR_MSG.UA_NO_ROOMNO;
-        }else if(data.RFIDCode !== data.RFIDCode2){
+        }else if(data.rfidcode !== params.RFIDCode2){
             return ERROR_MSG.RFID_No_MATCH;
         }
 
