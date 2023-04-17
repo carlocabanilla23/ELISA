@@ -239,13 +239,16 @@ function EditItem() {
                                     </button>
                                     <ul className="dropdown-menu">
                                         <li>
-                                            <button type="button" className="dropdown-item" onClick={(e) => setStatus("New")}>New</button>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setStatus("Available")}>Available</button>
                                         </li>
                                         <li>
-                                            <button type="button" className="dropdown-item" onClick={(e) => setStatus("Old")}>Old</button>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setStatus("Reserved")}>Reserved</button>
                                         </li>
                                         <li>
-                                            <button type="button" className="dropdown-item" onClick={(e) => setStatus("Used")}>Used</button>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setStatus("In Repair")}>In Repair</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" className="dropdown-item" onClick={(e) => setStatus("Unavailable")}>Unavailable</button>
                                         </li>
                                     </ul>
                                 </div>
@@ -269,7 +272,7 @@ function EditItem() {
                         {/* RFID Code */}
                         <div className="form-input">
                             <label className="input-label" for="RFIDCode" >RFID Code</label>
-                            <input type="text" className="text-input" id="RFIDCode" 
+                            <input type="text" className="text-input"
                             value={RFIDCode} onChange={(e) => {setRFIDCode(e.target.value)}}/>
                         </div>
                         {/* Re-enter RFID Code */}
