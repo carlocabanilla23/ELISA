@@ -177,31 +177,16 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                         <label  className = "Attribute col-sm-4">Status:</label>
                         <div className = "Information col-sm-8">{item.status}</div>
                     </div>
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Condition:</label>
+                        <div className = "Information col-sm-8">{item.condition}</div>
+                    </div>
                     {/* Cost */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Cost:</label>
                         <div className = "Information col-sm-8">{item.cost}</div>
                     </div>
-                    {/* Date Created */}
-                    <div className = "mb-3 row">
-                        <label  className = "Attribute col-sm-4">Created:</label>
-                        <div className = "Information col-sm-8">{item.createdate}</div>
-                    </div>
-                    {/* Last Updated */}
-                    <div className = "mb-3 row">
-                        <label  className = "Attribute col-sm-4">Updated:</label>
-                        <div className = "Information col-sm-8">{item.lastupdated}</div>
-                    </div>
-                    {/* Dated Acquired */}
-                    <div className = "mb-3 row">
-                        <label  className = "Attribute col-sm-4">Acquired:</label>
-                        <div className = "Information col-sm-8">{item.acquiredate}</div>
-                    </div>
-                    {/* Dated Expired */}
-                    <div className = "mb-3 row">
-                        <label  className = "Attribute col-sm-4">Expired:</label>
-                        <div className = "Information col-sm-8">{item.expiredate}</div>
-                    </div>
+                
 
                     <button onClick={ e=> { reserveItem()}} className='btn btn-dark'>Reserve Item</button>
                 </div>
@@ -221,10 +206,10 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                             {status}
                         </button>
                         <ul className="dropdown-menu">
-                            <li className="dropdown-item" onClick={(e)=> setStatus ("New")} > New</li>
-                            <li className="dropdown-item" onClick={(e)=> setStatus ("Old")} > Old</li>
-                            <li className="dropdown-item" onClick={(e)=> setStatus ("Used")} > Used</li>
-                            <li className="dropdown-item" onClick={(e)=> setStatus ("Broken")} > Broken</li>
+                            <li className="dropdown-item" onClick={(e)=> setStatus ("Available")} > Available</li>
+                            <li className="dropdown-item" onClick={(e)=> setStatus ("Reserved")} > Reserved</li>
+                            <li className="dropdown-item" onClick={(e)=> setStatus ("In Repair")} > In Repair</li>
+                            <li className="dropdown-item" onClick={(e)=> setStatus ("Unavailable")} > Unavailable</li>
                         </ul>
                         <button  className="btn btn-secondary" type="button" onClick={(e) => status !== item.status ? setNewStatus() : ''}>
                         save

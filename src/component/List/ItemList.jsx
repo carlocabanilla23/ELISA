@@ -11,6 +11,7 @@ const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,
     const [model, setModel] = useState(true);
     const [location, setLocation] = useState(true);
     const [roomno, setRoomNo] = useState(true);
+    const [status, setStatus] = useState(true);
 
     const reset = (title) => {
         title === 'serialno' ? setSerial(!serial) : setSerial(true);
@@ -19,6 +20,7 @@ const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,
         title === 'model' ? setModel(!model) : setModel(true);
         title === 'location' ? setLocation(!location) : setLocation(true);
         title === 'roomno' ? setRoomNo(!roomno) : setRoomNo(true);
+        title === 'status' ? setStatus(!status) : setStatus(true);
     }
 
     return (
@@ -30,6 +32,7 @@ const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,
                             <div className="col" onClick={e => {ResortedList('name',name);reset('name')}} style={{'cursor': 'pointer'}}> Name </div>
                             <div className="col" onClick={e => {ResortedList('type',type);reset('type')}} style={{'cursor': 'pointer'}}> Type </div>
                             <div id="model" className="col rmobile" onClick={e => {ResortedList('model',model);reset('model')}} style={{'cursor': 'pointer'}}> Model </div>
+                            <div id="status" className="col rmobile" onClick={e => {ResortedList('status',status);reset('status')}} style={{'cursor': 'pointer'}}> Status </div>
                             <div id="location" className="col rmobile" onClick={e => {ResortedList('location',location);reset('location')}} style={{'cursor': 'pointer'}}> Location </div>
                             <div id="roomNumber" className="col rmobile" onClick={e => {ResortedList('roomno',roomno);reset('roomno')}} style={{'cursor': 'pointer'}}> Room No </div>
                             {/* <div id="status" className="col rmobile"> Status </div> */}

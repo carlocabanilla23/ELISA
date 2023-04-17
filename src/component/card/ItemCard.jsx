@@ -23,6 +23,7 @@ const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,
           <div className="col"> {item.name} </div>
           <div className="col"> {item.type} </div>
           <div id="model" className="col rmobile"> {item.model} </div>
+          <div id="status" className="col rmobile"> {item.status} </div>
           <div id="location" className="col rmobile"> {item.location} </div>
           <div id="roomNumber" className="col rmobile"> {item.roomno} </div>
           <div className="col actions rmobile">

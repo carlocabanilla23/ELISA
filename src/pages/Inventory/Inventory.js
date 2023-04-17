@@ -292,6 +292,8 @@ function Inventory () {
                     return a.model.localeCompare(b.model);
                 }else if(title === 'location'){
                     return a.location.localeCompare(b.location);
+                }else if(title === 'status'){
+                    return a.location.localeCompare(b.status);
                 }else{
                     return a.roomno.localeCompare(b.roomno);
                 }

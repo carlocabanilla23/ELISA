@@ -79,8 +79,8 @@ app.get(path, function(req, res) {
   let queryParams = {
     TableName: tableName,
     KeyConditions: condition,
-    ProjectionExpression: "#sn,#n,#t,#m,#l,#rn",
-    ExpressionAttributeNames: { '#n': 'name' ,'#t': 'type', '#l': 'location', '#sn': 'serialno', '#rn': 'roomno','#m': 'model'}
+    ProjectionExpression: "#sn,#n,#t,#m,#l,#rn,#s",
+    ExpressionAttributeNames: { '#n': 'name' ,'#t': 'type', '#l': 'location', '#sn': 'serialno', '#rn': 'roomno','#m': 'model', '#s' : 'status'}
   }
 
   dynamodb.scan(queryParams, (err, data) => {
