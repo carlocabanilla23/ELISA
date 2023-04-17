@@ -55,12 +55,23 @@ function Reservation () {
             setCurrentDate(res.requestdate);
             setReturnDate(res.returndate);
             setStatus (res.status);
+
+            if (res.status === "Open") {
+                setItemListHeader("Item Requested")
+                setItemList(res.returneditems);
+            }else if (res.status === "Returned") {
+                setItemListHeader("Returned Items");
+            }else if (res.status === "Assigned") {
+                setItemListHeader("Assigned Items");
+            }
+
             setApprovedBy(res.approvedby);
             if(res.assigndate !== undefined){
                 setAssignedDate(res.assigndate);
             }
             if(res.reviewedby !== undefined){
                 setReviewedBy(res.reviewedby);
+                setItemList(res.assigneditems);
             }
         })
 
@@ -78,14 +89,6 @@ function Reservation () {
                         sortItems(list, requestList);
                     });
                 });
-            }
-
-            if (res.assignedItems === undefined) {}
-            else if (res.assigneditems.length === 0 && status === "Returned") {
-                setItemListHeader("Returned Items");
-                setItemList(res.returneditems);
-            }else{
-                setItemList(res.assigneditems);
             }
             
             if (itemList.length > 0) {
@@ -267,6 +270,7 @@ function Reservation () {
         AddItemToLocation(assignedItems,firstName,lastName);
         CheckInventory(assignedItems)
         setStatus("Assigned");
+        setItemListHeader("Assigned Items")
     }
 
     const CheckInventory = (assignedItems) => {
