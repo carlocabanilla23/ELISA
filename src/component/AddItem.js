@@ -24,7 +24,6 @@ function AddItem() {
         location : "Room",
         roomno : "101",
         status : "Available",
-        manufacturer : "",
         cost : 200,
         acquiredate : GetDateToday(),
         createdate: GetDateToday(),
@@ -32,36 +31,45 @@ function AddItem() {
         rfidcode : "",
         image : DefaultDeviceLogo(),
         manufacturer : "",
-        condition : "New"
+        condition : "New",
+
+        expiredate : "NA",
+
+        assigndate : "NA",
+        assignedto : "NA",
+
+        returndate : "NA",
+        reviewedby : "NA"
     });
 
-    const AddItem = (e) => { // AddItem function is called when the form is submitted
+    // AddItem function is called when the form is submitted
+    const AddItem = (e) => { 
         e.preventDefault();
         let param = { RFIDCode2 }
         let err = Validate(items,data,param);
         let rm;
+        
         data.location === "Unassigned" ?  rm = "NA" :  rm = data.roomno;
 
         if (err.length > 0) {
             setErrorMessage(err);
         } else {
             API.post("items","/items/", {  
-                // call the API to post the item's information to the inventory
+            // call the API to post the item's information to the inventory
                 body : data 
             });
             // call the ShowAlert function to display a success message
             ShowAlert();
             SendNotification("NEW_ITEM",data.type) 
-        }
-
-        
+        }  
     }
         
     const CancelEdit = () => { //// CancelEdit function navigates the user back to the inventory page
         navigate("/Inventory");
     }
 
-    const ShowAlert = () => { // ShowAlert function displays a success message to the user
+    // ShowAlert function displays a success message to the user
+    const ShowAlert = () => { 
         var alert = document.getElementById("alert");
         alert.style.display = "block";
         setTimeout( () =>{  // navigate the user back to the inventory page after 1.5 seconds
@@ -82,7 +90,6 @@ function AddItem() {
     }
 
     const ChangeData = (e) => {
-        // e.preventDefault();
         setData({
             ...data,
             [e.target.name] : e.target.value
@@ -94,8 +101,6 @@ function AddItem() {
             <div className="alert alert-success" id="alert" role="alert">
                 Your item has been added successfully!
             </div>
-
-          
 
             {/* Previous Page Navigation Bar */}
             <div className="UserHeader">
@@ -231,7 +236,7 @@ function AddItem() {
                         <div className="col">
                             {/* Cost */}
                             <div className="form-group row">
-                                <label className="col-sm-2 col-form-label pl-1" for="cost">Cost</label>
+                                <label className="col-sm-2 col-form-label pl-1" for="cost">Cost (USD)</label>
                                 <div className="col-sm-10">
                                     <input type="text" className="form-control" id="cost" name="cost"
                                     value={data.cost} onChange={ e => ChangeData(e)} />
