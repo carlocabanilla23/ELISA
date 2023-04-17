@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from "react"
 import { Amplify, API } from "aws-amplify";
 import awsExport from '../aws-exports';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; 
 import "../assets/styles/AddItem.css";
 import SendNotification from "../Services/notification/Notification";
 import { DefaultDeviceLogo } from "../assets/base64/base64imgs";
@@ -37,7 +37,6 @@ function AddItem() {
 
     const AddItem = (e) => { // AddItem function is called when the form is submitted
         e.preventDefault();
-        console.log(items)
         let param = { RFIDCode2 }
         let err = Validate(items,data,param);
         let rm;
@@ -251,7 +250,7 @@ function AddItem() {
                             <div className="form-group row my-2">
                                 <label className="col-sm-2 col-form-label" for="RFIDCode" >RFID Code</label>
                                 <div className="col-sm-10">
-                                    <input type="text" className="form-control" id="RFIDCode" name="rfidcode"
+                                    <input type="text" className="form-control" name="rfidcode"
                                     value={data.rfidcode} onChange={ e => ChangeData(e)}/>
                                 </div>
                             </div>
@@ -280,49 +279,9 @@ function AddItem() {
                           
                         </div>
                     </div>
-<<<<<<< HEAD
                     <div className="row">
-=======
-                    <div className="addItemColumn" id="rightCol">
-                        {/* Cost */}
-                        <div className="form-input">
-                            <label className="input-label" for="cost">Cost</label>
-                            <input type="text" className="text-input" id="cost" name="cost"
-                            value={data.cost} onChange={ e => ChangeData(e)} />
-                            <div>USD</div>
-                        </div>
-                        {/* Date Acquired */}
-                        <div className="form-input">
-                            <label className="input-label" for="dateAcquried" >Date Acquired</label>
-                            <input type="date" className="text-input" id="dateAcquired" name="acquiredate"
-                            value={data.acquiredate} onChange={ e => ChangeData(e)}/>
-                        </div>
-                        {/* RFID Code */}
-                        <div className="form-input">
-                            <label className="input-label" for="RFIDCode" >RFID Code</label>
-                            <input type="text" className="text-input" id="RFIDCode1" name="rfidcode"
-                            value={data.rfidcode} onChange={ e => ChangeData(e)}/>
-                        </div>
-                        {/* Re-enter RFID Code */}
-                        <div className="form-input">
-                            <label className="input-label" for="RFIDCode2" style={{"fontSize":"10.8pt"}}>Re-enter RFID Code</label>
-                            <input type="text" className="text-input" id="RFIDCode2" 
-                            value={RFIDCode2} onChange={(e) => {setRFIDCode2(e.target.value)}}/>
-                        </div>
-                        {/* Image */}
-                        <div className="form-input">
-                            <label className="input-label" for="photo" >Photo</label>
-                            <input type="file" className="text-input" id="photo" name="image"
-                            onChange={(e) => { encodeImage(e)}} />
-                        </div>
-                        <img src={data.image} width="150" height="150" alt="" />
-                        {/* <div className="form-input">
-                            <label className="input-label" for="photo" >Photo</label>
-                            <input type="text" className="nameInput" id="name"  />
-                        </div> */}
->>>>>>> a381fdbcbade7335416fa3fb7d3e7ef3039b6e54
-                        <span id="lastCheck" className="errormessage">{errorMessage}</span>
                         <div id="lastCheck" className="add-item-action-btn">
+                            <span id="lastCheck" className="errormessage">{errorMessage}</span>
                             <button className="button" type ="button" onClick={CancelEdit} >Cancel</button>
                             <button className="button" type ="submit" >Save item</button>
                         </div>
