@@ -8,7 +8,7 @@ const ContentHeader  = ({title}) => {
         <div className="CreateReservationHeader" id="CreateReservationHeader">
         <div className="create-reservation-content">
             <div>
-                <button onClick={navigate(-1)} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
+                <button onClick={ e => {navigate(-1)}} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
                 <label>{title}</label> 
             </div>
         </div>

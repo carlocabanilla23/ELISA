@@ -1,7 +1,7 @@
 import { API } from "aws-amplify";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import '../assets/styles/ViewItemInfo.css';
 import logo from '../assets/icons/elisa_logo.png';
 
@@ -24,6 +24,7 @@ function ViewItemInfo () {
     const [acquiredDate, setAcquiredDate] = useState('');
     const [expiredDate, setExpiredDate] = useState('');
     const [image,setImage] = useState('');
+    const navigate = useNavigate();
 
     useEffect( () => {
         API.get("inventory","/items/object/"+param).then(res => {
@@ -43,7 +44,9 @@ function ViewItemInfo () {
             setImage(res.image);
         })},[]);
 
-
+        const reserveItem = () => {
+            navigate("/CreateReservation/"+type +"/"+serialNumber);
+        }
     return (
         <>
             <div className="ViewInfo">
@@ -51,6 +54,7 @@ function ViewItemInfo () {
                     <img src={logo} className="logo1" alt="Elisa Logo" />
                     <p className="h1 text-center"> Item Information</p>
                 </div>
+                <button onClick={ e=> { reserveItem()}} className='btn btn-dark'>Reserve Item</button>
                 {/* Image */}
                 <img src={image} width="150" height="150" alt="" />
                 {/* Serial Number */}
