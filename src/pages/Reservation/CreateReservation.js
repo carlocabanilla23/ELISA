@@ -6,6 +6,7 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import SendNotification from "../../Services/notification/Notification";
 import ItemRequestDropDown from "../../component/others/ItemRequestDropDown";
 import ItemRequestAuto from "../../component/others/ItemRequestAuto";
+import ContentHeader from "../../component/others/ContentHeader";
 
 function CreateReservation () {
     const {typeParam,itemNoParam} = useParams();
@@ -14,7 +15,6 @@ function CreateReservation () {
     // const [types,setTypes] = useState([]);
     const [items,setItems] = useState([]);
     const [requestItemMenu,setRequestItemMenu] = useState();
-
 
     const [firstName,setFirstName] = useState("");
     const [lastName,setLastName] = useState("");
@@ -32,6 +32,9 @@ function CreateReservation () {
     const [error, setError] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    const [header,setHeader] = useState('');
+    const access = localStorage.getItem('access');
+
     const date = new Date();
     let day;
     let month = date.getMonth() + 1;
@@ -43,6 +46,13 @@ function CreateReservation () {
     
 
     useEffect( () => {
+        if (access === "Admin") {
+            setHeader(
+            <>
+                <ContentHeader title="Make a Reservation" />
+            </>
+            );
+        }
        
         setReturnDate(year+"-"+monthPlus3.toString()+"-"+day);
         setNote("I would like to borrow an equipment. Thank you");
@@ -184,15 +194,8 @@ function CreateReservation () {
                 The reservation has been created successfully!
             </div>
             
-            
-            <div className="CreateReservationHeader">
-                    <div className="create-reservation-content">
-                        <div>
-                            <button onClick={cancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
-                            <label>Make a Reservation</label> 
-                        </div>
-                    </div>
-            </div>
+            { header }
+          
             <div className="CreateReservation">
                 <div className="container ReservationForm">
                     <div className="row">

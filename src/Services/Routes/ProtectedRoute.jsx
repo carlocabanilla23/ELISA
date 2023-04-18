@@ -16,7 +16,7 @@ function ProtectedRoute({user,children}) {
   console.log(access)
   if (user === null) { return <Navigate to="/" replace/> } 
   else if (user !== null && access === "Student" ) {
-     
+        // document.getElementById("CreateReservationHeader").style.display = "none";
         return(
             <>  
                     <div id="right-content" style={style}>

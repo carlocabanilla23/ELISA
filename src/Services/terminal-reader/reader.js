@@ -6,7 +6,7 @@ let foundCorrectNumber = false;
 let arr = [];
 
 const start = Date.now();
-while (arr.length !== 10) {
+while (arr.length !== 3) {
   // Get user input
   let code = prompt('Enter RFID Code: ');
   
