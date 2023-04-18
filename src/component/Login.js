@@ -31,7 +31,12 @@ function Login() {
                 } else {
                     StartSession(res);
                     console.log(res); 
-                    navigate('/Home');
+                    if (res.role === "Student") {
+                        navigate('/CreateReservation');
+                    } else {
+                        navigate('/Home');
+                    }
+                  
                 }
                  
             });  

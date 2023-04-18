@@ -1,8 +1,9 @@
 import { API } from 'aws-amplify';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { GetDateToday } from '../../Services/etc/GetDateToday';
 
-const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refreshvalue}) => {
+const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refreshvalue,updateDataStatus}) => {
     const [status,setStatus] = useState('');
     const [location, setLocation] = useState('');
     const [locationType, setLocationType] = useState('');
@@ -11,21 +12,8 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
     const [error, setError] = useState('');
     const [errorMessage, setErrorMessage] = useState('')
     const navigate = useNavigate();
-
-    //Get the current time
-    var date = new Date();
-    var year = date.getFullYear();
-    var month = date.getMonth()+1;
-    var day = date.getDate();
-    var hour = date.getHours();
-    var minutes = date.getMinutes();
-
-    var today = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;
-    if(hour >= 12){
-        today += 'PM';
-    }else{
-        today += 'AM';
-    }
+    
+    var today = GetDateToday();
 
     useEffect(() => {
         setStatus(item.status);
@@ -45,6 +33,17 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
         }
     },[error])
 
+
+    
+    const updateStatus =( )=> {
+
+        if ( status !== item.status) {
+            updateDataStatus(item.serialno,status);
+            setNewStatus() 
+
+        }
+
+    }
     const setNewStatus = () => {
         API.post("items","/items/", {
         body : {
@@ -60,9 +59,11 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
             rfidcode: item.rfidcode,
             lastupdated: today,
             }});
-        setTimeout(() => {
-            window.location.reload(true);
-        },400)
+            
+          
+        // setTimeout(() => {
+        //     window.location.reload(true);
+        // },400)
     }
 
     const setNewLocation = () => {
@@ -211,7 +212,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                             <li className="dropdown-item" onClick={(e)=> setStatus ("In Repair")} > In Repair</li>
                             <li className="dropdown-item" onClick={(e)=> setStatus ("Unavailable")} > Unavailable</li>
                         </ul>
-                        <button  className="btn btn-secondary" type="button" onClick={(e) => status !== item.status ? setNewStatus() : ''}>
+                        <button  className="btn btn-secondary" type="button" onClick={(e) => updateStatus()}>
                         save
                         </button>
                     </div>

@@ -1,12 +1,17 @@
-.navbar{
+#right-content {
     width: 85%;
+    position: fixed;
+        top: 0;
+        left: 15%;
+}
+
+.navbar{
+    width: 100%;
     height: 6vh;
     background: #5E4345;
     box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.25);
     margin: 0 !important;
-    position: fixed;
-        top: 0;
-        left: 15%;
+   
 }
 .header{
     width: 100%;

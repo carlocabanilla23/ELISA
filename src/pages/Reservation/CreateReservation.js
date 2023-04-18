@@ -48,7 +48,7 @@ function CreateReservation () {
         setNote("I would like to borrow an equipment. Thank you");
         
         API.get("reservation","/reservation/count").then( rno => { 
-            setReservationNo(rno)
+            setReservationNo("R"+rno);
             setSummary("Reservation " + rno);
         });
 
@@ -186,7 +186,7 @@ function CreateReservation () {
             
             
             <div className="CreateReservationHeader">
-                    <div className="content">
+                    <div className="create-reservation-content">
                         <div>
                             <button onClick={cancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
                             <label>Make a Reservation</label> 

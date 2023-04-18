@@ -23,9 +23,16 @@ const ItemRequestDropDown = ({setError,setErrorMessage,setReservationCart,reserv
 
     const setModelList = (typeParam) => {
         setType(typeParam);
-        const filterItems = items.filter(item => item.type !== typeParam);
-        const updatedModel =  [...new Set(filterItems.map( item => item.model))];
-        setModels(updatedModel);
+        const filterItems = items.filter(item => item.type === typeParam);
+        let arr = [];
+
+        filterItems.forEach (e => {
+            if (arr.indexOf(e.model) === -1) {
+                arr.push(e.model);
+            }
+        })
+        
+        setModels(arr);
       
     }
 

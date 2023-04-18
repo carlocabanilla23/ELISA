@@ -5,19 +5,41 @@ import '../../assets/styles/Sidebar.css';
 import '../../assets/styles/Header.css';
 
 function ProtectedRoute({user,children}) {
-  
+ const style = {
+        position : "fixed",
+        width : "100%",
+        top : "0",
+        left : "0%"
+ }
   user = localStorage.getItem('user');
-  
-  if (user === null) return <Navigate to="/" replace/>  
-
+  let access = localStorage.getItem("access");
+  console.log(access)
+  if (user === null) { return <Navigate to="/" replace/> } 
+  else if (user !== null && access === "Student" ) {
+     
+        return(
+            <>  
+                    <div id="right-content" style={style}>
+                    <Header />
+                    {children}
+                </div>
+            </>
+            );  
     
-      return  (
-      <>
-          <Sidebar /> 
-          <Header />
-          {children}    
-      </>
-      );
+  }else {
+    return  (
+        <>  
+          <div id="right-content">
+            <Sidebar /> 
+            <Header />
+            {children}
+            </div>
+        </>
+          );
+  }
+    
+  
+    
    
 
 }

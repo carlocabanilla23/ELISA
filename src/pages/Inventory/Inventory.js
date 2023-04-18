@@ -171,6 +171,16 @@ function Inventory () {
         document.getElementById("changeRFIDCode").style.display = "none";
     }
 
+    const updateDataStatus = (serialno,status) => {
+        let tmpItems = items;
+        let idx = items.findIndex((itm => itm.serialno === serialno));
+        // console.log(tmpItems[idx]);
+        tmpItems[idx].status = status;
+        // console.log(items[idx]);
+        setItems(tmpItems);
+
+    }
+
     const changeLocation=  async(item) => {
         let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
         setRefreshValue(Math.random());
@@ -371,6 +381,7 @@ function Inventory () {
 
         {/* OFf canvas */}
         <OffCanvasCard 
+            updateDataStatus ={updateDataStatus}
             item={offCanvasItem}
             qrcode={qrcode}
             barcode={barcode}
