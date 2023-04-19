@@ -54,7 +54,7 @@
         },
         "itemlambda": {
           "deploymentBucketName": "amplify-elisa-dev-180144-deployment",
-          "s3Key": "amplify-builds/itemlambda-2b415a56625863436872-build.zip"
+          "s3Key": "amplify-builds/itemlambda-4e6c704c62386f4d586c-build.zip"
         },
         "item": {}
       },
