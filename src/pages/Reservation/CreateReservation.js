@@ -226,6 +226,11 @@ function CreateReservation () {
 
     const addItem = (itm) => {
         setReservationCart([itm,...reservationCart]);
+
+        const tmpItm = items.filter( i=> i !== itm)
+        const tmpupItm = filteredItems.filter( i => i !== itm);
+        setItems(tmpItm);
+        setFilteredItems(tmpupItm);
     }
 
     const ShowAlert = () => {
