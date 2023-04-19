@@ -155,6 +155,14 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
         setReservationCart([items[idx],...cart]);
         setCart([items[idx],...cart]);
         
+        
+        let tmpitms = items.filter( i => i!== items[idx]);
+        let tmpnames = names.filter( n => n !== items[idx].name );
+
+        setNames(tmpnames);
+        setItems(tmpitms);
+        setName("Name");
+        
        
 
     }
