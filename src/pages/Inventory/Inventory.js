@@ -212,6 +212,8 @@ function Inventory () {
             const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
                                                             items.name.toLowerCase().includes(e) || 
                                                             items.model.toLowerCase().includes(e) || 
+                                                            items.roomno.toLowerCase().includes(e) || 
+                                                            items.status.toLowerCase().includes(e) || 
                                                             items.type.includes(e));
             if(searcedhItems.length < unfilteredItems.length){
                 paginate(1);
