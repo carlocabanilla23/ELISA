@@ -23,7 +23,10 @@ const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,
         title === 'status' ? setStatus(!status) : setStatus(true);
     }
 
+    
+    console.log( items)
     return (
+        
         <>
             <div className="UserRowTitle">
                 <div className="container-fluid">

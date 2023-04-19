@@ -495,14 +495,14 @@ function Reservation () {
                 </div>
 
                 <div className="ItemList">
-                    <ReservationItemList items={currentList} addItem={addItem} status={status} searchItem={searchItem}/>
+                    {/* <ReservationItemList items={currentList} addItem={addItem} status={status} searchItem={searchItem}/> */}
                     <div className="Reservation-Pagination">
-                    <Pagination
+                    {/* <Pagination
                         PerPage={itemsPerPage} 
                         total={items.length} 
                         paginate={paginate}
                         currentPageLocation = {currentPage}
-                        /> 
+                        />  */}
                     </div>
                 
                 </div>
