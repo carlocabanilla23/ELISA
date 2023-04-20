@@ -129,6 +129,13 @@ function Inventory () {
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
         document.getElementById("changeRFIDCode").style.display = "none";
+
+        if (item.status === "Available") {
+            document.getElementById("item-info-reserve-itm-btn").style.display = "block";
+        } else {
+            document.getElementById("item-info-reserve-itm-btn").style.display = "none";
+
+        }
     }
 
     const CreateQRCode = (serialno) => {

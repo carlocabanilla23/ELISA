@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GetDateToday } from '../../Services/etc/GetDateToday';
 
-const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refreshvalue,updateDataStatus}) => {
+const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refreshvalue,updateDataStatus,itemStatus}) => {
     const [status,setStatus] = useState('');
     const [location, setLocation] = useState('');
     const [locationType, setLocationType] = useState('');
@@ -11,11 +11,12 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
     const [RFIDCode2, setRFIDCode2] = useState('');
     const [error, setError] = useState('');
     const [errorMessage, setErrorMessage] = useState('')
+    const [reservebtn,setReservebtn] = useState();
     const navigate = useNavigate();
     
     var today = GetDateToday();
 
-    useEffect(() => {
+    useEffect(() => {      
         setStatus(item.status);
         setLocation(item.roomno);
         setLocationType(item.location);
@@ -33,7 +34,12 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
         }
     },[error])
 
+    useEffect ( ()=> {
+        if (itemStatus === "Available") {
+            setReservebtn();
+        }
 
+    },[])
     
     const updateStatus =( )=> {
 
@@ -122,7 +128,12 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
     }
 
     const reserveItem = () => {
-        navigate("/CreateReservation/"+item.type +"/"+item.serialno);
+        if ( item.status === "Available") {
+            navigate("/CreateReservation/"+item.type +"/"+item.serialno);
+
+        } else {
+            alert("The item is not Available !");
+        }
     }
 
     return (
@@ -187,9 +198,10 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                         <label  className = "Attribute col-sm-4">Cost:</label>
                         <div className = "Information col-sm-8">{item.cost}</div>
                     </div>
-                
 
-                    <button onClick={ e=> { reserveItem()}} className='btn btn-dark'>Reserve Item</button>
+                    <button id="item-info-reserve-itm-btn" onClick={ e=> { reserveItem()}} 
+                        className='btn btn-dark'>Reserve Item
+                    </button>
                 </div>
                 {/* Print QRCode */}
                 <div id="qrcode">
