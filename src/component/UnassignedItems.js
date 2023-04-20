@@ -6,6 +6,9 @@ import UnassignedItemList from './List/UnassignedItemList';
 import OffCanvasCard from "./card/OffCanvasCard";
 import { Generate } from "../Services/code-generator/qrcode";
 import { GenerateBarcode } from "../Services/code-generator/barcode";
+import Papa from 'papaparse';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 function UnassignedItems () {
     const [items, setItems] = useState([]);
@@ -27,6 +30,7 @@ function UnassignedItems () {
             body: { roomno : "Unassigned" }
         }).then ( res => {
             setItems(res);
+            setUnfilteredItems(res);
         })
         API.get("items","/items").then(itemRes => {
             sortLocationList(itemRes);
@@ -36,7 +40,10 @@ function UnassignedItems () {
     const updateList = (serialno) => {
         API.del("inventory","/items/object/"+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
-     
+        const curPage = currentPage;
+        if(updatedList.length % itemsPerPage === 0 && curPage > 1){
+            paginate(curPage - 1);
+        }
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     }
@@ -88,6 +95,7 @@ function UnassignedItems () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
     }
 
     const CreateQRCode = (serialno) => {
@@ -97,6 +105,7 @@ function UnassignedItems () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
       
         console.log(serialno);
         let svg = Generate(serialno);
@@ -109,6 +118,7 @@ function UnassignedItems () {
         document.getElementById("barcode").style.display = "block";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
 
         console.log(serialno);
         let svg = GenerateBarcode(serialno);
@@ -125,6 +135,7 @@ function UnassignedItems () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "block";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
     }
 
     const changeLocation=  async(item) => {
@@ -137,6 +148,20 @@ function UnassignedItems () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "block";
+        document.getElementById("changeRFIDCode").style.display = "none";
+    }
+
+    const changeRFIDCode = async(item) => {
+        let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
+        setRefreshValue(Math.random());
+        setActionName("Change RFID Code");
+        setOffCanvasItem(data);
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "block";
     }
 
     const searchItem = (e) => {
@@ -147,12 +172,58 @@ function UnassignedItems () {
                     items.name.toLowerCase().includes(e) || 
                     items.model.toLowerCase().includes(e) || 
                     items.type.includes(e));
-                    
+            if(searcedhItems.length < unfilteredItems.length){
+                paginate(1);
+            }
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);
-        }
-       
+        }  
+    }
+
+    const CSV = () => {      
+        // the data that you want to write to the CSV file
+        const data = [];
+        items.forEach(items => {
+            // console.log(items.serialno);
+            data.push([items.serialno, items.name, items.type,items.model]);
+        });
+  
+
+        // generate the CSV file
+        const csv = Papa.unparse({
+            fields: ['SERIALNO', 'NAME', 'TYPE', 'MODEL'],
+            data: data
+        });
+
+        // the CSV file
+        const a = document.createElement('a');
+        a.href = 'data:attachment/csv,' + csv;
+        a.target = '_blank';
+        a.download = 'UnassignedItemList.csv';
+        document.body.appendChild(a);
+        a.click();
+    }
+    const PDF = () => {     // Exporting to pdf 
+        const doc = new jsPDF('p', 'mm', 'a4');
+        
+        const data = [['SERIALNO', 'NAME', 'TYPE', 'MODEL']];
+        items.forEach(items => {
+            data.push([items.serialno, items.name, items.type,items.model]);
+        });
+
+        doc.autoTable({
+         //   head: [['firstName', 'lastName', 'schoolID', 'role']],
+            body: data
+        });
+        
+        const pdf = doc.output();
+        const link = document.createElement('a');
+        link.href = 'data:application/pdf;base64,' + btoa(pdf);
+        link.download = 'UnassignedItemList.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
     
     const idxLastItem = currentPage * itemsPerPage;
@@ -173,6 +244,41 @@ function UnassignedItems () {
             obj.style.color = "#ffffff";
         }
     };
+
+    const ResortedList= (title, filtered) => {
+        let curList = items;
+        curList.sort((a,b) => {
+            var tA = Number.parseInt(a.title);
+            var tB = Number.parseInt(b.title);
+            if(isNaN(tA) && isNaN(tB)){
+                if(title === 'serialno'){
+                    return a.serialno.localeCompare(b.serialno);
+                }else if(title === 'name'){
+                    return a.name.localeCompare(b.name);
+                }else if(title === 'type'){
+                    return a.type.localeCompare(b.type);
+                }else if(title === 'model'){
+                    return a.model.localeCompare(b.model);
+                }else if(title === 'status'){
+                    return a.status.localeCompare(b.status);
+                }
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
+        if(filtered){
+            setItems([...curList]);
+            setUnfilteredItems([...curList]);
+        }else{
+            curList = curList.reverse();
+            setItems([...curList]);
+            setUnfilteredItems([...curList]);
+        }
+    }
 
     return (
         <div className="Users">
@@ -195,8 +301,8 @@ function UnassignedItems () {
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                                <li>CSV</li>
-                                <li>PDF</li>
+                                <li><button className="dropdown-item" onClick={CSV} >CSV</button></li>
+                                <li><button className="dropdown-item" onClick={PDF} >PDF</button></li>
                             </ul>
                         </div>
                     </div>
@@ -212,6 +318,8 @@ function UnassignedItems () {
                         CreateBarcode={CreateBarcode}
                         changeStatus={changeStatus}
                         changeLocation={changeLocation}
+                        changeRFIDCode={changeRFIDCode}
+                        ResortedList={ResortedList}
                         />
             <Pagination
                     PerPage={itemsPerPage} 

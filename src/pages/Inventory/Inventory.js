@@ -26,6 +26,9 @@ function Inventory () {
     const [actionName, setActionName] = useState('');
     const [refreshvalue, setRefreshValue] = useState('');
 
+    const loggedUser = decodeURIComponent(escape(window.atob(localStorage.getItem('email'))));
+    const access = localStorage.getItem('access');
+
     const navigate = useNavigate();
 
     const AddItem = e => {
@@ -48,8 +51,24 @@ function Inventory () {
                     return Math.sign(tA - tB);
                 }
             });
-            setItems([...items,...itemRes]);
-            setUnfilteredItems([...items,...itemRes]);
+/**Change later to item status */
+            if ( access !== "Admin") {
+                document.getElementById('AddUser').style.display = "none";
+                const nonAdminList = itemRes.filter(item => item.location === "Room");
+
+                let e = document.getElementsByClassName('actions');
+
+                for(var i = 0; i < e.length; i++) {
+                  e[i].style.display = "none";
+                }
+
+                setItems([...items,...nonAdminList]);
+                setUnfilteredItems([...items,...nonAdminList]);
+            } else {
+                setItems([...items,...itemRes]);
+                setUnfilteredItems([...items,...itemRes]);
+            }
+            
 
             //Sort room list for change Location function
             const CurrentRoomList = itemRes.filter(item => item.location === "Room");
@@ -92,6 +111,10 @@ function Inventory () {
     const updateList = (serialno,type) => {
         API.del("items","/items/object/"+ type +'/'+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
+        const curPage = currentPage;
+        if(updatedList.length % itemsPerPage === 0 && curPage > 1){
+            paginate(curPage - 1);
+        }
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     } 
@@ -105,6 +128,7 @@ function Inventory () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
     }
 
     const CreateQRCode = (serialno) => {
@@ -114,6 +138,7 @@ function Inventory () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
       
         console.log(serialno);
         let svg = Generate(serialno);
@@ -126,6 +151,7 @@ function Inventory () {
         document.getElementById("barcode").style.display = "block";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
     
         console.log(serialno);
         let svg = GenerateBarcode(serialno);
@@ -142,6 +168,17 @@ function Inventory () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "block";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
+    }
+
+    const updateDataStatus = (serialno,status) => {
+        let tmpItems = items;
+        let idx = items.findIndex((itm => itm.serialno === serialno));
+        // console.log(tmpItems[idx]);
+        tmpItems[idx].status = status;
+        // console.log(items[idx]);
+        setItems(tmpItems);
+
     }
 
     const changeLocation=  async(item) => {
@@ -154,6 +191,20 @@ function Inventory () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "block";
+        document.getElementById("changeRFIDCode").style.display = "none";
+    }
+
+    const changeRFIDCode = async(item) => {
+        let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
+        setRefreshValue(Math.random());
+        setActionName("Change RFID Code");
+        setOffCanvasItem(data);
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "block";
     }
 
     const searchItem = (e) => {
@@ -161,38 +212,41 @@ function Inventory () {
             const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
                                                             items.name.toLowerCase().includes(e) || 
                                                             items.model.toLowerCase().includes(e) || 
+                                                            items.roomno.toLowerCase().includes(e) || 
+                                                            items.status.toLowerCase().includes(e) || 
                                                             items.type.includes(e));
+            if(searcedhItems.length < unfilteredItems.length){
+                paginate(1);
+            }
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);
-        }
-       
-    }  
+        }  
+    }
+
     const CSV = () => {      
         // the data that you want to write to the CSV file
         const data = [];
         items.forEach(items => {
+            // console.log(items.serialno);
             data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
         });
   
 
-    // generate the CSV file
-    const csv = Papa.unparse({
-        fields: ['SERIALNO', 'NAME', 'STATUS', 'ROOM NO'],
-        data: data
-    });
+        // generate the CSV file
+        const csv = Papa.unparse({
+            fields: ['SERIALNO', 'NAME', 'STATUS', 'ROOM NO'],
+            data: data
+        });
 
-    // the CSV file
-                const a = document.createElement('a');
-                a.href = 'data:attachment/csv,' + csv;
-                a.target = '_blank';
-                a.download = 'output.csv';
-                document.body.appendChild(a);
-                a.click();
+        // the CSV file
+        const a = document.createElement('a');
+        a.href = 'data:attachment/csv,' + csv;
+        a.target = '_blank';
+        a.download = 'output.csv';
+        document.body.appendChild(a);
+        a.click();
     }
-
- 
-
     const PDF = () => {     // Exporting to pdf 
         const doc = new jsPDF('p', 'mm', 'a4');
         
@@ -234,9 +288,47 @@ function Inventory () {
         }
     };
 
+    const ResortedList = (title, filtered) => {
+        let curList = items;
+        curList.sort((a,b) => {
+            var tA = Number.parseInt(a.title);
+            var tB = Number.parseInt(b.title);
+            if(isNaN(tA) && isNaN(tB)){
+                if(title === 'serialno'){
+                    return a.serialno.localeCompare(b.serialno);
+                }else if(title === 'name'){
+                    return a.name.localeCompare(b.name);
+                }else if(title === 'type'){
+                    return a.type.localeCompare(b.type);
+                }else if(title === 'model'){
+                    return a.model.localeCompare(b.model);
+                }else if(title === 'location'){
+                    return a.location.localeCompare(b.location);
+                }else if(title === 'status'){
+                    return a.location.localeCompare(b.status);
+                }else{
+                    return a.roomno.localeCompare(b.roomno);
+                }
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
+        if(filtered){
+            setItems([...curList]);
+            setUnfilteredItems([...curList]);
+        }else{
+            curList = curList.reverse();
+            setItems([...curList]);
+            setUnfilteredItems([...curList]);
+        }
+    }
+
     return (
         <div className="Users">
-        
         
         <div className="UserHeader">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
@@ -276,7 +368,9 @@ function Inventory () {
                       CreateQRCode={CreateQRCode} 
                       CreateBarcode={CreateBarcode}
                       changeStatus={changeStatus}
-                      changeLocation={changeLocation} />
+                      changeLocation={changeLocation}
+                      changeRFIDCode={changeRFIDCode}
+                      ResortedList={ResortedList} />
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 
@@ -289,6 +383,7 @@ function Inventory () {
 
         {/* OFf canvas */}
         <OffCanvasCard 
+            updateDataStatus ={updateDataStatus}
             item={offCanvasItem}
             qrcode={qrcode}
             barcode={barcode}

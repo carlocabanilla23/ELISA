@@ -91,6 +91,28 @@ app.get(path, function(req, res) {
   });
 });
 
+/********************************
+ * HTTP Get method for list count *
+ ********************************/
+
+app.get(path + "/count", function(req, res) {
+  const condition = {}
+  
+  let queryParams = {
+    TableName: tableName,
+    KeyConditions: condition
+  }
+
+  dynamodb.scan(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      res.json(data.Items.length);
+    }
+  });
+});
+
 
 /********************************
  * HTTP Get method for list objects with partition key name *

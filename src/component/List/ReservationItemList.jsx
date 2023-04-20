@@ -1,7 +1,7 @@
 import React from "react";
 import '../../assets/styles/List.css';
 
-const ReservationItemList = ({items,addItem,status,searchItem}) => {
+const ReservationItemList = ({items,addItem,searchItem}) => {
     return (
         <div className="ReservationItemList">
             <div className="container-fluid">
@@ -33,10 +33,10 @@ const ReservationItemList = ({items,addItem,status,searchItem}) => {
                                 <div className="col action">
                                     <button className="btn btn-dark" onClick={ () => addItem(item)}>Assign</button>
                                 </div>
-                                <div className="col"> {item.serialno} </div>
                                 <div className="col"> {item.name} </div>
                                 <div className="col"> {item.type} </div>
                                 <div className="col"> {item.model} </div>
+                                <div className="col"> {item.manufacturer} </div>
                                 {/* <div className="col"> {item.status} </div> */}
                                 
                             </div>

@@ -6,19 +6,32 @@ import iInventory from "../assets/icons/inventory.png";
 import iReservations from "../assets/icons/reservation.png";
 import iUsers from '../assets/icons/users.png';
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // import { API } from 'aws-amplify';
 
 function Sidebar() {
   const access = localStorage.getItem('access');
+  const [adminInventoryDropdown,setAdminInventoryDropdown] = useState();
 
   
   useEffect( () => {
-    if (access === "Student") {
+    if (access !== "Admin") {
       
       let hide = document.getElementById("users");
       hide.style.display = "none";
+    }else{
+      setAdminInventoryDropdown(
+        <div className="inventory-dropdown">
+        <ul>
+          <li><Link to="/Inventory">All Items</Link></li>
+          <li><Link to="/Location">Location</Link></li>
+          <li><Link to="/AssignedItems">Assigned Items</Link></li>
+          <li><Link to="/UnassignedItems">Unassigned Items</Link></li>
+        </ul>
+      </div>
+      );
     }
+
   },[]);
 
   // const Transfer = (e) => {
@@ -53,14 +66,7 @@ function Sidebar() {
               <Link to="/Inventory">Inventory</Link>
             </li>
             
-            <div className="inventory-dropdown">
-              <ul>
-                <li><Link to="/Inventory">All Items</Link></li>
-                <li><Link to="/Location">Location</Link></li>
-                <li><Link to="/AssignedItems">Assigned Items</Link></li>
-                <li><Link to="/UnassignedItems">Unassigned Items</Link></li>
-              </ul>
-            </div>
+            {adminInventoryDropdown}
             <li className="menu-list">
             <img src={iReservations} className="icon" alt="reservation icon" />
               <Link to="/Reservations">Reservations</Link>

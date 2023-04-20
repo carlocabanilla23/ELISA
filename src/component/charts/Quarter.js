@@ -46,6 +46,7 @@ function QuarterReport () {
 
 return ( 
       <>
+      <div className="top"> <p className="chartLabel">Most Requested Items</p>  
       {/* {console.log(label)} */}
         <ResponsiveContainer width="95%" height="80%">
               <BarChart width={550} height={225} data={data}>
@@ -62,6 +63,7 @@ return (
         
             </BarChart>
         </ResponsiveContainer>
+        </div>
       </>
     
 );

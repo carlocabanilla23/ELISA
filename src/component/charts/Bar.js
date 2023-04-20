@@ -27,6 +27,7 @@ function BarReport () {
   },[]);
           return (
             <>
+            <div className="bottom">  <p className="chartLabel">Reservation Summary</p>   
             <ResponsiveContainer width="95%" height="80%">
                 <BarChart data={data} >
                     <CartesianGrid strokeDasharray="3 3" />
@@ -38,7 +39,7 @@ function BarReport () {
                     <Bar dataKey="Assign" fill="#82ca9d" />
                 </BarChart>   
             </ResponsiveContainer>
-             
+             </div>
             </>
           );
       

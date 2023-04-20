@@ -79,8 +79,8 @@ app.get(path, function(req, res) {
   let queryParams = {
     TableName: tableName,
     KeyConditions: condition,
-    ProjectionExpression: "#sn,#n,#t,#m,#l,#rn",
-    ExpressionAttributeNames: { '#n': 'name' ,'#t': 'type', '#l': 'location', '#sn': 'serialno', '#rn': 'roomno','#m': 'model'}
+    ProjectionExpression: "#sn,#n,#t,#m,#l,#rn,#s",
+    ExpressionAttributeNames: { '#n': 'name' ,'#t': 'type', '#l': 'location', '#sn': 'serialno', '#rn': 'roomno','#m': 'model', '#s' : 'status'}
   }
 
   dynamodb.scan(queryParams, (err, data) => {
@@ -110,6 +110,39 @@ app.get(path+"/allroom", function(req, res) {
     KeyConditions: condition,
     ProjectionExpression: "#rn,#l",
     ExpressionAttributeNames: { '#rn': 'roomno','#l': 'location'}
+  }
+
+  dynamodb.scan(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
+
+/********************************
+ * HTTP Get method for create reservation to get the type,model,manufacturer,roomno,name,serialno ***
+ ********************************/
+
+app.get(path+"/createreservation", function(req, res) {
+  const condition = {}
+  condition[partitionKeyName] = {
+    ComparisonOperator: 'EQ'
+  }
+
+  let queryParams = {
+    TableName: tableName,
+    KeyConditions: condition,
+    ProjectionExpression: "#rn,#m,#mf,#t,#n",
+    ExpressionAttributeNames: { '#rn': 'roomno',
+                                '#m': 'model',
+                                '#mf': 'manufacturer',
+                                '#t': 'type',
+                                '#n' : 'name'
+                              }
   }
 
   dynamodb.scan(queryParams, (err, data) => {

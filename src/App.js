@@ -21,7 +21,7 @@ import AddItemToLocation from './component/AddItemToLocation';
 import StorageLocationItem from './component/StorageLocationItem';
 import ItemInformation from './component/ItemInformation';
 import Setting from './component/Setting';
-import CreateReservation from './component/CreateReservation';
+import CreateReservation from './pages/Reservation/CreateReservation';
 import Signup from './component/Signup';
 import AssignedItems from './component/AssignedItems';
 import UnassignedItems from './component/UnassignedItems';
@@ -31,6 +31,9 @@ import Notification from './pages/Notification';
 import Verify from './component/Verify';
 import OrderHistory from './pages/OrderHistory';
 import Reader from './pages/RFID/Reader';
+import ForgotPassword from './component/ForgotPassword';
+import ResetPassword from './component/ResetPassword';
+import SetNewPassword from './component/SetNewPassword';
 
 // const Login = lazy(() => import( './component/Login'));
 // const Home = lazy(() => import( './component/Home'));
@@ -82,11 +85,15 @@ function App() {
       <Route path='/' element= {<Login /> } />
       <Route path='/Verify/:param' element= {<Verify /> } />
       <Route path='/Signup' element= {<Signup /> } />
+      <Route path='/ForgotPassword' element= {<ForgotPassword /> } />
+      <Route path='/ResetPassword/:param' element= {<ResetPassword /> } />
+      <Route path='/SetNewPassword/:param' element= {<SetNewPassword /> } />
 
+      {/* Route below for testing */}
+      {/* <Route path='/ResetPassword' element= {<ResetPassword /> } /> */}
+      <Route path='/SetNewPassword/' element= {<SetNewPassword /> } />
 
       <Route path='/Reader'element= { < Reader /> } />
-   
-
 
       <Route
         path='/Home'
@@ -104,7 +111,7 @@ function App() {
           </ProtectedRoute>
       } />
 
-      <Route path='/RoomLocation/RoomLocationItem/:param'
+      <Route path='/Location/:param'
         element= {
           <ProtectedRoute user={user}>
               <RoomLocationItem />
@@ -150,13 +157,25 @@ function App() {
               <Reservations /> 
           </ProtectedRoute> } />
 
-      <Route path='/Reservation/:param/:param1/:param2' 
+      <Route path='/Reservation/:emailParam/:reservationnoParam/' 
+        element= {
+          <ProtectedRoute user={user}>
+              <Reservation /> 
+          </ProtectedRoute> } />
+
+      <Route path='/Reservation/:emailParam/:reservationnoParam/:statusParam' 
         element= {
           <ProtectedRoute user={user}>
               <Reservation /> 
           </ProtectedRoute> } />
 
       <Route path='/CreateReservation'
+        element= {
+          <ProtectedRoute user={user}>
+              <CreateReservation /> 
+          </ProtectedRoute> } />
+
+      <Route path='/CreateReservation/:typeParam/:itemNoParam'
         element= {
           <ProtectedRoute user={user}>
               <CreateReservation /> 

@@ -4,6 +4,9 @@ import { API } from 'aws-amplify';
 import "../assets/styles/Users.css";
 import RoomList from "./List/RoomList";
 import Pagination from "./Pagination";
+import Papa from 'papaparse';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 function Location () {
     // CreateTestEquipment(20);
@@ -12,9 +15,12 @@ function Location () {
     const [currentPage,setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
 
+    const [itemAmount, setItemAmount] = useState([]);
+    const [getAmount, setGetAmount] = useState('');
+
     useEffect( () => {
-        API.get('items','/items/allroom').then(res => sortItems(res))
-       
+        setItemAmount([]);
+        API.get('items','/items/allroom').then(res => sortItems(res));
     },[]);
 
     const updateList = (serialno) => {
@@ -23,6 +29,22 @@ function Location () {
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     }
+
+    useEffect(() => {
+        if(itemAmount.length < 1){
+            items.forEach((item) => {
+                API.post('items','/items/roomno/',{
+                    body: {
+                        roomno : item.roomno
+                    }
+                    }).then ( res => {
+                        let curAmount = itemAmount;
+                        curAmount.push(item.roomno + '--' + res.length);
+                        setItemAmount([...curAmount]);
+                })
+            })
+        }
+    },[items])
 
     const sortItems = (items) => {
         const updatedList = items.filter(item => item.location === "Storage" || item.location === "Room");
@@ -46,14 +68,58 @@ function Location () {
     const searchItem = (e) => {
         if (e.length > 0) {
             const searcedhItems = 
-                    unfilteredItems.filter((items) =>   items.serialno.toLowerCase().includes(e) || 
-                                                        items.name.toLowerCase().includes(e) || 
-                                                        items.model.toLowerCase().includes(e) || 
-                                                        items.type.includes(e));
+                    unfilteredItems.filter((items) =>   items.roomno.toLowerCase().includes(e) || 
+                                                        items.location.toLowerCase().includes(e));
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);
         }
+    }
+
+    const CSV = () => {
+        // the data that you want to write to the CSV file
+        const data = [];
+        items.forEach(items => {
+            let roomItemAmount = itemAmount.filter(item => item.split('--').at(0) === items.roomno);
+            data.push([items.roomno, items.location, "Otto Miller", roomItemAmount[0].split('--').at(1)]);
+        });
+  
+
+        // generate the CSV file
+        const csv = Papa.unparse({
+            fields: ['ROOM NO', 'LOCATION', 'BUILDING', 'NUMBER OF ITEMS'],
+            data: data
+        });
+
+        // the CSV file
+        const a = document.createElement('a');
+        a.href = 'data:attachment/csv,' + csv;
+        a.target = '_blank';
+        a.download = 'AllLocation.csv';
+        document.body.appendChild(a);
+        a.click();
+    }
+    const PDF = () => {     // Exporting to pdf 
+        const doc = new jsPDF('p', 'mm', 'a4');
+
+        const data = [['ROOM NO', 'LOCATION', 'BUILDING', 'NUMBER OF ITEMS']];
+        items.forEach(items => {
+            let roomItemAmount = itemAmount.filter(item => item.split('--').at(0) === items.roomno);
+            data.push([items.roomno, items.location, "Otto Miller", roomItemAmount[0].split('--').at(1)]);
+        });
+
+        doc.autoTable({
+         //   head: [['firstName', 'lastName', 'schoolID', 'role']],
+            body: data
+        });
+        
+        const pdf = doc.output();
+        const link = document.createElement('a');
+        link.href = 'data:application/pdf;base64,' + btoa(pdf);
+        link.download = 'AllLocation.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
     
     const idxLastItem = currentPage * itemsPerPage;
@@ -75,6 +141,56 @@ function Location () {
         }
     };
 
+    const sortAmountItem = (filtered) => {
+        let curList = items;
+        curList.sort((a,b) => {
+            let roomItem1 = itemAmount.filter(item => item.split('--').at(0) === a.roomno);
+            let roomItem2 = itemAmount.filter(item => item.split('--').at(0) === b.roomno);
+            if(roomItem1[0].split('--').at(1) > roomItem2[0].split('--').at(1)){
+                return 1;
+            }else{
+                return -1;
+            }
+        })
+        if(filtered){
+            setItems([...curList]);
+            setUnfilteredItems([...curList]);
+        }else{
+            curList = curList.reverse();
+            setItems([...curList]);
+            setUnfilteredItems([...curList]);
+        }
+    }
+
+    const ResortedList = (title, filtered) => {
+        let curList = items;
+        curList.sort((a,b) => {
+            var tA = Number.parseInt(a.title);
+            var tB = Number.parseInt(b.title);
+            if(isNaN(tA) && isNaN(tB)){
+                if(title === 'location'){
+                    return a.location.localeCompare(b.location);
+                }else if(title === 'roomno'){
+                    return a.roomno.localeCompare(b.roomno);
+                }
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
+        if(filtered){
+            setItems([...curList]);
+            setUnfilteredItems([...curList]);
+        }else{
+            curList = curList.reverse();
+            setItems([...curList]);
+            setUnfilteredItems([...curList]);
+        }
+    }
+
     return (
         <div className="Users">
         <div className="UserHeader">
@@ -92,8 +208,8 @@ function Location () {
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                                <li><button type="button" className="dropdown-item">CSV</button></li>
-                                <li><button type="button" className="dropdown-item">PDF</button></li>
+                                <li><button className="dropdown-item" onClick={CSV} >CSV</button></li>
+                                <li><button className="dropdown-item" onClick={PDF} >PDF</button></li>
                             </ul>
                         </div>
                     </div>
@@ -102,7 +218,7 @@ function Location () {
         </div>
 
         <div className="UserPane">
-            <RoomList items={currentList} updateList={updateList}/>
+            <RoomList items={currentList} updateList={updateList} ResortedList={ResortedList} sortAmountItem={sortAmountItem} />
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 

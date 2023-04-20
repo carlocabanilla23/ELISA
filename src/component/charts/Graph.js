@@ -3,9 +3,11 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import '../../assets/styles/graph.css';
 import { useEffect } from 'react';
 import { API } from 'aws-amplify';
+import { useNavigate } from 'react-router-dom';
 // ELISA\src\component\styles\graph.css
 function GraphReport () {
   const [data,setData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect (()=>{
     let data = [];
@@ -39,18 +41,30 @@ function GraphReport () {
   },[]);
 
 
+    const goToR = (locationno) => {
+      // console.log(locationno.name);
+      if (locationno === "USER") {
+        navigate('/AssignedItems');
+      } else if (locationno === "N/A" || locationno === "NA" || locationno === "Unassigned") {
+        navigate('/UnassignedItems');
+      } else{
+        navigate('/Location/' + locationno.name );
+      }
     
+    }
     return (
       <>
+      <div className="top"> <p className="chartLabel">Inventory Summary</p>  
         <ResponsiveContainer width="95%" height="80%">
             <BarChart width={550} height={225} data={data}>
               <CartesianGrid  />
                 <XAxis dataKey="name" />
                 <YAxis />
-                <Tooltip />
-                <Bar dataKey="value" fill="#910D09" />
+                  <Tooltip  />                
+                <Bar dataKey="value" fill="#910D09" onClick={ (data) => goToR(data)}/>
             </BarChart>
         </ResponsiveContainer>
+        </div>
         </>
       
     );

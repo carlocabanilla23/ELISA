@@ -5,6 +5,9 @@ import { useNavigate, Link,useParams } from "react-router-dom";
 import Pagination from "./Pagination";
 import ItemList from "./List/ItemList";
 import OffCanvasCard from "./card/OffCanvasCard";
+import Papa from 'papaparse';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import { GenerateRoomQRCode } from "../Services/code-generator/RoomQRCode";
 import { Generate } from "../Services/code-generator/qrcode";
 import { GenerateBarcode } from "../Services/code-generator/barcode";
@@ -51,6 +54,10 @@ function StorageLocationItem () {
     const updateList = (serialno) => {
         API.del("inventory","/items/object/"+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
+        const curPage = currentPage;
+        if(updatedList.length % itemsPerPage === 0 && curPage > 1){
+            paginate(curPage - 1);
+        }
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     }
@@ -97,11 +104,59 @@ function StorageLocationItem () {
                                                                     items.name.toLowerCase().includes(e) || 
                                                                     items.model.toLowerCase().includes(e) || 
                                                                     items.type.includes(e));
+            if(searcedhItems.length < unfilteredItems.length){
+                paginate(1);
+            }
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);
         }
-       
+    }
+
+    const CSV = () => {
+        const roomType = items[0].location; 
+        // the data that you want to write to the CSV file
+        const data = [];
+        items.forEach(items => {
+            data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
+        });
+  
+
+        // generate the CSV file
+        const csv = Papa.unparse({
+            fields: ['SERIALNO', 'NAME', 'STATUS', 'ROOM NO'],
+            data: data
+        });
+
+        // the CSV file
+        const a = document.createElement('a');
+        a.href = 'data:attachment/csv,' + csv;
+        a.target = '_blank';
+        a.download = roomType + ' ' + param + '.csv';
+        document.body.appendChild(a);
+        a.click();
+    }
+    const PDF = () => {     // Exporting to pdf 
+        const doc = new jsPDF('p', 'mm', 'a4');
+        const roomType = items[0].location;
+        
+        const data = [['SERIALNO', 'NAME', 'STATUS', 'ROOM NO']];
+        items.forEach(items => {
+            data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
+        });
+
+        doc.autoTable({
+         //   head: [['firstName', 'lastName', 'schoolID', 'role']],
+            body: data
+        });
+        
+        const pdf = doc.output();
+        const link = document.createElement('a');
+        link.href = 'data:application/pdf;base64,' + btoa(pdf);
+        link.download = roomType + ' ' + param + '.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
     
     const idxLastItem = currentPage * itemsPerPage;
@@ -131,6 +186,7 @@ function StorageLocationItem () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
     }
 
     const CreateQRCode = (serialno) => {
@@ -140,6 +196,7 @@ function StorageLocationItem () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
       
         console.log(serialno);
         let svg = Generate(serialno);
@@ -152,6 +209,7 @@ function StorageLocationItem () {
         document.getElementById("barcode").style.display = "block";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
     
         console.log(serialno);
         let svg = GenerateBarcode(serialno);
@@ -167,6 +225,7 @@ function StorageLocationItem () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "block";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
     }
 
     const printQRCode = (roomno) => {
@@ -177,6 +236,7 @@ function StorageLocationItem () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "none";
         let svg = GenerateRoomQRCode(roomno);
         setQRCode(svg);
     }
@@ -190,6 +250,57 @@ function StorageLocationItem () {
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "block";
+        document.getElementById("changeRFIDCode").style.display = "none";
+    }
+
+    const changeRFIDCode = async(item) => {
+        let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
+        setRefreshValue(Math.random());
+        setActionName("Change RFID Code");
+        setOffCanvasItem(data);
+        document.getElementById("item-info").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("Offstatus").style.display = "none";
+        document.getElementById("changeLocation").style.display = "none";
+        document.getElementById("changeRFIDCode").style.display = "block";
+    }
+    
+    const ResortedList = (title, filtered) => {
+        let curList = items;
+        curList.sort((a,b) => {
+            var tA = Number.parseInt(a.title);
+            var tB = Number.parseInt(b.title);
+            if(isNaN(tA) && isNaN(tB)){
+                if(title === 'serialno'){
+                    return a.serialno.localeCompare(b.serialno);
+                }else if(title === 'name'){
+                    return a.name.localeCompare(b.name);
+                }else if(title === 'type'){
+                    return a.type.localeCompare(b.type);
+                }else if(title === 'model'){
+                    return a.model.localeCompare(b.model);
+                }else if(title === 'location'){
+                    return a.location.localeCompare(b.location);
+                }else{
+                    return a.roomno.localeCompare(b.roomno);
+                }
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
+        if(filtered){
+            setItems([...curList]);
+            setUnfilteredItems([...curList]);
+        }else{
+            curList = curList.reverse();
+            setItems([...curList]);
+            setUnfilteredItems([...curList]);
+        }
     }
 
     return (
@@ -200,7 +311,7 @@ function StorageLocationItem () {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
                 <div>
-                    <span className="material-symbols-outlined" style={{cursor: "pointer"}} onClick={() => navigate('/Location')}>arrow_back</span>
+                    <span className="material-symbols-outlined" style={{cursor: "pointer"}} onClick={() => navigate(-1)}>arrow_back</span>
                     <Link to="/Location" className="text-dark">
                         <span >Storage Location </span>
                     </Link>
@@ -229,8 +340,8 @@ function StorageLocationItem () {
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                                <li><button type="button" className="dropdown-item">CSV</button></li>
-                                <li><button type="button" className="dropdown-item">PDF</button></li>
+                                <li><button className="dropdown-item" onClick={CSV} >CSV</button></li>
+                                <li><button className="dropdown-item" onClick={PDF} >PDF</button></li>
                             </ul>
                         </div>
                     </div>
@@ -245,7 +356,9 @@ function StorageLocationItem () {
                     CreateQRCode={CreateQRCode}
                     CreateBarcode={CreateBarcode}
                     changeStatus={changeStatus}
-                    changeLocation={changeLocation} />
+                    changeLocation={changeLocation}
+                    changeRFIDCode={changeRFIDCode} 
+                    ResortedList={ResortedList} />
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 

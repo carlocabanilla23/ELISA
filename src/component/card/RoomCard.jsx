@@ -20,12 +20,14 @@ const RoomCard = ( {item} ) => {
         },[]);
 
         const ViewItems = () => {
-            if (item.location === "Storage") {
-                navigate("/RoomLocation/StorageLocationItem/"+item.roomno);
-            } 
-            else if (item.location === "Room") {
-                navigate("/RoomLocation/RoomLocationItem/"+item.roomno);
-            }
+                navigate("/Location/"+item.roomno);
+
+        //     if (item.location === "Storage") {
+        //         navigate("/RoomLocation/StorageLocationItem/"+item.roomno);
+        //     } 
+        //     else if (item.location === "Room") {
+        //         navigate("/RoomLocation/RoomLocationItem/"+item.roomno);
+        //     }
         }
 
         return (
@@ -33,11 +35,11 @@ const RoomCard = ( {item} ) => {
                 <div className="container-fluid">
                         <div className="row">
                                 <div className="col">
-                                        <div className="clickableCol" onClick={ () => ViewItems()}> {item.roomno}</div>
+                                        <div className="clickableCol" id="roomNumber" onClick={ () => ViewItems()}> {item.roomno}</div>
                                 </div>
                                 <div className="col"> {item.location} </div>
-                                <div className="col" > Otto Miller </div>
-                                <div className="col" > {items.length} </div>
+                                <div className="col"> Otto Miller </div>
+                                <div className="col" id="roomItemAmount"> {items.length} </div>
                         </div>
                  </div>
         </div>    

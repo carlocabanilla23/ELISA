@@ -1,31 +1,29 @@
 .CreateReservation {
     background-color: #F0F0EB;
-    width: 85%;
+    width: 100%;
     height: 100vh;
-    position: fixed;
+    /* position: fixed;
         top: 12vh;
-        left: 15%;
+        left: 15%; */
     padding-top: 2em;
+    z-index: -2;
 }
 .CreateReservationHeader {
     background-color: #ffffff;
     height: 6vh;
-    width: 85%;
+    width: 100%;
     color: #7A2036;
-    position: fixed;
+    /* position: fixed;
         top: 6vh;
-        left: 15%;
+        left: 15%; */
     /* margin-left: 15%; */
     padding-top: 0.5em;
     padding-bottom: 1em;
     box-shadow: 1px 1px rgba(0, 0, 0, 0.25);
     z-index: -1;
 }
-.content{
-    position: absolute;
-    top: 50%;
-    transform: translate(0, -50%);
-    padding: 10px;
+.create-reservation-content{
+    padding: 20px;
     width: 100%;
 }
 .content > div {
@@ -52,6 +50,7 @@
 }
 
 .CreateReservationSummary{
+    display: none;
     width: 45%;
     float: left;
 }

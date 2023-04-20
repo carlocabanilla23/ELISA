@@ -9,7 +9,7 @@ import ReservationAssignedItemList from "../../component/List/ReservationAssigne
 import SendNotification from "../../Services/notification/Notification";
 
 function Reservation () {
-    const {param,param1,param2} = useParams();
+    const {emailParam,reservationnoParam,statusParam} = useParams();
     const navigate = useNavigate();
     const accountName = localStorage.getItem('name');
 
@@ -33,6 +33,8 @@ function Reservation () {
     const [approvedBy, setApprovedBy] = useState('');
     const [reviewedBy, setReviewedBy] = useState('');
     const [reservationCart,setReservationCart] = useState([]);
+    const [error, setError] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     // Item List
     const [items, setItems] = useState([]);
@@ -46,45 +48,47 @@ function Reservation () {
     const itemsPerPage = 10;
 
     useEffect( () => {
-        API.get("reservation","/reservation/object/"+param+"/"+param1).then( res => {
+        API.get("reservation","/reservation/object/"+emailParam+"/"+reservationnoParam).then( res => {
             setReservationNo(res.reservationno);
             setEmail(res.email);
             setSummary(res.summary);
             setCurrentDate(res.requestdate);
             setReturnDate(res.returndate);
             setStatus (res.status);
+
+            if (res.status === "Open") {
+                setItemListHeader("Item Requested")
+                setItemList(res.returneditems);
+            }else if (res.status === "Returned") {
+                setItemListHeader("Returned Items");
+            }else if (res.status === "Assigned") {
+                setItemListHeader("Assigned Items");
+            }
+
             setApprovedBy(res.approvedby);
             if(res.assigndate !== undefined){
                 setAssignedDate(res.assigndate);
             }
             if(res.reviewedby !== undefined){
                 setReviewedBy(res.reviewedby);
+                setItemList(res.assigneditems);
             }
         })
 
-        API.get("reservationcart","/cart/object/"+param1).then( res => {
+        API.get("reservationcart","/cart/object/"+reservationnoParam).then( res => {
             setNote(res.note);
-
-
-            if(param2 !== "Returned") {
+            setReservationCart(res.itemrequested);
+            setAssignedItems(res.assigneditems);
+            const requestList = res.itemrequested;
+            if(statusParam !== "Returned") {
                 let itm = [...new Set(res.itemrequested.map( item => item.type))]
                 let list = [];
                 itm.forEach( e => {
                     API.get("items","/items/" +e).then( res => {
                         list.push(...res);
-                        sortItems(list);
+                        sortItems(list, requestList);
                     });
                 });
-            }
-            setReservationCart(res.itemrequested);
-            setAssignedItems(res.assigneditems);
-
-            if (res.assignedItems === undefined) {}
-            else if (res.assigneditems.length === 0 && status === "Returned") {
-                setItemListHeader("Returned Items");
-                setItemList(res.returneditems);
-            }else{
-                setItemList(res.assigneditems);
             }
             
             if (itemList.length > 0) {
@@ -101,18 +105,24 @@ function Reservation () {
             }
         })
 
-
-        API.get("userapi","/email/object/"+param).then( res => {
+        API.get("userapi","/email/object/"+emailParam).then( res => {
             setFirstName(res.firstname);
             setLastName(res.lastname);
             setSchoolID(res.schoolID);
         })
-        },[]);
+    },[]);
+
+    useEffect(() => {
+        if(error === '1'){
+            setErrorMessage('You have reach the requested quantity');
+        }
+    },[error])
     
     // Sort item in the item list
     const sortItems = (items) => {
-        console.log(items)
-        const updatedList = items.filter(item => item.location === "Unassigned" || "Room");
+        console.log(items);
+        let updatedList = items.filter(item => item.location === "Unassigned" || "Room");
+        updatedList = updatedList.filter(item => item.location !== "USER");
         setItems(updatedList);
         setUnfilteredItems(updatedList);
     } 
@@ -168,6 +178,15 @@ function Reservation () {
 
     // Add Item
     const addItem = (item) => {
+        const requestInfo = reservationCart.filter((request) => request.type === item.type);
+        const assignedAmount = assignedItems.filter((assigned) => assigned.type === item.type);
+        let max = 0;
+        requestInfo.forEach((request) => {
+            max += Number(request.quantity);
+        });
+        if(max === assignedAmount.length){
+            throw new Error(setError('1'));
+        }
         setAssignedItems([...assignedItems,item]);
         setItemList([...itemList,item]);
         updateList(item);
@@ -251,6 +270,7 @@ function Reservation () {
         AddItemToLocation(assignedItems,firstName,lastName);
         CheckInventory(assignedItems)
         setStatus("Assigned");
+        setItemListHeader("Assigned Items")
     }
 
     const CheckInventory = (assignedItems) => {
@@ -288,6 +308,21 @@ function Reservation () {
                 setItems(unfilteredItems);
             }
         }
+    }
+
+    const assignItemBtn = (e) => {
+        setApprovedBy(accountName);
+        setAssignedDate(`${year}-${month}-${day}`);
+        AssignItems(assignedItems);
+        setError('');
+        setErrorMessage('');
+    }
+
+    const returnItemBtn = (e) => {
+        setReturnDate(`${year}-${month}-${day}`);
+        returnItems(assignedItems);
+        setError('');
+        setErrorMessage('');
     }
  
     return (
@@ -356,9 +391,12 @@ function Reservation () {
                                 <div className="col">
                                     {itemListHeader}
                                 </div>
+                                <div className="col">
+                                    <div id="ERRMessage">{errorMessage}</div>
+                                </div>
                             </div>
                             <div className="row Assigneditemlist">
-                                    <ReservationAssignedItemList items={assignedItems} removeItem={removeItem}/>
+                                <ReservationAssignedItemList items={assignedItems} removeItem={removeItem}/>
                             </div>
                         </div>
                    
@@ -398,20 +436,17 @@ function Reservation () {
                                 <label className="userinfo-form-label form-label">{schoolID}</label>
                             </div>
                             <div className="col">
-                                <label className="userinfo-form-label fw-bold form-label">Assign Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return Date</label>
-                                <br/>
-                                <label className="userinfo-form-label form-label"><pre>{assignedDate.length === 0 ? "N/A                  " : assignedDate}{returnDate.length === 0 ? "N/A" : returnDate}</pre></label> {/* 20 */}
                                 <div className="row" id="reserveInfoCol">
                                     <div className="col">
                                         <label className="fw-bold form-label">Assign Date</label>
                                         <br/>
                                         <label className="form-label">{assignedDate.length === 0 ? "N/A" : assignedDate}</label>
                                     </div>
-                                    <div className="col">
+                                    {/* <div className="col">
                                         <label className="fw-bold form-label">Return Date</label>
                                         <br/>
                                         <label className="form-label">{returnDate.length === 0 ? "N/A" : returnDate}</label>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
@@ -423,20 +458,17 @@ function Reservation () {
                                 <label className="userinfo-form-label form-label">{email}</label>
                             </div>
                             <div className="col">
-                                <label className="userinfo-form-label fw-bold form-label">Approved By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Review By</label>
-                                <br/>
-                                <label id="approvedBy" className="userinfo-form-label form-label" value=""><pre>{approvedBy.length === 0 ? "N/A                  " : approvedBy}{reviewedBy === undefined ? "N/A" : reviewedBy}</pre></label>
                                 <div className="row" id="reserveInfoCol">
                                     <div className="col">
                                         <label className="fw-bold form-label">Approved By</label>
                                         <br/>
                                         <label id="approvedBy" className="form-label">{approvedBy.length === 0 ? "N/A" : approvedBy}</label>
                                     </div>
-                                    <div className="col">
+                                    {/* <div className="col">
                                         <label className="fw-bold form-label">Reviewd By</label>
                                         <br/>
                                         <label id="reviewedBy" className="form-label">{reviewedBy.length === 0 ? "N/A" : reviewedBy}</label>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
@@ -451,32 +483,26 @@ function Reservation () {
                                 <label className="userinfo-form-label fw-bold form-label"></label>
                                 <div className="row">
                                     <div className="col">
-                                        <button className="btn btn-light" id="returnBtn" onClick={ (e) => {setReturnDate(`${year}-${month}-${day}`);returnItems(assignedItems);}}>Return Items</button>
+                                        <button className="btn btn-light" id="returnBtn" onClick={ (e) => {returnItemBtn(e)}}>Return Items</button>
                                     </div>
                                     <div className="col">
-                                        <button className="btn btn-light" id="assignBtn" onClick={ (e) => {setApprovedBy(accountName);setAssignedDate(`${year}-${month}-${day}`);AssignItems(assignedItems)}}>Assign Items</button>
+                                        <button className="btn btn-light" id="assignBtn" onClick={ (e) => {assignItemBtn(e)}}>Assign Items</button>
                                     </div>
                                 </div>
-                                <label className="fw-bold form-label"></label>
-                                <br/>
-                                <button className="btn btn-light" id="returnBtn" onClick={ (e) => {setReviewedBy(accountName);setReturnDate(`${year}-${month}-${day}`);returnItems(assignedItems);}}>Return Items</button>
-                                <br/>
-                                <button className="btn btn-light" id="assignBtn" onClick={ (e) => {setApprovedBy(accountName);setAssignedDate(`${year}-${month}-${day}`);AssignItems(assignedItems)}}>Assign Items</button>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
                 <div className="ItemList">
-                    <ReservationItemList items={currentList} addItem={addItem} status={status} searchItem={searchItem}/>
+                    {/* <ReservationItemList items={currentList} addItem={addItem} status={status} searchItem={searchItem}/> */}
                     <div className="Reservation-Pagination">
-                    <Pagination
+                    {/* <Pagination
                         PerPage={itemsPerPage} 
                         total={items.length} 
                         paginate={paginate}
                         currentPageLocation = {currentPage}
-                        /> 
+                        />  */}
                     </div>
                 
                 </div>

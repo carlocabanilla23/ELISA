@@ -3,6 +3,7 @@ import { GetDateToday } from "../etc/GetDateToday";
 import { PostNotification } from "./PostNotification";
 import { SendEmail } from "./SendEmail";
 
+
 export default function SendNotification (msg_type,data) {
 
     switch (msg_type) {

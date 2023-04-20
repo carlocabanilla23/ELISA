@@ -3,7 +3,7 @@ import "../../assets/styles/User.css";
 import "../../assets/styles/OffCanvas.css";
 import { useNavigate } from "react-router-dom";
 
-const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation}) => {
+const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation,changeRFIDCode}) => {
   const navigate = useNavigate();
     
   const EditItem = (s,t) => {
@@ -23,6 +23,7 @@ const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,
           <div className="col"> {item.name} </div>
           <div className="col"> {item.type} </div>
           <div id="model" className="col rmobile"> {item.model} </div>
+          <div id="status" className="col rmobile"> {item.status} </div>
           <div id="location" className="col rmobile"> {item.location} </div>
           <div id="roomNumber" className="col rmobile"> {item.roomno} </div>
           <div className="col actions rmobile">
@@ -85,6 +86,14 @@ const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,
                         data-bs-target="#offcanvasRight"
                         aria-controls="offcanvasRight">
                         Change Location
+                    </li>
+                    <li onClick={(e) =>  changeRFIDCode(item)}
+                        className="dropdown-item"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasRight"
+                        aria-controls="offcanvasRight">
+                        Change RFID Code
                     </li>
                     <li style={{display: 'none'}} 
                         id="mobile"

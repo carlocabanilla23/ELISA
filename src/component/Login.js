@@ -20,9 +20,25 @@ function Login() {
     API.get("useraccounts","/email/object/"+username).then( acc => {
         if (acc.email === username && acc.password === password) {  
             API.get("userapi","/email/object/"+acc.email).then( res => {
-                StartSession(res);
-                console.log(res); 
-                navigate('/Home'); 
+                console.log(res.status);
+                if (res.status !== "Verified") {
+                    const err = ReactDOM.createRoot(
+                        document.getElementById('prompt')
+                    );
+                    const element = <p className='text-danger'>Your Accout is not active please contact administrator</p>;
+                      err.render(element);
+                    
+                } else {
+                    StartSession(res);
+                    console.log(res); 
+                    if (res.role === "Student") {
+                        navigate('/CreateReservation');
+                    } else {
+                        navigate('/Home');
+                    }
+                  
+                }
+                 
             });  
         }else{
             const err = ReactDOM.createRoot(
@@ -46,10 +62,10 @@ function Login() {
 
             <form onSubmit={onSubmit}>
             <div className="mb-3 row">
-                <input className="form-control" onChange={ (e)=> setUsername(e.target.value)} id="exampleFormControlInput1" placeholder="name@example.com" />
+                <input className="login-form-control form-control" onChange={ (e)=> setUsername(e.target.value.toLowerCase())} id="exampleFormControlInput1" placeholder="name@example.com" />
             </div>
             <div className="mb-3 row">
-                <input type="password" className="form-control" onChange={ (e)=> setPassword(e.target.value)} placeholder="Password" autoComplete="password" id="inputPassword" />
+                <input type="password" className="login-form-control form-control" onChange={ (e)=> setPassword(e.target.value)} placeholder="Password" autoComplete="password" id="inputPassword" />
             </div>
             <div className="mb-3 row" id="row-3">
             
@@ -62,8 +78,8 @@ function Login() {
                 </div>
                 <div className="col">
                     <label  className="col col-form-label" id="create-account" onClick={() => navigate('/Signup')}>create account?</label>
-                    <label  className="col col-form-label" id="forgot-pass">Forgot my password?</label>
-                </div>    
+                    <label  className="col col-form-label" id="forgot-pass" onClick={() => navigate('/ForgotPassword')}>Forgot my password?</label>
+                </div>
             </div>
             <div className="mb-3 row">
                 <button type="submit" className="btn btn-secondary mb-3">Login</button>
