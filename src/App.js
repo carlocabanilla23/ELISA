@@ -34,6 +34,7 @@ import Reader from './pages/RFID/Reader';
 import ForgotPassword from './component/ForgotPassword';
 import ResetPassword from './component/ResetPassword';
 import SetNewPassword from './component/SetNewPassword';
+import CreateRequest from './pages/Reservation/CreateRequest';
 
 // const Login = lazy(() => import( './component/Login'));
 // const Home = lazy(() => import( './component/Home'));
@@ -169,13 +170,21 @@ function App() {
               <Reservation /> 
           </ProtectedRoute> } />
 
+
+          
+      <Route path='/CreateRequest'
+        element= {
+          <ProtectedRoute user={user}>
+              <CreateRequest /> 
+          </ProtectedRoute> } />
+      
       <Route path='/CreateReservation'
         element= {
           <ProtectedRoute user={user}>
               <CreateReservation /> 
           </ProtectedRoute> } />
 
-      <Route path='/CreateReservation/:typeParam/:itemNoParam'
+      <Route path='/CreateReservation/:typeParam/:serialParam'
         element= {
           <ProtectedRoute user={user}>
               <CreateReservation /> 

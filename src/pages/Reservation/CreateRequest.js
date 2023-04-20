@@ -4,17 +4,12 @@ import { API } from 'aws-amplify';
 import '../../assets/styles/CreateReservation.css';
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import SendNotification from "../../Services/notification/Notification";
-import ItemRequestDropDown from "../../component/others/ItemRequestDropDown";
-import ItemRequestAuto from "../../component/others/ItemRequestAuto";
+import ItemRequestDropDownWQty from "../../component/others/ItemRequestDropDownWQty";
 import ContentHeader from "../../component/others/ContentHeader";
-import ItemList from "../../component/List/ItemList";
-import ItemRequestList from "../../component/List/ItemRequestList";
-import ReservationItemList from "../../component/List/ReservationItemList";
-import Pagination from "../../component/Pagination";
-import { GetDateToday } from "../../Services/etc/GetDateToday";
+import ItemRequestListWQty from "../../component/List/ItemRequestListWQty";
 
-function CreateReservation () {
-    const {typeParam,serialParam} = useParams();
+function CreateRequest () {
+    const {typeParam,itemNoParam} = useParams();
     const location = useLocation();
     const [reservationNo,setReservationNo] = useState();
     // const [types,setTypes] = useState([]);
@@ -82,51 +77,20 @@ function CreateReservation () {
             setSummary("Reservation " + rno);
         });
 
+        setRequestItemMenu(
+            <>
+             <ItemRequestDropDownWQty
+                        updateCart={updateCart}
+                        // types={types}
+                        setError={setError}
+                        setErrorMessage={setErrorMessage}
+                        reservationCart={reservationCart}  
+                        setReservationCart={setReservationCart}
+                        // setModelList={setModelList}
+                    />
+            </>
+        );
 
-
-        if (typeParam === undefined || serialParam === undefined) {
-        
-            setRequestItemMenu(
-                <>
-                 <ItemRequestDropDown
-                            updateCart={updateCart}
-                            // types={types}
-                            setError={setError}
-                            setErrorMessage={setErrorMessage}
-                            reservationCart={reservationCart}  
-                            setReservationCart={setReservationCart}
-                            // setModelList={setModelList}
-                        />
-                </>
-            );
-
-            // setItemListSummary(
-            //         <>
-                        
-            //         </>
-            
-            // );
-
-            
-        } else {
-            document.getElementById("ItemRequestList").style.display = "none";
-            document.getElementById("ReservationItemList").style.display = "none";
-
-            API.get("items","/items/object/" + typeParam +"/"+serialParam).then( itemRes => {
-                setReservationCart([itemRes,...reservationCart]);
-                console.log(itemRes);
-
-                setRequestItemMenu(
-                   <ItemRequestAuto item={itemRes} />
-                );
-                // sortItems(itemRes);
-                // setItems(itemRes);
-            })
-            
-        }
-        
-        // console.log(location.state.reservationCount);
-        
 
         setCurrentDate(`${day}-${month}-${year}`);
 
@@ -197,8 +161,8 @@ function CreateReservation () {
         console.log(reservationCart);
     }
 
-    const submitOrder = () => {
-        // e.preventDefault();
+    const submitOrder = (e) => {
+        e.preventDefault();
         if(reservationCart.length === 0){
             throw new Error(setError(5));
         }
@@ -221,26 +185,10 @@ function CreateReservation () {
             body : {
             reservationno : reservationNo,
             description : note,
-            itemrequested : [],
-            assigneditems : reservationCart
+            itemrequested : reservationCart,
+            assigneditems : []
             }
         });
-
-        reservationCart.forEach( item => {
-            API.get("items",'/items/object/'+typeParam + '/' +serialParam).then(res => {
-                    res.status = "Reserved";
-                    res.lastupdated = GetDateToday();
-
-                    API.put("items",'/items/', {
-                        body : res
-                    })
-
-            })
-
-        })
-
-            
-
         // Send Email to Admin
         SendNotification("NEW_RESERVATION",reservationNo);
         ShowAlert();
@@ -295,12 +243,13 @@ function CreateReservation () {
                 <div className="container ReservationForm">
                     <div className="row">
                         <div className="col">
-                            <h1>Reserve Item</h1>
+                            <h1>Request Item</h1>
                         </div>
                     </div>
 
                     {requestItemMenu}
 
+                    <form onSubmit={submitOrder}>
                         {/* Requests */}
                         {/* <div className="row">
                             <div className="col">
@@ -364,44 +313,21 @@ function CreateReservation () {
                         {/* Submit Button */}
                         <div className="row justify-content-end">
                             <div className="col ">
-                                <button onClick={ (e)=> submitOrder()} className="btn btn-primary">
+                                <button type="submit" className="btn btn-primary">
                                     Submit Order
                                 </button>
                             </div>
                             <span className="errorMessage">{errorMessage}</span>
                         </div>
-               
-                    <div id="ItemRequestList">
-                    <ItemRequestList items={reservationCart} />
-                    </div>
+
+                        <ItemRequestListWQty items={reservationCart} />
+                    </form>
                 </div>
                 
-                <div id="ReservationItemList">
-                    <ReservationItemList 
-                        items = {currentList}
-                        addItem = {addItem}
-                        searchItem={searchItem}
-                    />
-                 </div>
-
-                 <Pagination
-                        PerPage={itemsPerPage} 
-                        total={filteredItems.length} 
-                        paginate={paginate}
-                        currentPageLocation = {currentPage}
-                        /> 
-                {/* {itemListSummary} */}
-                
-           
-    
             </div>  
-
-    
-    
-
            
         </>
     );
 }
 
-export default CreateReservation;
+export default CreateRequest;

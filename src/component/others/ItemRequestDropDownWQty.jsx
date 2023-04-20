@@ -3,13 +3,13 @@ import { API } from "aws-amplify";
 import ItemList from "../List/ItemList";
 
 
-const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCart,setReservationCart}) => {
+const ItemRequestDropDownWQty = ({setError,setErrorMessage,updateCart,reservationCart,setReservationCart}) => {
     const [types,setTypes] = useState();
     const [items,setItems] = useState([]);
     const [type, setType] = useState('Type');
     const [model,setModel] = useState('Model');
     const [models,setModels] = useState([]);
-    const [quantity,setQuantity] = useState(0);
+    const [quantity,setQuantity] = useState(1);
     const auth = localStorage.getItem('access');
     const [manufacturer,setManufacturer] = useState('Manufacturer');
     const [manufacturers,setManufacturers] = useState();
@@ -132,18 +132,34 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
         setTypes(updatedTypes);
     }
     const addItem = (e) => {
-        let idx = items.findIndex(item => item.name === name);
-
-        setReservationCart([items[idx],...cart]);
-        setCart([items[idx],...cart]);
+        // let idx = items.findIndex(item => item.name === name);
         
-        
-        let tmpitms = items.filter( i => i!== items[idx]);
-        let tmpnames = names.filter( n => n !== items[idx].name );
+        let tmpModel = model;
+        let tmpManufacturer = manufacturer;
+        let tmpRoomno = roomno;
 
-        setNames(tmpnames);
-        setItems(tmpitms);
-        setName("Name");
+        if (tmpModel === "Model") tmpModel = "";
+        if (tmpManufacturer === "Manufacturer") tmpManufacturer = "";
+        if (tmpRoomno === "Room No") tmpRoomno = "";
+
+        let obj = {
+            type : type,
+            model : tmpModel,
+            manufacturer : tmpManufacturer,
+            roomno : tmpRoomno,
+            quantity : quantity
+        }
+      
+
+        setReservationCart([obj,...cart]);
+        setCart([obj,...cart]);
+        
+
+    
+
+
+        // setItems(tmpitms);
+        // setName("Name");
         
        
 
@@ -203,7 +219,7 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
                         </div>
                     </div>
 
-                    <div className="col name">
+                    {/* <div className="col name">
                         <div className="dropdown">
                             <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                             {name}
@@ -214,9 +230,9 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
                                 ))}
                             </ul>
                         </div>
-                    </div>
+                    </div> */}
                    
-                    {/* <div className="col quantity">
+                    <div className="col quantity">
                         <div className="dropdown">
                             <input className="form-control"
                             type="text"
@@ -232,7 +248,7 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
                             onInvalid={(event) => {event.target.setCustomValidity('Input amount of item you want to reserve')}}
                             required={true} />
                         </div>
-                    </div> */}
+                    </div>
                    
                 </div> 
 
@@ -251,4 +267,4 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
             </>);
 }
 
-export default ItemRequestDropDown;
+export default ItemRequestDropDownWQty;
