@@ -4,9 +4,8 @@ import { API } from 'aws-amplify';
 import "../assets/styles/Users.css";
 import RoomList from "./List/RoomList";
 import Pagination from "./Pagination";
-import Papa from 'papaparse';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import { csv } from '../Services/Export/csv';
+import { pdf } from '../Services/Export/pdf';
 
 function Location () {
     // CreateTestEquipment(20);
@@ -16,7 +15,6 @@ function Location () {
     const [itemsPerPage] = useState(10);
 
     const [itemAmount, setItemAmount] = useState([]);
-    const [getAmount, setGetAmount] = useState('');
 
     useEffect( () => {
         setItemAmount([]);
@@ -77,49 +75,10 @@ function Location () {
     }
 
     const CSV = () => {
-        // the data that you want to write to the CSV file
-        const data = [];
-        items.forEach(items => {
-            let roomItemAmount = itemAmount.filter(item => item.split('--').at(0) === items.roomno);
-            data.push([items.roomno, items.location, "Otto Miller", roomItemAmount[0].split('--').at(1)]);
-        });
-  
-
-        // generate the CSV file
-        const csv = Papa.unparse({
-            fields: ['ROOM NO', 'LOCATION', 'BUILDING', 'NUMBER OF ITEMS'],
-            data: data
-        });
-
-        // the CSV file
-        const a = document.createElement('a');
-        a.href = 'data:attachment/csv,' + csv;
-        a.target = '_blank';
-        a.download = 'AllLocation.csv';
-        document.body.appendChild(a);
-        a.click();
+        csv(items, "Location", itemAmount);
     }
     const PDF = () => {     // Exporting to pdf 
-        const doc = new jsPDF('p', 'mm', 'a4');
-
-        const data = [['ROOM NO', 'LOCATION', 'BUILDING', 'NUMBER OF ITEMS']];
-        items.forEach(items => {
-            let roomItemAmount = itemAmount.filter(item => item.split('--').at(0) === items.roomno);
-            data.push([items.roomno, items.location, "Otto Miller", roomItemAmount[0].split('--').at(1)]);
-        });
-
-        doc.autoTable({
-         //   head: [['firstName', 'lastName', 'schoolID', 'role']],
-            body: data
-        });
-        
-        const pdf = doc.output();
-        const link = document.createElement('a');
-        link.href = 'data:application/pdf;base64,' + btoa(pdf);
-        link.download = 'AllLocation.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        pdf(items, "Location", itemAmount);
     }
     
     const idxLastItem = currentPage * itemsPerPage;

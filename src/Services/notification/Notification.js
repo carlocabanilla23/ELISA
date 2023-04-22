@@ -107,6 +107,8 @@ const VERIFIED_USER = (email) => {
     });
 }
 const NEW_ITEM = (item) => {
+    const accountName = localStorage.getItem('name');
+    console.log(accountName);
     API.get("notificationapi","/sid/").then(res => {
        
         const subscribeUser = res.filter(user => user.emailnotification === true && user.newitem === true);
@@ -115,7 +117,7 @@ const NEW_ITEM = (item) => {
             console.log(user.email)
             let data = {
                 email : user.email,
-                message: item + " is added to inventory",
+                message: accountName + " adds a " + item + " to inventory",
                 notificationid : crypto.randomUUID(),
                 date : GetDateToday(),
                 subject : "New Item Added"

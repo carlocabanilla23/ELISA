@@ -3,7 +3,7 @@ import React, { useState,useEffect } from "react";
 import '../../assets/styles/List.css';
 
 const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,
-                        changeStatus,changeLocation,changeRFIDCode,ResortedList}) => {
+                        changeStatus,changeLocation,changeRFIDCode,ResortedList,deleteConfirm}) => {
                             
     const [serial, setSerial] = useState(true);
     const [name, setName] = useState(true);
@@ -22,9 +22,6 @@ const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,
         title === 'roomno' ? setRoomNo(!roomno) : setRoomNo(true);
         title === 'status' ? setStatus(!status) : setStatus(true);
     }
-
-    
-    console.log( items)
     return (
         
         <>
@@ -54,7 +51,8 @@ const ItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,
                                 CreateBarcode={CreateBarcode}
                                 changeStatus={changeStatus}
                                 changeLocation={changeLocation}
-                                changeRFIDCode={changeRFIDCode} />
+                                changeRFIDCode={changeRFIDCode}
+                                deleteConfirm={deleteConfirm} />
                     </li>
                 ))}
                 

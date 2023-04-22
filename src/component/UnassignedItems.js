@@ -6,9 +6,8 @@ import UnassignedItemList from './List/UnassignedItemList';
 import OffCanvasCard from "./card/OffCanvasCard";
 import { Generate } from "../Services/code-generator/qrcode";
 import { GenerateBarcode } from "../Services/code-generator/barcode";
-import Papa from 'papaparse';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import { csv } from '../Services/Export/csv'
+import { pdf } from '../Services/Export/pdf';
 
 function UnassignedItems () {
     const [items, setItems] = useState([]);
@@ -25,6 +24,10 @@ function UnassignedItems () {
     const [actionName, setActionName] = useState('');
     const [refreshvalue, setRefreshValue] = useState('');
 
+    //confirm delete item
+    const [deleteSerialNo, setDeleteSerialNo] = useState('');
+    const [deleteType, setDeleteType] = useState('');
+
     useEffect( () => {
         API.post('items','/items/roomno/items',{
             body: { roomno : "Unassigned" }
@@ -37,8 +40,12 @@ function UnassignedItems () {
         });
     },[]);
 
-    const updateList = (serialno) => {
-        API.del("inventory","/items/object/"+serialno);
+    const setConfirmForm = document.getElementById("deleteConfirmForm");
+
+    const updateList = () => {
+        const serialno = deleteSerialNo;
+        const type = deleteType;
+        API.del("items","/items/object/"+ type +'/'+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
         const curPage = currentPage;
         if(updatedList.length % itemsPerPage === 0 && curPage > 1){
@@ -46,6 +53,21 @@ function UnassignedItems () {
         }
         setItems(updatedList);
         setUnfilteredItems(updatedList);
+        setDeleteSerialNo('');
+        setDeleteType('');
+        setConfirmForm.style.display = "none";
+    }
+
+    const cancelDelete = (e) => {
+        setDeleteSerialNo('');
+        setDeleteType('');
+        setConfirmForm.style.display = "none";
+    }
+
+    const deleteConfirm = (serialno,type) => {
+        setDeleteSerialNo(serialno);
+        setDeleteType(type);
+        setConfirmForm.style.display = "block";
     }
 
     const sortLocationList = (items) => {
@@ -182,48 +204,10 @@ function UnassignedItems () {
     }
 
     const CSV = () => {      
-        // the data that you want to write to the CSV file
-        const data = [];
-        items.forEach(items => {
-            // console.log(items.serialno);
-            data.push([items.serialno, items.name, items.type,items.model]);
-        });
-  
-
-        // generate the CSV file
-        const csv = Papa.unparse({
-            fields: ['SERIALNO', 'NAME', 'TYPE', 'MODEL'],
-            data: data
-        });
-
-        // the CSV file
-        const a = document.createElement('a');
-        a.href = 'data:attachment/csv,' + csv;
-        a.target = '_blank';
-        a.download = 'UnassignedItemList.csv';
-        document.body.appendChild(a);
-        a.click();
+        csv(items, "Unassigned Items", []);
     }
     const PDF = () => {     // Exporting to pdf 
-        const doc = new jsPDF('p', 'mm', 'a4');
-        
-        const data = [['SERIALNO', 'NAME', 'TYPE', 'MODEL']];
-        items.forEach(items => {
-            data.push([items.serialno, items.name, items.type,items.model]);
-        });
-
-        doc.autoTable({
-         //   head: [['firstName', 'lastName', 'schoolID', 'role']],
-            body: data
-        });
-        
-        const pdf = doc.output();
-        const link = document.createElement('a');
-        link.href = 'data:application/pdf;base64,' + btoa(pdf);
-        link.download = 'UnassignedItemList.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        pdf(items, "Unassigned Items", []);
     }
     
     const idxLastItem = currentPage * itemsPerPage;
@@ -311,6 +295,15 @@ function UnassignedItems () {
         </div>
 
         <div className="UserPane">
+            <div className="deleteConfirmationForm" id="deleteConfirmForm" style={{"display": "none"}}>
+                <div className="FormHeader">
+                    Do you want to delete {deleteSerialNo}?
+                </div>
+                <div className="confirmDeleteBtn">
+                    <button className="btn btn-secondary" type="button" onClick={cancelDelete}>Cancel</button>
+                    <button className="btn btn-secondary" id="confirmBtn" type="submit" onClick={updateList}>Confirm</button>
+                </div>
+            </div>
             <UnassignedItemList   items={currentList} 
                         updateList={updateList}
                         ViewInformation={ViewInformation}
@@ -320,6 +313,7 @@ function UnassignedItems () {
                         changeLocation={changeLocation}
                         changeRFIDCode={changeRFIDCode}
                         ResortedList={ResortedList}
+                        deleteConfirm={deleteConfirm}
                         />
             <Pagination
                     PerPage={itemsPerPage} 

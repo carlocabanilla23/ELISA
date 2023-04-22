@@ -6,11 +6,10 @@ import { useNavigate } from "react-router-dom";
 import ItemList from "../../component/List/ItemList";
 import Pagination from "../../component/Pagination";
 import OffCanvasCard from "../../component/card/OffCanvasCard";
-import Papa from 'papaparse';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
 import { Generate } from "../../Services/code-generator/qrcode";
 import { GenerateBarcode } from "../../Services/code-generator/barcode";
+import { csv } from '../../Services/Export/csv';
+import { pdf } from '../../Services/Export/pdf';
 
 function Inventory () {
     // CreateTestEquipment(5);
@@ -25,6 +24,9 @@ function Inventory () {
     const [storageList, setStorageList] = useState([]);
     const [actionName, setActionName] = useState('');
     const [refreshvalue, setRefreshValue] = useState('');
+
+    const [deleteSerialNo, setDeleteSerialNo] = useState('');
+    const [deleteType, setDeleteType] = useState('');
 
     const loggedUser = decodeURIComponent(escape(window.atob(localStorage.getItem('email'))));
     const access = localStorage.getItem('access');
@@ -108,7 +110,11 @@ function Inventory () {
         })
     },[]);
 
-    const updateList = (serialno,type) => {
+    const setConfirmForm = document.getElementById("deleteConfirmForm");
+
+    const updateList = () => {
+        const serialno = deleteSerialNo;
+        const type = deleteType;
         API.del("items","/items/object/"+ type +'/'+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
         const curPage = currentPage;
@@ -117,7 +123,22 @@ function Inventory () {
         }
         setItems(updatedList);
         setUnfilteredItems(updatedList);
-    } 
+        setDeleteSerialNo('');
+        setDeleteType('');
+        setConfirmForm.style.display = "none";
+    }
+    
+    const cancelDelete = (e) => {
+        setDeleteSerialNo('');
+        setDeleteType('');
+        setConfirmForm.style.display = "none";
+    }
+
+    const deleteConfirm = (serialno,type) => {
+        setDeleteSerialNo(serialno);
+        setDeleteType(type);
+        setConfirmForm.style.display = "block";
+    }
 
     const ViewInformation = async(item) => {
         let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
@@ -185,7 +206,6 @@ function Inventory () {
         tmpItems[idx].status = status;
         // console.log(items[idx]);
         setItems(tmpItems);
-
     }
 
     const changeLocation=  async(item) => {
@@ -231,49 +251,12 @@ function Inventory () {
         }  
     }
 
-    const CSV = () => {      
-        // the data that you want to write to the CSV file
-        const data = [];
-        items.forEach(items => {
-            // console.log(items.serialno);
-            data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
-        });
-  
-
-        // generate the CSV file
-        const csv = Papa.unparse({
-            fields: ['SERIALNO', 'NAME', 'STATUS', 'ROOM NO'],
-            data: data
-        });
-
-        // the CSV file
-        const a = document.createElement('a');
-        a.href = 'data:attachment/csv,' + csv;
-        a.target = '_blank';
-        a.download = 'output.csv';
-        document.body.appendChild(a);
-        a.click();
+    const CSV = () => {  
+        csv(items, "Inventory",[]);
     }
-    const PDF = () => {     // Exporting to pdf 
-        const doc = new jsPDF('p', 'mm', 'a4');
-        
-        const data = [['SERIALNO', 'NAME', 'STATUS', 'ROOM NO']];
-        items.forEach(items => {
-            data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
-        });
 
-        doc.autoTable({
-         //   head: [['firstName', 'lastName', 'schoolID', 'role']],
-            body: data
-        });
-        
-        const pdf = doc.output();
-        const link = document.createElement('a');
-        link.href = 'data:application/pdf;base64,' + btoa(pdf);
-        link.download = 'users.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    const PDF = () => {     // Exporting to pdf
+        pdf(items, "Inventory",[]);
     }
 
     const idxLastItem = currentPage * itemsPerPage;
@@ -335,7 +318,7 @@ function Inventory () {
     }
 
     return (
-        <div className="Users">
+        <div className="Users" id="container">
         
         <div className="UserHeader">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
@@ -368,7 +351,15 @@ function Inventory () {
         </div>
 
         <div className="UserPane">
-            
+            <div className="deleteConfirmationForm" id="deleteConfirmForm" style={{"display": "none"}}>
+                <div className="FormHeader">
+                    Do you want to delete {deleteSerialNo}?
+                </div>
+                <div className="confirmDeleteBtn">
+                    <button className="btn btn-secondary" type="button" onClick={cancelDelete}>Cancel</button>
+                    <button className="btn btn-secondary" id="confirmBtn" type="submit" onClick={updateList}>Confirm</button>
+                </div>
+            </div>
             <ItemList items={currentList} 
                       ViewInformation={ViewInformation}
                       updateList={updateList}
@@ -377,7 +368,8 @@ function Inventory () {
                       changeStatus={changeStatus}
                       changeLocation={changeLocation}
                       changeRFIDCode={changeRFIDCode}
-                      ResortedList={ResortedList} />
+                      ResortedList={ResortedList}
+                      deleteConfirm={deleteConfirm} />
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 
