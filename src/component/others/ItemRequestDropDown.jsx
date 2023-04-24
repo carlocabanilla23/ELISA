@@ -132,19 +132,22 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
         setTypes(updatedTypes);
     }
     const addItem = (e) => {
-        let idx = items.findIndex(item => item.name === name);
+        if (name === "Name") {
+            console.log("error");
+        } else {
+            let idx = items.findIndex(item => item.name === name);
 
-        setReservationCart([items[idx],...cart]);
-        setCart([items[idx],...cart]);
-        
-        
-        let tmpitms = items.filter( i => i!== items[idx]);
-        let tmpnames = names.filter( n => n !== items[idx].name );
-
-        setNames(tmpnames);
-        setItems(tmpitms);
-        setName("Name");
-        
+            setReservationCart([items[idx],...cart]);
+            setCart([items[idx],...cart]);
+            
+            
+            let tmpitms = items.filter( i => i!== items[idx]);
+            let tmpnames = names.filter( n => n !== items[idx].name );
+    
+            setNames(tmpnames);
+            setItems(tmpitms);
+            setName("Name");
+        }
        
 
     }

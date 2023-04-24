@@ -13,7 +13,7 @@ const ReservationAssignedItemList = ({items,removeItem}) => {
                             <div className="col">Name</div>
                             <div className="col">Type</div>
                             <div className="col">Model</div>
-                            <div className="col  assignedItemListHeader"></div>
+                            {/* <div className="col  assignedItemListHeader"></div> */}
                         </div>
                     </div>
                 </li>
@@ -26,9 +26,9 @@ const ReservationAssignedItemList = ({items,removeItem}) => {
                                 <div className="col"> {item.name} </div>
                                 <div className="col"> {item.type} </div>
                                 <div className="col"> {item.model} </div>
-                                <div className="col action assignedItemListRemoveBtn ">
+                                {/* <div className="col action assignedItemListRemoveBtn ">
                                     <button className="btn btn-dark assignedItemListRemoveBtn"onClick={() => removeItem(item)}>Remove</button>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </li>

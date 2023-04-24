@@ -7,11 +7,13 @@ import ReservationItemList from "../../component/List/ReservationItemList";
 import Pagination from "../../component/Pagination";
 import ReservationAssignedItemList from "../../component/List/ReservationAssignedItemList";
 import SendNotification from "../../Services/notification/Notification";
+import { GetDateToday } from "../../Services/etc/GetDateToday";
 
 function Reservation () {
     const {emailParam,reservationnoParam,statusParam} = useParams();
     const navigate = useNavigate();
     const accountName = localStorage.getItem('name');
+    const accountEmail = localStorage.getItem('email');
 
     const date = new Date();
     let day = date.getDate();
@@ -47,6 +49,9 @@ function Reservation () {
     const [currentPage,setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
+    //action button
+    const [actionBtn,setActionBtn] =useState();
+
     useEffect( () => {
         API.get("reservation","/reservation/object/"+emailParam+"/"+reservationnoParam).then( res => {
             setReservationNo(res.reservationno);
@@ -58,11 +63,17 @@ function Reservation () {
 
             if (res.status === "Open") {
                 setItemListHeader("Item Requested")
+                setActionBtn(<button className="btn btn-light" id="assignBtn" onClick={ (e) => {assignItemBtn(e)}}>Assign Items</button>)
+
                 setItemList(res.returneditems);
             }else if (res.status === "Returned") {
                 setItemListHeader("Returned Items");
             }else if (res.status === "Assigned") {
                 setItemListHeader("Assigned Items");
+                setActionBtn(<button className="btn btn-dark" id="returnBtn" onClick={ (e) => {returnItemBtn(e)}}>Return Items</button>)
+            }else if (res.status === "Reserved") {
+                setItemListHeader("Reserved Items");
+                setActionBtn(<button className="btn btn-dark" id="returnBtn" onClick={ (e) => {returnItemBtn(e)}}>Return Items</button>)
             }
 
             setApprovedBy(res.approvedby);
@@ -91,18 +102,18 @@ function Reservation () {
                 });
             }
             
-            if (itemList.length > 0) {
-                let element = document.getElementsByClassName("assignedItemListHeader");
-                element.style.display = 'block';
-            }
+            // if (itemList.length > 0) {
+            //     let element = document.getElementsByClassName("assignedItemListHeader");
+            //     element.style.display = 'block';
+            // }
 
-            if (assignedItems.length !== 0 || assignedItems !== undefined) {
-                var element = document.getElementsByClassName("assignedItemListRemoveBtn");
-                var i;
-                for (i = 0; i < element.length; i++) {
-                    element[i].style.display = 'none';
-                }
-            }
+            // if (assignedItems.length !== 0 || assignedItems !== undefined) {
+            //     var element = document.getElementsByClassName("assignedItemListRemoveBtn");
+            //     var i;
+            //     for (i = 0; i < element.length; i++) {
+            //         element[i].style.display = 'none';
+            //     }
+            // }
         })
 
         API.get("userapi","/email/object/"+emailParam).then( res => {
@@ -157,7 +168,6 @@ function Reservation () {
     }
 
     // Pagination
-
     const idxLastItem = currentPage * itemsPerPage;
     const idxFirstItem = idxLastItem - itemsPerPage;
     const currentList = items.slice(idxFirstItem,idxLastItem);
@@ -201,20 +211,17 @@ function Reservation () {
 
     const returnItems = (assignedItems) => {
         assignedItems.forEach( item => {
-            API.post("items","/items", {
-                body : {
-                    name : item.name,
-                    type : item.type,
-                    model : item.model,
-                    status : item.status, 
-                    serialno : item.serialno,
-                    location : "Unassigned",
-                    roomno : "Unassigned",
-                }
-            });
+            item.status = "Available";
+            item.lastupdated = GetDateToday();
+            item.roomno =  item.prevroomno;
+            item.location = item.prevlocation;
+            item.reviewedby = accountEmail;
+            item.returndate = GetDateToday();
+
+            API.post("items","/items", { body : item });
         })
 
-        API.put("reservation","/reservation/", {
+        API.post("reservation","/reservation/", {
             body : {
             email : email,
             reservationno : reservationno,
@@ -229,7 +236,7 @@ function Reservation () {
             }
         });
 
-        API.put("reservationcart","/cart", {
+        API.post("reservationcart","/cart", {
             body : {
             reservationno : reservationno,
             description : note,
@@ -241,6 +248,7 @@ function Reservation () {
 
         setStatus("Returned");
         setItemListHeader("Returned Items");
+        document.getElementById("returnBtn").style.display = "none";
     }
    
     const AssignItems = (assignedItems) => {
@@ -319,10 +327,11 @@ function Reservation () {
     }
 
     const returnItemBtn = (e) => {
-        setReturnDate(`${year}-${month}-${day}`);
-        returnItems(assignedItems);
-        setError('');
-        setErrorMessage('');
+        // e.preventdefault();
+        // setReturnDate(`${year}-${month}-${day}`);
+        // returnItems(assignedItems);
+        // setError('');
+        // setErrorMessage('');
     }
  
     return (
@@ -339,15 +348,113 @@ function Reservation () {
             </div>
             <div className="Reservation">
                 <div className="ReservationSummary">
+                    <div className="ReservasionUserInfo">
+                        {/* Header */}
+                        <div className="ReservasionUserInfoHeader">
+                            <h2>Reservation Summary</h2>
+                        </div>
+                        <div className="ReservasionUserInfoBody">
+                            <div className="row">
+                                <div className="col">
+                                    <label className="userinfo-form-label fw-bold form-label">Reservation No</label>
+                                    <br/>
+                                    <label className="userinfo-form-label form-label">{reservationno}</label>
+                                </div>
+                                <div className="col">
+                                    <label className="userinfo-form-label fw-bold form-label">Status</label>
+                                    <br/>
+                                    <label className="userinfo-form-label form-label">{status}</label>
+                                </div>
+                            </div>
 
+                            <div className="row">
+                                <div className="col">
+                                    <label className="userinfo-form-label fw-bold form-label">Requested By</label>
+                                    <br/>
+                                    <label className="userinfo-form-label form-label">{firstName + " " + lastName}</label>
+                                </div>
+                                <div className="col">
+                                    <label className="userinfo-form-label fw-bold form-label">Requested Date</label>
+                                    <br/>
+                                    <label className="userinfo-form-label form-label">{currentDate}</label>
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="col">
+                                    <label className="userinfo-form-label fw-bold form-label">School Id</label>
+                                    <br/>
+                                    <label className="userinfo-form-label form-label">{schoolID}</label>
+                                </div>
+                                <div className="col">
+                                    <div className="row" id="reserveInfoCol">
+                                        <div className="col">
+                                            <label className="fw-bold form-label">Assign Date</label>
+                                            <br/>
+                                            <label className="form-label">{assignedDate.length === 0 ? "N/A" : assignedDate}</label>
+                                        </div>
+                                        {/* <div className="col">
+                                            <label className="fw-bold form-label">Return Date</label>
+                                            <br/>
+                                            <label className="form-label">{returnDate.length === 0 ? "N/A" : returnDate}</label>
+                                        </div> */}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="col">
+                                    <label className="userinfo-form-label fw-bold form-label">Email</label>
+                                    <br/>
+                                    <label className="userinfo-form-label form-label">{email}</label>
+                                </div>
+                                <div className="col">
+                                    <div className="row" id="reserveInfoCol">
+                                        <div className="col">
+                                            <label className="fw-bold form-label">Approved By</label>
+                                            <br/>
+                                            <label id="approvedBy" className="form-label">{approvedBy.length === 0 ? "N/A" : approvedBy}</label>
+                                        </div>
+                                        {/* <div className="col">
+                                            <label className="fw-bold form-label">Reviewd By</label>
+                                            <br/>
+                                            <label id="reviewedBy" className="form-label">{reviewedBy.length === 0 ? "N/A" : reviewedBy}</label>
+                                        </div> */}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="col">
+                                    <label className="userinfo-form-label fw-bold form-label"></label>
+                                    <br/>
+                                    <label className="userinfo-form-label form-label"></label>
+                                </div>
+                                <div className="col">
+                                    <label className="userinfo-form-label fw-bold form-label"></label>
+                                    <div className="row">
+                                        <div className="col">
+                                            {actionBtn}
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div className="ItemList">
+                    {/* <ReservationItemList items={currentList} addItem={addItem} status={status} searchItem={searchItem}/> */}
+                    <div className="Reservation-Pagination">
                     <div className="OrderList">
-                        <div className="row header">
+                        {/* <div className="row header">
                             <div className="col">
                                  Item Requested
                             </div>
-                        </div>
+                        </div> */}
                         {/* Item Requested */}
-                        <div className="mb-3 row">
+                        {/* <div className="mb-3 row">
                             <div className="col-sm-10">
                                 <ul className="list-group">
                                     <li className="list-group">
@@ -384,119 +491,24 @@ function Reservation () {
                             </div>
                             
                            
-                        </div>
+                        </div> */}
                                         
                         <div className="Assigned-Items">
                             <div className="row header">
                                 <div className="col">
-                                    {itemListHeader}
+                                    <h2> {itemListHeader}</h2> 
                                 </div>
                                 <div className="col">
                                     <div id="ERRMessage">{errorMessage}</div>
                                 </div>
                             </div>
-                            <div className="row Assigneditemlist">
+                            <div className="Assigneditemlist">
                                 <ReservationAssignedItemList items={assignedItems} removeItem={removeItem}/>
                             </div>
                         </div>
                    
                        
                     </div>
-                    <div className="UserInfo">
-                        <div className="row">
-                            <div className="col">
-                                <label className="userinfo-form-label fw-bold form-label">Reservation No</label>
-                                <br/>
-                                <label className="userinfo-form-label form-label">{reservationno}</label>
-                            </div>
-                            <div className="col">
-                                <label className="userinfo-form-label fw-bold form-label">Status</label>
-                                <br/>
-                                <label className="userinfo-form-label form-label">{status}</label>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="col">
-                                <label className="userinfo-form-label fw-bold form-label">Requested By</label>
-                                <br/>
-                                <label className="userinfo-form-label form-label">{firstName + " " + lastName}</label>
-                            </div>
-                            <div className="col">
-                                <label className="userinfo-form-label fw-bold form-label">Requested Date</label>
-                                <br/>
-                                <label className="userinfo-form-label form-label">{currentDate}</label>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="col">
-                                <label className="userinfo-form-label fw-bold form-label">School Id</label>
-                                <br/>
-                                <label className="userinfo-form-label form-label">{schoolID}</label>
-                            </div>
-                            <div className="col">
-                                <div className="row" id="reserveInfoCol">
-                                    <div className="col">
-                                        <label className="fw-bold form-label">Assign Date</label>
-                                        <br/>
-                                        <label className="form-label">{assignedDate.length === 0 ? "N/A" : assignedDate}</label>
-                                    </div>
-                                    {/* <div className="col">
-                                        <label className="fw-bold form-label">Return Date</label>
-                                        <br/>
-                                        <label className="form-label">{returnDate.length === 0 ? "N/A" : returnDate}</label>
-                                    </div> */}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="col">
-                                <label className="userinfo-form-label fw-bold form-label">Email</label>
-                                <br/>
-                                <label className="userinfo-form-label form-label">{email}</label>
-                            </div>
-                            <div className="col">
-                                <div className="row" id="reserveInfoCol">
-                                    <div className="col">
-                                        <label className="fw-bold form-label">Approved By</label>
-                                        <br/>
-                                        <label id="approvedBy" className="form-label">{approvedBy.length === 0 ? "N/A" : approvedBy}</label>
-                                    </div>
-                                    {/* <div className="col">
-                                        <label className="fw-bold form-label">Reviewd By</label>
-                                        <br/>
-                                        <label id="reviewedBy" className="form-label">{reviewedBy.length === 0 ? "N/A" : reviewedBy}</label>
-                                    </div> */}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="col">
-                                <label className="userinfo-form-label fw-bold form-label"></label>
-                                <br/>
-                                <label className="userinfo-form-label form-label"></label>
-                            </div>
-                            <div className="col">
-                                <label className="userinfo-form-label fw-bold form-label"></label>
-                                <div className="row">
-                                    <div className="col">
-                                        <button className="btn btn-light" id="returnBtn" onClick={ (e) => {returnItemBtn(e)}}>Return Items</button>
-                                    </div>
-                                    <div className="col">
-                                        <button className="btn btn-light" id="assignBtn" onClick={ (e) => {assignItemBtn(e)}}>Assign Items</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="ItemList">
-                    {/* <ReservationItemList items={currentList} addItem={addItem} status={status} searchItem={searchItem}/> */}
-                    <div className="Reservation-Pagination">
                     {/* <Pagination
                         PerPage={itemsPerPage} 
                         total={items.length} 

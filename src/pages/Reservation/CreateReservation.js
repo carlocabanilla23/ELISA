@@ -200,53 +200,59 @@ function CreateReservation () {
     const submitOrder = () => {
         // e.preventDefault();
         if(reservationCart.length === 0){
-            throw new Error(setError(5));
-        }
-        // //Check return date if it is in range of two months from request date
-
-        API.post("reservation","/reservation", {
-            body : {
-            email : email,
-            reservationno : reservationNo,
-            summary : summary,
-            status : "Open",
-            requestby : firstName + " " + lastName,
-            approvedby : "N/A",
-            requestdate : currentDate,
-            returndate : returnDate,
-            }
-        });
-
-        API.post("reservationcart","/cart", {
-            body : {
-            reservationno : reservationNo,
-            description : note,
-            itemrequested : [],
-            assigneditems : reservationCart
-            }
-        });
-
-        reservationCart.forEach( item => {
-            API.get("items",'/items/object/'+typeParam + '/' +serialParam).then(res => {
-                    res.status = "Reserved";
-                    res.lastupdated = GetDateToday();
-
-                    API.put("items",'/items/', {
-                        body : res
-                    })
-
+            alert("Please add item first");
+        } else {
+            API.post("reservation","/reservation", {
+                body : {
+                email : email,
+                reservationno : reservationNo,
+                summary : summary,
+                status : "Reserved",
+                requestby : firstName + " " + lastName,
+                approvedby : "N/A",
+                requestdate : currentDate,
+                returndate : returnDate,
+                }
+            });
+    
+            API.post("reservationcart","/cart", {
+                body : {
+                reservationno : reservationNo,
+                description : note,
+                itemrequested : reservationCart,
+                assigneditems : reservationCart,
+                returneditems : []
+                }
+            });
+    
+            reservationCart.forEach( item => {
+                API.get("items",'/items/object/'+typeParam + '/' +serialParam).then(res => {
+                        res.status = "Reserved";
+                        res.lastupdated = GetDateToday();
+                        res.prevlocation = res.location;
+                        res.prevroomno = res.roomno;
+                        res.roomno = "NA";
+                        res.location = "USER";
+                        res.assignedto = email;
+                        res.assigndate = GetDateToday();
+    
+                        API.put("items",'/items/', {
+                            body : res
+                        })
+                })
+    
             })
+    
+            // Send Email to Admin
+            SendNotification("NEW_RESERVATION",reservationNo);
+            ShowAlert();
+        }
 
-        })
-
-            
-
-        // Send Email to Admin
-        SendNotification("NEW_RESERVATION",reservationNo);
-        ShowAlert();
+        
     }
 
     const addItem = (itm) => {
+        
         setReservationCart([itm,...reservationCart]);
 
         const tmpItm = items.filter( i=> i !== itm)

@@ -121,6 +121,7 @@ function Inventory () {
 
     const ViewInformation = async(item) => {
         let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
+        console.log(data);
         setActionName("Item Information");
         setOffCanvasItem(data);
         document.getElementById("item-info").style.display = "block";
