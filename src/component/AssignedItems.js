@@ -3,9 +3,8 @@ import { API } from 'aws-amplify';
 import "../assets/styles/Users.css";
 import Pagination from "./Pagination";
 import AssignedItemList from './List/AssignedItemList';
-import Papa from 'papaparse';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import { csv } from '../Services/Export/csv';
+import { pdf } from '../Services/Export/pdf'; 
 
 function AssignedItems () {
     // CreateTestEquipment(20);
@@ -45,49 +44,11 @@ function AssignedItems () {
         }  
     }
 
-    const CSV = () => {      
-        // the data that you want to write to the CSV file
-        const data = [];
-        items.forEach(items => {
-            // console.log(items.serialno);
-            data.push([items.serialno, items.name, items.type,items.model, items.assignedto, items.assignedate ]);
-        });
-  
-
-        // generate the CSV file
-        const csv = Papa.unparse({
-            fields: ['SERIALNO', 'NAME', 'TYPE', 'MODEL', 'ASSIGNED TO', 'DATE ASSIGNED'],
-            data: data
-        });
-
-        // the CSV file
-        const a = document.createElement('a');
-        a.href = 'data:attachment/csv,' + csv;
-        a.target = '_blank';
-        a.download = 'AssignedItemList.csv';
-        document.body.appendChild(a);
-        a.click();
+    const CSV = () => {
+        csv(items, "Assigned Items", []);
     }
     const PDF = () => {     // Exporting to pdf 
-        const doc = new jsPDF('p', 'mm', 'a4');
-        
-        const data = [['SERIALNO', 'NAME', 'TYPE', 'MODEL', 'ASSIGNED TO', 'DATE ASSIGNED']];
-        items.forEach(items => {
-            data.push([items.serialno, items.name, items.type,items.model, items.assignedto, items.assignedate ]);
-        });
-
-        doc.autoTable({
-         //   head: [['firstName', 'lastName', 'schoolID', 'role']],
-            body: data
-        });
-        
-        const pdf = doc.output();
-        const link = document.createElement('a');
-        link.href = 'data:application/pdf;base64,' + btoa(pdf);
-        link.download = 'AssignedItemList.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        pdf(items, "Assigned Items", []);
     }
     
     const idxLastItem = currentPage * itemsPerPage;

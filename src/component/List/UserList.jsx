@@ -2,7 +2,7 @@ import UserCard from "../card/UserCard";
 import React from "react";
 import '../../assets/styles/List.css';
 
-const UserList = ({users,updateList,ViewInformation,changeRole,changeStatus}) => {
+const UserList = ({users,updateList,ViewInformation,changeRole,changeStatus,deleteConfirm}) => {
 
     return (
         <ul className="list-group">
@@ -14,7 +14,8 @@ const UserList = ({users,updateList,ViewInformation,changeRole,changeStatus}) =>
                     updateList={updateList}
                     ViewInformation={ViewInformation}
                     changeRole={changeRole}
-                    changeStatus={changeStatus} />
+                    changeStatus={changeStatus}
+                    deleteConfirm={deleteConfirm} />
                 </li>
             ))}
         </ul>

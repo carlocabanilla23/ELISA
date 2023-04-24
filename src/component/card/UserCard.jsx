@@ -2,7 +2,7 @@ import React from "react";
 import '../../assets/styles/User.css';
 import { useNavigate } from "react-router-dom";
 
-const User = ( {user,updateList,ViewInformation,ViewHistory,changeRole,changeStatus} ) => {
+const User = ( {user,updateList,ViewInformation,ViewHistory,changeRole,changeStatus,deleteConfirm} ) => {
         const navigate = useNavigate();
         const EditUser = (e) => {
                 console.log(e);
@@ -82,7 +82,7 @@ const User = ( {user,updateList,ViewInformation,ViewHistory,changeRole,changeSta
                                                         </button>
                                                 </div>
                                                 <div className="col actions-column">
-                                                        <button className="btn" onClick={ () => updateList(user.email)}>
+                                                        <button className="btn" onClick={ () => deleteConfirm(user.email)}>
                                                                 <i className="fa fa-trash"></i>
                                                         </button>
                                                 </div>

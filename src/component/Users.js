@@ -4,11 +4,9 @@ import "../assets/styles/Users.css";
 import { useNavigate, useParams } from "react-router-dom";
 import UserList from "./List/UserList";
 import Pagination from "./Pagination";
-import Papa from 'papaparse';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
 import OffCanvasCardUser from './card/OffCanvasCardUser';
-
+import { csv } from '../Services/Export/csv';
+import { pdf } from '../Services/Export/pdf';
 
 function Users () {
     const {param} = useParams();
@@ -31,6 +29,10 @@ function Users () {
     // const [activityHistory, setActivityHistory] = useState([]);
     const [actionName, setActionName] = useState('');
     const [refreshvalue, setRefreshValue] = useState('');
+
+    const [deleteEmail, setDeleteEmail] = useState('');
+
+    const setConfirmForm = document.getElementById("deleteConfirmForm");
 
     useEffect( () => {
         API.get("userapi","/email").then( res => {
@@ -66,15 +68,28 @@ function Users () {
         navigate('/CreateUser');
     }
 
-    const updateList = (email) => {
-        API.del("userapi","/email/object/"+email);
-        const updatedList = users.filter(user => user.email !== email);
+    const updateList = () => {
+        API.del("userapi","/email/object/"+deleteEmail);
+        const updatedList = users.filter(user => user.email !== deleteEmail);
         const curPage = currentPage;
         if(updatedList.length % usersPerPage === 0 && curPage > 1){
             paginate(curPage - 1);
         }
         setUsers(updatedList);
         setUnfilteredUsers(updatedList);
+
+        setDeleteEmail('');
+        setConfirmForm.style.display = "none";
+    }
+
+    const cancelDelete = (e) => {
+        setDeleteEmail('');
+        setConfirmForm.style.display = "none";
+    }
+
+    const deleteConfirm = (email) => {
+        setDeleteEmail(email);
+        setConfirmForm.style.display = "block";
     }
 
     // View User Information in OffCanvas
@@ -123,51 +138,12 @@ function Users () {
     }  
 
     // code to generate the CSV file and download it to the local machine
-    const CSV = () => {      
-        // the data that you want to write to the CSV file
-        const data = [];
-        users.forEach(user => {
-            data.push([user.firstname, user.lastname, user.email, user.role, user.schoolID]);
-        });
-  
-
-        // generate the CSV file
-        const csv = Papa.unparse({
-            fields: ['FIRSTNAME', 'LASTNAME', 'EMAIL', 'ROLE','SCHOOLID'],
-            data: data
-        });
-
-        // the CSV file
-        const a = document.createElement('a');
-        a.href = 'data:attachment/csv,' + csv;
-        a.target = '_blank';
-        a.download = 'UserList.csv';
-        document.body.appendChild(a);
-        a.click();
+    const CSV = () => {
+        csv(users, "Users", []);
     }
 
     const PDF = () => {     // Exporting to pdf 
-        const doc = new jsPDF();
-    // const users = [
-    //   { firstName: 'John', lastName: 'Patrick', schoolID: '474593', role: 'student'}
-    //   { firstName: 'Jane', lastName: 'Doe', schoolID: '987654', role: 'teacher' }
-    //  ];
-        const data = [['FIRSTNAME', 'LASTNAME', 'EMAIL', 'ROLE','SCHOOLID']];
-        users.forEach(user => {
-            data.push([user.firstname, user.lastname, user.email, user.role, user.schoolID]);
-        });
-        doc.autoTable({
-        //   head: [['firstName', 'lastName', 'schoolID', 'role']],
-            body: data
-        });
-        
-        const pdf = doc.output();
-        const link = document.createElement('a');
-        link.href = 'data:application/pdf;base64,' + btoa(pdf);
-        link.download = 'UserList.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        pdf(users, "Users", []);
     } 
    
     const idxLastUser = currentPage * usersPerPage;
@@ -274,6 +250,15 @@ function Users () {
         </div>
 
         <div className="UserPane">
+            <div className="deleteConfirmationForm" id="deleteConfirmForm" style={{"display": "none"}}>
+                <div className="FormHeader">
+                    Do you want to delete {deleteEmail}?
+                </div>
+                <div className="confirmDeleteBtn">
+                    <button className="btn btn-secondary" type="button" onClick={cancelDelete}>Cancel</button>
+                    <button className="btn btn-secondary" id="confirmBtn" type="submit" onClick={updateList}>Confirm</button>
+                </div>
+            </div>
             <div className="UserRowTitle">
                 <div className="container-fluid">
                     <div className="row">
@@ -295,7 +280,8 @@ function Users () {
                     // ViewHistory={ViewHistory}
                     changeRole={changeRole}
                     changeStatus={changeStatus}
-                    ResortedList={ResortedList} />
+                    ResortedList={ResortedList}
+                    deleteConfirm={deleteConfirm} />
                 <Pagination
                     PerPage={usersPerPage} 
                     total={users.length} 

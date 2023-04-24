@@ -2,7 +2,7 @@ import UnassignedItemCard from "../card/UnassignedItemCard";
 import React, {useState} from "react";
 import '../../assets/styles/List.css';
 
-const UnassignedItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation,changeRFIDCode,ResortedList}) => {
+const UnassignedItemList = ({items,updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation,changeRFIDCode,ResortedList,deleteConfirm}) => {
     const [serial, setSerial] = useState(true);
     const [name, setName] = useState(true);
     const [type, setType] = useState(true);
@@ -46,7 +46,8 @@ const UnassignedItemList = ({items,updateList,ViewInformation,CreateQRCode,Creat
                             CreateBarcode={CreateBarcode}
                             changeStatus={changeStatus}
                             changeLocation={changeLocation}
-                            changeRFIDCode={changeRFIDCode} />
+                            changeRFIDCode={changeRFIDCode}
+                            deleteConfirm={deleteConfirm} />
                     </li>
                 ))}
                 

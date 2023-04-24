@@ -40,3 +40,33 @@
     float: left;
     width: 80%;
 }
+
+#seenCircle{
+    display: inline;
+    position: absolute;
+    left: 10%;
+    width: 35px;
+    height: 35px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    background-color: #7A2036;
+}
+
+#notificationBox{
+    width: 95%;
+    height: 80px;
+    margin-bottom: 1%;
+    /* background: rgba(255,255,255,0.3); */
+    background: white;
+    padding: 1%;
+    -webkit-box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+#NotifyHeader1{
+    padding-left: 4%;
+}
+#NotifyHeader2{
+    padding-left: 10%;
+}

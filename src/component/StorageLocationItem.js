@@ -5,12 +5,11 @@ import { useNavigate, Link,useParams } from "react-router-dom";
 import Pagination from "./Pagination";
 import ItemList from "./List/ItemList";
 import OffCanvasCard from "./card/OffCanvasCard";
-import Papa from 'papaparse';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
 import { GenerateRoomQRCode } from "../Services/code-generator/RoomQRCode";
 import { Generate } from "../Services/code-generator/qrcode";
 import { GenerateBarcode } from "../Services/code-generator/barcode";
+import { csv } from '../Services/Export/csv';
+import { pdf } from '../Services/Export/pdf';
 
 function StorageLocationItem () {
     const {param} = useParams();
@@ -26,7 +25,9 @@ function StorageLocationItem () {
     const [storageList, setStorageList] = useState([]);
     const [actionName, setActionName] = useState('');
     const [refreshvalue,setRefreshValue] = useState('')
-   
+
+    const [deleteSerialNo, setDeleteSerialNo] = useState('');
+    const [deleteType, setDeleteType] = useState('');
 
     const navigate = useNavigate();
 
@@ -51,8 +52,12 @@ function StorageLocationItem () {
         });
     },[]);
 
-    const updateList = (serialno) => {
-        API.del("inventory","/items/object/"+serialno);
+    const setConfirmForm = document.getElementById("deleteConfirmForm");
+
+    const updateList = () => {
+        const serialno = deleteSerialNo;
+        const type = deleteType;
+        API.del("items","/items/object/"+ type +'/'+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
         const curPage = currentPage;
         if(updatedList.length % itemsPerPage === 0 && curPage > 1){
@@ -60,7 +65,23 @@ function StorageLocationItem () {
         }
         setItems(updatedList);
         setUnfilteredItems(updatedList);
+        setDeleteSerialNo('');
+        setDeleteType('');
+        setConfirmForm.style.display = "none";
     }
+
+    const cancelDelete = (e) => {
+        setDeleteSerialNo('');
+        setDeleteType('');
+        setConfirmForm.style.display = "none";
+    }
+
+    const deleteConfirm = (serialno,type) => {
+        setDeleteSerialNo(serialno);
+        setDeleteType(type);
+        setConfirmForm.style.display = "block";
+    }
+
     const sortLocationList = (items) => {
         //Sort room list for change Location function
         const CurrentRoomList = items.filter(item => item.location === "Room");
@@ -114,49 +135,12 @@ function StorageLocationItem () {
     }
 
     const CSV = () => {
-        const roomType = items[0].location; 
-        // the data that you want to write to the CSV file
-        const data = [];
-        items.forEach(items => {
-            data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
-        });
-  
-
-        // generate the CSV file
-        const csv = Papa.unparse({
-            fields: ['SERIALNO', 'NAME', 'STATUS', 'ROOM NO'],
-            data: data
-        });
-
-        // the CSV file
-        const a = document.createElement('a');
-        a.href = 'data:attachment/csv,' + csv;
-        a.target = '_blank';
-        a.download = roomType + ' ' + param + '.csv';
-        document.body.appendChild(a);
-        a.click();
+        const roomType = items[0].location;
+        csv(items, roomType + " " + param, []);
     }
     const PDF = () => {     // Exporting to pdf 
-        const doc = new jsPDF('p', 'mm', 'a4');
         const roomType = items[0].location;
-        
-        const data = [['SERIALNO', 'NAME', 'STATUS', 'ROOM NO']];
-        items.forEach(items => {
-            data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
-        });
-
-        doc.autoTable({
-         //   head: [['firstName', 'lastName', 'schoolID', 'role']],
-            body: data
-        });
-        
-        const pdf = doc.output();
-        const link = document.createElement('a');
-        link.href = 'data:application/pdf;base64,' + btoa(pdf);
-        link.download = roomType + ' ' + param + '.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        pdf(items, roomType + " " + param, []);
     }
     
     const idxLastItem = currentPage * itemsPerPage;
@@ -350,6 +334,15 @@ function StorageLocationItem () {
         </div>
 
         <div className="UserPane">
+            <div className="deleteConfirmationForm" id="deleteConfirmForm" style={{"display": "none"}}>
+                <div className="FormHeader">
+                    Do you want to delete {deleteSerialNo}?
+                </div>
+                <div className="confirmDeleteBtn">
+                    <button className="btn btn-secondary" type="button" onClick={cancelDelete}>Cancel</button>
+                    <button className="btn btn-secondary" id="confirmBtn" type="submit" onClick={updateList}>Confirm</button>
+                </div>
+            </div>
             <ItemList items={currentList}
                     ViewInformation={ViewInformation}
                     updateList={updateList}
@@ -358,7 +351,8 @@ function StorageLocationItem () {
                     changeStatus={changeStatus}
                     changeLocation={changeLocation}
                     changeRFIDCode={changeRFIDCode} 
-                    ResortedList={ResortedList} />
+                    ResortedList={ResortedList}
+                    deleteConfirm={deleteConfirm} />
             <Pagination
                     PerPage={itemsPerPage} 
                     total={items.length} 

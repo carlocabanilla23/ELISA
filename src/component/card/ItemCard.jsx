@@ -3,7 +3,7 @@ import "../../assets/styles/User.css";
 import "../../assets/styles/OffCanvas.css";
 import { useNavigate } from "react-router-dom";
 
-const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation,changeRFIDCode}) => {
+const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation,changeRFIDCode,deleteConfirm}) => {
   const navigate = useNavigate();
     
   const EditItem = (s,t) => {
@@ -113,7 +113,8 @@ const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,
               <div id="computer" className="col actions-column">
                 <button
                   className="btn"
-                  onClick={() => updateList(item.serialno,item.type)}
+                  type="button"
+                  onClick={() => deleteConfirm(item.serialno,item.type)}
                 >
                   <i className="fa fa-trash"></i>
                 </button>
