@@ -2,7 +2,6 @@ import React from "react";
 import "../../assets/styles/User.css";
 
 const AssignedItemCard = ({ item, updateList }) => {
- 
   return (
     <div className="UserRowItems">
       <div className="container-fluid">
@@ -31,7 +30,6 @@ const AssignedItemCard = ({ item, updateList }) => {
             aria-label="Close"
           ></button>
         </div>
-        
       </div>
     </div>
   );

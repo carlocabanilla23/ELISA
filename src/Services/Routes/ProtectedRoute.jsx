@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
-import Sidebar from "../../component/Sidebar";
-import Header from "../../component/Header";
+import Sidebar from "../../component/secondMainComponents/Sidebar";
+import Header from "../../component/secondMainComponents/Header";
 import '../../assets/styles/Sidebar.css';
 import '../../assets/styles/Header.css';
 
@@ -14,34 +14,28 @@ function ProtectedRoute({user,children}) {
   user = localStorage.getItem('user');
   let access = localStorage.getItem("access");
   console.log(access)
-  if (user === null) { return <Navigate to="/" replace/> } 
+  if (user === null) { return <Navigate to="/" replace/> }
   else if (user !== null && access === "Student" ) {
         // document.getElementById("CreateReservationHeader").style.display = "none";
         return(
-            <>  
+            <>
                     <div id="right-content" style={style}>
                     <Header />
                     {children}
                 </div>
             </>
-            );  
-    
+            );
   }else {
     return  (
-        <>  
+        <>
           <div id="right-content">
-            <Sidebar /> 
+            <Sidebar />
             <Header />
             {children}
             </div>
         </>
           );
   }
-    
-  
-    
-   
-
 }
 
 export default ProtectedRoute;

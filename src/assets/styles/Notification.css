@@ -70,3 +70,8 @@
 #NotifyHeader2{
     padding-left: 10%;
 }
+
+.notif_page{
+    position: absolute;
+    left: 0%;
+}

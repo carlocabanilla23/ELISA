@@ -11,15 +11,13 @@ const User = ( {user,updateList,ViewInformation,ViewHistory,changeRole,changeSta
                                 email : e
                         }
                 });
-
         }
-     
+
         const ViewOrderHistory = (email) => {
                 navigate('/OrderHistory/'+email)
         }
-        
+
         return (
-             
         <div className="UserRowItems">
                 <div className="container-fluid">
                         <div className="row ">
@@ -30,8 +28,8 @@ const User = ( {user,updateList,ViewInformation,ViewHistory,changeRole,changeSta
                                 <div className="col"> {user.email} </div>
                                 <div className="col"> {user.phone} </div>
                                 <div className="col"> {user.status} </div>
-                                <div className="col actions"> 
-                                        <div className="row"> 
+                                <div className="col actions">
+                                        <div className="row">
                                                 <div className="col actions-column">
                                                         <div className="dropdown p-0 m-0 sm">
                                                                 <button className="user-dropdown btn"
