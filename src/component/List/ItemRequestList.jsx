@@ -2,9 +2,9 @@
 import React from "react";
 import ItemCardShort from "../card/ItemCardShort";
 
-const ItemRequestList = ({items}) => {
-    
-    return ( 
+const ItemRequestList = ({items,RemoveItem}) => {
+
+    return (
         <>
                     <div className="row row mt-4 p-3 fw-bold  bg-light">
                             <div className="col fw-bold"> Name </div>
@@ -16,13 +16,13 @@ const ItemRequestList = ({items}) => {
             <ul className="list-group">
                 { items.map( (items,index) => (
                     <li key={index}>
-                        <ItemCardShort item={items} key={index}/>
+                        <ItemCardShort RemoveItem={RemoveItem} item={items} key={index}/>
                     </li>
                 ))}
-                
+
             </ul>
         </>
     );
-} 
+}
 
 export default ItemRequestList;

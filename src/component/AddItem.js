@@ -39,7 +39,10 @@ function AddItem() {
         assignedto : "NA",
 
         returndate : "NA",
-        reviewedby : "NA"
+        reviewedby : "NA",
+
+        prevroomno : "NA",
+        prevlocation : "NA"
     });
 
     // AddItem function is called when the form is submitted

@@ -63,17 +63,17 @@ function Reservation () {
 
             if (res.status === "Open") {
                 setItemListHeader("Item Requested")
-                setActionBtn(<button className="btn btn-light" id="assignBtn" onClick={ (e) => {assignItemBtn(e)}}>Assign Items</button>)
+                // setActionBtn(<button className="btn btn-light" id="assignBtn" onClick={ (e) => {assignItemBtn(e)}}>Assign Items</button>)
 
                 setItemList(res.returneditems);
             }else if (res.status === "Returned") {
                 setItemListHeader("Returned Items");
             }else if (res.status === "Assigned") {
                 setItemListHeader("Assigned Items");
-                setActionBtn(<button className="btn btn-dark" id="returnBtn" onClick={ (e) => {returnItemBtn(e)}}>Return Items</button>)
+                // setActionBtn(<button className="btn btn-dark" id="returnBtn" onClick={ (e) => {returnItemBtn(e)}}>Return Items</button>)
             }else if (res.status === "Reserved") {
                 setItemListHeader("Reserved Items");
-                setActionBtn(<button className="btn btn-dark" id="returnBtn" onClick={ (e) => {returnItemBtn(e)}}>Return Items</button>)
+                // setActionBtn(<button className="btn btn-dark" id="returnBtn" onClick={ (e) => {returnItemBtn(e)}}>Return Items</button>)
             }
 
             setApprovedBy(res.approvedby);
@@ -87,20 +87,24 @@ function Reservation () {
         })
 
         API.get("reservationcart","/cart/object/"+reservationnoParam).then( res => {
+            console.log(res);
             setNote(res.note);
             setReservationCart(res.itemrequested);
+            // console.log(res);
             setAssignedItems(res.assigneditems);
-            const requestList = res.itemrequested;
-            if(statusParam !== "Returned") {
-                let itm = [...new Set(res.itemrequested.map( item => item.type))]
-                let list = [];
-                itm.forEach( e => {
-                    API.get("items","/items/" +e).then( res => {
-                        list.push(...res);
-                        sortItems(list, requestList);
-                    });
-                });
-            }
+            console.log(res.assigneditems);
+
+            // const requestList = res.itemrequested;
+            // if(statusParam !== "Returned") {
+            //     let itm = [...new Set(res.itemrequested.map( item => item.type))]
+            //     let list = [];
+            //     itm.forEach( e => {
+            //         API.get("items","/items/" +e).then( res => {
+            //             list.push(...res);
+            //             sortItems(list, requestList);
+            //         });
+            //     });
+            // }
             
             // if (itemList.length > 0) {
             //     let element = document.getElementsByClassName("assignedItemListHeader");
@@ -123,102 +127,104 @@ function Reservation () {
         })
     },[]);
 
-    useEffect(() => {
-        if(error === '1'){
-            setErrorMessage('You have reach the requested quantity');
-        }
-    },[error])
+    // useEffect(() => {
+    //     if(error === '1'){
+    //         setErrorMessage('You have reach the requested quantity');
+    //     }
+    // },[error])
     
     // Sort item in the item list
-    const sortItems = (items) => {
-        console.log(items);
-        let updatedList = items.filter(item => item.location === "Unassigned" || "Room");
-        updatedList = updatedList.filter(item => item.location !== "USER");
-        setItems(updatedList);
-        setUnfilteredItems(updatedList);
-    } 
+    // const sortItems = (items) => {
+    //     console.log(items);
+    //     let updatedList = items.filter(item => item.location === "Unassigned" || "Room");
+    //     updatedList = updatedList.filter(item => item.location !== "USER");
+    //     setItems(updatedList);
+    //     setUnfilteredItems(updatedList);
+    // } 
    
     const cancelViewReservation = () => {
-        navigate('/Reservations');
+        navigate(-1);
     }
 
-    const AddItemToLocation = (items,firstName,lastName) => {
-        items.forEach(item => {
-            API.put("items","/items", {
-                body : {
-                    name : item.name,
-                    type : item.type,
-                    model : item.model,
-                    status : item.status, 
-                    serialno : item.serialno,
-                    location : "USER",
-                    roomno : "USER",
-                    assignedto : firstName + " " + lastName ,
-                    assignedate : currentDate,
-                    returndate : returnDate,        
-                }
-            });
-        });
-    }
+    // const AddItemToLocation = (items,firstName,lastName) => {
+    //     items.forEach(item => {
+    //         API.put("items","/items", {
+    //             body : {
+    //                 name : item.name,
+    //                 type : item.type,
+    //                 model : item.model,
+    //                 status : item.status, 
+    //                 serialno : item.serialno,
+    //                 location : "USER",
+    //                 roomno : "USER",
+    //                 assignedto : firstName + " " + lastName ,
+    //                 assignedate : currentDate,
+    //                 returndate : returnDate,        
+    //             }
+    //         });
+    //     });
+    // }
 
-    const updateList = (item) => {
-        const updatedList = items.filter(itemRes => itemRes.serialno !== item.serialno);
-        setItems(updatedList);
-        setUnfilteredItems(updatedList);
-    }
+    // const updateList = (item) => {
+    //     const updatedList = items.filter(itemRes => itemRes.serialno !== item.serialno);
+    //     setItems(updatedList);
+    //     setUnfilteredItems(updatedList);
+    // }
 
     // Pagination
-    const idxLastItem = currentPage * itemsPerPage;
-    const idxFirstItem = idxLastItem - itemsPerPage;
-    const currentList = items.slice(idxFirstItem,idxLastItem);
+    // const idxLastItem = currentPage * itemsPerPage;
+    // const idxFirstItem = idxLastItem - itemsPerPage;
+    // const currentList = items.slice(idxFirstItem,idxLastItem);
 
-    const paginate = (pageNumber) => {
-        if (pageNumber !== 0 && pageNumber !==  Math.ceil(items.length / itemsPerPage) + 1 ) {
+    // const paginate = (pageNumber) => {
+    //     if (pageNumber !== 0 && pageNumber !==  Math.ceil(items.length / itemsPerPage) + 1 ) {
 
-           var obj = document.getElementById(currentPage);
-            obj.style.backgroundColor = "#F0F0EB";
-            obj.style.color = "#3E2B2E";
+    //        var obj = document.getElementById(currentPage);
+    //         obj.style.backgroundColor = "#F0F0EB";
+    //         obj.style.color = "#3E2B2E";
 
-            setCurrentPage(pageNumber);
+    //         setCurrentPage(pageNumber);
 
-            obj = document.getElementById(pageNumber);
-            obj.style.color = "#ffffff";
-        }
-    };
+    //         obj = document.getElementById(pageNumber);
+    //         obj.style.color = "#ffffff";
+    //     }
+    // };
 
     // Add Item
-    const addItem = (item) => {
-        const requestInfo = reservationCart.filter((request) => request.type === item.type);
-        const assignedAmount = assignedItems.filter((assigned) => assigned.type === item.type);
-        let max = 0;
-        requestInfo.forEach((request) => {
-            max += Number(request.quantity);
-        });
-        if(max === assignedAmount.length){
-            throw new Error(setError('1'));
-        }
-        setAssignedItems([...assignedItems,item]);
-        setItemList([...itemList,item]);
-        updateList(item);
-    }
-    
+    // const addItem = (item) => {
+    //     const requestInfo = reservationCart.filter((request) => request.type === item.type);
+    //     const assignedAmount = assignedItems.filter((assigned) => assigned.type === item.type);
+    //     let max = 0;
+    //     requestInfo.forEach((request) => {
+    //         max += Number(request.quantity);
+    //     });
+    //     if(max === assignedAmount.length){
+    //         throw new Error(setError('1'));
+    //     }
+    //     setAssignedItems([...assignedItems,item]);
+    //     setItemList([...itemList,item]);
+    //     updateList(item);
+    // }
+
     //Removing the item and update the assignedItem list
-    const removeItem = (item) => {
-        const updateAssignedList = assignedItems.filter((itemRes) => itemRes.serialno !== item.serialno);
-        setAssignedItems(updateAssignedList);
-        setItemList(updateAssignedList);
-    }
+    // const removeItem = (item) => {
+    //     const updateAssignedList = assignedItems.filter((itemRes) => itemRes.serialno !== item.serialno);
+    //     setAssignedItems(updateAssignedList);
+    //     setItemList(updateAssignedList);
+    // }
 
-    const returnItems = (assignedItems) => {
-        assignedItems.forEach( item => {
-            item.status = "Available";
-            item.lastupdated = GetDateToday();
-            item.roomno =  item.prevroomno;
-            item.location = item.prevlocation;
-            item.reviewedby = accountEmail;
-            item.returndate = GetDateToday();
-
-            API.post("items","/items", { body : item });
+    const returnItems = (reservedItems) => {
+        let cart = reservedItems;
+        console.log(reservedItems);
+        cart.forEach( itm => {
+            itm.status = "Available";
+            itm.lastupdated = GetDateToday();
+            itm.roomno =  itm.prevroomno;
+            itm.location = itm.prevlocation;
+            itm.reviewedby = accountEmail;
+            itm.returndate = GetDateToday();
+            API.post("items","/items", { body : itm }
+            );
         })
 
         API.post("reservation","/reservation/", {
@@ -240,9 +246,9 @@ function Reservation () {
             body : {
             reservationno : reservationno,
             description : note,
-            itemrequested : reservationCart,
+            itemrequested : assignedItems,
             assigneditems : assignedItems,
-            returneditems : assignedItems
+            returneditems : cart
             }
         });
 
@@ -250,88 +256,94 @@ function Reservation () {
         setItemListHeader("Returned Items");
         document.getElementById("returnBtn").style.display = "none";
     }
-   
-    const AssignItems = (assignedItems) => {
-        API.post("reservation","/reservation/", {
-            body : {
-                email : email,
-                reservationno : reservationno,
-                summary : summary,
-                status : "Assigned",
-                requestby : firstName + " " + lastName,
-                assigndate : currentDate,
-                approvedby : approvedBy,
-                reviewedby: reviewedBy,
-                requestdate : currentDate,
-                returndate : returnDate,
-            }
-        });
-        API.post("reservationcart","/cart", {
-            body : {
-                reservationno : reservationno,
-                description : note,
-                itemrequested : reservationCart,
-                assigneditems : assignedItems,
-            }
-        });
 
-        AddItemToLocation(assignedItems,firstName,lastName);
-        CheckInventory(assignedItems)
-        setStatus("Assigned");
-        setItemListHeader("Assigned Items")
-    }
+    // const AssignItems = (assignedItems) => {
+    //     API.post("reservation","/reservation/", {
+    //         body : {
+    //             email : email,
+    //             reservationno : reservationno,
+    //             summary : summary,
+    //             status : "Assigned",
+    //             requestby : firstName + " " + lastName,
+    //             assigndate : currentDate,
+    //             approvedby : approvedBy,
+    //             reviewedby: reviewedBy,
+    //             requestdate : currentDate,
+    //             returndate : returnDate,
+    //         }
+    //     });
+    //     API.post("reservationcart","/cart", {
+    //         body : {
+    //             reservationno : reservationno,
+    //             description : note,
+    //             itemrequested : reservationCart,
+    //             assigneditems : assignedItems,
+    //         }
+    //     });
 
-    const CheckInventory = (assignedItems) => {
-        let items = new Set();
+    //     AddItemToLocation(assignedItems,firstName,lastName);
+    //     CheckInventory(assignedItems)
+    //     setStatus("Assigned");
+    //     setItemListHeader("Assigned Items")
+    // }
+
+    // const CheckInventory = (assignedItems) => {
+    //     let items = new Set();
         
-        assignedItems.forEach(item => {
-            items.add(item.type)
-        });
-        items.forEach(item => {
-            const searchItem = unfilteredItems.filter(item => item.type.includes(item))
-            if (searchItem.length === 0) { 
-                SendNotification("OUT_OF_STOCK",item);              
-            }
-        });
+    //     assignedItems.forEach(item => {
+    //         items.add(item.type)
+    //     });
+    //     items.forEach(item => {
+    //         const searchItem = unfilteredItems.filter(item => item.type.includes(item))
+    //         if (searchItem.length === 0) { 
+    //             SendNotification("OUT_OF_STOCK",item);              
+    //         }
+    //     });
 
-    }
+    // }
 
     //Searching item
-    const searchItem = (e) => {
-        if (e.length === 9) {
-            const searchItem = unfilteredItems.filter(item => item.serialno.toLowerCase().includes(e))
-            if (searchItem.length === 1) { 
-               addItem(searchItem[0])
-               document.getElementById('SearchBarInput').value= " " ;
-            }
-        }
-        else {
-            if (e.length > 0) {
-                const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
-                                                                items.name.toLowerCase().includes(e) || 
-                                                                items.model.toLowerCase().includes(e) || 
-                                                                items.type.includes(e));
-                setItems(searcedhItems);
-            }else{
-                setItems(unfilteredItems);
-            }
-        }
-    }
+    // const searchItem = (e) => {
+    //     if (e.length === 9) {
+    //         const searchItem = unfilteredItems.filter(item => item.serialno.toLowerCase().includes(e))
+    //         if (searchItem.length === 1) { 
+    //            addItem(searchItem[0])
+    //            document.getElementById('SearchBarInput').value= " " ;
+    //         }
+    //     }
+    //     else {
+    //         if (e.length > 0) {
+    //             const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
+    //                                                             items.name.toLowerCase().includes(e) || 
+    //                                                             items.model.toLowerCase().includes(e) || 
+    //                                                             items.type.includes(e));
+    //             setItems(searcedhItems);
+    //         }else{
+    //             setItems(unfilteredItems);
+    //         }
+    //     }
+    // }
 
-    const assignItemBtn = (e) => {
-        setApprovedBy(accountName);
-        setAssignedDate(`${year}-${month}-${day}`);
-        AssignItems(assignedItems);
-        setError('');
-        setErrorMessage('');
-    }
+    // const assignItemBtn = (e) => {
+    //     console.log(assignedItems);
+    //     setApprovedBy(accountName);
+    //     setAssignedDate(`${year}-${month}-${day}`);
+        
+    //     // AssignItems(assignedItems);
+    //     setError('');
+    //     setErrorMessage('');
+    // }
 
     const returnItemBtn = (e) => {
+        console.log(assignedItems);
+        // console.log(reservationno)
         // e.preventdefault();
-        // setReturnDate(`${year}-${month}-${day}`);
-        // returnItems(assignedItems);
-        // setError('');
-        // setErrorMessage('');
+        setReturnDate(`${year}-${month}-${day}`);
+        console.log(assignedItems);
+
+        returnItems(assignedItems);
+        setError('');
+        setErrorMessage('');
     }
  
     return (
@@ -434,6 +446,7 @@ function Reservation () {
                                     <label className="userinfo-form-label fw-bold form-label"></label>
                                     <div className="row">
                                         <div className="col">
+                                        <button className="btn btn-dark" id="returnBtn" onClick={ (e) => {returnItemBtn(e)}}>Return Items</button>
                                             {actionBtn}
                                             
                                         </div>
@@ -502,9 +515,9 @@ function Reservation () {
                                     <div id="ERRMessage">{errorMessage}</div>
                                 </div>
                             </div>
-                            <div className="Assigneditemlist">
+                            {/* <div className="Assigneditemlist">
                                 <ReservationAssignedItemList items={assignedItems} removeItem={removeItem}/>
-                            </div>
+                            </div> */}
                         </div>
                    
                        

@@ -73,20 +73,11 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
     }
 
     const setNewLocation = () => {
+        item.location = locationType;
+        item.roomno = location;
         API.post("items","/items/", {
-            body : {
-                name : item.name,
-                serialno : item.serialno,
-                type : item.type,
-                model : item.model,
-                location : locationType,
-                roomno : location,
-                status : item.status,
-                manufacturer: item.manufacturer,
-                cost: item.cost,
-                rfidcode: item.rfidcode,
-                lastupdated: today,
-                }});
+            body : item 
+        });
         setTimeout(() => {
             window.location.reload(true);
         },400)

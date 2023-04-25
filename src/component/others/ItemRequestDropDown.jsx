@@ -3,7 +3,7 @@ import { API } from "aws-amplify";
 import ItemList from "../List/ItemList";
 
 
-const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCart,setReservationCart}) => {
+const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCart,setReservationCart,Allitems}) => {
     const [types,setTypes] = useState();
     const [items,setItems] = useState([]);
     const [type, setType] = useState('Type');
@@ -20,6 +20,8 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
     const [cart,setCart] = useState([]);
 
     useEffect( ()=>{
+        // setItems(Allitems);
+        // sortItems(Allitems);
         API.get("items","/items/createreservation").then( itemRes => {
             sortItems(itemRes);
             setItems(itemRes);
@@ -112,7 +114,7 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
 
     const setNameList = (roomnoParam) => {
         setRoomno(roomnoParam);
-        
+
         const filterItems = items.filter(item => item.roomno === roomnoParam);
         let arrNames = [];
         filterItems.forEach (e => {

@@ -42,7 +42,7 @@ function CreateReservation () {
     const [header,setHeader] = useState('');
     const access = localStorage.getItem('access');
 
-     // Pagination 
+     // Pagination
      const [currentPage,setCurrentPage] = useState(1);
      const itemsPerPage = 10;
 
@@ -57,7 +57,7 @@ function CreateReservation () {
     (date.getDate() < 10) ?  day = "0" + date.getDate().toString() :  day = date.getDate();
 
     let year = date.getFullYear();
-    
+
 
     useEffect( () => {
         if (access === "Admin") {
@@ -70,44 +70,31 @@ function CreateReservation () {
 
         API.get("items","/items/createreservation").then( itemRes => {
             setItems(itemRes);
-            console.log(itemRes);
-
         })
-       
+
         setReturnDate(year+"-"+monthPlus3.toString()+"-"+day);
         setNote("I would like to borrow an equipment. Thank you");
-        
-        API.get("reservation","/reservation/count").then( rno => { 
+
+        API.get("reservation","/reservation/count").then( rno => {
             setReservationNo("R"+rno);
             setSummary("Reservation " + rno);
         });
 
-
-
         if (typeParam === undefined || serialParam === undefined) {
-        
+
             setRequestItemMenu(
                 <>
                  <ItemRequestDropDown
                             updateCart={updateCart}
-                            // types={types}
+                            // Allitems={itemRes}
                             setError={setError}
                             setErrorMessage={setErrorMessage}
-                            reservationCart={reservationCart}  
+                            reservationCart={reservationCart}
                             setReservationCart={setReservationCart}
                             // setModelList={setModelList}
                         />
                 </>
             );
-
-            // setItemListSummary(
-            //         <>
-                        
-            //         </>
-            
-            // );
-
-            
         } else {
             document.getElementById("ItemRequestList").style.display = "none";
             document.getElementById("ReservationItemList").style.display = "none";
@@ -122,11 +109,13 @@ function CreateReservation () {
                 // sortItems(itemRes);
                 // setItems(itemRes);
             })
-            
         }
-        
+
+
+
+
         // console.log(location.state.reservationCount);
-        
+
 
         setCurrentDate(`${day}-${month}-${year}`);
 
@@ -198,6 +187,7 @@ function CreateReservation () {
     }
 
     const submitOrder = () => {
+        let cart = reservationCart;
         // e.preventDefault();
         if(reservationCart.length === 0){
             alert("Please add item first");
@@ -214,51 +204,70 @@ function CreateReservation () {
                 returndate : returnDate,
                 }
             });
-    
+
+            cart.forEach( item => {
+                item.prevlocation = item.location;
+                item.prevroomno = item.roomno;
+                item.lastupdated = GetDateToday();
+                item.status = "Reserved";
+                item.roomno = "NA";
+                item.location = "USER";
+                item.assignedto = email;
+                item.assigndate = GetDateToday();
+
+                API.put("items",'/items/', {
+                    body : item
+                })
+            })
+
             API.post("reservationcart","/cart", {
                 body : {
                 reservationno : reservationNo,
-                description : note,
-                itemrequested : reservationCart,
-                assigneditems : reservationCart,
+                description :   note,
+                itemrequested : cart,
+                assigneditems : cart,
                 returneditems : []
                 }
             });
-    
-            reservationCart.forEach( item => {
-                API.get("items",'/items/object/'+typeParam + '/' +serialParam).then(res => {
-                        res.status = "Reserved";
-                        res.lastupdated = GetDateToday();
-                        res.prevlocation = res.location;
-                        res.prevroomno = res.roomno;
-                        res.roomno = "NA";
-                        res.location = "USER";
-                        res.assignedto = email;
-                        res.assigndate = GetDateToday();
-    
-                        API.put("items",'/items/', {
-                            body : res
-                        })
-                })
-    
-            })
-    
+
             // Send Email to Admin
             SendNotification("NEW_RESERVATION",reservationNo);
             ShowAlert();
+            CheckInventory(reservationCart);
+
         }
 
-        
+
+    }
+
+    const CheckInventory = (assignedItems) => {
+        let items = new Set();
+
+        assignedItems.forEach(item => {
+            items.add(item.type)
+        });
+        items.forEach(item => {
+            const searchItem = items.filter(item => item.type.includes(item))
+            if (searchItem.length === 0) {
+                SendNotification("OUT_OF_STOCK",item);
+            }
+        });
+
     }
 
     const addItem = (itm) => {
-        
         setReservationCart([itm,...reservationCart]);
 
         const tmpItm = items.filter( i=> i !== itm)
         const tmpupItm = filteredItems.filter( i => i !== itm);
         setItems(tmpItm);
         setFilteredItems(tmpupItm);
+    }
+
+    const RemoveItem = (itm) => {
+        const tmpItems = reservationCart.filter( i => i !== itm);
+        setReservationCart(tmpItems);
+        setItems([itm,...filteredItems]);
     }
 
     const ShowAlert = () => {
@@ -288,15 +297,15 @@ function CreateReservation () {
             obj.style.color = "#ffffff";
         }
     };
-    
+
     return (
         <>
             <div className="alert alert-success alert-popout" id="alert" role="alert">
                 The reservation has been created successfully!
             </div>
-            
+
             { header }
-       
+
             <div className="CreateReservation">
                 <div className="container ReservationForm">
                     <div className="row">
@@ -315,8 +324,8 @@ function CreateReservation () {
                         </div>         */}
                         {/* { console.log(types)} */}
 
-                       
-                       
+
+
                         {/* Summary */}
                         <div className="row">
                             <div className="col">
@@ -345,11 +354,11 @@ function CreateReservation () {
                                     onInput={(e) => e.target.setCustomValidity('')}
                                     value={returnDate}
                                     required={true} />
-                                    
+
                                 </div>
                             </div>
                         </div>
-  
+
                         {/* Note */}
                         <div className="row">
                             <div className="col">
@@ -361,7 +370,7 @@ function CreateReservation () {
                                     rows="3"
                                     pattern='^([a-zA-Z0-9]{1,})$'
                                     onInvalid={(event) => {event.target.setCustomValidity('Write a short note or "None" before submit the reservation form')}}
-                                    onInput={(e) => e.target.setCustomValidity('')} 
+                                    onInput={(e) => e.target.setCustomValidity('')}
                                     required={true}
                                     value={note} />
                                 </div>
@@ -376,14 +385,14 @@ function CreateReservation () {
                             </div>
                             <span className="errorMessage">{errorMessage}</span>
                         </div>
-               
+
                     <div id="ItemRequestList">
-                    <ItemRequestList items={reservationCart} />
+                    <ItemRequestList RemoveItem={RemoveItem} items={reservationCart} />
                     </div>
                 </div>
-                
+
                 <div id="ReservationItemList">
-                    <ReservationItemList 
+                    <ReservationItemList
                         items = {currentList}
                         addItem = {addItem}
                         searchItem={searchItem}
@@ -391,21 +400,13 @@ function CreateReservation () {
                  </div>
 
                  <Pagination
-                        PerPage={itemsPerPage} 
-                        total={filteredItems.length} 
+                        PerPage={itemsPerPage}
+                        total={filteredItems.length}
                         paginate={paginate}
                         currentPageLocation = {currentPage}
-                        /> 
+                        />
                 {/* {itemListSummary} */}
-                
-           
-    
-            </div>  
-
-    
-    
-
-           
+            </div>
         </>
     );
 }
