@@ -10,7 +10,7 @@ import ContentHeader from "../../component/others/ContentHeader";
 import ItemList from "../../component/List/ItemList";
 import ItemRequestList from "../../component/List/ItemRequestList";
 import ReservationItemList from "../../component/List/ReservationItemList";
-import Pagination from "../../component/Pagination";
+import Pagination from "../../component/secondMainComponents/Pagination";
 import { GetDateToday } from "../../Services/etc/GetDateToday";
 
 function CreateReservation () {

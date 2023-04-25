@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { API } from "aws-amplify";
 import '../../assets/styles/Reservation.css';
 import ReservationItemList from "../../component/List/ReservationItemList";
-import Pagination from "../../component/Pagination";
+import Pagination from "../../component/secondMainComponents/Pagination";
 import ReservationAssignedItemList from "../../component/List/ReservationAssignedItemList";
 import SendNotification from "../../Services/notification/Notification";
 import { GetDateToday } from "../../Services/etc/GetDateToday";

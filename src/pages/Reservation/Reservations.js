@@ -3,7 +3,7 @@ import { API } from 'aws-amplify';
 import "../../assets/styles/Users.css";
 import { useNavigate } from "react-router-dom";
 import ReservationList from '../../component/List/ReservationList';
-import Pagination from "../../component/Pagination";
+import Pagination from "../../component/secondMainComponents/Pagination";
 
 function Reservations () {
     // CreateTestReservation(50);

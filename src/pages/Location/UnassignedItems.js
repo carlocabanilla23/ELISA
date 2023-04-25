@@ -1,22 +1,22 @@
-// import CreateTestEquipment from "../../test/CreateTestEquipment";
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import "../../assets/styles/Users.css";
-import { useNavigate } from "react-router-dom";
-import ItemList from "../../component/List/ItemList";
 import Pagination from "../../component/secondMainComponents/Pagination";
+import UnassignedItemList from '../../component/List/UnassignedItemList';
 import OffCanvasCard from "../../component/card/OffCanvasCard";
 import { Generate } from "../../Services/code-generator/qrcode";
 import { GenerateBarcode } from "../../Services/code-generator/barcode";
-import { csv } from '../../Services/Export/csv';
+import { csv } from '../../Services/Export/csv'
 import { pdf } from '../../Services/Export/pdf';
+import { useNavigate } from 'react-router-dom';
 
-function Inventory () {
-    // CreateTestEquipment(5);
+function UnassignedItems () {
     const [items, setItems] = useState([]);
     const [unfilteredItems, setUnfilteredItems] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
+
+    //OffCanvas variable
     const [offCanvasItem, setOffCanvasItem] = useState('');
     const [qrcode,setQRCode] = useState();
     const [barcode,setBarcode] = useState();
@@ -25,88 +25,22 @@ function Inventory () {
     const [actionName, setActionName] = useState('');
     const [refreshvalue, setRefreshValue] = useState('');
 
+    //confirm delete item
     const [deleteSerialNo, setDeleteSerialNo] = useState('');
     const [deleteType, setDeleteType] = useState('');
 
-    const loggedUser = decodeURIComponent(escape(window.atob(localStorage.getItem('email'))));
-    const access = localStorage.getItem('access');
-
     const navigate = useNavigate();
 
-    const AddItem = e => {
-        e.preventDefault();
-        navigate('/AddItem');
-    }
-
     useEffect( () => {
-        API.get("items","/items").then( itemRes => {
-            itemRes.sort((a,b) => {
-                var tA = Number.parseInt(a.type);
-                var tB = Number.parseInt(b.type);
-                if(isNaN(tA) && isNaN(tB)){
-                    return a.type.localeCompare(b.type);
-                }else if(isNaN(tA)){
-                    return -1;
-                }else if(isNaN(tB)){
-                    return 1;
-                }else{
-                    return Math.sign(tA - tB);
-                }
-            });
-/**Change later to item status */
-            if ( access !== "Admin") {
-                document.getElementById('AddUser').style.display = "none";
-                const nonAdminList = itemRes.filter(item => item.location === "Room");
-
-                let e = document.getElementsByClassName('actions');
-
-                for(var i = 0; i < e.length; i++) {
-                  e[i].style.display = "none";
-                }
-
-                setItems([...items,...nonAdminList]);
-                setUnfilteredItems([...items,...nonAdminList]);
-            } else {
-                setItems([...items,...itemRes]);
-                setUnfilteredItems([...items,...itemRes]);
-            }
-
-            //Sort room list for change Location function
-            const CurrentRoomList = itemRes.filter(item => item.location === "Room");
-            let updatedRoomList =  [...new Set(CurrentRoomList.map(room => room.roomno))];
-            updatedRoomList.sort((a,b) => {
-                var tA = Number.parseInt(a);
-                var tB = Number.parseInt(b);
-                if(isNaN(tA) && isNaN(tB)){
-                    return a.localeCompare(b);
-                }else if(isNaN(tA)){
-                    return -1;
-                }else if(isNaN(tB)){
-                    return 1;
-                }else{
-                    return Math.sign(tA - tB);
-                }
-            });
-            setRoomList(updatedRoomList);
-
-            //Sort storage list for change Location function
-            const CurrentStorageList = itemRes.filter(item => item.location === "Storage");
-            let updatedStorageList =  [...new Set(CurrentStorageList.map(storage => storage.roomno))];
-            updatedStorageList.sort((a,b) => {
-                var tA = Number.parseInt(a);
-                var tB = Number.parseInt(b);
-                if(isNaN(tA) && isNaN(tB)){
-                    return a.localeCompare(b);
-                }else if(isNaN(tA)){
-                    return -1;
-                }else if(isNaN(tB)){
-                    return 1;
-                }else{
-                    return Math.sign(tA - tB);
-                }
-            });
-            setStorageList(updatedStorageList);
+        API.post('items','/items/roomno/items',{
+            body: { roomno : "Unassigned" }
+        }).then ( res => {
+            setItems(res);
+            setUnfilteredItems(res);
         })
+        API.get("items","/items").then(itemRes => {
+            sortLocationList(itemRes);
+        });
     },[]);
 
     const setConfirmForm = document.getElementById("deleteConfirmForm");
@@ -139,9 +73,46 @@ function Inventory () {
         setConfirmForm.style.display = "block";
     }
 
+    const sortLocationList = (items) => {
+        //Sort room list for change Location function
+        const CurrentRoomList = items.filter(item => item.location === "Room");
+        let updatedRoomList =  [...new Set(CurrentRoomList.map(room => room.roomno))];
+        updatedRoomList.sort((a,b) => {
+            var tA = Number.parseInt(a);
+            var tB = Number.parseInt(b);
+            if(isNaN(tA) && isNaN(tB)){
+                return a.localeCompare(b);
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
+        setRoomList(updatedRoomList);
+
+        //Sort storage list for change Location function
+        const CurrentStorageList = items.filter(item => item.location === "Storage");
+        let updatedStorageList =  [...new Set(CurrentStorageList.map(storage => storage.roomno))];
+        updatedStorageList.sort((a,b) => {
+            var tA = Number.parseInt(a);
+            var tB = Number.parseInt(b);
+            if(isNaN(tA) && isNaN(tB)){
+                return a.localeCompare(b);
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        });
+        setStorageList(updatedStorageList);
+    }
+
     const ViewInformation = async(item) => {
         let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
-        console.log(data);
         setActionName("Item Information");
         setOffCanvasItem(data);
         document.getElementById("item-info").style.display = "block";
@@ -150,13 +121,6 @@ function Inventory () {
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
         document.getElementById("changeRFIDCode").style.display = "none";
-
-        if (item.status === "Available") {
-            document.getElementById("item-info-reserve-itm-btn").style.display = "block";
-        } else {
-            document.getElementById("item-info-reserve-itm-btn").style.display = "none";
-
-        }
     }
 
     const CreateQRCode = (serialno) => {
@@ -199,15 +163,6 @@ function Inventory () {
         document.getElementById("changeRFIDCode").style.display = "none";
     }
 
-    const updateDataStatus = (serialno,status) => {
-        let tmpItems = items;
-        let idx = items.findIndex((itm => itm.serialno === serialno));
-        // console.log(tmpItems[idx]);
-        tmpItems[idx].status = status;
-        // console.log(items[idx]);
-        setItems(tmpItems);
-    }
-
     const changeLocation=  async(item) => {
         let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
         setRefreshValue(Math.random());
@@ -236,12 +191,12 @@ function Inventory () {
 
     const searchItem = (e) => {
         if (e.length > 0) {
-            const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) ||
-                                                            items.name.toLowerCase().includes(e) ||
-                                                            items.model.toLowerCase().includes(e) ||
-                                                            items.roomno.toLowerCase().includes(e) ||
-                                                            items.status.toLowerCase().includes(e) ||
-                                                            items.type.includes(e));
+            const searcedhItems =
+                unfilteredItems.filter((items) =>
+                    items.serialno.toLowerCase().includes(e) ||
+                    items.name.toLowerCase().includes(e) ||
+                    items.model.toLowerCase().includes(e) ||
+                    items.type.includes(e));
             if(searcedhItems.length < unfilteredItems.length){
                 paginate(1);
             }
@@ -252,11 +207,10 @@ function Inventory () {
     }
 
     const CSV = () => {
-        csv(items, "Inventory",[]);
+        csv(items, "Unassigned Items", []);
     }
-
     const PDF = () => {     // Exporting to pdf
-        pdf(items, "Inventory",[]);
+        pdf(items, "Unassigned Items", []);
     }
 
     const idxLastItem = currentPage * itemsPerPage;
@@ -278,7 +232,7 @@ function Inventory () {
         }
     };
 
-    const ResortedList = (title, filtered) => {
+    const ResortedList= (title, filtered) => {
         let curList = items;
         curList.sort((a,b) => {
             var tA = Number.parseInt(a.title);
@@ -293,9 +247,7 @@ function Inventory () {
                 }else if(title === 'model'){
                     return a.model.localeCompare(b.model);
                 }else if(title === 'status'){
-                    return a.location.localeCompare(b.status);
-                }else{
-                    return a.roomno.localeCompare(b.roomno);
+                    return a.status.localeCompare(b.status);
                 }
             }else if(isNaN(tA)){
                 return -1;
@@ -316,29 +268,25 @@ function Inventory () {
     }
 
     return (
-        <div className="Users" id="container">
+        <div className="Users">
         <div className="UserHeader">
+
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
                 <div>
-                    <span className="material-symbols-outlined">inventory_2</span>
-                    <span>Inventory</span>
+                    <span className="material-symbols-outlined" style={{cursor: "pointer"}} onClick={() => navigate(-1)}>arrow_back</span>
+                    <span>Unassigned Items</span>
 
                     <div className="searchBar">
                         <input type="email" className="form-control" onChange={ (e)=> { searchItem(e.target.value)} } id="exampleFormControlInput1" placeholder="Search Item"/>
                     </div>
-
-                    <div className="AddUser">
-                        <button type="submit" className="btn" id="AddUser" onClick={AddItem}>Add Item</button>
-                    </div>
-
                     <div className="col-auto-dropdown">
                         <div className="dropdown">
                             <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                            <li><button className="dropdown-item" onClick={CSV} >CSV</button></li>
+                                <li><button className="dropdown-item" onClick={CSV} >CSV</button></li>
                                 <li><button className="dropdown-item" onClick={PDF} >PDF</button></li>
                             </ul>
                         </div>
@@ -357,29 +305,26 @@ function Inventory () {
                     <button className="btn btn-secondary" id="confirmBtn" type="submit" onClick={updateList}>Confirm</button>
                 </div>
             </div>
-            <ItemList items={currentList}
-                      ViewInformation={ViewInformation}
-                      updateList={updateList}
-                      CreateQRCode={CreateQRCode}
-                      CreateBarcode={CreateBarcode}
-                      changeStatus={changeStatus}
-                      changeLocation={changeLocation}
-                      changeRFIDCode={changeRFIDCode}
-                      ResortedList={ResortedList}
-                      deleteConfirm={deleteConfirm} />
+            <UnassignedItemList   items={currentList}
+                        updateList={updateList}
+                        ViewInformation={ViewInformation}
+                        CreateQRCode={CreateQRCode}
+                        CreateBarcode={CreateBarcode}
+                        changeStatus={changeStatus}
+                        changeLocation={changeLocation}
+                        changeRFIDCode={changeRFIDCode}
+                        ResortedList={ResortedList}
+                        deleteConfirm={deleteConfirm}
+                        />
             <Pagination
                     PerPage={itemsPerPage}
                     total={items.length}
                     paginate={paginate}
                     currentPageLocation = {currentPage}
                     />
-                {/* {items.map( (itemRes,index) => <Item item={itemRes} key={index} updateList={updateList}/>)} */}
-
         </div>
-
         {/* OFf canvas */}
         <OffCanvasCard
-            updateDataStatus ={updateDataStatus}
             item={offCanvasItem}
             qrcode={qrcode}
             barcode={barcode}
@@ -391,4 +336,4 @@ function Inventory () {
     )
 }
 
-export default Inventory;
+export default UnassignedItems;

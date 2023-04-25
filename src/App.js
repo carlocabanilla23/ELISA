@@ -5,35 +5,35 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Routes, Route } from 'react-router-dom';
 
-import Login from './component/Login';
-import Home from './component/Home';
-import Users from './component/Users';
-import CreateUser from './component/CreateUser';
-import AddItem from './component/AddItem';
-import EditItem from './component/EditItem';
-import EditUser from './component/EditUser';
+import Login from './pages/LogIn/Login';
+import Home from './pages/Dashboard/Home';
+import Users from './pages/User/Users';
+import CreateUser from './pages/User/CreateUser';
+import AddItem from './pages/Inventory/AddItem';
+import EditItem from './pages/Inventory/EditItem';
+import EditUser from './pages/User/EditUser';
 import Inventory from './pages/Inventory/Inventory';
-import Location from './component/Location';
+import Location from './pages/Location/Location';
 import Reservations from './pages/Reservation/Reservations';
 import Reservation from './pages/Reservation/Reservation';
-import RoomLocationItem from './component/RoomLocationItem';
-import AddItemToLocation from './component/AddItemToLocation';
-import StorageLocationItem from './component/StorageLocationItem';
+import RoomLocationItem from './pages/Location/RoomLocationItem';
+import AddItemToLocation from './pages/Location/AddItemToLocation';
+import StorageLocationItem from './pages/Location/StorageLocationItem';
 import ItemInformation from './component/ItemInformation';
-import Setting from './component/Setting';
+import Setting from './pages/Personal/Setting';
 import CreateReservation from './pages/Reservation/CreateReservation';
-import Signup from './component/Signup';
-import AssignedItems from './component/AssignedItems';
-import UnassignedItems from './component/UnassignedItems';
+import Signup from './pages/LogIn/Signup';
+import AssignedItems from './pages/Location/AssignedItems';
+import UnassignedItems from './pages/Location/UnassignedItems';
 import ProtectedRoute from './Services/Routes/ProtectedRoute';
 import ViewItemInfo from './mobile/ViewItemInfo-m';
-import Notification from './pages/Notification';
-import Verify from './component/Verify';
-import OrderHistory from './pages/OrderHistory';
+import Notification from './pages/Personal/Notification';
+import Verify from './pages/LogIn/Verify';
+import OrderHistory from './pages/Personal/OrderHistory';
 import Reader from './pages/RFID/Reader';
-import ForgotPassword from './component/ForgotPassword';
-import ResetPassword from './component/ResetPassword';
-import SetNewPassword from './component/SetNewPassword';
+import ForgotPassword from './pages/LogIn/ForgotPassword';
+import ResetPassword from './pages/LogIn/ResetPassword';
+import SetNewPassword from './pages/User/SetNewPassword';
 import CreateRequest from './pages/Reservation/CreateRequest';
 
 // const Login = lazy(() => import( './component/Login'));
@@ -70,7 +70,6 @@ function App() {
   const [user] = useState(null);
   const [nav,setNav] = useState();
 
-  
   return (
     <>
     <div >
@@ -103,7 +102,7 @@ function App() {
             <Home />
           </ProtectedRoute>
       } />
-      
+
       <Route
         path='/Inventory'
         element= {
@@ -118,117 +117,114 @@ function App() {
               <RoomLocationItem />
           </ProtectedRoute>
       } />
-  
-      <Route path='/Location' 
+
+      <Route path='/Location'
         element= {
           <ProtectedRoute user={user}>
-          
-              <Location /> 
+
+              <Location />
           </ProtectedRoute> } />
 
-      <Route path='/RoomLocation/StorageLocationItem/:param' 
+      <Route path='/RoomLocation/StorageLocationItem/:param'
         element= {
           <ProtectedRoute user={user}>
-          
-              <StorageLocationItem /> 
+
+              <StorageLocationItem />
           </ProtectedRoute> } />
 
-      <Route path='/AssignedItems' 
+      <Route path='/AssignedItems'
         element= {
           <ProtectedRoute user={user}>
-          
-              <AssignedItems /> 
+
+              <AssignedItems />
           </ProtectedRoute> } />
-      <Route path='/UnassignedItems' 
+      <Route path='/UnassignedItems'
         element= {
           <ProtectedRoute user={user}>
-              <UnassignedItems /> 
-          </ProtectedRoute> } />
-      
-      
-      <Route path='/AddItemToLocation' 
-        element= {
-          <ProtectedRoute user={user}>
-              <AddItemToLocation /> 
-          </ProtectedRoute> } />
-  
-      <Route path='/Reservations' 
-        element= {
-          <ProtectedRoute user={user}>
-              <Reservations /> 
+              <UnassignedItems />
           </ProtectedRoute> } />
 
-      <Route path='/Reservation/:emailParam/:reservationnoParam/' 
+      <Route path='/AddItemToLocation'
         element= {
           <ProtectedRoute user={user}>
-              <Reservation /> 
+              <AddItemToLocation />
           </ProtectedRoute> } />
 
-      <Route path='/Reservation/:emailParam/:reservationnoParam/:statusParam' 
+      <Route path='/Reservations'
         element= {
           <ProtectedRoute user={user}>
-              <Reservation /> 
+              <Reservations />
           </ProtectedRoute> } />
 
+      <Route path='/Reservation/:emailParam/:reservationnoParam/'
+        element= {
+          <ProtectedRoute user={user}>
+              <Reservation />
+          </ProtectedRoute> } />
 
-          
+      <Route path='/Reservation/:emailParam/:reservationnoParam/:statusParam'
+        element= {
+          <ProtectedRoute user={user}>
+              <Reservation />
+          </ProtectedRoute> } />
+
       <Route path='/CreateRequest'
         element= {
           <ProtectedRoute user={user}>
-              <CreateRequest /> 
+              <CreateRequest />
           </ProtectedRoute> } />
-      
+
       <Route path='/CreateReservation'
         element= {
           <ProtectedRoute user={user}>
-              <CreateReservation /> 
+              <CreateReservation />
           </ProtectedRoute> } />
 
       <Route path='/CreateReservation/:typeParam/:serialParam'
         element= {
           <ProtectedRoute user={user}>
-              <CreateReservation /> 
+              <CreateReservation />
           </ProtectedRoute> } />
 
       <Route path='/EditUser'
         element= {
           <ProtectedRoute user={user}>
-              <EditUser /> 
-          </ProtectedRoute> } /> 
-
-      <Route path='/Users' 
-        element= {
-          <ProtectedRoute user={user}>
-              <Users /> 
+              <EditUser />
           </ProtectedRoute> } />
 
-      <Route path='/Users/:param' 
+      <Route path='/Users'
         element= {
           <ProtectedRoute user={user}>
-              <Users /> 
+              <Users />
+          </ProtectedRoute> } />
+
+      <Route path='/Users/:param'
+        element= {
+          <ProtectedRoute user={user}>
+              <Users />
           </ProtectedRoute> } />
 
       <Route path='/CreateUser' element= {
           <ProtectedRoute user={user}>
-              <CreateUser /> 
-          </ProtectedRoute> } />
-      
-      <Route path='/ItemInformation' 
-          element= {
-            <ProtectedRoute user={user}>
-                <ItemInformation /> 
-            </ProtectedRoute> } />
-            
-      <Route path="/EditItem" 
-        element={
-          <ProtectedRoute user={user}>
-            <EditItem /> 
+              <CreateUser />
           </ProtectedRoute> } />
 
-      <Route path='/AddItem' 
+      <Route path='/ItemInformation'
+          element= {
+            <ProtectedRoute user={user}>
+                <ItemInformation />
+            </ProtectedRoute> } />
+
+      <Route path="/EditItem"
+        element={
+          <ProtectedRoute user={user}>
+            <EditItem />
+          </ProtectedRoute> } />
+
+      <Route path='/AddItem'
         element= {
           <ProtectedRoute user={user}>
-              <AddItem /> 
+              <AddItem />
           </ProtectedRoute> } />
 
       <Route path='/Setting'
@@ -236,7 +232,7 @@ function App() {
         <ProtectedRoute user={user}>
             <Setting />
         </ProtectedRoute> } />
-        
+
       <Route path='/Notification'
         element= {
         <ProtectedRoute user={user}>
@@ -254,9 +250,6 @@ function App() {
         <ProtectedRoute user={user}>
             < OrderHistory />
         </ProtectedRoute> } />
-       
-
-      
     </Routes>
 
 
@@ -264,7 +257,7 @@ function App() {
     {/* Comment The Routes on Top in order to run this. Change the component below for the test that you want to run */}
     {/* < CreateReservation /> */}
     {/* < Inventory /> */}
-   
+
     </div>
 
     </>

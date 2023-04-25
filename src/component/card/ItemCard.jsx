@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation,changeRFIDCode,deleteConfirm}) => {
   const navigate = useNavigate();
-    
+
   const EditItem = (s,t) => {
     navigate("/EditItem", {
       state: {
@@ -14,7 +14,7 @@ const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,
       },
     });
   };
- 
+
   return (
     <div className="UserRowItems">
       <div className="container-fluid">
@@ -24,7 +24,6 @@ const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,
           <div className="col"> {item.type} </div>
           <div id="model" className="col rmobile"> {item.model} </div>
           <div id="status" className="col rmobile"> {item.status} </div>
-          <div id="location" className="col rmobile"> {item.location} </div>
           <div id="roomNumber" className="col rmobile"> {item.roomno} </div>
           <div className="col actions rmobile">
             <div className="row">
@@ -48,10 +47,10 @@ const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,
                         aria-controls="offcanvasRight"
                       > View Information
                     </li>
-                    <li style={{display: 'none'}} 
+                    <li style={{display: 'none'}}
                         id="mobile"
-                        className="dropdown-item" 
-                        type="button" 
+                        className="dropdown-item"
+                        type="button"
                         onClick={() => EditItem(item.serialno)}
                       > Edit
                     </li>
@@ -95,10 +94,10 @@ const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,
                         aria-controls="offcanvasRight">
                         Change RFID Code
                     </li>
-                    <li style={{display: 'none'}} 
+                    <li style={{display: 'none'}}
                         id="mobile"
-                        className="dropdown-item" 
-                        type="button" 
+                        className="dropdown-item"
+                        type="button"
                         onClick={() => updateList(item.serialno)}
                       > Delete
                     </li>
@@ -123,7 +122,6 @@ const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,
           </div>
         </div>
       </div>
-      
     </div>
   );
 };

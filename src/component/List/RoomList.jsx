@@ -19,11 +19,11 @@ const RoomList = ({items,updateList,ResortedList,sortAmountItem}) => {
         <>
             <div className="UserRowTitle">
                 <div className="container-fluid">
-                    <div className="row">   
+                    <div className="row">
                         <div className="col" onClick={e => {ResortedList('roomno',roomno);reset('roomno')}} style={{'cursor': 'pointer'}}> Room No </div>
                         <div className="col" onClick={e => {ResortedList('location',location);reset('location')}} style={{'cursor': 'pointer'}}> Location </div>
                         <div className="col" onClick={e => {ResortedList('building',building);reset('building')}} style={{'cursor': 'pointer'}}> Building </div>
-                        <div className="col" onClick={e => {sortAmountItem(amount);reset('amount')}} style={{'cursor': 'pointer'}}> Number of Items</div> 
+                        <div className="col" onClick={e => {sortAmountItem(amount);reset('amount')}} style={{'cursor': 'pointer'}}> Number of Items</div>
                     </div>
                 </div>
             </div>
@@ -31,17 +31,14 @@ const RoomList = ({items,updateList,ResortedList,sortAmountItem}) => {
             <ul className="list-group">
                 { items.map( (item,index) => (
                     <li key={index}>
-                        <RoomCard   item={item} 
+                        <RoomCard   item={item}
                                     key={index}
-                                    // updateList={updateList}      
+                                    // updateList={updateList}
                         />
                     </li>
                 ))}
-                
             </ul>
-
         </>
-       
     )
 }
 export default RoomList;
