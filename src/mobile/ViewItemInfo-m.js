@@ -27,7 +27,7 @@ function ViewItemInfo () {
     const navigate = useNavigate();
 
     useEffect( () => {
-        API.get("inventory","/items/object/"+param).then(res => {
+        API.get("items","/items/object/"+param).then(res => {
             setName(res.name);
             setSerialNumber(res.serialno);
             setType(res.type);
