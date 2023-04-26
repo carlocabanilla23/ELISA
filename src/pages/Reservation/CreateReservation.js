@@ -41,6 +41,7 @@ function CreateReservation () {
 
     const [header,setHeader] = useState('');
     const access = localStorage.getItem('access');
+    const [pageUpdate,setPageUpdate] = useState(true);
 
      // Pagination
      const [currentPage,setCurrentPage] = useState(1);
@@ -60,6 +61,7 @@ function CreateReservation () {
 
 
     useEffect( () => {
+        setPageUpdate(false);
         if (access === "Admin") {
             setHeader(
             <>
@@ -92,6 +94,8 @@ function CreateReservation () {
                             reservationCart={reservationCart}
                             setReservationCart={setReservationCart}
                             // setModelList={setModelList}
+                            filteredItems={filteredItems}
+                            setFilteredItems={setFilteredItems}
                         />
                 </>
             );
@@ -128,7 +132,7 @@ function CreateReservation () {
             setRole(res.role);
         })
 
-    },[]);
+    },[filteredItems]);
 
     useEffect(() => {
         if(error === 1){
@@ -162,13 +166,18 @@ function CreateReservation () {
 
     const searchItem = (e) => {
         // console.log(e.length);
+        let query = e.toLowerCase();
 
         if (e.length === 0) {
             setFilteredItems([]);
         }else {
-            const searcedhItems = items.filter((item) => item.type.toLowerCase().includes(e) || 
-                                                        item.name.toLowerCase().includes(e) || 
-                                                        item.model.toLowerCase().includes(e));
+            const searcedhItems = items.filter((item) => item.type.toLowerCase().includes(query) ||
+                                                        item.name.toLowerCase().includes(query) ||
+                                                        item.model.toLowerCase().includes(query) ||
+                                                        item.manufacturer.toLowerCase().includes(query) ||
+                                                        item.roomno.toLowerCase().includes(query)
+
+                                                        );
                                                     //  ||
                                                     // item.manufacturer !== undefined ||
                                                     // item.manufacturer.toLowerCase().includes(e));
@@ -233,7 +242,7 @@ function CreateReservation () {
             // Send Email to Admin
             SendNotification("NEW_RESERVATION",reservationNo);
             ShowAlert();
-            CheckInventory(reservationCart);
+            // CheckInventory(reservationCart);
 
         }
 
@@ -256,18 +265,30 @@ function CreateReservation () {
     }
 
     const addItem = (itm) => {
-        setReservationCart([itm,...reservationCart]);
-
+        console.log(itm);
+        console.log(reservationCart);
         const tmpItm = items.filter( i=> i !== itm)
         const tmpupItm = filteredItems.filter( i => i !== itm);
         setItems(tmpItm);
-        setFilteredItems(tmpupItm);
+
+        setFilteredItems((items) =>
+        items.filter((i) => i !== itm)
+        );
+       
+        setReservationCart([itm,...reservationCart]);
+
     }
 
     const RemoveItem = (itm) => {
+        setReservationCart((items) =>
+        items.filter((i) => i !== itm)
+        );
+
+        // console.log(reservationCart);
         const tmpItems = reservationCart.filter( i => i !== itm);
-        setReservationCart(tmpItems);
+        // setReservationCart([...tmpItems]);
         setItems([itm,...filteredItems]);
+        setFilteredItems([itm,...filteredItems]);
     }
 
     const ShowAlert = () => {

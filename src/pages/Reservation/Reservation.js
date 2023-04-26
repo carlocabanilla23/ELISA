@@ -289,14 +289,14 @@ function Reservation () {
 
     // const CheckInventory = (assignedItems) => {
     //     let items = new Set();
-        
+
     //     assignedItems.forEach(item => {
     //         items.add(item.type)
     //     });
     //     items.forEach(item => {
     //         const searchItem = unfilteredItems.filter(item => item.type.includes(item))
-    //         if (searchItem.length === 0) { 
-    //             SendNotification("OUT_OF_STOCK",item);              
+    //         if (searchItem.length === 0) {
+    //             SendNotification("OUT_OF_STOCK",item);
     //         }
     //     });
 
@@ -448,7 +448,7 @@ function Reservation () {
                                         <div className="col">
                                         <button className="btn btn-dark" id="returnBtn" onClick={ (e) => {returnItemBtn(e)}}>Return Items</button>
                                             {actionBtn}
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -456,7 +456,7 @@ function Reservation () {
                         </div>
                     </div>
                 </div>
-                
+
                 <div className="ItemList">
                     {/* <ReservationItemList items={currentList} addItem={addItem} status={status} searchItem={searchItem}/> */}
                     <div className="Reservation-Pagination">
@@ -484,7 +484,7 @@ function Reservation () {
                                         </div>
                                     </li>
 
-                                    {reservationCart?.map ( (res,index)=> 
+                                    {reservationCart?.map ( (res,index)=>
                                     <li className="list-group" key={index}>
                                         <div className="row">
                                             <div className="col">
@@ -498,33 +498,31 @@ function Reservation () {
                                             </div>
                                         </div>
                                     </li>
-                                    
+
                                     )}
                                 </ul>
                             </div>
-                            
-                           
+
                         </div> */}
-                                        
+
                         <div className="Assigned-Items">
                             <div className="row header">
                                 <div className="col">
-                                    <h2> {itemListHeader}</h2> 
+                                    <h2> {itemListHeader}</h2>
                                 </div>
                                 <div className="col">
                                     <div id="ERRMessage">{errorMessage}</div>
                                 </div>
                             </div>
-                            {/* <div className="Assigneditemlist">
-                                <ReservationAssignedItemList items={assignedItems} removeItem={removeItem}/>
-                            </div> */}
+                            <div className="Assigneditemlist">
+                                <ReservationAssignedItemList items={assignedItems}/>
+                            </div>
                         </div>
-                   
-                       
+
                     </div>
                     {/* <Pagination
-                        PerPage={itemsPerPage} 
-                        total={items.length} 
+                        PerPage={itemsPerPage}
+                        total={items.length}
                         paginate={paginate}
                         currentPageLocation = {currentPage}
                         />  */}

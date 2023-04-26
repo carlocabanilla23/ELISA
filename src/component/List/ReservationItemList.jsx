@@ -16,12 +16,12 @@ const ReservationItemList = ({items,addItem,searchItem}) => {
                     <div className="container-fluid">
                         <div className="row fw-bold bg-light">
                             <div className="col"></div>
-                            <div className="col">Serial No</div>
                             <div className="col">Name</div>
                             <div className="col">Type</div>
                             <div className="col">Model</div>
+                            <div className="col">Manufacurer</div>
                             {/* <div className="col">Status</div> */}
-                            
+
                         </div>
                     </div>
                 </li>
@@ -38,7 +38,7 @@ const ReservationItemList = ({items,addItem,searchItem}) => {
                                 <div className="col"> {item.model} </div>
                                 <div className="col"> {item.manufacturer} </div>
                                 {/* <div className="col"> {item.status} </div> */}
-                                
+
                             </div>
                         </div>
                     </li>

@@ -22,7 +22,7 @@ function ProtectedRoute({user,children}) {
                     <div id="right-content" style={style}>
                     <Header />
                     {children}
-                </div>
+                    </div>
             </>
             );
   }else {

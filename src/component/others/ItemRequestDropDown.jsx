@@ -3,7 +3,7 @@ import { API } from "aws-amplify";
 import ItemList from "../List/ItemList";
 
 
-const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCart,setReservationCart,Allitems}) => {
+const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCart,setReservationCart,setFilteredItems,filteredItems}) => {
     const [types,setTypes] = useState();
     const [items,setItems] = useState([]);
     const [type, setType] = useState('Type');
@@ -20,13 +20,29 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
     const [cart,setCart] = useState([]);
 
     useEffect( ()=>{
-        // setItems(Allitems);
-        // sortItems(Allitems);
+
         API.get("items","/items/createreservation").then( itemRes => {
-            sortItems(itemRes);
-            setItems(itemRes);
+            let temparr = []
+            itemRes.forEach(element => {
+                if (reservationCart.indexOf(element) === -1) {
+                    temparr.push(element)
+                }
+            });
+
+            // filter( i => !reservationCart.some(r =>  r !== i));
+            const updatedTypes =  [...new Set(temparr.map( item => item.type))];
+            setItems(temparr);
+            setTypes(updatedTypes);
+            setNames([]);
+            setNames([]);
+            setManufacturers([]);
+            setRoomnos([]);
+
         })
-    },[]);
+    },[reservationCart,cart]);
+
+    const sortItems = (items) => {
+    }
 
     const setModelList = (typeParam) => {
         setType(typeParam);
@@ -45,7 +61,7 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
                 arrNames.push(e.name);
             }
         })
-        
+
         setModels(arr);
         setManufacturers([]);
         setRoomnos([]);
@@ -122,33 +138,32 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
                 arrNames.push(e.name);
             }
         })
-        // console.log(arrNames)
+    //     // console.log(arrNames)
 
         setNames(arrNames);
 
         setName('Name');
     }
 
-    const sortItems = (items) => {
-        const updatedTypes =  [...new Set(items.map( item => item.type))];
-        setTypes(updatedTypes);
-    }
     const addItem = (e) => {
         if (name === "Name") {
             console.log("error");
         } else {
             let idx = items.findIndex(item => item.name === name);
 
-            setReservationCart([items[idx],...cart]);
+            setReservationCart([items[idx],...reservationCart]);
             setCart([items[idx],...cart]);
-            
-            
+
             let tmpitms = items.filter( i => i!== items[idx]);
             let tmpnames = names.filter( n => n !== items[idx].name );
-    
+
             setNames(tmpnames);
             setItems(tmpitms);
             setName("Name");
+
+            setFilteredItems((items) =>
+                items.filter((i) => i.name !== name)
+            );
         }
        
 

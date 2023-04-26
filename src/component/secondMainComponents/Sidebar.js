@@ -62,9 +62,8 @@ function Sidebar() {
             </li>
             <li className="menu-list" id="location_side">
               <img src={iLocation} className="icon" id="side_location" alt="location icon" />
-              <div id="side_location_text"><Link to="/Location">Location</Link> </div>
+              <Link to="/Location">Location</Link>
             </li>
-            {adminInventoryDropdown}
             <li className="menu-list">
               <img src={iReservations} className="icon" alt="reservation icon" />
               <Link to="/Reservations">Reservations</Link>

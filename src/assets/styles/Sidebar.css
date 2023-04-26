@@ -80,9 +80,6 @@
 }
 
 #side_location{
-
-    padding: 0px;
-    padding-right: 4%;
     filter: invert(44%) sepia(0%) saturate(1390%) hue-rotate(153deg) brightness(94%) contrast(79%);
 }
 #side_location_text{
