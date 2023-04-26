@@ -4,6 +4,8 @@ import awsExport from '../../aws-exports';
 import { useNavigate, useParams } from 'react-router-dom';
 import "../../assets/styles/Notification.css"
 import Pagination from "../../component/secondMainComponents/Pagination";
+import { csv } from "../../Services/Export/csv";
+import { pdf } from "../../Services/Export/pdf";
 
 Amplify.configure(awsExport);
 
@@ -45,6 +47,14 @@ function OrderHistory() {
     const gotoUsers = () => navigate('/Users');
 
     const ViewReservation = (email,rid) => navigate('/Reservation/'+email+'/'+rid);
+
+    const CSV = () => {
+        csv(data,"Order History", []);
+    }
+
+    const PDF = () => {
+        pdf(data,"Order History", []);
+    }
     return (
         <>
             {/* Previous Page Navigation Bar */}
@@ -53,6 +63,17 @@ function OrderHistory() {
                         <div>
                         <button onClick={(e)=>gotoUsers()} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
                         <label>Order History</label>
+                        </div>
+                    </div>
+                    <div className="col-auto-dropdown">
+                        <div className="dropdown">
+                            <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Export
+                            </button>
+                            <ul className="dropdown-menu">
+                            <li><button className="dropdown-item" onClick={CSV} >CSV</button></li>
+                                <li><button className="dropdown-item" onClick={PDF} >PDF</button></li>
+                            </ul>
                         </div>
                     </div>
             </div>

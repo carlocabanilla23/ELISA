@@ -8,6 +8,7 @@ import Pagination from "../../component/secondMainComponents/Pagination";
 import ReservationAssignedItemList from "../../component/List/ReservationAssignedItemList";
 import SendNotification from "../../Services/notification/Notification";
 import { GetDateToday } from "../../Services/etc/GetDateToday";
+import { pdf } from "../../Services/Export/pdf";
 
 function Reservation () {
     const {emailParam,reservationnoParam,statusParam} = useParams();
@@ -37,6 +38,7 @@ function Reservation () {
     const [reservationCart,setReservationCart] = useState([]);
     const [error, setError] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [reservationInfo, setReservationInfo] = useState([]);
 
     // Item List
     const [items, setItems] = useState([]);
@@ -45,7 +47,7 @@ function Reservation () {
     const [itemList,setItemList] = useState([]);
     const [itemListHeader,setItemListHeader] = useState("Assigned Items");
 
-    // Pagination 
+    // Pagination
     const [currentPage,setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
@@ -53,6 +55,7 @@ function Reservation () {
     const [actionBtn,setActionBtn] =useState();
 
     useEffect( () => {
+        const reserveInfo = [];
         API.get("reservation","/reservation/object/"+emailParam+"/"+reservationnoParam).then( res => {
             setReservationNo(res.reservationno);
             setEmail(res.email);
@@ -60,6 +63,7 @@ function Reservation () {
             setCurrentDate(res.requestdate);
             setReturnDate(res.returndate);
             setStatus (res.status);
+            reserveInfo.push(res);
 
             if (res.status === "Open") {
                 setItemListHeader("Item Requested")
@@ -105,7 +109,6 @@ function Reservation () {
             //         });
             //     });
             // }
-            
             // if (itemList.length > 0) {
             //     let element = document.getElementsByClassName("assignedItemListHeader");
             //     element.style.display = 'block';
@@ -124,15 +127,16 @@ function Reservation () {
             setFirstName(res.firstname);
             setLastName(res.lastname);
             setSchoolID(res.schoolID);
+            reserveInfo.push(res);
+            setReservationInfo(reserveInfo);
         })
     },[]);
-
     // useEffect(() => {
     //     if(error === '1'){
     //         setErrorMessage('You have reach the requested quantity');
     //     }
     // },[error])
-    
+
     // Sort item in the item list
     // const sortItems = (items) => {
     //     console.log(items);
@@ -140,8 +144,8 @@ function Reservation () {
     //     updatedList = updatedList.filter(item => item.location !== "USER");
     //     setItems(updatedList);
     //     setUnfilteredItems(updatedList);
-    // } 
-   
+    // }
+
     const cancelViewReservation = () => {
         navigate(-1);
     }
@@ -153,13 +157,13 @@ function Reservation () {
     //                 name : item.name,
     //                 type : item.type,
     //                 model : item.model,
-    //                 status : item.status, 
+    //                 status : item.status,
     //                 serialno : item.serialno,
     //                 location : "USER",
     //                 roomno : "USER",
     //                 assignedto : firstName + " " + lastName ,
     //                 assignedate : currentDate,
-    //                 returndate : returnDate,        
+    //                 returndate : returnDate,
     //             }
     //         });
     //     });
@@ -306,16 +310,16 @@ function Reservation () {
     // const searchItem = (e) => {
     //     if (e.length === 9) {
     //         const searchItem = unfilteredItems.filter(item => item.serialno.toLowerCase().includes(e))
-    //         if (searchItem.length === 1) { 
+    //         if (searchItem.length === 1) {
     //            addItem(searchItem[0])
     //            document.getElementById('SearchBarInput').value= " " ;
     //         }
     //     }
     //     else {
     //         if (e.length > 0) {
-    //             const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
-    //                                                             items.name.toLowerCase().includes(e) || 
-    //                                                             items.model.toLowerCase().includes(e) || 
+    //             const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) ||
+    //                                                             items.name.toLowerCase().includes(e) ||
+    //                                                             items.model.toLowerCase().includes(e) ||
     //                                                             items.type.includes(e));
     //             setItems(searcedhItems);
     //         }else{
@@ -328,7 +332,6 @@ function Reservation () {
     //     console.log(assignedItems);
     //     setApprovedBy(accountName);
     //     setAssignedDate(`${year}-${month}-${day}`);
-        
     //     // AssignItems(assignedItems);
     //     setError('');
     //     setErrorMessage('');
@@ -345,17 +348,30 @@ function Reservation () {
         setError('');
         setErrorMessage('');
     }
- 
+
+    const PDF = () => {
+        console.log(reservationInfo);
+        pdf(assignedItems,"Reservation Summary", reservationInfo);
+    }
+
     return (
-        <>            
-            
-            
+        <>
             <div className="ReservationHeader">
+                    <div className="col-auto-dropdown">
+                        <div className="dropdown">
+                            <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Export
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li id="PDF_Btn"><button className="dropdown-item" onClick={PDF} >PDF</button></li>
+                            </ul>
+                        </div>
+                    </div>
                     <div className="fs-4 ms-5 fw-bold">
                         <button onClick={ (e) => cancelViewReservation() } className="PageHeaderBtn">
                             <i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i>
                         </button>
-                        <label>{reservationno} - {summary}</label> 
+                        <label>{reservationno} - {summary}</label>
                     </div>
             </div>
             <div className="Reservation">
@@ -527,12 +543,9 @@ function Reservation () {
                         currentPageLocation = {currentPage}
                         />  */}
                     </div>
-                
                 </div>
             </div>
         </>
     )
-    
-}   
-
+}
 export default Reservation;

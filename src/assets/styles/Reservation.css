@@ -21,7 +21,6 @@
     position: fixed;
         top: 12vh;
         left: 15%;
-   
     margin-bottom: 0 !important;
 }
 
@@ -48,19 +47,12 @@
 .ReservasionUserInfoSummary {
     padding-left: 1%;
 }
-.OrderList{
-    /* min-height: 55vh;
-    border-bottom: 3px solid black;
-    border-right: 3px solid black; */
-
-}
 .OrderList .row{
     padding-top: 1em;
     padding-bottom: 1em;
     padding-left: 1em;
     margin-right: 0 !important;
     margin-left: 0 !important;
-    
 }
 
 /* .UserInfo .row{
@@ -69,7 +61,6 @@
     padding-left: 1em;
     margin-right: 0 !important;
     margin-left: 0 !important;
-    
 } */
 .OrderList .header{
     /* margin-right: 0 !important;
@@ -78,7 +69,6 @@
     background-color: #ffffff;
     font-size: 1.4em;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25); */
-    
 }
 
 .UserInfo .header{
@@ -147,7 +137,6 @@
     font-weight: bold;
     font-size: 18px;
 }
-
 @media screen and (max-width: 1920px) {
     
     .ReservationItemList .row{

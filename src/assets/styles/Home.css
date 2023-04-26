@@ -66,7 +66,6 @@
 
 .scatter {
     margin-top: 12em;
-   
 }
 .insights > div:hover {
     box-shadow: none;
@@ -117,7 +116,6 @@
     padding: 1rem;
     border-radius: 25px;
     margin: auto;
-    
 }
 .InventoryOverview {
     display: flex;
@@ -145,10 +143,18 @@
     font-weight: 500;
     font-size: 18px;
     color: #000000;
-    margin: 15px 0px 20px 20px; 
+    margin: 15px 0px 20px 20px;
+}
+
+.dropdown-menu > li:hover > #dropdown-submenu {
+    display: block;
+    position: absolute;
+    right: 100%;
+    left: auto;
+    top: -25%;
 }
 @media screen and (max-width: 1920px) {
     .chartLabel {
-    margin: 15px 0px 10px 20px; 
+    margin: 15px 0px 10px 20px;
     }
 }
