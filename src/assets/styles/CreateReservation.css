@@ -101,29 +101,12 @@ h1 {
     font-size: 1em;
     cursor: pointer;
     transition: background-color 0.3s;
-    /* I want to make this button corner round */
     border-radius: 10px;
-    /* I want to move this button all the way to the right */
     margin-left: 80%;
 }
 
 .submit-order-btn:hover {
     background-color: #5a172a;
-}
-
-.reserve-btn {
-    background-color: #A18B8B!important;
-    color: #ffffff !important;
-    border: none !important;
-    padding: 0.5em 1em !important;
-    font-size: 1em !important;
-    cursor: pointer !important;
-    transition: background-color 0.3s !important;
-    border-radius: 10px !important;
-}
-
-.reserve-btn:hover {
-    background-color: #5a172a !important;
 }
 
 .form-label{
@@ -133,8 +116,24 @@ h1 {
 }
 #custom-dropdown-row > .col {
     margin-top: 1rem;
-    /* margin-right: 1rem; */
+    margin-right: 1px;
 }
+.AddItemBtn {
+    color: #7A2036;
+    border: none;
+    padding: 0.5em 0.5em;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 10px;
+}
+
+
+.material-icons {
+    font-size: 1.2em;
+    vertical-align: middle;
+}
+
 /* Media query for iPhone 12 (390x844) */
 @media screen and (max-width: 400px) {
     .CreateReservation {
@@ -146,8 +145,8 @@ h1 {
     .ReservationForm {
         width: 100%;
        
-        margin-left: 3%;
-        margin-right: 3%;
+        margin-left: 5px;
+        padding-right: 12px;
     }
     .CreateReservationSummary {
         width: 100%;
