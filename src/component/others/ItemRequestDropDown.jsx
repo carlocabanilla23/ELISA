@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { API } from "aws-amplify";
 import ItemList from "../List/ItemList";
+import "../../assets/styles/dropdown.css";
 
 
 const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCart,setReservationCart,setFilteredItems,filteredItems}) => {
@@ -20,7 +21,6 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
     const [cart,setCart] = useState([]);
 
     useEffect( ()=>{
-
         API.get("items","/items/createreservation").then( itemRes => {
             let temparr = []
             itemRes.forEach(element => {

@@ -10,7 +10,7 @@ const ItemCardShort = ({item,RemoveItem}) => {
                 <div id="model" className="col "> {item.model} </div>
                 <div id="status" className="col"> {item.manufacturer} </div>
                 <div>
-                    <button onClick={e => (RemoveItem(item))}> remove</button>
+                    <button className="btn btn-dark" onClick={e => (RemoveItem(item))}> remove</button>
                 </div>
             </div>
         </>

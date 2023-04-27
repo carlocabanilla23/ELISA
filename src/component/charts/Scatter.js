@@ -7,28 +7,28 @@ function ScatterReport () {
   const [data,setData] = useState([]);
 
   useEffect (()=>{
-    var neww = 0;
-    var old = 0;
-    var broken = 0;
+    var available = 0;
+    var reserved = 0;
+    var unavailable = 0;
 
     API.get("items","/items/status").then( itemRes => {
       // console.log(itemRes)
         itemRes.forEach(element => {
-          if (element.status === "New") { neww++ }
-          else if (element.status === "Old") { old++ }
-          else if (element.status === "Broken") {broken++ }
+          if (element.status === "Available") { available++ }
+          else if (element.status === "Reserved") { reserved++ }
+          else if (element.status === "Unavailable") { unavailable++ }
         });
         const dt = [
-          { name: 'New', value: neww },
-          { name: 'Old', value: old },
-          { name: 'Broken', value: broken },
+          { name: 'Available', value: available },
+          { name: 'Reserved', value: reserved },
+          { name: 'Unavailable', value: unavailable },
         ];
         setData(dt);
       });
   },[]);
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
-  
+
   // const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
     // const radius = innerRadius + (outerRadius - innerRadius) * 0.5;

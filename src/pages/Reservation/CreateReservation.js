@@ -84,7 +84,6 @@ function CreateReservation () {
         });
 
         if (typeParam === undefined || serialParam === undefined) {
-
             setRequestItemMenu(
                 <>
                  <ItemRequestDropDown
@@ -164,6 +163,11 @@ function CreateReservation () {
     //         setNote('N/A');
     //     }
     // },[reservationCart, note])
+
+    // useEffect( ()=> {
+    //     document.getElementById('custom-dropdown-row').style = "none";
+    //     document.getElementById('custom-dropdown-row').style = "none";
+    // },[]);
 
     const searchItem = (e) => {
         // console.log(e.length);
@@ -320,6 +324,23 @@ function CreateReservation () {
         }
     };
 
+    const showFilter = () => {
+        document.getElementById("ReservationItemList").style.display = "none";
+        document.getElementById("custom-dropdown-row").style.display = "block";
+        document.getElementById("ItemRequestList").style.display = "none";
+
+    }
+    const showSearch = () => {
+        document.getElementById("ItemRequestList").style.display = "none";
+        document.getElementById("custom-dropdown-row").style.display = "none";
+        document.getElementById("ReservationItemList").style.display = "block";
+    }
+    const showSummary = () => {
+        document.getElementById("ItemRequestList").style.display = "block";
+        document.getElementById("custom-dropdown-row").style.display = "none";
+        document.getElementById("ReservationItemList").style.display = "none";
+    }
+
     return (
         <>
             <div className="alert alert-success alert-popout" id="alert" role="alert">
@@ -336,6 +357,13 @@ function CreateReservation () {
                             <h1>Reserve Item</h1>
                         </div>
                     </div>
+
+                    <div className="options">
+                    <button className="btn btn-dark" onClick={ (e)=> showFilter()}>Filter</button>
+                    <button className="btn btn-dark" onClick={ (e)=> showSearch()}>Search</button>
+                    <button className="btn btn-dark" onClick={ (e)=> showSummary()}>Cart</button>
+
+                </div>
 
                     {requestItemMenu}
 
