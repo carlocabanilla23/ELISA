@@ -171,7 +171,7 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
     
      return (
             <>
-                <div className="row">
+                <div className="row" id="custom-dropdown-row">
                     <div className="col type">
                         <div className="dropdown">
                             <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">

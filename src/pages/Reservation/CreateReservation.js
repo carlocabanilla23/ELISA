@@ -12,6 +12,7 @@ import ItemRequestList from "../../component/List/ItemRequestList";
 import ReservationItemList from "../../component/List/ReservationItemList";
 import Pagination from "../../component/secondMainComponents/Pagination";
 import { GetDateToday } from "../../Services/etc/GetDateToday";
+import logo from '../../assets/icons/elisa_logo.png';
 
 function CreateReservation () {
     const {typeParam,serialParam} = useParams();
@@ -327,10 +328,11 @@ function CreateReservation () {
 
             { header }
 
-            <div className="CreateReservation">
+            <div className='CreateReservation'>
                 <div className="container ReservationForm">
                     <div className="row">
                         <div className="col">
+                            <img src={logo} alt="logo" className="logo" />
                             <h1>Reserve Item</h1>
                         </div>
                     </div>
@@ -400,7 +402,7 @@ function CreateReservation () {
                         {/* Submit Button */}
                         <div className="row justify-content-end">
                             <div className="col ">
-                                <button onClick={ (e)=> submitOrder()} className="btn btn-primary">
+                                <button onClick={ (e)=> submitOrder()} className="submit-order-btn">
                                     Submit Order
                                 </button>
                             </div>
@@ -411,22 +413,24 @@ function CreateReservation () {
                     <ItemRequestList RemoveItem={RemoveItem} items={reservationCart} />
                     </div>
                 </div>
-
-                <div id="ReservationItemList">
-                    <ReservationItemList
-                        items = {currentList}
-                        addItem = {addItem}
-                        searchItem={searchItem}
-                    />
-                 </div>
-
-                 <Pagination
-                        PerPage={itemsPerPage}
-                        total={filteredItems.length}
-                        paginate={paginate}
-                        currentPageLocation = {currentPage}
+                <div className="RightContainer">
+                    <div id="ReservationItemList">
+                        <ReservationItemList
+                            items = {currentList}
+                            addItem = {addItem}
+                            searchItem={searchItem}
                         />
-                {/* {itemListSummary} */}
+                    </div>
+                    <div id = "Pagination">
+                    <Pagination
+                            PerPage={itemsPerPage}
+                            total={filteredItems.length}
+                            paginate={paginate}
+                            currentPageLocation = {currentPage}
+                            />
+                    {itemListSummary}
+                    </div>
+                </div>
             </div>
         </>
     );

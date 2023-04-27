@@ -31,7 +31,7 @@ const ReservationItemList = ({items,addItem,searchItem}) => {
                         <div className="container-fluid">
                             <div className="row ">
                                 <div className="col action">
-                                    <button className="btn btn-dark" onClick={ () => addItem(item)}>Assign</button>
+                                    <button className="btn btn-dark" onClick={ () => addItem(item)}>Reserve</button>
                                 </div>
                                 <div className="col"> {item.name} </div>
                                 <div className="col"> {item.type} </div>
