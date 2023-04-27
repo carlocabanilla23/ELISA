@@ -6,13 +6,17 @@
     border: 1px solid rgba(255, 255, 255, 0.18 );
     box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1);
     width: 40%;
-    height: 80vh;
+    height: 87%;
     position: absolute;
         top: 10vh;
         left: 30%;
     padding: 1em;
     padding-left: 5%;
     padding-right: 5%;
+}
+
+.input-wrapper {
+    position: flex;
 }
 
 .FormHeader{
@@ -22,25 +26,32 @@
     font-size: 1.2em;
     font-weight: 600;
 }
+.form-buttons{
+    text-align: right;
+    padding-right: 0px;
+    margin-bottom: 5%;
+}
+    
+
 .form-buttons button{
     margin-left: 15px;
 }
 
-.eye-slash{
-    width: 4%;
+.eye-slash {
+    width: 20px;
     position: absolute;
-    right: 12px;
-    top: 50%;
+    right: 85px;
+    top: 450px;
     transform: translateY(-50%);
     mix-blend-mode: multiply;
     cursor: pointer;
 }
 
-.eye-slash2{
-    width: 4%;
+.eye-slash2 {
+    width: 20px;
     position: absolute;
-    right: 12px;
-    top: 64%;
+    right: 85px;
+    top: 505px;
     transform: translateY(-50%);
     mix-blend-mode: multiply;
     cursor: pointer;

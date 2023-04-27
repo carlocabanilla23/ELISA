@@ -49,38 +49,34 @@ function Login() {
 
   return (
     <div className="Login">
-        <div className="Login-Form">
+      <div className="Login-Form">
         <div className='banner'>
-        <img src={logo} className="img-fluid img-thumbnail" alt="Elisa Logo" />
-        <img src={elisa} className="img-fluid img-thumbnail" alt="Elisa Logo" />
+          <img src={logo} className="img-fluid img-thumbnail" alt="Elisa Logo" />
+          <img src={elisa} className="img-fluid img-thumbnail" alt="Elisa Logo" />
         </div>
-            <div id="prompt"></div>
+        <div id="prompt"></div>
 
-            <form onSubmit={onSubmit}>
-            <div className="mb-3 row">
-                <input className="login-form-control form-control" onChange={ (e)=> setUsername(e.target.value.toLowerCase())} id="exampleFormControlInput1" placeholder="name@example.com" />
+        <form onSubmit={onSubmit}>
+          <div className="mb-3 row">
+            <input className="login-form-control form-control" onChange={(e) => setUsername(e.target.value.toLowerCase())} id="exampleFormControlInput1" placeholder="Name@example.com" />
+          </div>
+          <div className="mb-3 row">
+            <input type="password" className="login-form-control form-control" onChange={(e) => setPassword(e.target.value)} placeholder="Password" autoComplete="password" id="inputPassword" />
+          </div>
+          <div className="mb-3 row" id="row-3">
+            <div className="col">
+              <label className="col col-form-label" id="forgot-pass" onClick={() => navigate('/ForgotPassword')}>Forgot password?</label>
             </div>
-            <div className="mb-3 row">
-                <input type="password" className="login-form-control form-control" onChange={ (e)=> setPassword(e.target.value)} placeholder="Password" autoComplete="password" id="inputPassword" />
+            <div className="col">
+              <label className="col col-form-label" id="create-account" onClick={() => navigate('/Signup')}>Create account</label>
             </div>
-            <div className="mb-3 row" id="row-3">
-                <div className="col-sm-1">
-                    <input className="form-check-input" type="checkbox" value="" aria-label="Checkbox for following text input" />
-                </div>
-                <div className="col">
-                    <label  className="col col-form-label">Keep me logged in</label>
-                </div>
-                <div className="col">
-                    <label  className="col col-form-label" id="create-account" onClick={() => navigate('/Signup')}>create account?</label>
-                    <label  className="col col-form-label" id="forgot-pass" onClick={() => navigate('/ForgotPassword')}>Forgot my password?</label>
-                </div>
-            </div>
-            <div className="mb-3 row">
-                <button type="submit" className="btn btn-secondary mb-3">Login</button>
-            </div>
-            </form>
+          </div>
+          <div className="mb-3 row">
+            <button type="submit" className="btn btn-secondary mb-3">Login</button>
+          </div>
+        </form>
 
-        </div>
+      </div>
     </div>
   );
 }

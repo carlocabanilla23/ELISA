@@ -326,7 +326,7 @@ function Signup () {
                     {/* Password */}
                     <div className = "mb-3 row">
                         <label for="Password" className="col-sm-3 col-form-label">Password</label>
-                        <div className="col-sm-9">
+                        <div className="col-sm-9 input-wrappper">
                             <input type={hidePassword ? 'password' : 'text'}
                             className="form-control"
                             value={password}
@@ -347,7 +347,7 @@ function Signup () {
                     {/* Confirm Password */}
                     <div className = "mb-3 row">
                         <label for="ConfirmPassword" className="col-sm-3 col-form-label confirmPds">Confirm Password</label>
-                        <div className="col-sm-9">
+                        <div className="col-sm-9 input-wrapper">
                             <input type={hideConfirmPassword ? 'password' : 'text'}
                             className="form-control"
                             value={confirmPassword}
