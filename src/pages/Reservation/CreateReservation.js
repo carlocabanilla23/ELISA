@@ -326,7 +326,7 @@ function CreateReservation () {
 
     const showFilter = () => {
         document.getElementById("ReservationItemList").style.display = "none";
-        document.getElementById("custom-dropdown-row").style.display = "block";
+        document.getElementById("custom-dropdown-row").style.display = "flex";
         document.getElementById("ItemRequestList").style.display = "none";
 
     }
@@ -359,9 +359,9 @@ function CreateReservation () {
                     </div>
 
                     <div className="options">
-                    <button className="btn btn-dark" onClick={ (e)=> showFilter()}>Filter</button>
-                    <button className="btn btn-dark" onClick={ (e)=> showSearch()}>Search</button>
-                    <button className="btn btn-dark" onClick={ (e)=> showSummary()}>Cart</button>
+                    <button className="options-btn" onClick={ (e)=> showFilter()}>Filter</button>
+                    <button className="options-btn" onClick={ (e)=> showSearch()}>Search</button>
+                    <button className="options-btn" onClick={ (e)=> showSummary()}>Cart</button>
 
                 </div>
 
