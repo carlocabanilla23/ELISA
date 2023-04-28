@@ -162,12 +162,12 @@ function Home() {
                   </div>
                   <div className="col-auto-dropdown">
                     <div className="dropdown">
-                      <button className="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                      <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id='export-btn'>
                           Export
                       </button>
                       <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li>
-                          <button className="dropdown-item" onMouseEnter={CSV} onClick={CSV} >csv</button>
+                          <button className="dropdown-item" onMouseEnter={CSV} onClick={CSV} >CSV</button>
                           <ul className="dropdown-menu" id="dropdown-submenu">
                             <li><button className="dropdown-item" onClick={Export_Inventory} >Inventory Report</button></li>
                             <li><button className="dropdown-item" onClick={Export_Reservation} >Reservation Report</button></li>

@@ -66,10 +66,6 @@ function GraphReport2 () {
               <span className="summaryTitle">TA</span>
               <span className="summaryCount">{ta}</span>
             </div>
-            <div className="summaryItem">
-              <span className="summaryTitle">Admin</span>
-              <span className="summaryCount">{admin}</span>
-            </div>
           </div>
           </div>
     );
