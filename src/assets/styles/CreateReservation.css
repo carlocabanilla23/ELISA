@@ -179,7 +179,15 @@ h1 {
     transition: background-color 0.3s;
     border-radius: 10px;
 }
-
+.AddItemBtn-dropdown{
+    color: #7A2036;
+    border: none;
+    padding: 0.5em 0.5em;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 10px;
+}
 
 .material-icons {
     font-size: 1.2em;

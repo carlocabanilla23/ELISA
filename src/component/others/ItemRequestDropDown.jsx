@@ -255,7 +255,7 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
                     </div> */}
                     <div className="col submit">
                         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-                        <button className="btn AddItemBtn" onClick={e => addItem(e)}>
+                        <button className="btn AddItemBtn-dropdown" onClick={e => addItem(e)}>
                             <span className="material-icons">
                             add_circle_outline
                             </span>
