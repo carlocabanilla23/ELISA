@@ -328,17 +328,19 @@ function CreateReservation () {
         document.getElementById("ReservationItemList").style.display = "none";
         document.getElementById("custom-dropdown-row").style.display = "flex";
         document.getElementById("ItemRequestList").style.display = "none";
-
+        document.getElementById("Pagination").style.display = "none"; // Hide Pagination
     }
     const showSearch = () => {
         document.getElementById("ItemRequestList").style.display = "none";
         document.getElementById("custom-dropdown-row").style.display = "none";
         document.getElementById("ReservationItemList").style.display = "block";
+        document.getElementById("Pagination").style.display = "flex"; // Show Pagination
     }
     const showSummary = () => {
         document.getElementById("ItemRequestList").style.display = "block";
         document.getElementById("custom-dropdown-row").style.display = "none";
         document.getElementById("ReservationItemList").style.display = "none";
+        document.getElementById("Pagination").style.display = "none"; // Hide Pagination
     }
 
     return (

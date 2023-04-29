@@ -199,11 +199,11 @@ function AddItem() {
             <div className="add-item-form-wrapper">
                 <form onSubmit={AddItem}>
                     <div className="row">
-                        <div className="col">
+                        <div className="col col-left">
                             {/*Name */}
                             <div className="form-group row my-2">
                                 <label className="col-sm-2 col-form-label" for="name" >Name</label>
-                                <div className="col-sm-10">
+                                <div className="col-sm-9">
                                     <input type="text" className="form-control" id="name"
                                     defaultValue={data.name} name="name" onChange={ e => ChangeData(e)} required={true} />
                                 </div>
@@ -211,7 +211,7 @@ function AddItem() {
                             {/* Serial Number */}
                             <div className="form-group row my-2">
                                 <label className="col-sm-2 col-form-label" for="serialNumber" >Serial #</label>
-                                <div className="col-sm-10">
+                                <div className="col-sm-9">
                                     <input type="text" className="form-control" id="serialNumber"
                                     value={data.serialno} name="serialno" onChange = {e => ChangeData(e)} required = {true} />
                                 </div>
@@ -219,7 +219,7 @@ function AddItem() {
                             {/* Type */}
                             <div className="form-group row my-2">
                                 <label className="col-sm-2 col-form-label" for="type" >Type</label>
-                                <div className="col-sm-10">
+                                <div className="col-sm-9">
                                     <input type="text" className="form-control" id="type"
                                     value={data.type} name="type" onChange = { e => ChangeData(e)} required = {true}/>
                                 </div>
@@ -227,7 +227,7 @@ function AddItem() {
                             {/* Model */}
                             <div className="form-group row my-2">
                                 <label className="col-sm-2 col-form-label" for="model" >Model</label>
-                                <div className="col-sm-10">
+                                <div className="col-sm-9">
                                     <input type="text" className="form-control" id="model"
                                     value={data.model} name="model" onChange = { e => ChangeData(e)} required = {true}/>
                                 </div>
@@ -235,7 +235,7 @@ function AddItem() {
                             {/* Manufacturer */}
                             <div className="form-group row my-2">
                                 <label className="col-sm-2 col-form-label" for="manufacturer">Manufacturer</label>
-                                <div className="col-sm-10">
+                                <div className="col-sm-9">
                                     <input type="text" className="form-control" id="manufacturer"
                                     value={data.manufacturer} name="manufacturer" onChange={e => ChangeData(e)} required={true} />
                                 </div>
@@ -243,7 +243,7 @@ function AddItem() {
                             {/* Location */}
                             <div className="form-group row my-2">
                                 <label className="col-sm-2 col-form-label" for="location" >Location</label>
-                                <div className="col-sm-10">
+                                <div className="col-sm-9">
                                     <div className="dropdown">
                                         <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                             {data.location}
@@ -264,8 +264,8 @@ function AddItem() {
                             </div>
                             {/* Room Number */}
                             <div className="form-group row my-2">
-                                <label className="col-sm-2 col-form-label" for="roomNumber" >Room/Storage #</label>
-                                <div className="col-sm-10">
+                                <label className="col-sm-2 col-form-label" for="roomNumber" >Room</label>
+                                <div className="col-sm-9">
                                     <input type="text" className="form-control" id="roomNumber" name="roomno"
                                     value={data.roomno} onChange = {e => ChangeData(e)} required={data.location !== "Unassigned"} />
                                 </div>
@@ -273,7 +273,7 @@ function AddItem() {
                             {/* Status */}
                             <div className="form-group row my-2">
                                 <label className="col-sm-2 col-form-label" for="status" >Status</label>
-                                <div className="col-sm-10">
+                                <div className="col-sm-9">
                                     <div className="dropdown">
                                         <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                             {data.status}
@@ -293,65 +293,66 @@ function AddItem() {
                                 </div>
                             </div>
                             {/* Condition */}
-                            <div className="form-group row my-2">
-                                <label className="col-sm-2 col-form-label" for="Condition" >Condition</label>
-                                <div className="col-sm-10">
-                                    <div className="dropdown">
-                                        <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            {data.condition}
-                                        </button>
-                                        <ul className="dropdown-menu">
-                                            <li>
-                                                <button type="button" className="dropdown-item" value="New" name="condition" onClick={e => ChangeData(e)}>New</button>
-                                            </li>
-                                            <li>
-                                                <button type="button" className="dropdown-item" value="Old" name="condition" onClick={e => ChangeData(e)}>Old</button>
-                                            </li>
-                                            <li>
-                                                <button type="button" className="dropdown-item" value="Used" name="condition" onClick={e => ChangeData(e)}>Used</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                         <div className="col">
+                            <div className="form-group row my-3">
+                                    <label className="col-sm-3 col-form-label" for="Condition" >Condition</label>
+                                    <div className="col-sm-9">
+                                        <div className="dropdown">
+                                            <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                {data.condition}
+                                            </button>
+                                            <ul className="dropdown-menu">
+                                                <li>
+                                                    <button type="button" className="dropdown-item" value="New" name="condition" onClick={e => ChangeData(e)}>New</button>
+                                                </li>
+                                                <li>
+                                                    <button type="button" className="dropdown-item" value="Old" name="condition" onClick={e => ChangeData(e)}>Old</button>
+                                                </li>
+                                                <li>
+                                                    <button type="button" className="dropdown-item" value="Used" name="condition" onClick={e => ChangeData(e)}>Used</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             {/* Cost */}
-                            <div className="form-group row">
-                                <label className="col-sm-2 col-form-label pl-1" for="cost">Cost (USD)</label>
-                                <div className="col-sm-10">
+                            <div className="form-group row my-2">
+                                <label className="col-sm-3 col-form-label pl-1" for="cost">Cost (USD)</label>
+                                <div className="col-sm-8">
                                     <input type="text" className="form-control" id="cost" name="cost"
                                     value={data.cost} onChange={ e => ChangeData(e)} />
                                 </div>
                             </div>
                             {/* Date Acquired */}
                             <div className="form-group row my-2">
-                                <label className="col-sm-2 col-form-label" for="dateAcquried" >Date Acquired</label>
-                                <div className="col-sm-10">
+                                <label className="col-sm-3 col-form-label" for="dateAcquried" >Date Acquired</label>
+                                <div className="col-sm-8">
                                     <input type="date" className="form-control" id="dateAcquired" name="acquiredate"
                                     value={data.acquiredate} onChange={ e => ChangeData(e)}/>
                                 </div>
                             </div>
                             {/* RFID Code */}
                             <div className="form-group row my-2">
-                                <label className="col-sm-2 col-form-label" for="RFIDCode" >RFID Code</label>
-                                <div className="col-sm-10">
+                                <label className="col-sm-3 col-form-label" for="RFIDCode" >RFID Code</label>
+                                <div className="col-sm-8">
                                     <input type="text" className="form-control" name="rfidcode" id="rfidcode"
                                     value={data.rfidcode} onChange={ e => ChangeData(e)}/>
                                 </div>
                             </div>
                             {/* Re-enter RFID Code */}
                             <div className="form-group row my-2">
-                                <label className="col-sm-2 col-form-label" for="RFIDCode2">Re-enter RFID</label>
-                                <div className="col-sm-10">
+                                <label className="col-sm-3 col-form-label" for="RFIDCode2">Re-enter RFID</label>
+                                <div className="col-sm-8">
                                     <input type="text" className="form-control" id="RFIDCode2"
                                     value={RFIDCode2} onChange={(e) => {setRFIDCode2(e.target.value)}}/>
                                 </div>
                             </div>
                             {/* Image */}
                             <div className="form-group row my-2">
-                                <label className="col-sm-2 col-form-label" for="photo" >Photo</label>
-                                <div className="col-sm-10">
+                                <label className="col-sm-3 col-form-label" for="photo" >Photo</label>
+                                <div className="col-sm-8">
                                     <input type="file" className="form-control" id="photo" name="image"
                                     onChange={(e) => { encodeImage(e)}} />
                                 </div>
@@ -366,8 +367,8 @@ function AddItem() {
                     <div className="row">
                         <div id="lastCheck" className="add-item-action-btn">
                             <span id="lastCheck" className="errormessage">{errorMessage}</span>
-                            <button className="button" type ="button" onClick={CancelEdit} >Cancel</button>
-                            <button className="button" type ="submit" id="CreateItem" >Save item</button>
+                            <button className="button-item" type ="button" onClick={CancelEdit} >Cancel</button>
+                            <button className="button-item" type ="submit" id="CreateItem" >Save item</button>
                         </div>
                     </div>
                 </form>
