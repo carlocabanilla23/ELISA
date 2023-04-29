@@ -147,7 +147,7 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
 
     const addItem = (e) => {
         if (name === "Name") {
-            console.log("error");
+            setError(5);
         } else {
             let idx = items.findIndex(item => item.name === name);
 
@@ -165,10 +165,8 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
                 items.filter((i) => i.name !== name)
             );
         }
-       
-
     }
-    
+
      return (
             <>
                 <div className="row" id="custom-dropdown-row">
@@ -235,7 +233,7 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
                             </ul>
                         </div>
                     </div>
-                   
+
                     {/* <div className="col quantity">
                         <div className="dropdown">
                             <input className="form-control"
@@ -261,16 +259,9 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
                             </span>
                         </button>
                     </div>
-                </div> 
-
-
-
-                    {/* <ItemList items={cart} 
+                </div>
+                    {/* <ItemList items={cart}
                       /> */}
-
-
-                
-
             </>);
 }
 

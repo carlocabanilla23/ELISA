@@ -44,12 +44,9 @@ function CreateReservation () {
     const access = localStorage.getItem('access');
     const [pageUpdate,setPageUpdate] = useState(true);
 
-     // Pagination
-     const [currentPage,setCurrentPage] = useState(1);
-     const itemsPerPage = 10;
-
-
-
+    // Pagination
+    const [currentPage,setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
     const date = new Date();
     let day;
@@ -195,7 +192,6 @@ function CreateReservation () {
     const updateCart = (order) => {
         // let tmp = reservationCart;
         // tmp.push(order)
-      
         setReservationCart(order);
         console.log(reservationCart);
     }
@@ -204,7 +200,7 @@ function CreateReservation () {
         let cart = reservationCart;
         // e.preventDefault();
         if(reservationCart.length === 0){
-            alert("Please add item first");
+            setError(5);
         } else {
             API.post("reservation","/reservation", {
                 body : {
@@ -279,9 +275,7 @@ function CreateReservation () {
         setFilteredItems((items) =>
         items.filter((i) => i !== itm)
         );
-       
         setReservationCart([itm,...reservationCart]);
-
     }
 
     const RemoveItem = (itm) => {
