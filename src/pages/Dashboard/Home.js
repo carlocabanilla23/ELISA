@@ -162,7 +162,7 @@ function Home() {
                   </div>
                   <div className="col-auto-dropdown">
                     <div className="dropdown">
-                      <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id='export-btn'>
+                      <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id='export-btn'>
                           Export
                       </button>
                       <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">

@@ -13,7 +13,6 @@
   }
 
   .login-form-control {
-    border: none;
     outline: 0;
     padding: 0.5em;
     padding-left: 1em;
@@ -22,8 +21,14 @@
     font-style: italic;
     box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.18 );
+    background-color: #ffffff;
+    border: 1px solid #ccc;
   }
-  
+
+  .login-form-control:hover {
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
+  }
+
   #row-3 {
     display: flex;
     justify-content: space-between;
@@ -39,10 +44,12 @@
     font-size: 1em;
     width: 100%;
     box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
 
   }
   .btn.btn-secondary:hover {
     background-color: #5a172a;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
   }
 
   
@@ -57,14 +64,14 @@
     padding-top: 10px;
     padding-left: 10px;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 500;
     font-family: "Inter", sans-serif;
 
   }
   
 #forgot-pass:hover, #create-account:hover {
     color: #7A2036;
-    font-weight: 700;
+    font-weight: 600;
     text-decoration: none;
     cursor: pointer;
   }
@@ -77,5 +84,10 @@
     margin-right: 20%;
     margin-bottom: 2em;
     margin-top: 2em;
+  }
+  #login-text{
+    font-size: 0.9em;
+    font-weight: 600;
+    text-align: center;
   }
   

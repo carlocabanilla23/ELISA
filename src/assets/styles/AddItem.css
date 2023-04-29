@@ -140,3 +140,15 @@
     outline: none;
     box-shadow: 0 0 0 2px rgba(156, 47, 79, 0.5);
 }
+#import-btn{
+
+    background-color: #7A2036;
+    color: #ffffff;
+    border: none;
+    padding: 0.4em 0.7em;
+    margin: 0.3em 0.7em 0.1em 0.7em;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

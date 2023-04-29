@@ -14,7 +14,7 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
     const auth = localStorage.getItem('access');
     const [manufacturer,setManufacturer] = useState('Manufacturer');
     const [manufacturers,setManufacturers] = useState();
-    const [roomno,setRoomno] = useState('Room No');
+    const [roomno,setRoomno] = useState('Room');
     const [roomnos,setRoomnos] = useState([]);
     const [name,setName] = useState("Name");
     const [names,setNames] = useState([]);
@@ -69,7 +69,7 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
 
         setModel('Model');
         setManufacturer('Manufacturer');
-        setRoomno('Room No');
+        setRoomno('Room');
         setName('Name');
 
     }
@@ -97,7 +97,7 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
         setNames(arrNames);
 
         setManufacturer('Manufacturer');
-        setRoomno('Room No');
+        setRoomno('Room');
         setName('Name');
 
     }
@@ -124,7 +124,7 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
         setRoomnos(arr);
         setNames(arrNames);
 
-        setRoomno('Room No');
+        setRoomno('Room');
         setName('Name');
     }
 

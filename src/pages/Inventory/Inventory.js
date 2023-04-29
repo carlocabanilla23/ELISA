@@ -334,7 +334,7 @@ function Inventory () {
 
                     <div className="col-auto-dropdown">
                         <div className="dropdown">
-                            <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Export
                             </button>
                             <ul className="dropdown-menu">

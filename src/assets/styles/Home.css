@@ -12,8 +12,9 @@
     z-index: -1;
 }
 #export-btn {
-    margin-top: -6px;
-    margin-right: 10px; 
+    margin-top: -7px;
+    margin-right: 10px;
+    padding: 0.5em 0.7em;
 }
 #export-btn:hover {
     background-color: #7A2036;

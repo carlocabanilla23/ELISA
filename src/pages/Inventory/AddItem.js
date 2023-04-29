@@ -186,7 +186,7 @@ function AddItem() {
             {/* Import Button */}
             <div className="col-auto-dropdown">
                 <div className="dropdown">
-                    <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="import-btn">
                         Import
                     </button>
                     <ul className="dropdown-menu">
@@ -245,15 +245,12 @@ function AddItem() {
                                 <label className="col-sm-2 col-form-label" for="location" >Location</label>
                                 <div className="col-sm-9">
                                     <div className="dropdown">
-                                        <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                             {data.location}
                                         </button>
                                         <ul className="dropdown-menu">
                                             <li>
                                                 <button type="button" name="location" className="dropdown-item" value="Room" onClick={e => ChangeData(e)}>Room</button>
-                                            </li>
-                                            <li>
-                                                <button type="button" name="location" className="dropdown-item" value="Storage" onClick={e => ChangeData(e)}>Storage</button>
                                             </li>
                                             <li>
                                                 <button type="button" name="location" className="dropdown-item" value="Unassigned" onClick={e => ChangeData(e)}>Unassigned</button>
@@ -275,7 +272,7 @@ function AddItem() {
                                 <label className="col-sm-2 col-form-label" for="status" >Status</label>
                                 <div className="col-sm-9">
                                     <div className="dropdown">
-                                        <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                             {data.status}
                                         </button>
                                         <ul className="dropdown-menu">
@@ -300,7 +297,7 @@ function AddItem() {
                                     <label className="col-sm-3 col-form-label" for="Condition" >Condition</label>
                                     <div className="col-sm-9">
                                         <div className="dropdown">
-                                            <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 {data.condition}
                                             </button>
                                             <ul className="dropdown-menu">

@@ -72,7 +72,7 @@ function Login() {
             </div>
           </div>
           <div className="mb-3 row">
-            <button type="submit" className="btn btn-secondary mb-3">Login</button>
+            <button type="submit" className="btn btn-secondary mb-3" id = "login-text">Login</button>
           </div>
         </form>
 
