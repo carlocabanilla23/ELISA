@@ -21,6 +21,10 @@ The main goal of ELISA is to streamline the reservation process for students and
 - **Updating equipment information**: Inventory managers can effortlessly update the quantity, status, and information for each equipment, ensuring accurate records.
 - **Visualization and summaries**: ELISA offers visual representations of data, making it easy to identify trends and patterns.
 - **Notifications**: The system sends notifications to students and inventory managers about equipment status, reservation availability, and low inventory levels.
+- **Mobile**: ELISA has the mobile layout to ensure users can easily interact with the app on their smartphones
+![Mobile Layout](https://user-images.githubusercontent.com/92423514/235294683-988951be-ad7f-4d51-8c9d-618ba92153db.png)
+**Here is the our product video (Click on the thumbnail below).**
+[![ELISA Product Video](https://user-images.githubusercontent.com/92423514/231245998-23aacf48-f7b0-4810-b14b-b4676f5d44a3.png)](https://www.youtube.com/watch?v=dxogVGXtTJs)
 
 ## Getting Started with Create React App
 
@@ -99,7 +103,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 As ELISA continues to evolve, we plan to implement advanced features such as:
 
 - Self-checkout system
-- Mobile app interaction
 - Automated reminders
 
 These enhancements will further improve the user experience and solidify ELISA as the go-to solution for lab inventory management.
