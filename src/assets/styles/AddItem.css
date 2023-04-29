@@ -121,12 +121,11 @@
 }
 .button-item{
     margin-left: 15px;
-    background-color: #7A2036;
+    background-color: #5E4345;
     color: #ffffff;
     border: none;
     padding: 0.5em 1em;
     font-size: 1em;
-    font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
     border-radius: 10px;

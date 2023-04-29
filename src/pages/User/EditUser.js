@@ -139,7 +139,7 @@ function EditUser() {
                         <div className="col-sm-10">
                             <div className="dropdown">
                                 <button
-                                    className="btn btn-secondary dropdown-toggle"
+                                    className="btn btn-light dropdown-toggle"
                                     type="button"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false">

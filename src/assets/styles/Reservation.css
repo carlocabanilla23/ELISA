@@ -131,12 +131,20 @@
     width: 43%;
 }
 
-
 #ERRMessage{
     color: red;
     font-weight: bold;
     font-size: 18px;
 }
+#AddUser:hover{
+    background-color: #6e233a;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+#AddUser:focus{
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(156, 47, 79, 0.5);
+}
+
 @media screen and (max-width: 1920px) {
     
     .ReservationItemList .row{
