@@ -37,7 +37,14 @@
 .PageHeaderBtn {
     margin-right: 5px;
 }
-
+.btn-dark{
+    color: #ffffff;
+    border: none;
+    font-weight: 500;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 .content > div {
     align-items: center;
     gap: 10px;
@@ -110,12 +117,14 @@ h1 {
     border: none;
     padding: 0.5em 1em;
     font-size: 1em;
+    font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
     border-radius: 10px;
     margin-right: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-left: 73%;
+    margin-left: 77%;
+    margin-bottom: 10px;
 }
 
 .submit-order-btn:hover {
@@ -221,7 +230,7 @@ h1 {
         font-size: 0.9em;
     }
     .content > div {
-        font-size: 0.9em;
+        font-size: 0.8em;
     }
    
     .create-reservation-content {
@@ -235,7 +244,8 @@ h1 {
         padding: 0 12px;
     }
     .submit-order-btn {
-        margin-left: 60%;
+        margin-left: 62%;
+        font-size: 0.9em;
     }
     .ReservationItemList .container-fluid {
         padding-right: 0;
@@ -274,5 +284,63 @@ h1 {
     }
     .AddItemBtn {
     display: inline-block;
+    }
+}
+/* Media query for smaller phone */
+@media screen and (min-width: 375px) and (max-width: 389px) {
+    .CreateReservationHeader {
+        font-size: 0.8em;
+    }
+    .content > div {
+        font-size: 0.8em;
+    }
+    .create-reservation-content {
+        padding: 8px;
+    }
+    .submit-order-btn {
+        margin-left: 60%;
+        font-size: 0.85em;
+    }
+    .ReservationItemList .row {
+        font-size: 0.7em;
+        margin-right: 0;
+        margin-left: 0;
+    }
+    .ReservationItemList .col {
+        padding-right: 0.4rem;
+        padding-left: 0.4rem;
+    }
+    .col.action {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+/* Media query for larger phones (between 401px and 768px width) */
+@media screen and (min-width: 401px) and (max-width: 768px) {
+    .CreateReservationHeader {
+        font-size: 1em;
+    }
+    .content > div {
+        font-size: 1em;
+    }
+    .create-reservation-content {
+        padding: 12px;
+    }
+    .submit-order-btn {
+        margin-left: 65%;
+    }
+    .ReservationItemList .row {
+        font-size: 0.9em;
+        margin-right: 0;
+        margin-left: 0;
+    }
+    .ReservationItemList .col {
+        padding-right: 0.6rem;
+        padding-left: 0.6rem;
+    }
+    .col.action {
+        padding-right: 0;
+        padding-left: 0;
     }
 }
