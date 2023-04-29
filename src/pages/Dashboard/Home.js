@@ -25,10 +25,10 @@ function Home() {
     if (access === 'Admin') {
       setBoard(
       <>
-      <QuarterReport />
+      <BarReport />
       <GraphReport />
       <div className="center">
-      </div><BarReport />
+      </div><QuarterReport />
       <ScatterReport />
       <GraphReport2 />
       </>

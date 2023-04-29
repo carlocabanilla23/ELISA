@@ -16,14 +16,14 @@
     margin-right: 10px; 
 }
 #export-btn:hover {
-    background-color: #7A2036; /* Change this to the desired background color on hover */
-    color: #ffffff; /* Change this to the desired text color on hover */
+    background-color: #7A2036;
+    color: #ffffff; 
 }
 
 #export-btn:focus {
-    background-color: #9c2f4f; /* Change this to the desired background color on focus */
-    color: #ffffff; /* Change this to the desired text color on focus */
-    box-shadow: 0 0 0 2px rgba(156, 47, 79, 0.5); /* Change this to the desired box-shadow on focus */
+    background-color: #9c2f4f; 
+    color: #ffffff; 
+    box-shadow: 0 0 0 2px rgba(156, 47, 79, 0.5); 
     outline: none;
 }
 
@@ -172,6 +172,7 @@
 .summaryTitle {
     font-size: 100px;
 }
+
 @media screen and (max-width: 1920px) {
     .chartLabel {
     margin: 15px 0px 10px 20px;

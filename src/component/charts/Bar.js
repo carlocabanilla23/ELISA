@@ -27,9 +27,9 @@ function BarReport () {
   },[]);
           return (
             <>
-            <div className="bottom">  <p className="chartLabel">Reservation Summary</p>   
+            <div className="top">  <p className="chartLabel">Reservation Summary</p>   
             <ResponsiveContainer width="95%" height="80%">
-                <BarChart data={data} >
+                <BarChart width={550} height={225} data={data} >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />

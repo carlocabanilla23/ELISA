@@ -296,7 +296,7 @@ function AddItem() {
 
                         </div>
                         <div className="col">
-                            <div className="form-group row my-3">
+                            <div className="form-group row my-2">
                                     <label className="col-sm-3 col-form-label" for="Condition" >Condition</label>
                                     <div className="col-sm-9">
                                         <div className="dropdown">

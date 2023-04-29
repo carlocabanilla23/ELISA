@@ -60,8 +60,8 @@ function Sidebar() {
               <img src={iInventory} className="icon" alt="inventory icon" />
               <Link to="/Inventory">Inventory</Link>
             </li>
-            <li className="menu-list" id="location_side">
-              <img src={iLocation} className="icon" id="side_location" alt="location icon" />
+            <li className="menu-list">
+              <img src={iLocation} className="icon" alt="location icon" />
               <Link to="/Location">Location</Link>
             </li>
             <li className="menu-list">
