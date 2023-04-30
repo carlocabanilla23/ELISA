@@ -1,11 +1,11 @@
 .NotificationHeader{
     background-color: #ffffff;
     height: 6vh;
-    width: 85%;
+    width: 100%;
     color: #7A2036;
-    position: fixed;
+    /* position: fixed;
         top: 6vh;
-        left: 15%;
+        left: 15%; */
     /* margin-left: 15%; */
     padding-top: 0.5em;
     padding-bottom: 1em;
@@ -15,11 +15,11 @@
 
 .NotificationContent{
     background-color: #F0F0EB;
-    width: 85%;
-    height: 100%;
-    position: fixed;
+    width: 100%;
+    height: 100vh;
+    /* position: fixed;
         top: 12vh;
-        left: 15%;
+        left: 15%; */
     padding-top: 5em;
     padding-left: 10%;
     z-index: -2;
@@ -74,4 +74,46 @@
 .notif_page{
     position: absolute;
     left: 0%;
+}
+
+
+
+@media screen and (max-width: 400px) {
+    .mobile-col-auto-dropdown {
+        position: fixed;
+            top: 6vh;
+            right: 0;
+            margin-top: 0.4em;
+            margin-right: 0.4em;
+    }
+
+}
+/* Media query for smaller phone */
+@media screen and (min-width: 375px) and (max-width: 389px) {
+    .mobile-col-auto-dropdown {
+        position: fixed;
+            top: 6vh;
+            right: 0;
+            margin-top: 0.4em;
+            margin-right: 0.4em;
+    }
+    .mobile-PageHeaderBtn {
+        position: fixed;
+            top: 6vh;
+            right: 0;
+            margin-top: 0.4em;
+            margin-left: 0.4em;
+    }
+    
+}
+
+/* Media query for larger phones (between 401px and 768px width) */
+@media screen and (min-width: 401px) and (max-width: 768px) {
+    .mobile-col-auto-dropdown {
+        position: fixed;
+            top: 6vh;
+            right: 0;
+            margin-top: 0.4em;
+            margin-right: 0.4em;
+    }   
 }

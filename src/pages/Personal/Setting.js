@@ -82,7 +82,7 @@ function Setting(){
         ShowAlert();
     }
     const cancelEdit = () => {
-        navigate('/Home');
+        navigate(-1);
     }
     const UpdateInfo = (e) => {
         e.preventDefault();
@@ -174,11 +174,9 @@ function Setting(){
             </div>
 
             <div className="SettingsHeader">
-                <div className="content">
-                    <div>
+                <div className='mobile-content-header'>
                     <button onClick={cancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
                     <label>Back</label>
-                    </div>
                 </div>
             </div>
 

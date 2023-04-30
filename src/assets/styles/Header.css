@@ -5,6 +5,14 @@
         left: 15%;
 }
 
+.mobile-logo-header{
+    display: none;
+}
+
+.hamburgermenu{
+    display: none;
+}
+
 .navbar{
     width: 100%;
     height: 6vh;
@@ -74,6 +82,7 @@
     border: none;
 }
 
+
 .dropdown-menu li {
     padding: 0.5rem 1rem;
     border-top: 1px solid #ccc;
@@ -106,3 +115,115 @@
     left: 10%;
     }
 } */
+
+#mobile-close-dropdown {
+    display: none;
+}
+
+
+@media screen and (max-width: 400px) {
+    .mobile-logo-header {
+        position: fixed;
+            top: 0;
+            left: 0;
+        display: block;
+    }
+    .mobile-logo2 {
+        padding-top: 1vh;
+        padding-left: 1vh;
+        height: 4.5vh;
+    }
+    #right-content {
+        position : fixed;
+        width : 100%;
+        top : 0;
+        left : 0;
+    }
+    .navbar{
+        display: block;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .headerprofile {
+       display: none;
+    }
+    .hamburgermenu {
+        display: block;
+    }
+    .hamburgermenuBtn {
+        font-size: 1.2em;
+        margin-top: 0.15em;
+        margin-right: 0.15em;
+    }
+ 
+    .hamburgermenuDropDown {
+        position: fixed;
+        left: 0;
+        top: 6vh;
+        margin: 0 !important;
+        width: 100%;
+        border-radius: 0;
+    }
+    .dropdown-menu[data-bs-popper] {
+        top: 6vh;
+        left: 0;
+    }
+
+}
+/* Media query for smaller phone */
+@media screen and (min-width: 375px) and (max-width: 389px) {
+    #right-content {
+        position : fixed;
+        width : 100%;
+        top : 0;
+        left : 0;
+    }
+
+    .navbar{
+        display: block;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .headerprofile {
+        display: none;
+     }
+     .hamburgermenu{
+        display: block;
+    }
+    .hamburgermenuBtn{
+        font-size: 1.2em;
+        margin-top: 0.15em;
+        margin-right: 0.15em;
+    }
+}
+
+/* Media query for larger phones (between 401px and 768px width) */
+@media screen and (min-width: 401px) and (max-width: 768px) {
+    #right-content {
+        position : fixed;
+        width : 100%;
+        top : 0;
+        left : 0;
+    }
+    .navbar{
+        display: block;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .headerprofile {
+        display: none;
+     }
+     .hamburgermenu{
+        display: block;
+    }
+    .hamburgermenuBtn{
+        font-size: 1.2em;
+        margin-top: 0.15em;
+        margin-right: 0.15em;
+    }
+
+    
+}

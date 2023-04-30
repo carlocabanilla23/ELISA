@@ -4,9 +4,9 @@
     height: 6vh;
     width: 85%;
     color: #7A2036;
-    position: fixed;
+    /* position: fixed;
         top: 6vh;
-        left: 15%;
+        left: 15%; */
     /* margin-left: 15%; */
     padding-top: 0.5em;
     padding-bottom: 1em;
@@ -18,9 +18,9 @@
     background-color: #F0F0EB;
     width: 85%;
     height: 100vh;
-    position: fixed;
+    /* position: fixed;
         top: 12vh;
-        left: 15%;
+        left: 15%; */
     margin-bottom: 0 !important;
 }
 

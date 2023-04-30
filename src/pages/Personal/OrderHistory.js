@@ -59,13 +59,11 @@ function OrderHistory() {
         <>
             {/* Previous Page Navigation Bar */}
             <div className="NotificationHeader">
-                    <div className="content">
                         <div>
-                        <button onClick={(e)=>gotoUsers()} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
-                        <label>Order History</label>
+                            <button onClick={(e)=>navigate(-1)} className="PageHeaderBtn mobile-PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
+                            <label>Order History</label>
                         </div>
-                    </div>
-                    <div className="col-auto-dropdown">
+                    <div className="col-auto-dropdown mobile-col-auto-dropdown">
                         <div className="dropdown">
                             <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Export
