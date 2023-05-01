@@ -8,6 +8,7 @@
     padding-left: 1.5%;
     padding-right: 1.5%;
     z-index: -2;
+    overflow-y: scroll;
 }
 .SettingsHeader{
     background-color: #ffffff;
@@ -56,12 +57,12 @@
     outline: 0;
 }
 
-
 .form-input {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: baseline;
+    position: relative;
 }
 /* The switch - the box around the slider */
 .switch {
@@ -156,4 +157,44 @@ input:checked + .slider .off {
     -webkit-transform: translateX(-30px);
     -ms-transform: translateX(-30px);
     transform: translateX(-30px);
+}
+.mobile-content-header{
+    color: #7A2036;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 1em;
+}
+.eye-slash-set{
+    width: 20px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    margin-right: 0;
+    mix-blend-mode: multiply;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+/* Media query for iPhone 12 (390x844) */
+@media screen and (max-width: 400px) {
+    /*Mkae the setting-form smaller in width to fit it into the mobile layout  */
+    .setting-form {
+        padding: 0;
+        margin-top: 10px;
+        margin-bottom: 50px;
+    }
+    .input-field{
+        padding: 0;
+        padding-left: 10px;
+    }
+    .setting-form > h3.heading{
+        margin-left: 10px
+    }
+    .settings-button-wrapper > button.button{
+        margin-right: 20px;
+        margin-top: 10px;
+    }
+    .input-field{
+        font-weight: 450;
+    }
 }

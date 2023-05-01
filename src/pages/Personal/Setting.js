@@ -176,7 +176,7 @@ function Setting(){
             <div className="SettingsHeader">
                 <div className='mobile-content-header'>
                     <button onClick={cancelEdit} className="PageHeaderBtn"><i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i></button>
-                    <label>Back</label>
+                    <label>Home</label>
                 </div>
             </div>
 
@@ -207,26 +207,26 @@ function Setting(){
                                 </div>
                                 <div className="form-input">
                                     <label className = "input-label" htmlFor = "current-password">Current Password</label>
-                                    <div className="position-relative">
+                                    <div className="position">
                                         <input className = "input-field" type={hidePassword ? 'password' : 'text'} id = "current-password" defaultValue={cpass} onChange={ (e) => setCpass(e.target.value)}/>
-                                        <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide" alt="Hide" onClick={togglePassword} />
-                                        <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show" style={{display: 'none'}} alt="Show" onClick={togglePassword} />
+                                        <img src={eyeSlashHide} className="eye-slash-set" id="eye-slash-hide" alt="Hide" onClick={togglePassword} />
+                                        <img src={eyeSlashShow} className="eye-slash-set" id="eye-slash-show" style={{display: 'none'}} alt="Show" onClick={togglePassword} />
                                     </div>
                                 </div>
                                 <div className="form-input">
                                     <label className = "input-label" htmlFor = "current-password">New Password</label>
-                                    <div className="position-relative">
+                                    <div className="position">
                                         <input className = "input-field" type={hideNewPassword ? 'password' : 'text'} id = "current-password" defaultValue={npass} onChange={ (e) => setNpass(e.target.value)}/>
-                                        <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide2" alt="Hide" onClick={toggleNewPassword} />
-                                        <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show2" style={{display: 'none'}} alt="Show" onClick={toggleNewPassword} />
+                                        <img src={eyeSlashHide} className="eye-slash-set" id="eye-slash-hide2" alt="Hide" onClick={toggleNewPassword} />
+                                        <img src={eyeSlashShow} className="eye-slash-set" id="eye-slash-show2" style={{display: 'none'}} alt="Show" onClick={toggleNewPassword} />
                                     </div>
                                 </div>
                                 <div className="form-input">
-                                    <label className = "input-label" htmlFor = "current-password">Rewrite New Password</label>
-                                    <div className="position-relative">
+                                    <label className = "input-label" htmlFor = "current-password">Re-enter new password</label>
+                                    <div className="position">
                                         <input className = "input-field" type={hideRNewPassword ? 'password' : 'text'} id = "current-password" defaultValue={rnpass} onChange={ (e) => setRnpass(e.target.value)}/>
-                                        <img src={eyeSlashHide} className="eye-slash" id="eye-slash-hide3" alt="Hide" onClick={toggleRNewPassword} />
-                                        <img src={eyeSlashShow} className="eye-slash" id="eye-slash-show3" style={{display: 'none'}} alt="Show" onClick={toggleRNewPassword} />
+                                        <img src={eyeSlashHide} className="eye-slash-set" id="eye-slash-hide3" alt="Hide" onClick={toggleRNewPassword} />
+                                        <img src={eyeSlashShow} className="eye-slash-set" id="eye-slash-show3" style={{display: 'none'}} alt="Show" onClick={toggleRNewPassword} />
                                     </div>
                                 </div>
 

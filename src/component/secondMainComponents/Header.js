@@ -112,7 +112,6 @@ function Header() {
                 <i class="fa fa-times"></i>
             </button>
             <ul id="mobile-dropdown-menu" className="hamburgermenuDropDown dropdown-menu" ref={dropdownMenu2} >
-              <li onClick={ (e)=> {gotoHome();toggleDropdownMenu2()}}>Home</li>
               <li onClick={ (e)=> {gotoMyReservation();toggleDropdownMenu2()}}>My Reservation</li>
               <li onClick={ (e)=> {gotoNotification();toggleDropdownMenu2()}}>Notification</li>
               <li onClick={ (e) =>{gotoSetting();toggleDropdownMenu2()}}>Setting</li>

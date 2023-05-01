@@ -4,8 +4,7 @@
     min-height: 100vh;
     padding-top: 2em;
     z-index: -2;
-    overflow-y: auto;
-    overflow-x: auto;
+    overflow-y: scroll;
     max-height: 60vh;
     display: flex;
     flex-direction: row;
@@ -32,7 +31,6 @@
     font-weight: 600;
     font-size: 1em;
     margin-left: 15px;
-
 }
 .PageHeaderBtn {
     margin-right: 5px;
@@ -287,7 +285,7 @@ h1 {
     }
 }
 /* Media query for smaller phone */
-@media screen and (min-width: 375px) and (max-width: 389px) {
+@media screen and (min-width: 376px) and (max-width: 389px) {
     .CreateReservationHeader {
         font-size: 0.8em;
     }

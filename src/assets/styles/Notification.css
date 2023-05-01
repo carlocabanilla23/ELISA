@@ -86,10 +86,14 @@
             margin-top: 0.4em;
             margin-right: 0.4em;
     }
+    .div.mobile-content-header{
+        margin-left: 100px;
+    
+    }
 
 }
 /* Media query for smaller phone */
-@media screen and (min-width: 375px) and (max-width: 389px) {
+@media screen and (min-width: 376px) and (max-width: 389px) {
     .mobile-col-auto-dropdown {
         position: fixed;
             top: 6vh;
@@ -103,6 +107,10 @@
             right: 0;
             margin-top: 0.4em;
             margin-left: 0.4em;
+    }
+    .div.mobile-content-header{
+        margin-left: 300px;
+    
     }
     
 }
