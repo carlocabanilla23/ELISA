@@ -17,12 +17,19 @@
     background-color: #F0F0EB;
     width: 100%;
     height: 100vh;
+    position: relative;
     /* position: fixed;
         top: 12vh;
         left: 15%; */
     padding-top: 5em;
     padding-left: 10%;
     z-index: -2;
+    overflow-y: scroll;
+}
+.NotificationContent > .font-weight-bold{
+    font-size: 0.8em;
+    font-weight: 550;
+    font-family: 'Inter', sans-serif;
 }
 
 
@@ -44,9 +51,11 @@
 #seenCircle{
     display: inline;
     position: absolute;
-    left: 10%;
-    width: 35px;
-    height: 35px;
+        left: 5.5%;
+        
+    width: 30px;
+    margin-top: 22px;
+    height: 30px;
     -webkit-border-radius: 25px;
     -moz-border-radius: 25px;
     border-radius: 25px;
@@ -75,8 +84,13 @@
     position: absolute;
     left: 0%;
 }
-
-
+.mobile-col-auto-dropdown{
+    position: fixed;
+    top: 5.5vh;
+    right: 10px;
+    margin-top: 0.4em;
+    margin-right: 0.4em;
+}
 
 @media screen and (max-width: 400px) {
     .mobile-col-auto-dropdown {
@@ -89,6 +103,14 @@
     .div.mobile-content-header{
         margin-left: 100px;
     
+    }
+
+}
+/* Media query for iPhone 12 (390x844) */
+@media screen and (max-width: 400px) {
+    .NotificationContent{
+        padding-top:20px;
+        font-size: 0.8em;
     }
 
 }
@@ -110,8 +132,11 @@
     }
     .div.mobile-content-header{
         margin-left: 300px;
-    
     }
+    .NotificationContent{
+        padding-top:10px;
+    }
+
     
 }
 

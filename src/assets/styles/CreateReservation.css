@@ -239,6 +239,7 @@ h1 {
         margin-top: 20px;
         margin-right: 2%;
         margin-left:0;
+        margin: 20px 2% 25% 0;
         padding: 0 12px;
     }
     .submit-order-btn {
@@ -311,6 +312,9 @@ h1 {
     .col.action {
         padding-right: 0;
         padding-left: 0;
+    }
+    .RightContainer{
+        margin-bottom: 20%;
     }
 }
 

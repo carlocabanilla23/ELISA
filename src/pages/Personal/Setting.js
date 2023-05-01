@@ -202,10 +202,6 @@ function Setting(){
                         <form onSubmit={UpdatePassword} className="setting-form">
                         <h3 className='heading'> Change Password </h3>
                                 <div className="form-input">
-                                    <label className = "input-label" htmlFor = "current-password"></label>
-                                    <p className='text-danger'>{error}</p>
-                                </div>
-                                <div className="form-input">
                                     <label className = "input-label" htmlFor = "current-password">Current Password</label>
                                     <div className="position">
                                         <input className = "input-field" type={hidePassword ? 'password' : 'text'} id = "current-password" defaultValue={cpass} onChange={ (e) => setCpass(e.target.value)}/>
