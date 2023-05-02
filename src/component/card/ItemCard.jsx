@@ -54,7 +54,7 @@ const ItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,
                         onClick={() => EditItem(item.serialno)}
                       > Edit
                     </li>
-                    <li onClick={ (e) => CreateQRCode(item.serialno)}
+                    <li onClick={ (e) => CreateQRCode(item.serialno,item.type)}
                         className="dropdown-item"
                         type="button"
                         data-bs-toggle="offcanvas"

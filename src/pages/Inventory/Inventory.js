@@ -159,7 +159,7 @@ function Inventory () {
         }
     }
 
-    const CreateQRCode = (serialno) => {
+    const CreateQRCode = (serialno,type) => {
         setActionName("QRCode");
         document.getElementById("item-info").style.display = "none";
         document.getElementById("qrcode").style.display = "block";
@@ -169,7 +169,7 @@ function Inventory () {
         document.getElementById("changeRFIDCode").style.display = "none";
 
         console.log(serialno);
-        let svg = Generate(serialno);
+        let svg = Generate(serialno,type);
         setQRCode(svg);
     }
     const CreateBarcode = (serialno) => {
