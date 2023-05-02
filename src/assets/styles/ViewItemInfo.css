@@ -61,6 +61,7 @@ and (-webkit-min-device-pixel-ratio: 3) {
         background-color: #fff;
         min-height: 100vh;
         width: 100%;
+        margin-bottom: 15%;
     }
     .mobile-item-img{
         width: 100%;
