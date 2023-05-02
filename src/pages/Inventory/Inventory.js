@@ -160,6 +160,8 @@ function Inventory () {
     }
 
     const CreateQRCode = (serialno,type) => {
+        API.get("items","/items/object/"+type+"/"+serialno).then(res => {
+            console.log(res)})
         setActionName("QRCode");
         document.getElementById("item-info").style.display = "none";
         document.getElementById("qrcode").style.display = "block";
