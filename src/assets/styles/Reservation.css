@@ -22,6 +22,7 @@
     z-index: -2;
     box-shadow: inset 0 0 10px gray;
     padding-left: 2%;
+    overflow-y: scroll;
 }
 .ReservationSummary{
     float: left;
@@ -141,4 +142,22 @@
 #AddUser:focus{
     outline: none;
     box-shadow: 0 0 0 2px rgba(156, 47, 79, 0.5);
+}
+@media screen and (max-width: 400px) {
+    .ReservationHeader{
+        width: 100%;
+    }
+    .Reservation{
+        width: 100%;
+        left: 0;
+        font-size: 1em;
+    }
+    .ReservationSummary{
+        width: 100%;
+        height: 10px;
+        border-right: none;
+    }
+    .Assigneditemlist{
+        width: 180%;
+    }
 }

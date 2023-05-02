@@ -9,7 +9,6 @@ const ReservationAssignedItemList = ({items,removeItem}) => {
                 <li>
                     <div className="">
                         <div className="row fw-bold bg-light">
-                            <div className="col">Serial No</div>
                             <div className="col">Name</div>
                             <div className="col">Type</div>
                             <div className="col">Model</div>
@@ -22,7 +21,6 @@ const ReservationAssignedItemList = ({items,removeItem}) => {
                 <li key={index}>
                         <div className="">
                             <div className="row ">
-                                <div className="col"> {item.serialno} </div>
                                 <div className="col"> {item.name} </div>
                                 <div className="col"> {item.type} </div>
                                 <div className="col"> {item.model} </div>

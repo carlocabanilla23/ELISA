@@ -79,7 +79,7 @@ function OrderHistory() {
             <div className="NotificationContent">
                 <div className="row font-weight-bold">
                     <div className="col col1 ">Date </div>
-                    <div className="col col2"> Reservation No </div>
+                    <div className="col col2"> Reservation</div>
                     <div className="col col2"> Order Status </div>
                     <div className="col col2"> Action </div>
                 </div>
@@ -88,7 +88,18 @@ function OrderHistory() {
                         <div className="col col1"> {items.requestdate} </div>
                         <div className="col col2"> {items.reservationno} </div>
                         <div className="col col3"> {items.status} </div>
-                        <div className="col col4"> <button onClick={(e)=> ViewReservation(items.email,items.reservationno)} className="btn btn-dark"> View </button></div>
+                        <div className="col col4">
+                            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+                            <div className="col action">
+                            <button onClick={(e)=> ViewReservation(items.email,items.reservationno)} className="btn btn-dark view-btn"> View </button>
+                            <button className="btn view-item-btn" onClick={(e) => ViewReservation(items.email,items.reservationno)}>
+                                <span className="material-icons">
+                                    visibility
+                                </span>
+                            </button>
+                            </div>
+
+                        </div>
                     </div>
                 ))}
                 <div className="notif_page">

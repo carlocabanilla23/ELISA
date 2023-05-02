@@ -386,12 +386,12 @@ function Reservation () {
                                 <div className="col">
                                     <label className="userinfo-form-label fw-bold form-label">Reservation No</label>
                                     <br/>
-                                    <label className="userinfo-form-label form-label">{reservationno}</label>
+                                    <label className="userinfo-form-label field-input">{reservationno}</label>
                                 </div>
                                 <div className="col">
                                     <label className="userinfo-form-label fw-bold form-label">Status</label>
                                     <br/>
-                                    <label className="userinfo-form-label form-label">{status}</label>
+                                    <label className="userinfo-form-label field-input">{status}</label>
                                 </div>
                             </div>
 
@@ -399,12 +399,12 @@ function Reservation () {
                                 <div className="col">
                                     <label className="userinfo-form-label fw-bold form-label">Requested By</label>
                                     <br/>
-                                    <label className="userinfo-form-label form-label">{firstName + " " + lastName}</label>
+                                    <label className="userinfo-form-label field-input">{firstName + " " + lastName}</label>
                                 </div>
                                 <div className="col">
                                     <label className="userinfo-form-label fw-bold form-label">Requested Date</label>
                                     <br/>
-                                    <label className="userinfo-form-label form-label">{currentDate}</label>
+                                    <label className="userinfo-form-label field-input">{currentDate}</label>
                                 </div>
                             </div>
 
@@ -412,14 +412,14 @@ function Reservation () {
                                 <div className="col">
                                     <label className="userinfo-form-label fw-bold form-label">School Id</label>
                                     <br/>
-                                    <label className="userinfo-form-label form-label">{schoolID}</label>
+                                    <label className="userinfo-form-label field-input">{schoolID}</label>
                                 </div>
                                 <div className="col">
                                     <div className="row" id="reserveInfoCol">
                                         <div className="col">
                                             <label className="fw-bold form-label">Assign Date</label>
                                             <br/>
-                                            <label className="form-label">{assignedDate.length === 0 ? "N/A" : assignedDate}</label>
+                                            <label className="field-input">{assignedDate.length === 0 ? "N/A" : assignedDate}</label>
                                         </div>
                                         {/* <div className="col">
                                             <label className="fw-bold form-label">Return Date</label>
@@ -434,14 +434,14 @@ function Reservation () {
                                 <div className="col">
                                     <label className="userinfo-form-label fw-bold form-label">Email</label>
                                     <br/>
-                                    <label className="userinfo-form-label form-label">{email}</label>
+                                    <label className="userinfo-form-label field-input">{email}</label>
                                 </div>
                                 <div className="col">
                                     <div className="row" id="reserveInfoCol">
                                         <div className="col">
                                             <label className="fw-bold form-label">Approved By</label>
                                             <br/>
-                                            <label id="approvedBy" className="form-label">{approvedBy.length === 0 ? "N/A" : approvedBy}</label>
+                                            <label id="approvedBy" className="field-input">{approvedBy.length === 0 ? "N/A" : approvedBy}</label>
                                         </div>
                                         {/* <div className="col">
                                             <label className="fw-bold form-label">Reviewd By</label>
