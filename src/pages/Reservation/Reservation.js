@@ -367,7 +367,7 @@ function Reservation () {
                             </ul>
                         </div>
                     </div>
-                    <div className="fs-4 ms-5 fw-bold">
+                    <div className="fs-5 ms-3 fw-bold">
                         <button onClick={ (e) => cancelViewReservation() } className="PageHeaderBtn">
                             <i className="PageHeaderBtn fa fa-arrow-left ms-2" aria-hidden="true"></i>
                         </button>

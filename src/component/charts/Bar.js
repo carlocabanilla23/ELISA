@@ -35,8 +35,8 @@ function BarReport () {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="Open" fill="#8884d8" />
-                    <Bar dataKey="Assign" fill="#82ca9d" />
+                    <Bar dataKey="Open" fill="#27AE60" />
+                    <Bar dataKey="Assign" fill="#F2994A" />
                 </BarChart>   
             </ResponsiveContainer>
              </div>

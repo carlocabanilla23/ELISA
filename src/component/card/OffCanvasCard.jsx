@@ -210,7 +210,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                             <li className="dropdown-item" onClick={(e)=> setStatus ("Unavailable")} > Unavailable</li>
                         </ul>
                         <button  className="btn btn-secondary" type="button" onClick={(e) => updateStatus()}>
-                        save
+                        Save
                         </button>
                     </div>
                 </div>
@@ -232,7 +232,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                         </div>
                     </ul>
                     <button  className="btn btn-secondary" type="button" onClick={(e)=> location !== item.roomno ? setNewLocation() : ''}>
-                    save
+                    Save
                     </button>
                 </div>
                 {/* Change RFID Code */}

@@ -26,8 +26,9 @@ function ScatterReport () {
         setData(dt);
       });
   },[]);
+// hex color codes of red
 
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
+  const COLORS = ['#27AE60', '#F2994A', '#910D09'];
 
   // const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
