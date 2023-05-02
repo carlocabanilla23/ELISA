@@ -42,6 +42,8 @@ function CreateReservation () {
 
     const [header,setHeader] = useState('');
     const access = localStorage.getItem('access');
+    const loggedUser = decodeURIComponent(escape(window.atob(localStorage.getItem('email'))));
+
     const [pageUpdate,setPageUpdate] = useState(true);
 
     // Pagination
@@ -293,9 +295,17 @@ function CreateReservation () {
     const ShowAlert = () => {
         var alert = document.getElementById("alert");
         alert.style.display = "block";
-        setTimeout( () =>{
-             navigate("/Reservations");
-        },1500);
+
+        if (access === "Admin") {
+            setTimeout( () =>{
+                navigate("/Reservations");
+           },1500);
+        }else {
+            setTimeout( () =>{
+                navigate("/OrderHistory/"+loggedUser);
+           },1500);
+        }
+       
     }
 
     // Pagination
