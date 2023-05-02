@@ -10,15 +10,15 @@ function BarReport () {
 
     API.get("reservation","/reservation").then( res => {
         res.forEach(element => {
-            if (element.status === "Open") oCount++;
-            else if (element.status === "Assigned") aCount++;
+            if (element.status === "Reserved") oCount++;
+            else if (element.status === "Returned") aCount++;
         });
 
         const df = [
           {
             name: 'Reservation',
-            Open: oCount,
-            Assign: aCount,
+            Reserved: oCount,
+            Returned: aCount,
           },
         ];
         setData(df);
@@ -35,8 +35,8 @@ function BarReport () {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="Open" fill="#27AE60" />
-                    <Bar dataKey="Assign" fill="#F2994A" />
+                    <Bar dataKey="Reserved" fill="#27AE60" />
+                    <Bar dataKey="Returned" fill="#F2994A" />
                 </BarChart>   
             </ResponsiveContainer>
              </div>
