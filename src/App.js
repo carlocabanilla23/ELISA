@@ -239,7 +239,7 @@ function App() {
             <Notification />
       </ProtectedRoute> } />
 
-      <Route path='/ViewItemInfo/:param'
+      <Route path='/ViewItemInfo/:param/:param2'
         element= {
         <ProtectedRoute user={user}>
             <ViewItemInfo />

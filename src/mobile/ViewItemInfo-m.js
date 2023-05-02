@@ -8,7 +8,7 @@ import logo from '../assets/icons/elisa_logo.png';
 
 
 function ViewItemInfo () {
-    const {param} = useParams();
+    const {param,param2} = useParams();
 
     const [name,setName] = useState('');
     const [serialNumber,setSerialNumber] = useState('');
@@ -27,7 +27,8 @@ function ViewItemInfo () {
     const navigate = useNavigate();
 
     useEffect( () => {
-        API.get("items","/items/object/"+param).then(res => {
+        API.get("items","/items/object/"+param+"/"+param2).then(res => {
+            console.log(res);
             setName(res.name);
             setSerialNumber(res.serialno);
             setType(res.type);
