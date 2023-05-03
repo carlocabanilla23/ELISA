@@ -209,7 +209,7 @@ h1 {
     text-align: center;
 }
 /* Media query for iPhone 12 (390x844) */
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 450px) {
     .CreateReservation {
         padding-top: 1em;
         display: flex;
@@ -321,30 +321,30 @@ h1 {
 }
 
 /* Media query for larger phones (between 401px and 768px width) */
-@media screen and (min-width: 401px) and (max-width: 768px) {
-    .CreateReservationHeader {
-        font-size: 1em;
-    }
-    .content > div {
-        font-size: 1em;
-    }
-    .create-reservation-content {
-        padding: 12px;
-    }
-    .submit-order-btn {
-        margin-left: 65%;
-    }
-    .ReservationItemList .row {
-        font-size: 0.9em;
-        margin-right: 0;
-        margin-left: 0;
-    }
-    .ReservationItemList .col {
-        padding-right: 0.6rem;
-        padding-left: 0.6rem;
-    }
-    .col.action {
-        padding-right: 0;
-        padding-left: 0;
-    }
-}
+    /* @media screen and (min-width: 401px) and (max-width: 768px) {
+        .CreateReservationHeader {
+            font-size: 1em;
+        }
+        .content > div {
+            font-size: 1em;
+        }
+        .create-reservation-content {
+            padding: 12px;
+        }
+        .submit-order-btn {
+            margin-left: 65%;
+        }
+        .ReservationItemList .row {
+            font-size: 0.9em;
+            margin-right: 0;
+            margin-left: 0;
+        }
+        .ReservationItemList .col {
+            padding-right: 0.6rem;
+            padding-left: 0.6rem;
+        }
+        .col.action {
+            padding-right: 0;
+            padding-left: 0;
+        }
+    } */
