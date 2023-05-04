@@ -18,6 +18,7 @@ function Reader () {
                         .then (res => {
                             if (res.length > 0) {
                                 res.forEach(element => {
+                                    console.log(element);
                                     if (element.roomno !== locRoomNo ) {
                                         console.log(element.name + " is found in location " + locRoomNo);
                                         // element.roomno = locRoomNo;
@@ -28,20 +29,15 @@ function Reader () {
                                         }
                                         SendNotification("ITEM_MOVE",item)
                                     }
-                                    
                                 });
-                               
                             }
                             // window.location.reload(true);
 
                         })
                         document.getElementById('reader').value= "" ;
                     }
-                    
-               
-
         }
-    
+
     const UpdateRoomLocation = (item,roomno) => {
         // item.roomno = roomno;
         API.post("items","/items/", {
@@ -60,18 +56,15 @@ function Reader () {
             }
         });
     }
-   
 
     const searchItem = (e) => {
         // console.log(e);
         if (e.length === 32) {
             console.log(e);
             window.reload = true;
-            
-
 
             // const searchItem = unfilteredItems.filter(item => item.serialno.toLowerCase().includes(e))
-            // if (searchItem.length === 1) { 
+            // if (searchItem.length === 1) {
             //    addItem(searchItem[0])
             //    document.getElementById('SearchBarInput').value= " " ;
             // }

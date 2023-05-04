@@ -175,20 +175,40 @@ function CreateReservation () {
         if (e.length === 0) {
             setFilteredItems([]);
         }else {
-            const searcedhItems = items.filter((item) => item.type.toLowerCase().includes(query) ||
+            let searcedhItems = items.filter((item) => item.type.toLowerCase().includes(query) ||
                                                         item.name.toLowerCase().includes(query) ||
                                                         item.model.toLowerCase().includes(query) ||
                                                         item.manufacturer.toLowerCase().includes(query) ||
                                                         item.roomno.toLowerCase().includes(query)
-
                                                         );
                                                     //  ||
                                                     // item.manufacturer !== undefined ||
                                                     // item.manufacturer.toLowerCase().includes(e));
+            reservationCart.map(requested => {
+                const available = searcedhItems;
+                searcedhItems = available.filter(item => item.name !== requested.name);
+            });
+            searcedhItems.sort((a,b) => {
+                var tA = Number.parseInt(a.name);
+                var tB = Number.parseInt(b.name);
+                if(isNaN(tA) && isNaN(tB)){
+                    if(a.name.length > b.name.length){
+                        return 1;
+                    }else if(a.name.length < b.name.length){
+                        return -1;
+                    }else{
+                        return a.name.localeCompare(b.name);
+                    }
+                }else if(isNaN(tA)){
+                    return -1;
+                }else if(isNaN(tB)){
+                    return 1;
+                }else{
+                    return Math.sign(tA - tB);
+                }
+            });
             setFilteredItems(searcedhItems);
-
-
-                                                }                                            // setItems(searcedhItems);
+        }                                            // setItems(searcedhItems);
     }
 
     const updateCart = (order) => {
@@ -305,7 +325,6 @@ function CreateReservation () {
                 navigate("/OrderHistory/"+loggedUser);
            },1500);
         }
-       
     }
 
     // Pagination
@@ -332,19 +351,19 @@ function CreateReservation () {
         document.getElementById("ReservationItemList").style.display = "none";
         document.getElementById("custom-dropdown-row").style.display = "flex";
         document.getElementById("ItemRequestList").style.display = "none";
-        document.getElementById("Pagination").style.display = "none"; 
+        document.getElementById("Pagination").style.display = "none";
     }
     const showSearch = () => {
         document.getElementById("ItemRequestList").style.display = "none";
         document.getElementById("custom-dropdown-row").style.display = "none";
         document.getElementById("ReservationItemList").style.display = "block";
-        document.getElementById("Pagination").style.display = "flex"; 
+        document.getElementById("Pagination").style.display = "flex";
     }
     const showSummary = () => {
         document.getElementById("ItemRequestList").style.display = "block";
         document.getElementById("custom-dropdown-row").style.display = "none";
         document.getElementById("ReservationItemList").style.display = "none";
-        document.getElementById("Pagination").style.display = "none"; 
+        document.getElementById("Pagination").style.display = "none";
     }
 
     return (

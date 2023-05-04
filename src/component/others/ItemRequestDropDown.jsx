@@ -25,6 +25,14 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
             let temparr = []
             itemRes.forEach(element => {
                 if (reservationCart.indexOf(element) === -1) {
+                    if(element.type[0] === ' '){
+                        const iType = element.type.split(' ');
+                        let firstIndex = 0;
+                        while(iType.at(firstIndex) === ''){
+                            firstIndex += 1;
+                        }
+                        element.type = element.type.substr(element.type.indexOf(iType.at(firstIndex)), element.type.length);
+                    }
                     temparr.push(element)
                 }
             });
@@ -32,7 +40,7 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
             // filter( i => !reservationCart.some(r =>  r !== i));
             const updatedTypes =  [...new Set(temparr.map( item => item.type))];
             setItems(temparr);
-            setTypes(updatedTypes);
+            setTypes(sortItems(updatedTypes, ''));
             setNames([]);
             setNames([]);
             setManufacturers([]);
@@ -41,14 +49,48 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
         })
     },[reservationCart,cart]);
 
-    const sortItems = (items) => {
+    const sortItems = (items, attribute) => {
+        items.sort((a,b) => {
+            var tA = Number.parseInt(a);
+            var tB = Number.parseInt(b);
+            if(isNaN(tA) && isNaN(tB)){
+                if(attribute === 'Name'){
+                    if(a.length > b.length){
+                        return 1;
+                    }else if(a.length < b.length){
+                        return -1;
+                    }
+                }
+                return a.localeCompare(b);
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        })
+        return items;
+    }
+
+    const generateNameList = (items, arr) => {
+        let arrNames = [];
+        let reservedList = [];
+        reservationCart.map(item => {
+            reservedList.push(item.name);
+        });
+        items.forEach (e => {
+            if (arr.indexOf(e.name) === -1 && reservedList.indexOf(e.name) === -1) {
+                arrNames.push(e.name);
+            }
+        });
+        return arrNames;
     }
 
     const setModelList = (typeParam) => {
         setType(typeParam);
         const filterItems = items.filter(item => item.type === typeParam);
         let arr = [];
-        let arrNames = [];
 
         filterItems.forEach (e => {
             if (arr.indexOf(e.model) === -1) {
@@ -56,16 +98,12 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
             }
         })
 
-        filterItems.forEach (e => {
-            if (arr.indexOf(e.name) === -1) {
-                arrNames.push(e.name);
-            }
-        })
+        let arrNames = generateNameList(filterItems, arr);
 
-        setModels(arr);
+        setModels(sortItems(arr, ''));
         setManufacturers([]);
         setRoomnos([]);
-        setNames(arrNames);
+        setNames(sortItems(arrNames, "Name"));
 
         setModel('Model');
         setManufacturer('Manufacturer');
@@ -78,7 +116,6 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
         setModel(modelParam);
         const filterItems = items.filter(item => item.model === modelParam);
         let arr = [];
-        let arrNames = [];
 
         filterItems.forEach (e => {
             if (arr.indexOf(e.manufacturer) === -1) {
@@ -86,15 +123,11 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
             }
         })
 
-        filterItems.forEach (e => {
-            if (arr.indexOf(e.name) === -1) {
-                arrNames.push(e.name);
-            }
-        })
+        let arrNames = generateNameList(filterItems, arr);
 
-        setManufacturers(arr);
+        setManufacturers(sortItems(arr, ''));
         setRoomnos([]);
-        setNames(arrNames);
+        setNames(sortItems(arrNames, "Name"));
 
         setManufacturer('Manufacturer');
         setRoomno('Room');
@@ -107,7 +140,6 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
 
         const filterItems = items.filter(item => item.manufacturer === manufacturerParam);
         let arr = [];
-        let arrNames = [];
 
         filterItems.forEach (e => {
             if (arr.indexOf(e.roomno) === -1) {
@@ -115,14 +147,10 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
             }
         })
 
-        filterItems.forEach (e => {
-            if (arr.indexOf(e.name) === -1) {
-                arrNames.push(e.name);
-            }
-        })
+        let arrNames = generateNameList(filterItems, arr);
 
-        setRoomnos(arr);
-        setNames(arrNames);
+        setRoomnos(sortItems(arr, ''));
+        setNames(sortItems(arrNames, "Name"));
 
         setRoomno('Room');
         setName('Name');
@@ -133,14 +161,17 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
 
         const filterItems = items.filter(item => item.roomno === roomnoParam);
         let arrNames = [];
+        let reservedList = [];
+        reservationCart.map(item => {
+            reservedList.push(item.name);
+        })
         filterItems.forEach (e => {
-            if (arrNames.indexOf(e.name) === -1) {
+            if (arrNames.indexOf(e.name) === -1 && reservedList.indexOf(e.name) === -1) {
                 arrNames.push(e.name);
             }
         })
-    //     // console.log(arrNames)
 
-        setNames(arrNames);
+        setNames(sortItems(arrNames, "Name"));
 
         setName('Name');
     }
