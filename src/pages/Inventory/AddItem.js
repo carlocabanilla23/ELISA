@@ -51,9 +51,10 @@ function AddItem() {
 
     // AddItem function is called when the form is submitted
     const AddItem = (e) => {
-        // e.preventDefault();
+        e.preventDefault();
         let param = { RFIDCode2 }
         let err = Validate(items,data,param);
+        console.log(err);
         let rm;
 
         data.location === "Unassigned" ?  rm = "NA" :  rm = data.roomno;
@@ -99,7 +100,7 @@ function AddItem() {
     const ChangeData = (e) => {
         setData({
             ...data,
-            [e.target.name] : e.target.value
+            [e.target.name] : e.target.value.toString()
         });
     }
 

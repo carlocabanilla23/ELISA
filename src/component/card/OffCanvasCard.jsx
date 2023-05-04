@@ -71,7 +71,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
         item.location = locationType;
         item.roomno = location;
         API.post("items","/items/", {
-            body : item 
+            body : item
         });
         setTimeout(() => {
             window.location.reload(true);
@@ -139,6 +139,11 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                     <div className="mb-3 row">
                         <img src={item.image} width="150" height="150" alt="Device" />
                     </div>
+                    {/* Name */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Name :</label>
+                        <div className = "Information col-sm-8">{item.name}</div>
+                    </div>
                     {/* Serial Number */}
                     <div className="mb-3 row">
                         <label  className = "Attribute col-sm-4">Serial #:</label>
@@ -191,7 +196,11 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                 {/* Print QRCode */}
                 <div id="qrcode">
                     <button id="qrcode-print-btn" onClick={(e)=>Print("qrcode-img")}><i className="fa fa-print" aria-hidden="true"></i></button>
-                    <div id="qrcode-img">{qrcode}</div>
+                    <div id="qrcode-img">
+                        {qrcode}
+                        <br/>
+                        <h3>{item.name}</h3>
+                    </div>
                 </div>
                 {/* Print Barcode */}
                 <div id="barcode">

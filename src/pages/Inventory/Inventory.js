@@ -40,6 +40,7 @@ function Inventory () {
 
     useEffect( () => {
         API.get("items","/items").then( itemRes => {
+            console.log(itemRes);
             itemRes.sort((a,b) => {
                 var tA = Number.parseInt(a.type);
                 var tB = Number.parseInt(b.type);
@@ -159,10 +160,12 @@ function Inventory () {
         }
     }
 
-    const CreateQRCode = (serialno,type) => {
-        API.get("items","/items/object/"+type+"/"+serialno).then(res => {
-            console.log(res)})
+    const CreateQRCode = async (serialno,type) => {
+        let data = await API.get('items','/items/object/'+type + '/' +serialno);
+        console.log(data);
         setActionName("QRCode");
+        setOffCanvasItem(data);
+
         document.getElementById("item-info").style.display = "none";
         document.getElementById("qrcode").style.display = "block";
         document.getElementById("barcode").style.display = "none";
