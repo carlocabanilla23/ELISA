@@ -8,13 +8,46 @@
     width: 40%;
     height: 87%;
     position: absolute;
-        top: 10vh;
+        top: 7vh;
         left: 30%;
     padding: 1em;
     padding-left: 5%;
     padding-right: 5%;
 }
-
+/* RFID Reader */
+.ReaderForm{
+    background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.5));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.18 );
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1);
+    width: 40%;
+    height: 92%;
+    position: absolute;
+        top: 5vh;
+        left: 30%;
+    padding: 0.5em 3em 0.5em 3em;
+}
+.FormReader{
+    text-align: center;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    font-size: 1.4em;
+    font-weight: 600;
+}
+.form-control{
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.18 );
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1);
+}
+#DeviceImage{
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.18 );
+    padding: 0;
+}
+/* RFID Reader */
 .input-wrapper {
     position: flex;
 }
