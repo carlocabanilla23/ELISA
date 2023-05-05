@@ -34,7 +34,7 @@ function Reader() {
     prevroomno: "NA",
     prevlocation: "NA",
   });
-  const [locRoomNo] = useState("ERICKSON LOCATION A");
+  const [locRoomNo] = useState("LOCATION A");
 
   const ReadData = (e) => {
     if (e.length === 8) {
