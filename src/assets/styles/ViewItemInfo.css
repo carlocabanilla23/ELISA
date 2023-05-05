@@ -89,5 +89,11 @@ and (-webkit-min-device-pixel-ratio: 3) {
         margin-right: 0;
         padding: 2em;
     }
+    .Attribute{
+        font-size: 0.9em;
+    }
+    .Information{
+        font-size: 0.9em;
+    }
 
 }
