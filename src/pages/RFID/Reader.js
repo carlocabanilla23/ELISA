@@ -150,10 +150,10 @@ function Reader() {
               <div className="Information col-sm-8">{item.manufacturer}</div>
             </div>
             {/* Location */}
-            <div className="mb-3 row">
+            {/* <div className="mb-3 row">
               <label className="Attribute col-sm-4">Location:</label>
               <div className="Information col-sm-8">{item.location}</div>
-            </div>
+            </div> */}
             {/* Room Number */}
             <div className="mb-3 row">
               <label className="Attribute col-sm-4">Room #:</label>

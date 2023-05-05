@@ -23,11 +23,11 @@
     border: 1px solid rgba(255, 255, 255, 0.18 );
     box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1);
     width: 40%;
-    height: 92%;
+    height: 93%;
     position: absolute;
-        top: 5vh;
+        top: 4vh;
         left: 30%;
-    padding: 0.5em 3em 0.5em 3em;
+    padding: 0.5em 2.75em 0.5em 2.75em;
 }
 .FormReader{
     text-align: center;
