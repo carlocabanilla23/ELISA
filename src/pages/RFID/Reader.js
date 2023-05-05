@@ -2,13 +2,44 @@ import { API } from "aws-amplify";
 import React, { useEffect, useState } from "react";
 import '../../assets/styles/Reader.css';
 import SendNotification from '../../Services/notification/Notification';
-
+import { DefaultDeviceLogo } from "../../assets/base64/base64imgs";
+import { GetDateToday } from "../../Services/etc/GetDateToday";
 
 function Reader () {
-    const [locRoomNo] = useState("2010");
+    const [item,setItem] = useState(
+        {
+            name : "",
+            serialno : "",
+            type : "",
+            model : "",
+            location : "Room",
+            roomno : "101",
+            status : "Available",
+            cost : 200,
+            acquiredate : GetDateToday(),
+            createdate: GetDateToday(),
+            lastupdated: GetDateToday(),
+            rfidcode : "",
+            image : DefaultDeviceLogo(),
+            manufacturer : "",
+            condition : "New",
+
+            expiredate : "NA",
+
+            assigndate : "NA",
+            assignedto : "NA",
+
+            returndate : "NA",
+            reviewedby : "NA",
+
+            prevroomno : "NA",
+            prevlocation : "NA"
+        }
+    );
+    const [locRoomNo] = useState("ERICKSON 115");
 
         const ReadData = (e) => {
-              if (e.length === 32) {
+              if (e.length === 8) {
                         console.log(e)
                         API.post('items','/items/rfid/',{
                             body: {
@@ -18,6 +49,7 @@ function Reader () {
                         .then (res => {
                             if (res.length > 0) {
                                 res.forEach(element => {
+                                    setItem(element);
                                     console.log(element);
                                     if (element.roomno !== locRoomNo ) {
                                         console.log(element.name + " is found in location " + locRoomNo);
@@ -73,9 +105,67 @@ function Reader () {
     return (
         <>
         <div className="Reader">
-
+            <br/>
+            <h1>RFID Reader</h1>
             <input id="reader" onChange={ e => ReadData(e.target.value) } className="reader-txt" type={'text'}  autoFocus={true} onBlur={({ target }) => target.focus()}/>
         </div>
+
+        <div id="reader-item-info">
+                    {/* Image */}
+                    <div className="mb-3 row">
+                        <img src={item.image} width="150" height="150" alt="Device" />
+                    </div>
+                    {/* Name */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Name :</label>
+                        <div className = "Information col-sm-8">{item.name}</div>
+                    </div>
+                    {/* Serial Number */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Serial #:</label>
+                        <div className = "Information col-sm-8">{item.serialno}</div>
+                    </div>
+                    {/* Type */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Type:</label>
+                        <div className = "Information col-sm-8">{item.type}</div>
+                    </div>
+                    {/* Model */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Model:</label>
+                        <div className = "Information col-sm-8">{item.model}</div>
+                    </div>
+                    {/* Manufacturer */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Manufacturer:</label>
+                        <div className = "Information col-sm-8">{item.manufacturer}</div>
+                    </div>
+                    {/* Location */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Location:</label>
+                        <div className = "Information col-sm-8">{item.location}</div>
+                    </div>
+                    {/* Room Number */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Room #:</label>
+                        <div className = "Information col-sm-8">{item.roomno}</div>
+                    </div>
+                    {/* Status */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Status:</label>
+                        <div className = "Information col-sm-8">{item.status}</div>
+                    </div>
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Condition:</label>
+                        <div className = "Information col-sm-8">{item.condition}</div>
+                    </div>
+                    {/* Cost */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Cost:</label>
+                        <div className = "Information col-sm-8">{item.cost}</div>
+                    </div>
+
+                </div>
         </>
     )
 }
