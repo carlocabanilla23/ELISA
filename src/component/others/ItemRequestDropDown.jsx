@@ -191,6 +191,9 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
             setNames(tmpnames);
             setItems(tmpitms);
             setName("Name");
+            setModel('Model');
+            setManufacturer('Manufacturer');
+            setRoomno('Room');
 
             setFilteredItems((items) =>
                 items.filter((i) => i.name !== name)
