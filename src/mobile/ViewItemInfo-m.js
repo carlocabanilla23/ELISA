@@ -125,9 +125,13 @@ function ViewItemInfo () {
                     <label  className = "Attribute col">Expired:</label>
                     <div className = "Information col">{expiredDate}</div>
                 </div> */}
-
-                <button onClick={ e=> { reserveItem()}} className='mobile-btn btn btn-dark'>Reserve Item</button>
-
+                <div className="row justify-content-end">
+                    <div className="col ">
+                        <button onClick={ (e)=> { reserveItem()}} className='submit-order-btn'>
+                            Reserve Item
+                        </button>
+                    </div>
+                </div>
             </div>
         </>
       
