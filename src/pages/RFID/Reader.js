@@ -72,6 +72,7 @@ function Reader() {
     API.post("items", "/items/", {
       body: {
         name: item.name,
+        image: item.image,
         serialno: item.serialno,
         type: item.type,
         model: item.model,
