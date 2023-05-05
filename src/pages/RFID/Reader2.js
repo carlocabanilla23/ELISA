@@ -5,7 +5,7 @@ import SendNotification from "../../Services/notification/Notification";
 import { DefaultDeviceLogo } from "../../assets/base64/base64imgs";
 import { GetDateToday } from "../../Services/etc/GetDateToday";
 
-function Reader() {
+function Reader2() {
   const [item, setItem] = useState({
     name: "",
     serialno: "",
@@ -101,7 +101,7 @@ function Reader() {
   };
   return (
       <div className="ReaderForm">
-        <div className="FormReader">RFID-1 Reader : Location A</div>
+        <div className="FormReader">RFID-2 Reader : Location B</div>
         <form>
           {/* Reader */}
           <div className="mb-3 row">
@@ -180,4 +180,4 @@ function Reader() {
   );
 }
 
-export default Reader;
+export default Reader2;

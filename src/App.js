@@ -31,6 +31,7 @@ import Notification from './pages/Personal/Notification';
 import Verify from './pages/LogIn/Verify';
 import OrderHistory from './pages/Personal/OrderHistory';
 import Reader from './pages/RFID/Reader';
+import  Reader2 from './pages/RFID/Reader2';
 import ForgotPassword from './pages/LogIn/ForgotPassword';
 import ResetPassword from './pages/LogIn/ResetPassword';
 import SetNewPassword from './pages/User/SetNewPassword';
@@ -93,7 +94,9 @@ function App() {
       {/* <Route path='/ResetPassword' element= {<ResetPassword /> } /> */}
       <Route path='/SetNewPassword/' element= {<SetNewPassword /> } />
 
-      <Route path='/Reader'element= { < Reader /> } />
+      <Route path='/Reader1'element= { < Reader /> } />
+      <Route path='/Reader2'element= { < Reader2 /> } />
+
 
       <Route
         path='/Home'

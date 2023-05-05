@@ -29,6 +29,9 @@
         left: 30%;
     padding: 0 2.75em 0.5em 2.75em;
 }
+#reader-item-info{
+    display: none;
+}
 .FormReader{
     text-align: center;
     padding-bottom: 15px;
