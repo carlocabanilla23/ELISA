@@ -4,13 +4,12 @@ import { API } from 'aws-amplify';
 import "../../assets/styles/Users.css";
 import { useNavigate } from "react-router-dom";
 import ItemList from "../../component/List/ItemList";
-import Pagination from "../../component/Pagination";
+import Pagination from "../../component/secondMainComponents/Pagination";
 import OffCanvasCard from "../../component/card/OffCanvasCard";
-import Papa from 'papaparse';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
 import { Generate } from "../../Services/code-generator/qrcode";
 import { GenerateBarcode } from "../../Services/code-generator/barcode";
+import { csv } from '../../Services/Export/csv';
+import { pdf } from '../../Services/Export/pdf';
 
 function Inventory () {
     // CreateTestEquipment(5);
@@ -26,6 +25,9 @@ function Inventory () {
     const [actionName, setActionName] = useState('');
     const [refreshvalue, setRefreshValue] = useState('');
 
+    const [deleteSerialNo, setDeleteSerialNo] = useState('');
+    const [deleteType, setDeleteType] = useState('');
+
     const loggedUser = decodeURIComponent(escape(window.atob(localStorage.getItem('email'))));
     const access = localStorage.getItem('access');
 
@@ -38,6 +40,7 @@ function Inventory () {
 
     useEffect( () => {
         API.get("items","/items").then( itemRes => {
+            console.log(itemRes);
             itemRes.sort((a,b) => {
                 var tA = Number.parseInt(a.type);
                 var tB = Number.parseInt(b.type);
@@ -68,7 +71,6 @@ function Inventory () {
                 setItems([...items,...itemRes]);
                 setUnfilteredItems([...items,...itemRes]);
             }
-            
 
             //Sort room list for change Location function
             const CurrentRoomList = itemRes.filter(item => item.location === "Room");
@@ -108,7 +110,11 @@ function Inventory () {
         })
     },[]);
 
-    const updateList = (serialno,type) => {
+    const setConfirmForm = document.getElementById("deleteConfirmForm");
+
+    const updateList = () => {
+        const serialno = deleteSerialNo;
+        const type = deleteType;
         API.del("items","/items/object/"+ type +'/'+serialno);
         const updatedList = items.filter(item => item.serialno !== serialno);
         const curPage = currentPage;
@@ -117,10 +123,26 @@ function Inventory () {
         }
         setItems(updatedList);
         setUnfilteredItems(updatedList);
-    } 
+        setDeleteSerialNo('');
+        setDeleteType('');
+        setConfirmForm.style.display = "none";
+    }
+
+    const cancelDelete = (e) => {
+        setDeleteSerialNo('');
+        setDeleteType('');
+        setConfirmForm.style.display = "none";
+    }
+
+    const deleteConfirm = (serialno,type) => {
+        setDeleteSerialNo(serialno);
+        setDeleteType(type);
+        setConfirmForm.style.display = "block";
+    }
 
     const ViewInformation = async(item) => {
         let data = await API.get('items','/items/object/'+item.type + '/' +item.serialno);
+        console.log(data);
         setActionName("Item Information");
         setOffCanvasItem(data);
         document.getElementById("item-info").style.display = "block";
@@ -129,19 +151,30 @@ function Inventory () {
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
         document.getElementById("changeRFIDCode").style.display = "none";
+
+        if (item.status === "Available") {
+            document.getElementById("item-info-reserve-itm-btn").style.display = "block";
+        } else {
+            document.getElementById("item-info-reserve-itm-btn").style.display = "none";
+
+        }
     }
 
-    const CreateQRCode = (serialno) => {
+    const CreateQRCode = async (serialno,type) => {
+        let data = await API.get('items','/items/object/'+type + '/' +serialno);
+        console.log(data);
         setActionName("QRCode");
+        setOffCanvasItem(data);
+
         document.getElementById("item-info").style.display = "none";
         document.getElementById("qrcode").style.display = "block";
         document.getElementById("barcode").style.display = "none";
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
         document.getElementById("changeRFIDCode").style.display = "none";
-      
+
         console.log(serialno);
-        let svg = Generate(serialno);
+        let svg = Generate(serialno,type);
         setQRCode(svg);
     }
     const CreateBarcode = (serialno) => {
@@ -152,7 +185,7 @@ function Inventory () {
         document.getElementById("Offstatus").style.display = "none";
         document.getElementById("changeLocation").style.display = "none";
         document.getElementById("changeRFIDCode").style.display = "none";
-    
+
         console.log(serialno);
         let svg = GenerateBarcode(serialno);
         setBarcode(svg);
@@ -178,7 +211,6 @@ function Inventory () {
         tmpItems[idx].status = status;
         // console.log(items[idx]);
         setItems(tmpItems);
-
     }
 
     const changeLocation=  async(item) => {
@@ -209,11 +241,11 @@ function Inventory () {
 
     const searchItem = (e) => {
         if (e.length > 0) {
-            const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) || 
-                                                            items.name.toLowerCase().includes(e) || 
-                                                            items.model.toLowerCase().includes(e) || 
-                                                            items.roomno.toLowerCase().includes(e) || 
-                                                            items.status.toLowerCase().includes(e) || 
+            const searcedhItems = unfilteredItems.filter((items) => items.serialno.toLowerCase().includes(e) ||
+                                                            items.name.toLowerCase().includes(e) ||
+                                                            items.model.toLowerCase().includes(e) ||
+                                                            items.roomno.toLowerCase().includes(e) ||
+                                                            items.status.toLowerCase().includes(e) ||
                                                             items.type.includes(e));
             if(searcedhItems.length < unfilteredItems.length){
                 paginate(1);
@@ -221,52 +253,15 @@ function Inventory () {
             setItems(searcedhItems);
         }else{
             setItems(unfilteredItems);
-        }  
+        }
     }
 
-    const CSV = () => {      
-        // the data that you want to write to the CSV file
-        const data = [];
-        items.forEach(items => {
-            // console.log(items.serialno);
-            data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
-        });
-  
-
-        // generate the CSV file
-        const csv = Papa.unparse({
-            fields: ['SERIALNO', 'NAME', 'STATUS', 'ROOM NO'],
-            data: data
-        });
-
-        // the CSV file
-        const a = document.createElement('a');
-        a.href = 'data:attachment/csv,' + csv;
-        a.target = '_blank';
-        a.download = 'output.csv';
-        document.body.appendChild(a);
-        a.click();
+    const CSV = () => {
+        csv(items, "Inventory",[]);
     }
-    const PDF = () => {     // Exporting to pdf 
-        const doc = new jsPDF('p', 'mm', 'a4');
-        
-        const data = [['SERIALNO', 'NAME', 'STATUS', 'ROOM NO']];
-        items.forEach(items => {
-            data.push([items.serialno, items.name, items.status,items.roomno, items.location ]);
-        });
 
-        doc.autoTable({
-         //   head: [['firstName', 'lastName', 'schoolID', 'role']],
-            body: data
-        });
-        
-        const pdf = doc.output();
-        const link = document.createElement('a');
-        link.href = 'data:application/pdf;base64,' + btoa(pdf);
-        link.download = 'users.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    const PDF = () => {     // Exporting to pdf
+        pdf(items, "Inventory",[]);
     }
 
     const idxLastItem = currentPage * itemsPerPage;
@@ -302,8 +297,6 @@ function Inventory () {
                     return a.type.localeCompare(b.type);
                 }else if(title === 'model'){
                     return a.model.localeCompare(b.model);
-                }else if(title === 'location'){
-                    return a.location.localeCompare(b.location);
                 }else if(title === 'status'){
                     return a.location.localeCompare(b.status);
                 }else{
@@ -328,8 +321,7 @@ function Inventory () {
     }
 
     return (
-        <div className="Users">
-        
+        <div className="Users" id="container">
         <div className="UserHeader">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
             <div className="content">
@@ -347,11 +339,11 @@ function Inventory () {
 
                     <div className="col-auto-dropdown">
                         <div className="dropdown">
-                            <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Export
                             </button>
                             <ul className="dropdown-menu">
-                            <li><button className="dropdown-item" onClick={CSV} >CSV</button></li> 
+                            <li><button className="dropdown-item" onClick={CSV} >CSV</button></li>
                                 <li><button className="dropdown-item" onClick={PDF} >PDF</button></li>
                             </ul>
                         </div>
@@ -361,19 +353,28 @@ function Inventory () {
         </div>
 
         <div className="UserPane">
-            
-            <ItemList items={currentList} 
+            <div className="deleteConfirmationForm" id="deleteConfirmForm" style={{"display": "none"}}>
+                <div className="FormHeader">
+                    Do you want to delete {deleteSerialNo}?
+                </div>
+                <div className="confirmDeleteBtn">
+                    <button className="btn btn-secondary" type="button" onClick={cancelDelete}>Cancel</button>
+                    <button className="btn btn-secondary" id="confirmBtn" type="submit" onClick={updateList}>Confirm</button>
+                </div>
+            </div>
+            <ItemList items={currentList}
                       ViewInformation={ViewInformation}
                       updateList={updateList}
-                      CreateQRCode={CreateQRCode} 
+                      CreateQRCode={CreateQRCode}
                       CreateBarcode={CreateBarcode}
                       changeStatus={changeStatus}
                       changeLocation={changeLocation}
                       changeRFIDCode={changeRFIDCode}
-                      ResortedList={ResortedList} />
+                      ResortedList={ResortedList}
+                      deleteConfirm={deleteConfirm} />
             <Pagination
-                    PerPage={itemsPerPage} 
-                    total={items.length} 
+                    PerPage={itemsPerPage}
+                    total={items.length}
                     paginate={paginate}
                     currentPageLocation = {currentPage}
                     />
@@ -382,7 +383,7 @@ function Inventory () {
         </div>
 
         {/* OFf canvas */}
-        <OffCanvasCard 
+        <OffCanvasCard
             updateDataStatus ={updateDataStatus}
             item={offCanvasItem}
             qrcode={qrcode}
@@ -391,7 +392,7 @@ function Inventory () {
             storageList={storageList}
             actionName={actionName}
             refreshvalue={refreshvalue}/>
-    </div>    
+    </div>
     )
 }
 

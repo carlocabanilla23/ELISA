@@ -36,7 +36,7 @@ and (-webkit-min-device-pixel-ratio: 3) {
 
     }
     .mobile-header-logo1{
-        background-color: #fff;
+        background-color: #F0F0EB;
         padding-left: 2%;
         padding-top: 10px;
         padding-bottom: 10px;
@@ -58,9 +58,11 @@ and (-webkit-min-device-pixel-ratio: 3) {
         position: fixed;
             top: 0;
             left: 0;
-        background-color: #fff;
+        background-color: #F0F0EB;
         min-height: 100vh;
         width: 100%;
+        margin-bottom: 15%;
+        overflow-y: scroll;
     }
     .mobile-item-img{
         width: 100%;
@@ -86,6 +88,12 @@ and (-webkit-min-device-pixel-ratio: 3) {
         margin-left: 0;
         margin-right: 0;
         padding: 2em;
+    }
+    .Attribute{
+        font-size: 0.9em;
+    }
+    .Information{
+        font-size: 0.9em;
     }
 
 }

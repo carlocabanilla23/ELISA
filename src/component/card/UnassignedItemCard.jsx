@@ -2,7 +2,7 @@ import React from "react";
 import '../../assets/styles/User.css';
 import { useNavigate } from "react-router-dom";
 
-const UnassignedItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation,changeRFIDCode}) => {
+const UnassignedItemCard = ({ item, updateList,ViewInformation,CreateQRCode,CreateBarcode,changeStatus,changeLocation,changeRFIDCode,deleteConfirm}) => {
   const navigate = useNavigate();
 
   const EditItem = (e) => {
@@ -111,7 +111,7 @@ const UnassignedItemCard = ({ item, updateList,ViewInformation,CreateQRCode,Crea
               <div id="computer" className="col actions-column">
                 <button
                   className="btn"
-                  onClick={() => updateList(item.serialno)}
+                  onClick={() => deleteConfirm(item.serialno,item.type)}
                 >
                   <i className="fa fa-trash"></i>
                 </button>

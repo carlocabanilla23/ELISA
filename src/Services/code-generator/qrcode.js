@@ -1,8 +1,9 @@
 import {QRCodeSVG} from 'qrcode.react';
 
-export const Generate  = (e) => {
-    console.log(e);
-    const path = "https://dev.djno0p84ctg6u.amplifyapp.com/ViewItemInfo/"+ e;
+export const Generate  = (sn,type) => {
+    console.log(sn);
+    console.log(type);
+    const path = "https://dev.djno0p84ctg6u.amplifyapp.com/ViewItemInfo/"+ type + "/" + sn;
     console.log(path);
     return(
         <QRCodeSVG

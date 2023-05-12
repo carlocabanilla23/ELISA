@@ -21,6 +21,8 @@
 }
 .summaryTitle{
     font-weight: 500;
+    font-size: 18px;
+    padding: 0;
     color: #757575;
 }
 .summaryCount{
@@ -39,9 +41,5 @@
         font-size: 18px;
         padding: 0;
       }
-    .summaryTitle {
-        font-size: 18px;
-        padding: 0;
-    }
 }
   

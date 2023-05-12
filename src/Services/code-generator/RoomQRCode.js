@@ -2,7 +2,7 @@ import {QRCodeSVG} from 'qrcode.react';
 
 export const GenerateRoomQRCode  = (e) => {
     console.log(e);
-    const path = "https://dev.djno0p84ctg6u.amplifyapp.com/RoomLocation/RoomLocationItem/"+ e;
+    const path = "https://dev.djno0p84ctg6u.amplifyapp.com/Location/"+ e;
     console.log(path);
     return(
         <QRCodeSVG

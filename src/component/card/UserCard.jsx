@@ -2,7 +2,7 @@ import React from "react";
 import '../../assets/styles/User.css';
 import { useNavigate } from "react-router-dom";
 
-const User = ( {user,updateList,ViewInformation,ViewHistory,changeRole,changeStatus} ) => {
+const User = ( {user,updateList,ViewInformation,ViewHistory,changeRole,changeStatus,deleteConfirm} ) => {
         const navigate = useNavigate();
         const EditUser = (e) => {
                 console.log(e);
@@ -11,15 +11,13 @@ const User = ( {user,updateList,ViewInformation,ViewHistory,changeRole,changeSta
                                 email : e
                         }
                 });
-
         }
-     
+
         const ViewOrderHistory = (email) => {
                 navigate('/OrderHistory/'+email)
         }
-        
+
         return (
-             
         <div className="UserRowItems">
                 <div className="container-fluid">
                         <div className="row ">
@@ -30,8 +28,8 @@ const User = ( {user,updateList,ViewInformation,ViewHistory,changeRole,changeSta
                                 <div className="col"> {user.email} </div>
                                 <div className="col"> {user.phone} </div>
                                 <div className="col"> {user.status} </div>
-                                <div className="col actions"> 
-                                        <div className="row"> 
+                                <div className="col actions">
+                                        <div className="row">
                                                 <div className="col actions-column">
                                                         <div className="dropdown p-0 m-0 sm">
                                                                 <button className="user-dropdown btn"
@@ -82,7 +80,7 @@ const User = ( {user,updateList,ViewInformation,ViewHistory,changeRole,changeSta
                                                         </button>
                                                 </div>
                                                 <div className="col actions-column">
-                                                        <button className="btn" onClick={ () => updateList(user.email)}>
+                                                        <button className="btn" onClick={ () => deleteConfirm(user.email)}>
                                                                 <i className="fa fa-trash"></i>
                                                         </button>
                                                 </div>

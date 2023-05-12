@@ -1,74 +1,82 @@
-.Login-Form{
+.Login-Form {
+    width: 25%;
+    margin-left: 37.5%;
+    margin-right: 37.5%;
+    padding: 2em;
+  }
+  
+  .Verify {
     width: 25%;
     margin-left: 37.5%;
     margin-right: 37.5%;
     padding: 5em;
-}
+  }
 
-.Verify{
-    width: 25%;
-    margin-left: 37.5%;
-    margin-right: 37.5%;
-    padding: 5em;
-}
-
-.Login-Form h1{
-    text-align: center;
-    margin-bottom: 1.5em;
-    
-}
-
-.login-form-control{
-    border: none;
+  .login-form-control {
     outline: 0;
     padding: 0.5em;
     padding-left: 1em;
     border-radius: 15px;
     font-size: 1em;
     font-style: italic;
-}
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18 );
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+  }
 
-#row-3{
-    vertical-align: middle;
-}
-.btn.btn-secondary{
+  .login-form-control:hover {
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
+  }
+
+  #row-3 {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .btn.btn-secondary {
     background: #7A2036;
     border-radius: 30px;
     padding: 0.5em;
     padding-left: 1em;
     border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.18 );
     font-size: 1em;
-}
-.form-check-input{
-    height: 0.8em;
-    width: 0.8em;
-}
+    width: 100%;
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
 
-.form-check-input:checked {
-    background-color: #7A2036;
-}
-.col{
-    padding: 0;
-    margin-bottom: 0.1em;
-    padding-right: 0.8em;
-}
-.col-sm-1{
-    padding-top: 0.1em;
-    padding-left: 1em;
-}
-.col.col-form-label{
+  }
+  .btn.btn-secondary:hover {
+    background-color: #5a172a;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
+  }
+
+  
+  .col.col-form-label {
     text-align: left;
     margin-left: 0.3em;
     font-size: 0.7em;
-}
-#forgot-pass, #create-account{
-    float: left;
-    text-decoration: underline;
-    padding-top: 0.5em;
     cursor: pointer;
-}
+  }
+  
+  #forgot-pass, #create-account {
+    padding-top: 10px;
+    padding-left: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: "Inter", sans-serif;
 
-.img-fluid.img-thumbnail{
+  }
+  
+#forgot-pass:hover, #create-account:hover {
+    color: #7A2036;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .img-fluid.img-thumbnail {
     background: none;
     border: none;
     width: 60%;
@@ -76,4 +84,10 @@
     margin-right: 20%;
     margin-bottom: 2em;
     margin-top: 2em;
-}
+  }
+  #login-text{
+    font-size: 0.9em;
+    font-weight: 600;
+    text-align: center;
+  }
+  

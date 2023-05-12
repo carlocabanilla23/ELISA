@@ -10,10 +10,12 @@ import ContentHeader from "../../component/others/ContentHeader";
 import ItemList from "../../component/List/ItemList";
 import ItemRequestList from "../../component/List/ItemRequestList";
 import ReservationItemList from "../../component/List/ReservationItemList";
-import Pagination from "../../component/Pagination";
+import Pagination from "../../component/secondMainComponents/Pagination";
+import { GetDateToday } from "../../Services/etc/GetDateToday";
+import logo from '../../assets/icons/elisa_logo.png';
 
 function CreateReservation () {
-    const {typeParam,itemNoParam} = useParams();
+    const {typeParam,serialParam} = useParams();
     const location = useLocation();
     const [reservationNo,setReservationNo] = useState();
     // const [types,setTypes] = useState([]);
@@ -40,13 +42,13 @@ function CreateReservation () {
 
     const [header,setHeader] = useState('');
     const access = localStorage.getItem('access');
+    const loggedUser = decodeURIComponent(escape(window.atob(localStorage.getItem('email'))));
 
-     // Pagination 
-     const [currentPage,setCurrentPage] = useState(1);
-     const itemsPerPage = 10;
+    const [pageUpdate,setPageUpdate] = useState(true);
 
-
-
+    // Pagination
+    const [currentPage,setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
     const date = new Date();
     let day;
@@ -56,9 +58,10 @@ function CreateReservation () {
     (date.getDate() < 10) ?  day = "0" + date.getDate().toString() :  day = date.getDate();
 
     let year = date.getFullYear();
-    
+
 
     useEffect( () => {
+        setPageUpdate(false);
         if (access === "Admin") {
             setHeader(
             <>
@@ -69,45 +72,38 @@ function CreateReservation () {
 
         API.get("items","/items/createreservation").then( itemRes => {
             setItems(itemRes);
-            console.log(itemRes);
-
         })
-       
+
         setReturnDate(year+"-"+monthPlus3.toString()+"-"+day);
         setNote("I would like to borrow an equipment. Thank you");
-        
-        API.get("reservation","/reservation/count").then( rno => { 
+
+        API.get("reservation","/reservation/count").then( rno => {
             setReservationNo("R"+rno);
             setSummary("Reservation " + rno);
         });
 
-
-
-        if (typeParam === undefined || itemNoParam === undefined) {
+        if (typeParam === undefined || serialParam === undefined) {
             setRequestItemMenu(
                 <>
                  <ItemRequestDropDown
                             updateCart={updateCart}
-                            // types={types}
+                            // Allitems={itemRes}
                             setError={setError}
                             setErrorMessage={setErrorMessage}
-                            reservationCart={reservationCart}  
+                            reservationCart={reservationCart}
                             setReservationCart={setReservationCart}
                             // setModelList={setModelList}
+                            filteredItems={filteredItems}
+                            setFilteredItems={setFilteredItems}
                         />
                 </>
             );
-
-            // setItemListSummary(
-            //         <>
-                        
-            //         </>
-            
-            // );
-
-            
         } else {
-            API.get("items","/items/object/" + typeParam +"/"+itemNoParam).then( itemRes => {
+            document.getElementById("ItemRequestList").style.display = "none";
+            document.getElementById("ReservationItemList").style.display = "none";
+
+            API.get("items","/items/object/" + typeParam +"/"+serialParam).then( itemRes => {
+                setReservationCart([itemRes,...reservationCart]);
                 console.log(itemRes);
 
                 setRequestItemMenu(
@@ -116,11 +112,13 @@ function CreateReservation () {
                 // sortItems(itemRes);
                 // setItems(itemRes);
             })
-            
         }
-        
+
+
+
+
         // console.log(location.state.reservationCount);
-        
+
 
         setCurrentDate(`${day}-${month}-${year}`);
 
@@ -133,7 +131,7 @@ function CreateReservation () {
             setRole(res.role);
         })
 
-    },[]);
+    },[filteredItems]);
 
     useEffect(() => {
         if(error === 1){
@@ -165,80 +163,168 @@ function CreateReservation () {
     //     }
     // },[reservationCart, note])
 
+    // useEffect( ()=> {
+    //     document.getElementById('custom-dropdown-row').style = "none";
+    //     document.getElementById('custom-dropdown-row').style = "none";
+    // },[]);
+
     const searchItem = (e) => {
         // console.log(e.length);
+        let query = e.toLowerCase();
 
         if (e.length === 0) {
             setFilteredItems([]);
         }else {
-            const searcedhItems = items.filter((item) => item.type.toLowerCase().includes(e) || 
-                                                        item.name.toLowerCase().includes(e) || 
-                                                        item.model.toLowerCase().includes(e));
+            let searcedhItems = items.filter((item) => item.type.toLowerCase().includes(query) ||
+                                                        item.name.toLowerCase().includes(query) ||
+                                                        item.model.toLowerCase().includes(query) ||
+                                                        item.manufacturer.toLowerCase().includes(query) ||
+                                                        item.roomno.toLowerCase().includes(query)
+                                                        );
                                                     //  ||
                                                     // item.manufacturer !== undefined ||
                                                     // item.manufacturer.toLowerCase().includes(e));
+            reservationCart.map(requested => {
+                const available = searcedhItems;
+                searcedhItems = available.filter(item => item.name !== requested.name);
+            });
+            searcedhItems.sort((a,b) => {
+                var tA = Number.parseInt(a.name);
+                var tB = Number.parseInt(b.name);
+                if(isNaN(tA) && isNaN(tB)){
+                    if(a.name.length > b.name.length){
+                        return 1;
+                    }else if(a.name.length < b.name.length){
+                        return -1;
+                    }else{
+                        return a.name.localeCompare(b.name);
+                    }
+                }else if(isNaN(tA)){
+                    return -1;
+                }else if(isNaN(tB)){
+                    return 1;
+                }else{
+                    return Math.sign(tA - tB);
+                }
+            });
             setFilteredItems(searcedhItems);
-
-
-                                                }                                            // setItems(searcedhItems);
+        }                                            // setItems(searcedhItems);
     }
 
     const updateCart = (order) => {
         // let tmp = reservationCart;
         // tmp.push(order)
-      
         setReservationCart(order);
         console.log(reservationCart);
     }
 
-    const submitOrder = (e) => {
-        e.preventDefault();
+    const submitOrder = () => {
+        let cart = reservationCart;
+        // e.preventDefault();
         if(reservationCart.length === 0){
-            throw new Error(setError(5));
+            setError(5);
+        } else {
+            API.post("reservation","/reservation", {
+                body : {
+                email : email,
+                reservationno : reservationNo,
+                summary : summary,
+                status : "Reserved",
+                requestby : firstName + " " + lastName,
+                approvedby : "N/A",
+                requestdate : currentDate,
+                returndate : returnDate,
+                }
+            });
+
+            cart.forEach( item => {
+                item.prevlocation = item.location;
+                item.prevroomno = item.roomno;
+                item.lastupdated = GetDateToday();
+                item.status = "Reserved";
+                item.roomno = "NA";
+                item.location = "USER";
+                item.assignedto = email;
+                item.assigndate = GetDateToday();
+
+                API.put("items",'/items/', {
+                    body : item
+                })
+            })
+
+            API.post("reservationcart","/cart", {
+                body : {
+                reservationno : reservationNo,
+                description :   note,
+                itemrequested : cart,
+                assigneditems : cart,
+                returneditems : []
+                }
+            });
+
+            // Send Email to Admin
+            SendNotification("NEW_RESERVATION",reservationNo);
+            ShowAlert();
+            // CheckInventory(reservationCart);
+
         }
-        // //Check return date if it is in range of two months from request date
 
-        API.post("reservation","/reservation", {
-            body : {
-            email : email,
-            reservationno : reservationNo,
-            summary : summary,
-            status : "Open",
-            requestby : firstName + " " + lastName,
-            approvedby : "N/A",
-            requestdate : currentDate,
-            returndate : returnDate,
+
+    }
+
+    const CheckInventory = (assignedItems) => {
+        let items = new Set();
+
+        assignedItems.forEach(item => {
+            items.add(item.type)
+        });
+        items.forEach(item => {
+            const searchItem = items.filter(item => item.type.includes(item))
+            if (searchItem.length === 0) {
+                SendNotification("OUT_OF_STOCK",item);
             }
         });
 
-        API.post("reservationcart","/cart", {
-            body : {
-            reservationno : reservationNo,
-            description : note,
-            itemrequested : reservationCart,
-            assigneditems : []
-            }
-        });
-        // Send Email to Admin
-        SendNotification("NEW_RESERVATION",reservationNo);
-        ShowAlert();
     }
 
     const addItem = (itm) => {
-        setReservationCart([itm,...reservationCart]);
-
+        console.log(itm);
+        console.log(reservationCart);
         const tmpItm = items.filter( i=> i !== itm)
         const tmpupItm = filteredItems.filter( i => i !== itm);
         setItems(tmpItm);
-        setFilteredItems(tmpupItm);
+
+        setFilteredItems((items) =>
+        items.filter((i) => i !== itm)
+        );
+        setReservationCart([itm,...reservationCart]);
+    }
+
+    const RemoveItem = (itm) => {
+        setReservationCart((items) =>
+        items.filter((i) => i !== itm)
+        );
+
+        // console.log(reservationCart);
+        const tmpItems = reservationCart.filter( i => i !== itm);
+        // setReservationCart([...tmpItems]);
+        setItems([itm,...filteredItems]);
+        setFilteredItems([itm,...filteredItems]);
     }
 
     const ShowAlert = () => {
         var alert = document.getElementById("alert");
         alert.style.display = "block";
-        setTimeout( () =>{
-             navigate("/Reservations");
-        },1500);
+
+        if (access === "Admin") {
+            setTimeout( () =>{
+                navigate("/Reservations");
+           },1500);
+        }else {
+            setTimeout( () =>{
+                navigate("/OrderHistory/"+loggedUser);
+           },1500);
+        }
     }
 
     // Pagination
@@ -260,26 +346,52 @@ function CreateReservation () {
             obj.style.color = "#ffffff";
         }
     };
-    
+
+    const showFilter = () => {
+        document.getElementById("ReservationItemList").style.display = "none";
+        document.getElementById("custom-dropdown-row").style.display = "flex";
+        document.getElementById("ItemRequestList").style.display = "none";
+        document.getElementById("Pagination").style.display = "none";
+    }
+    const showSearch = () => {
+        document.getElementById("ItemRequestList").style.display = "none";
+        document.getElementById("custom-dropdown-row").style.display = "none";
+        document.getElementById("ReservationItemList").style.display = "block";
+        document.getElementById("Pagination").style.display = "flex";
+    }
+    const showSummary = () => {
+        document.getElementById("ItemRequestList").style.display = "block";
+        document.getElementById("custom-dropdown-row").style.display = "none";
+        document.getElementById("ReservationItemList").style.display = "none";
+        document.getElementById("Pagination").style.display = "none";
+    }
+
     return (
         <>
             <div className="alert alert-success alert-popout" id="alert" role="alert">
                 The reservation has been created successfully!
             </div>
-            
+
             { header }
-       
-            <div className="CreateReservation">
+
+            <div className='CreateReservation'>
                 <div className="container ReservationForm">
                     <div className="row">
                         <div className="col">
-                            <h1>Request Item</h1>
+                            <img src={logo} alt="logo" className="logo" />
+                            <h1>Reserve Item</h1>
                         </div>
                     </div>
 
+                    <div className="options">
+                    <button className="options-btn" onClick={ (e)=> showFilter()}>Filter</button>
+                    <button className="options-btn" onClick={ (e)=> showSearch()}>Search</button>
+                    <button className="options-btn" onClick={ (e)=> showSummary()}>Cart</button>
+
+                </div>
+
                     {requestItemMenu}
 
-                    <form onSubmit={submitOrder}>
                         {/* Requests */}
                         {/* <div className="row">
                             <div className="col">
@@ -288,8 +400,8 @@ function CreateReservation () {
                         </div>         */}
                         {/* { console.log(types)} */}
 
-                       
-                       
+
+
                         {/* Summary */}
                         <div className="row">
                             <div className="col">
@@ -306,7 +418,7 @@ function CreateReservation () {
                             </div>
                         </div>
                         {/* Return Date */}
-                        {/* <div className="row">
+                        <div className="row">
                             <div className="col">
                                 <div className="mb-3">
                                     <label className="form-label">Return Date</label>
@@ -318,11 +430,11 @@ function CreateReservation () {
                                     onInput={(e) => e.target.setCustomValidity('')}
                                     value={returnDate}
                                     required={true} />
-                                    
+
                                 </div>
                             </div>
-                        </div> */}
-  
+                        </div>
+
                         {/* Note */}
                         <div className="row">
                             <div className="col">
@@ -334,7 +446,7 @@ function CreateReservation () {
                                     rows="3"
                                     pattern='^([a-zA-Z0-9]{1,})$'
                                     onInvalid={(event) => {event.target.setCustomValidity('Write a short note or "None" before submit the reservation form')}}
-                                    onInput={(e) => e.target.setCustomValidity('')} 
+                                    onInput={(e) => e.target.setCustomValidity('')}
                                     required={true}
                                     value={note} />
                                 </div>
@@ -343,40 +455,36 @@ function CreateReservation () {
                         {/* Submit Button */}
                         <div className="row justify-content-end">
                             <div className="col ">
-                                <button type="submit" className="btn btn-primary">
+                                <button onClick={ (e)=> submitOrder()} className="submit-order-btn">
                                     Submit Order
                                 </button>
                             </div>
                             <span className="errorMessage">{errorMessage}</span>
                         </div>
-                    </form>
 
-                    <ItemRequestList items={reservationCart} />
+                    <div id="ItemRequestList">
+                    <ItemRequestList RemoveItem={RemoveItem} items={reservationCart} />
+                    </div>
                 </div>
-                
-                
-                <ReservationItemList 
-                    items = {currentList}
-                    addItem = {addItem}
-                    searchItem={searchItem}
-                />
-
-                 <Pagination
-                        PerPage={itemsPerPage} 
-                        total={filteredItems.length} 
-                        paginate={paginate}
-                        currentPageLocation = {currentPage}
-                        /> 
-                {/* {itemListSummary} */}
-                
-           
-    
-            </div>  
-
-    
-    
-
-           
+                <div className="RightContainer">
+                    <div id="ReservationItemList">
+                        <ReservationItemList
+                            items = {currentList}
+                            addItem = {addItem}
+                            searchItem={searchItem}
+                        />
+                    </div>
+                    <div id = "Pagination">
+                    <Pagination
+                            PerPage={itemsPerPage}
+                            total={filteredItems.length}
+                            paginate={paginate}
+                            currentPageLocation = {currentPage}
+                            />
+                    {itemListSummary}
+                    </div>
+                </div>
+            </div>
         </>
     );
 }

@@ -20,11 +20,17 @@ const RoomCard = ( {item} ) => {
         },[]);
 
         const ViewItems = () => {
-                navigate("/Location/"+item.roomno);
+                if(item.roomno === "Unassigned"){
+                        navigate("/UnassignedItems");
+                }else if(item.roomno === "USER"){
+                        navigate ("AssignedItems");
+                }else{
+                        navigate("/Location/"+item.roomno);
+                }
 
         //     if (item.location === "Storage") {
         //         navigate("/RoomLocation/StorageLocationItem/"+item.roomno);
-        //     } 
+        //     }
         //     else if (item.location === "Room") {
         //         navigate("/RoomLocation/RoomLocationItem/"+item.roomno);
         //     }
@@ -42,7 +48,7 @@ const RoomCard = ( {item} ) => {
                                 <div className="col" id="roomItemAmount"> {items.length} </div>
                         </div>
                  </div>
-        </div>    
+        </div>
     );
 }
 

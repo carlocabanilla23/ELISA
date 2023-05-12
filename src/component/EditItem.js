@@ -31,7 +31,7 @@ function EditItem() {
     const [image,setImage] = useState('');
     useEffect( () => {
         API.get("items",'/items/object/'+typeParam + '/' +serialParam).then(res => {
-            console.log(res);
+            // console.log(res);
             setName(res.name);
             setSerialNumber(res.serialno);
             setType(res.type);
@@ -206,7 +206,7 @@ function EditItem() {
                             <label className="input-label" for="location" >Location</label>
                             <div className="col-sm-10">
                                 <div className="dropdown">
-                                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         {location}
                                     </button>
                                     <ul className="dropdown-menu">

@@ -4,18 +4,34 @@
     height: 6vh;
     width: 85%;
     position: fixed;
-        top: 6vh;
-        left: 15%;
+
     padding-top: 0.5em;
     padding-bottom: 1em;
     box-shadow: (0px 4px 4px rgba(0, 0, 0, 0.25));
     z-index: -1;
 }
-.content{
-    position: absolute;
-    top: 50%;
-    transform: translate(0, -50%);
-    padding: 10px;
+#export-btn {
+    margin-top: -7px;
+    margin-right: 10px;
+    padding: 0.5em 0.7em;
+}
+#export-btn:hover {
+    background-color: #5A172A;
+    color: #ffffff; 
+}
+
+#export-btn:focus {
+    background-color: #9c2f4f; 
+    color: #ffffff; 
+    box-shadow: 0 0 0 2px rgba(156, 47, 79, 0.5); 
+    outline: none;
+}
+
+.HomeHeader > h1{
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 1.5em;
+    margin-left: 1em;
 }
 .content > div {
     display: flex;
@@ -66,7 +82,6 @@
 
 .scatter {
     margin-top: 12em;
-   
 }
 .insights > div:hover {
     box-shadow: none;
@@ -117,7 +132,6 @@
     padding: 1rem;
     border-radius: 25px;
     margin: auto;
-    
 }
 .InventoryOverview {
     display: flex;
@@ -145,10 +159,22 @@
     font-weight: 500;
     font-size: 18px;
     color: #000000;
-    margin: 15px 0px 20px 20px; 
+    margin: 15px 0px 20px 20px;
 }
+
+.dropdown-menu > li:hover > #dropdown-submenu {
+    display: block;
+    position: absolute;
+    right: 100%;
+    left: auto;
+    top: -25%;
+}
+.summaryTitle {
+    font-size: 100px;
+}
+
 @media screen and (max-width: 1920px) {
     .chartLabel {
-    margin: 15px 0px 10px 20px; 
+    margin: 15px 0px 10px 20px;
     }
 }

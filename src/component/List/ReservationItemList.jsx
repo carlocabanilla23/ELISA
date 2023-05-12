@@ -16,12 +16,12 @@ const ReservationItemList = ({items,addItem,searchItem}) => {
                     <div className="container-fluid">
                         <div className="row fw-bold bg-light">
                             <div className="col"></div>
-                            <div className="col">Serial No</div>
                             <div className="col">Name</div>
                             <div className="col">Type</div>
                             <div className="col">Model</div>
+                            <div className="col">Manufacurer</div>
                             {/* <div className="col">Status</div> */}
-                            
+
                         </div>
                     </div>
                 </li>
@@ -31,14 +31,20 @@ const ReservationItemList = ({items,addItem,searchItem}) => {
                         <div className="container-fluid">
                             <div className="row ">
                                 <div className="col action">
-                                    <button className="btn btn-dark" onClick={ () => addItem(item)}>Assign</button>
+                                    <button className="btn btn-dark" onClick={ () => addItem(item)}>Reserve</button>
+                                    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+                                    <button className="btn AddItemBtn" onClick={() => addItem(item)}>
+                                        <span className="material-icons">
+                                        add_circle_outline
+                                        </span>
+                                    </button>
                                 </div>
-                                <div className="col"> {item.name} </div>
-                                <div className="col"> {item.type} </div>
-                                <div className="col"> {item.model} </div>
-                                <div className="col"> {item.manufacturer} </div>
+                                <div className="col item-text"> {item.name} </div>
+                                <div className="col item-text"> {item.type} </div>
+                                <div className="col item-text"> {item.model} </div>
+                                <div className="col item-text"> {item.manufacturer} </div>
                                 {/* <div className="col"> {item.status} </div> */}
-                                
+
                             </div>
                         </div>
                     </li>

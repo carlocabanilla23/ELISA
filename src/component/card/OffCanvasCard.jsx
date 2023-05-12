@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GetDateToday } from '../../Services/etc/GetDateToday';
 
-const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refreshvalue,updateDataStatus}) => {
+const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refreshvalue,updateDataStatus,itemStatus}) => {
     const [status,setStatus] = useState('');
     const [location, setLocation] = useState('');
     const [locationType, setLocationType] = useState('');
@@ -11,8 +11,9 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
     const [RFIDCode2, setRFIDCode2] = useState('');
     const [error, setError] = useState('');
     const [errorMessage, setErrorMessage] = useState('')
+    const [reservebtn,setReservebtn] = useState();
     const navigate = useNavigate();
-    
+
     var today = GetDateToday();
 
     useEffect(() => {
@@ -33,16 +34,18 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
         }
     },[error])
 
+    useEffect ( ()=> {
+        if (itemStatus === "Available") {
+            setReservebtn();
+        }
+    },[])
 
-    
     const updateStatus =( )=> {
 
         if ( status !== item.status) {
             updateDataStatus(item.serialno,status);
-            setNewStatus() 
-
+            setNewStatus()
         }
-
     }
     const setNewStatus = () => {
         API.post("items","/items/", {
@@ -59,28 +62,17 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
             rfidcode: item.rfidcode,
             lastupdated: today,
             }});
-            
-          
         // setTimeout(() => {
         //     window.location.reload(true);
         // },400)
     }
 
     const setNewLocation = () => {
+        item.location = locationType;
+        item.roomno = location;
         API.post("items","/items/", {
-            body : {
-                name : item.name,
-                serialno : item.serialno,
-                type : item.type,
-                model : item.model,
-                location : locationType,
-                roomno : location,
-                status : item.status,
-                manufacturer: item.manufacturer,
-                cost: item.cost,
-                rfidcode: item.rfidcode,
-                lastupdated: today,
-                }});
+            body : item
+        });
         setTimeout(() => {
             window.location.reload(true);
         },400)
@@ -111,7 +103,6 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
 
     const Print = (e) => {
         const pContents = document.getElementById(e).innerHTML;
-      
         // const tmpContent = document.body.innerHTML;
         document.body.innerHTML = pContents;
         window.print();
@@ -122,7 +113,12 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
     }
 
     const reserveItem = () => {
-        navigate("/CreateReservation/"+item.type +"/"+item.serialno);
+        if ( item.status === "Available") {
+            navigate("/CreateReservation/"+item.type +"/"+item.serialno);
+
+        } else {
+            alert("The item is not Available !");
+        }
     }
 
     return (
@@ -142,6 +138,11 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                     {/* Image */}
                     <div className="mb-3 row">
                         <img src={item.image} width="150" height="150" alt="Device" />
+                    </div>
+                    {/* Name */}
+                    <div className="mb-3 row">
+                        <label  className = "Attribute col-sm-4">Name :</label>
+                        <div className = "Information col-sm-8">{item.name}</div>
                     </div>
                     {/* Serial Number */}
                     <div className="mb-3 row">
@@ -187,14 +188,19 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                         <label  className = "Attribute col-sm-4">Cost:</label>
                         <div className = "Information col-sm-8">{item.cost}</div>
                     </div>
-                
 
-                    <button onClick={ e=> { reserveItem()}} className='btn btn-dark'>Reserve Item</button>
+                    <button id="item-info-reserve-itm-btn" onClick={ e=> { reserveItem()}}
+                        className='btn btn-dark'>Reserve Item
+                    </button>
                 </div>
                 {/* Print QRCode */}
                 <div id="qrcode">
                     <button id="qrcode-print-btn" onClick={(e)=>Print("qrcode-img")}><i className="fa fa-print" aria-hidden="true"></i></button>
-                    <div id="qrcode-img">{qrcode}</div>
+                    <div id="qrcode-img">
+                        {qrcode}
+                        <br/>
+                        <h3>{item.name}</h3>
+                    </div>
                 </div>
                 {/* Print Barcode */}
                 <div id="barcode">
@@ -213,34 +219,29 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                             <li className="dropdown-item" onClick={(e)=> setStatus ("Unavailable")} > Unavailable</li>
                         </ul>
                         <button  className="btn btn-secondary" type="button" onClick={(e) => updateStatus()}>
-                        save
+                        Save
                         </button>
                     </div>
                 </div>
                 {/* Change Location */}
                 <div id="changeLocation">
                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        {locationType}  {locationType !== "Room" && locationType !== "Storage" ? '' : location}
+                        {locationType !== "Room" && locationType !== "Storage" ? '' : location}
                     </button>
                     <ul className="dropdown-menu">
                         <div id="roomList">
-                            <span className="dropdown-item fw-bold bg-light" id="itemRoomList" >Room List</span>
                             {/* Room list */}
                             {roomList.map((room,index) => (
                                 <li key={index} className="dropdown-item" onClick={(e) => {setLocation(room);setLocationType("Room")}}>{room}</li>
                             ))}
-                        </div>
-                        {/* Storage list */}
-                        <div id="roomList">
-                            <span className="dropdown-item fw-bold bg-light" id="itemStorageList" >Storage List</span>
-                            {/* Room list */}
+                            {/* Storage list */}
                             {storageList.map((storage,index) => (
                                 <li key={index} className="dropdown-item" onClick={(e) => {setLocation(storage);setLocationType("Storage")}}>{storage}</li>
                             ))}
                         </div>
                     </ul>
                     <button  className="btn btn-secondary" type="button" onClick={(e)=> location !== item.roomno ? setNewLocation() : ''}>
-                    save
+                    Save
                     </button>
                 </div>
                 {/* Change RFID Code */}
@@ -248,13 +249,13 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                     {/* RFID Code */}
                     <div className="">
                         <label className="input-label" for="RFIDCode" >RFID Code</label>
-                        <input type="text" className="text-input" id="RFIDCode" 
+                        <input type="text" className="text-input" id="RFIDCode"
                         value={RFIDCode} onChange={(e) => {setRFIDCode(e.target.value);setErrorMessage(''); setError('')}}/>
                     </div>
                     {/* Re-enter RFID Code */}
                     <div className="">
                         <label className="input-label" for="RFIDCode2" style={{"fontSize":"10.8pt"}}>Re-enter RFID Code</label>
-                        <input type="text" className="text-input" id="RFIDCode" 
+                        <input type="text" className="text-input" id="RFIDCode"
                         value={RFIDCode2} onChange={(e) => {setRFIDCode2(e.target.value); setErrorMessage(''); setError('')}}/>
                     </div>
                     <br />
@@ -267,7 +268,7 @@ const OffCanvasCard = ({item,qrcode,barcode,roomList,storageList,actionName,refr
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
         </>
     );
 }

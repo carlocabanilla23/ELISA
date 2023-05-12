@@ -11,7 +11,6 @@
     background-color: rgb(0, 0, 0); /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
   }
-  
   /* Modal Content/Box */
   .modal-content {
     background-color: #fefefe;
@@ -23,7 +22,6 @@
     width: 200px; /* Could be more or less, depending on screen size */
     height: 100%;
   }
-  
   /* The Close Button */
   .close {
     color: #aaa;
@@ -31,7 +29,6 @@
     font-size: 28px;
     font-weight: bold;
   }
-  
   .close:hover,
   .close:focus {
     color: black;
@@ -81,7 +78,6 @@
 }
 #roomList{
   position: relative;
-  float: left;
   border: 1px solid grey;
 }
 #RFIDCode{

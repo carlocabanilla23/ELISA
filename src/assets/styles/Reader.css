@@ -1,19 +1,35 @@
+/* No Need for now */
 .Reader {
-    background-color: #ffffff;
-    height: 35em;
-    width: 60%;
+    /* background-color: #ffffff; */
+    height: 10em;
+    width: 40%;
     margin-left: 20%;
-    margin-top: 30em;
+    /* margin-top: 30em; */
     margin-right: 20%;
+    text-align: center;
 }
 
 .reader-txt{
-    height: 2em;
-    margin-top: 5em;
-    margin-bottom: 15em;
-    font-size: 3em;
+    height: 1.5em;
+    margin-top: 1em;
+    margin-bottom: 1;
+    font-size: 2.5em;
     margin-left: 15%;
     margin-right: 15%;
     width: 70%;
     border: none;
+}
+
+#reader-item-info{
+    padding: 1em;
+    background-color: #ffffff;
+    margin-top: 1em;
+    margin-bottom: 1;
+    margin-top: 2em;
+    font-size: 1.5em;
+    margin-left: 35%;
+    margin-right: 35%;
+    width: 30%;
+    border: none;
+    display: none;
 }

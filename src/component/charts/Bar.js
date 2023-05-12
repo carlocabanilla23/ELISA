@@ -10,15 +10,15 @@ function BarReport () {
 
     API.get("reservation","/reservation").then( res => {
         res.forEach(element => {
-            if (element.status === "Open") oCount++;
-            else if (element.status === "Assigned") aCount++;
+            if (element.status === "Reserved") oCount++;
+            else if (element.status === "Returned") aCount++;
         });
 
         const df = [
           {
             name: 'Reservation',
-            Open: oCount,
-            Assign: aCount,
+            Reserved: oCount,
+            Returned: aCount,
           },
         ];
         setData(df);
@@ -27,16 +27,16 @@ function BarReport () {
   },[]);
           return (
             <>
-            <div className="bottom">  <p className="chartLabel">Reservation Summary</p>   
+            <div className="top">  <p className="chartLabel">Reservation Summary</p>   
             <ResponsiveContainer width="95%" height="80%">
-                <BarChart data={data} >
+                <BarChart width={550} height={225} data={data} >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="Open" fill="#8884d8" />
-                    <Bar dataKey="Assign" fill="#82ca9d" />
+                    <Bar dataKey="Reserved" fill="#27AE60" />
+                    <Bar dataKey="Returned" fill="#F2994A" />
                 </BarChart>   
             </ResponsiveContainer>
              </div>

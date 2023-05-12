@@ -4,7 +4,6 @@
         position: fixed;
         left: 0%;
         right: 0%;
-   
     background: #FFFFFF;
     box-shadow: 4px 4px 20px rgba(0, 0, 0, 10px);
 
@@ -39,7 +38,7 @@
 .menu ul {
     padding: 2rem 1.5rem;
 
-} 
+}
 .menu ul li {
     list-style: none;
     font-family: 'Inter', sans-serif;
@@ -57,7 +56,7 @@
     color: #6D6D6B;
     text-decoration: none;
     transition: color ease 0.3s;
-} 
+}
 
 .menu ul li:hover a {
     color: #7A2036;
@@ -70,29 +69,21 @@
 
 .menu-list:hover .icon{
     filter: brightness(0) saturate(100%) invert(17%) sepia(20%) saturate(5569%) hue-rotate(318deg) brightness(92%) contrast(94%);
-
-}
-
-
-.inventory-dropdown {
-    display: none;
 }
 
 .menu:nth-child(2):hover .inventory-dropdown {
     display: block;
 }
 
-
-.inventory-dropdown ul {
-    padding-top: 0;
-    padding-right: 0;
-    
+#location_side{
+    padding: 0;
 }
 
-.inventory-dropdown ul li {
-    font-size: 1rem;
-    padding-left: 4rem;
-    
+#side_location{
+    filter: invert(44%) sepia(0%) saturate(1390%) hue-rotate(153deg) brightness(94%) contrast(79%);
+}
+#side_location_text{
+    display: inline;
 }
 
 /*media query responsive sidebar*/
@@ -105,8 +96,8 @@
     }
 } */
 @media screen
-  and (min-device-width: 900px) 
-  and (max-device-width:1440px) 
+  and (min-device-width: 900px)
+  and (max-device-width:1440px)
   and (-webkit-min-device-pixel-ratio: 1)
 {
     .menu ul {
@@ -114,7 +105,7 @@
         font-family: 'Inter', sans-serif;
         font-size: 1.2rem;
         font-weight: 500;
-    } 
+    }
     .menu ul li {
         padding: 0.3em;
         margin-left: 0;
@@ -124,7 +115,7 @@
         font-family: 'Inter', sans-serif;
         font-size: 1rem;
         font-weight: 500;
-    } 
+    }
 
     .menu-list a {
         color: #6D6D6B;
@@ -132,21 +123,14 @@
         transition: color ease 0.3s;
 
     }
-
-    .inventory-dropdown ul li {
-        font-size: 0.9rem;
-        padding-left: 1.5rem;
-        
-    }
 }
 @media screen and (min-width: 1250px) and (max-width: 1600px) {
-    
     .menu ul {
         list-style-type: none;
         font-family: 'Inter', sans-serif;
         font-size: 1.2rem;
         font-weight: 500;
-    } 
+    }
     .menu ul li {
         padding: 0.3em;
         margin-left: 0;
@@ -156,19 +140,13 @@
         font-family: 'Inter', sans-serif;
         font-size: 1rem;
         font-weight: 500;
-    } 
+    }
 
     .menu-list a {
         color: #6D6D6B;
         text-decoration: none;
         transition: color ease 0.3s;
 
-    }
-
-    .inventory-dropdown ul li {
-        font-size: 0.9rem;
-        padding-left: 1.5rem;
-        
     }
 }
 @media screen and (max-width: 1250px) {
@@ -177,22 +155,5 @@
         visibility: hidden;
         display: none;
     }
-
-    .inventory-dropdown {
-        background-color: rgba(199, 196, 196, 0.623);
-        position: absolute;
-        top: 15%;
-        left: 60%;
-       width: 200px;
-       
-        border-radius: 10px;
-        
-    }
-
-    .inventory-dropdown ul li {
-        padding: 0;
-        margin: 0;
-    }
-
 }
 

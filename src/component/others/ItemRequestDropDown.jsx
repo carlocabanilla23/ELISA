@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { API } from "aws-amplify";
 import ItemList from "../List/ItemList";
+import "../../assets/styles/dropdown.css";
 
 
-const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCart,setReservationCart}) => {
+const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCart,setReservationCart,setFilteredItems,filteredItems}) => {
     const [types,setTypes] = useState();
     const [items,setItems] = useState([]);
     const [type, setType] = useState('Type');
@@ -13,7 +14,7 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
     const auth = localStorage.getItem('access');
     const [manufacturer,setManufacturer] = useState('Manufacturer');
     const [manufacturers,setManufacturers] = useState();
-    const [roomno,setRoomno] = useState('Room No');
+    const [roomno,setRoomno] = useState('Room');
     const [roomnos,setRoomnos] = useState([]);
     const [name,setName] = useState("Name");
     const [names,setNames] = useState([]);
@@ -21,16 +22,75 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
 
     useEffect( ()=>{
         API.get("items","/items/createreservation").then( itemRes => {
-            sortItems(itemRes);
-            setItems(itemRes);
+            let temparr = []
+            itemRes.forEach(element => {
+                if (reservationCart.indexOf(element) === -1) {
+                    if(element.type[0] === ' '){
+                        const iType = element.type.split(' ');
+                        let firstIndex = 0;
+                        while(iType.at(firstIndex) === ''){
+                            firstIndex += 1;
+                        }
+                        element.type = element.type.substr(element.type.indexOf(iType.at(firstIndex)), element.type.length);
+                    }
+                    temparr.push(element)
+                }
+            });
+
+            // filter( i => !reservationCart.some(r =>  r !== i));
+            const updatedTypes =  [...new Set(temparr.map( item => item.type))];
+            setItems(temparr);
+            setTypes(sortItems(updatedTypes, ''));
+            setNames([]);
+            setNames([]);
+            setManufacturers([]);
+            setRoomnos([]);
+
         })
-    },[]);
+    },[reservationCart,cart]);
+
+    const sortItems = (items, attribute) => {
+        items.sort((a,b) => {
+            var tA = Number.parseInt(a);
+            var tB = Number.parseInt(b);
+            if(isNaN(tA) && isNaN(tB)){
+                if(attribute === 'Name'){
+                    if(a.length > b.length){
+                        return 1;
+                    }else if(a.length < b.length){
+                        return -1;
+                    }
+                }
+                return a.localeCompare(b);
+            }else if(isNaN(tA)){
+                return -1;
+            }else if(isNaN(tB)){
+                return 1;
+            }else{
+                return Math.sign(tA - tB);
+            }
+        })
+        return items;
+    }
+
+    const generateNameList = (items, arr) => {
+        let arrNames = [];
+        let reservedList = [];
+        reservationCart.map(item => {
+            reservedList.push(item.name);
+        });
+        items.forEach (e => {
+            if (arr.indexOf(e.name) === -1 && reservedList.indexOf(e.name) === -1) {
+                arrNames.push(e.name);
+            }
+        });
+        return arrNames;
+    }
 
     const setModelList = (typeParam) => {
         setType(typeParam);
         const filterItems = items.filter(item => item.type === typeParam);
         let arr = [];
-        let arrNames = [];
 
         filterItems.forEach (e => {
             if (arr.indexOf(e.model) === -1) {
@@ -38,20 +98,16 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
             }
         })
 
-        filterItems.forEach (e => {
-            if (arr.indexOf(e.name) === -1) {
-                arrNames.push(e.name);
-            }
-        })
-        
-        setModels(arr);
+        let arrNames = generateNameList(filterItems, arr);
+
+        setModels(sortItems(arr, ''));
         setManufacturers([]);
         setRoomnos([]);
-        setNames(arrNames);
+        setNames(sortItems(arrNames, "Name"));
 
         setModel('Model');
         setManufacturer('Manufacturer');
-        setRoomno('Room No');
+        setRoomno('Room');
         setName('Name');
 
     }
@@ -60,7 +116,6 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
         setModel(modelParam);
         const filterItems = items.filter(item => item.model === modelParam);
         let arr = [];
-        let arrNames = [];
 
         filterItems.forEach (e => {
             if (arr.indexOf(e.manufacturer) === -1) {
@@ -68,18 +123,14 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
             }
         })
 
-        filterItems.forEach (e => {
-            if (arr.indexOf(e.name) === -1) {
-                arrNames.push(e.name);
-            }
-        })
+        let arrNames = generateNameList(filterItems, arr);
 
-        setManufacturers(arr);
+        setManufacturers(sortItems(arr, ''));
         setRoomnos([]);
-        setNames(arrNames);
+        setNames(sortItems(arrNames, "Name"));
 
         setManufacturer('Manufacturer');
-        setRoomno('Room No');
+        setRoomno('Room');
         setName('Name');
 
     }
@@ -89,7 +140,6 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
 
         const filterItems = items.filter(item => item.manufacturer === manufacturerParam);
         let arr = [];
-        let arrNames = [];
 
         filterItems.forEach (e => {
             if (arr.indexOf(e.roomno) === -1) {
@@ -97,79 +147,63 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
             }
         })
 
-        filterItems.forEach (e => {
-            if (arr.indexOf(e.name) === -1) {
-                arrNames.push(e.name);
-            }
-        })
+        let arrNames = generateNameList(filterItems, arr);
 
-        setRoomnos(arr);
-        setNames(arrNames);
+        setRoomnos(sortItems(arr, ''));
+        setNames(sortItems(arrNames, "Name"));
 
-        setRoomno('Room No');
+        setRoomno('Room');
         setName('Name');
     }
 
     const setNameList = (roomnoParam) => {
         setRoomno(roomnoParam);
-        
+
         const filterItems = items.filter(item => item.roomno === roomnoParam);
         let arrNames = [];
+        let reservedList = [];
+        reservationCart.map(item => {
+            reservedList.push(item.name);
+        })
         filterItems.forEach (e => {
-            if (arrNames.indexOf(e.name) === -1) {
+            if (arrNames.indexOf(e.name) === -1 && reservedList.indexOf(e.name) === -1) {
                 arrNames.push(e.name);
             }
         })
-        // console.log(arrNames)
 
-        setNames(arrNames);
+        setNames(sortItems(arrNames, "Name"));
 
         setName('Name');
     }
 
-    const sortItems = (items) => {
-        const updatedTypes =  [...new Set(items.map( item => item.type))];
-        setTypes(updatedTypes);
-    }
     const addItem = (e) => {
-        // e.preventDefault();
-    
-        // if(type === 'Type' && model === 'Model'){
-        //     setError(1);
-        //     // throw new Error(setError(1));
-        // }else if(type === 'Type'){
-        //     setError(2);
-        //     // throw new Error(setError(2));
-        // }else if (model === 'Model'){
-        //     setError(3);
-        //     // throw new Error(setError(3));
-        // }else if(quantity < 1 || quantity.length === 0){
-        //     // throw new Error(setError(4));
-        //     setError(4);
-        // }else if(auth === "Student" && quantity < 3){
-        //     setError(7);
-        // }else {
-            // console.log(name);
-        let idx = items.findIndex(item => item.name === name);
+        if (name === "Name") {
+            setError(5);
+        } else {
+            let idx = items.findIndex(item => item.name === name);
 
-        setReservationCart([items[idx],...cart]);
-        setCart([items[idx],...cart]);
-        
-        
-        let tmpitms = items.filter( i => i!== items[idx]);
-        let tmpnames = names.filter( n => n !== items[idx].name );
+            setReservationCart([items[idx],...reservationCart]);
+            setCart([items[idx],...cart]);
 
-        setNames(tmpnames);
-        setItems(tmpitms);
-        setName("Name");
-        
-       
+            let tmpitms = items.filter( i => i!== items[idx]);
+            let tmpnames = names.filter( n => n !== items[idx].name );
 
+            setNames(tmpnames);
+            setItems(tmpitms);
+            setName("Name");
+            setModel('Model');
+            setManufacturer('Manufacturer');
+            setRoomno('Room');
+
+            setFilteredItems((items) =>
+                items.filter((i) => i.name !== name)
+            );
+        }
     }
-    
+
      return (
             <>
-                <div className="row">
+                <div className="row" id="custom-dropdown-row">
                     <div className="col type">
                         <div className="dropdown">
                             <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -233,7 +267,7 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
                             </ul>
                         </div>
                     </div>
-                   
+
                     {/* <div className="col quantity">
                         <div className="dropdown">
                             <input className="form-control"
@@ -251,21 +285,17 @@ const ItemRequestDropDown = ({setError,setErrorMessage,updateCart,reservationCar
                             required={true} />
                         </div>
                     </div> */}
-                   
-                </div> 
-
-                <div className="col-sm submit">
-                        <button className="btn AddItemBtn" onClick={ e => addItem(e)}>
-                            <i className="fa fa-plus-circle" aria-hidden="true"></i>
+                    <div className="col submit">
+                        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+                        <button className="btn AddItemBtn-dropdown" onClick={e => addItem(e)}>
+                            <span className="material-icons">
+                            add_circle_outline
+                            </span>
                         </button>
                     </div>
-
-                    {/* <ItemList items={cart} 
+                </div>
+                    {/* <ItemList items={cart}
                       /> */}
-
-
-                
-
             </>);
 }
 

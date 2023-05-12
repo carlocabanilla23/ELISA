@@ -6,13 +6,53 @@
     border: 1px solid rgba(255, 255, 255, 0.18 );
     box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1);
     width: 40%;
-    height: 80vh;
+    height: 87%;
     position: absolute;
-        top: 10vh;
+        top: 7vh;
         left: 30%;
     padding: 1em;
     padding-left: 5%;
     padding-right: 5%;
+}
+/* RFID Reader */
+.ReaderForm{
+    background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.5));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.18 );
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1);
+    width: 40%;
+    height: 93%;
+    position: absolute;
+        top: 4vh;
+        left: 30%;
+    padding: 0 2.75em 0.5em 2.75em;
+}
+#reader-item-info{
+    display: none;
+}
+.FormReader{
+    text-align: center;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    font-size: 1.4em;
+    font-weight: 600;
+}
+.form-control{
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.18 );
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1);
+}
+#DeviceImage{
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.18 );
+    padding: 0;
+}
+/* RFID Reader */
+.input-wrapper {
+    position: flex;
 }
 
 .FormHeader{
@@ -22,25 +62,32 @@
     font-size: 1.2em;
     font-weight: 600;
 }
+.form-buttons{
+    text-align: right;
+    padding-right: 0px;
+    margin-bottom: 5%;
+}
+    
+
 .form-buttons button{
     margin-left: 15px;
 }
 
-.eye-slash{
-    width: 4%;
+.eye-slash {
+    width: 20px;
     position: absolute;
-    right: 12px;
-    top: 50%;
+    right: 85px;
+    top: 450px;
     transform: translateY(-50%);
     mix-blend-mode: multiply;
     cursor: pointer;
 }
 
-.eye-slash2{
-    width: 4%;
+.eye-slash2 {
+    width: 20px;
     position: absolute;
-    right: 12px;
-    top: 64%;
+    right: 85px;
+    top: 505px;
     transform: translateY(-50%);
     mix-blend-mode: multiply;
     cursor: pointer;

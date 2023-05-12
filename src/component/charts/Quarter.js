@@ -46,16 +46,14 @@ function QuarterReport () {
 
 return ( 
       <>
-      <div className="top"> <p className="chartLabel">Most Requested Items</p>  
+      <div className="bottom"> <p className="chartLabel">Most Requested Items</p>  
       {/* {console.log(label)} */}
         <ResponsiveContainer width="95%" height="80%">
-              <BarChart width={550} height={225} data={data}>
+              <BarChart  data={data}>
           <CartesianGrid strokeDasharray="4 4" />
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-          
-              
               {label.map( (label,index) => (
                      <Bar key={index} dataKey={label} fill="#9C1003" />  
             ))}
