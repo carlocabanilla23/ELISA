@@ -8,14 +8,14 @@ module.exports.sendTestEmail = function () {
         secure: false, // true for 587, false for other ports
         requireTLS: true,
         auth : {
-            user: "SPU.Elisa@gmail.com",
-            pass: "svitawseyjrkqgav"
+            user: "",
+            pass: ""
         }
     });
 
     let content = {
-        from: "SPU.Elisa@gmail.com",
-        to: "samd@spu.edu",
+        from: "",
+        to: "",
         subject : "test nodemailer",
         text : "it is working"
     }
