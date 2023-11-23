@@ -13,7 +13,7 @@
 //     });
 
 //     let content = {
-//         from: "SPU.Elisa@gmail.com",
+//         from: "",
 //         to: data,
 //         subject : "Email Verification",
 //         text : "Please click the link below to verify your email \n click this link"
