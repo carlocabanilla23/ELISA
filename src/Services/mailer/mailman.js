@@ -7,8 +7,8 @@
 //         secure: false, // true for 587, false for other ports
 //         requireTLS: true,
 //         auth : {
-//             user: "SPU.Elisa@gmail.com",
-//             pass: "svitawseyjrkqgav"
+//             user: "",
+//             pass: ""
 //         }
 //     });
 
